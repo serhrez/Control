@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-final class TaskDate: Object {
+final class RlmTaskDate: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var date: Date? = Date() // TODO: shouldn't be forced
     @objc dynamic private var _reminder: String?
@@ -36,7 +36,7 @@ final class TaskDate: Object {
 //    }
 }
 
-extension Tag {
+extension RlmTag {
     enum TaskDate: String {
         case id, date, _reminder, _repeat
     }

@@ -9,11 +9,11 @@
 import Foundation
 import RealmSwift
 
-final class Task: Object, Identifiable {
+final class RlmTask: Object, Identifiable {
     @objc dynamic var id = UUID().uuidString
-    @objc dynamic var tag: Tag?
-    @objc dynamic var date: TaskDate?
-    let subtask = List<Subtask>()
+    @objc dynamic var tag: RlmTag?
+    @objc dynamic var date: RlmTaskDate?
+    let subtask = List<RlmSubtask>()
     @objc dynamic var isDone = false
     @objc dynamic var taskDescription = ""
     @objc dynamic var createdAt = Date()
@@ -25,10 +25,10 @@ final class Task: Object, Identifiable {
     }
     
     override static func primaryKey() -> String? {
-        Task.Property.id.rawValue
+        RlmTask.Property.id.rawValue
     }
     
-    convenience init(name: String, isDone: Bool, tag: Tag? = nil, date: TaskDate? = nil, createdAt: Date = Date()) {
+    convenience init(name: String, isDone: Bool, tag: RlmTag? = nil, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
         self.init()
         self.taskDescription = name
         self.tag = tag
@@ -38,7 +38,7 @@ final class Task: Object, Identifiable {
     }
 }
 
-extension Task {
+extension RlmTask {
     enum Property: String {
         case id, tag, date, isDone, taskDescription, createdAt
     }

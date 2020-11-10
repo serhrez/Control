@@ -9,17 +9,17 @@
 import Foundation
 import RealmSwift
 
-final class Subtask: Object {
+final class RlmSubtask: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var createdAt = Date()
     
     override class func primaryKey() -> String? {
-        Subtask.Property.id.rawValue
+        RlmSubtask.Property.id.rawValue
     }
 }
 
-extension Subtask {
+extension RlmSubtask {
     enum Property: String {
         case id, name, createdAt
     }

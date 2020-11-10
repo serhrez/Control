@@ -14,6 +14,7 @@ PODS:
   - RealmSwift (10.1.2):
     - Realm (= 10.1.2)
   - RxSwift (5.1.1)
+  - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - Material (from `https://github.com/cointowitcher/Material`)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
   - RxSwift
+  - SnapKit
 
 SPEC REPOS:
   trunk:
@@ -29,6 +31,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - RxSwift
+    - SnapKit
 
 EXTERNAL SOURCES:
   Material:
@@ -52,7 +55,8 @@ SPEC CHECKSUMS:
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 727960665898bdfc618511bb41ceea5ddab91ab4
+PODFILE CHECKSUM: 02016bb9a77489496013825785a325afbd7df91a
 
 COCOAPODS: 1.10.0

@@ -19,16 +19,20 @@
 		A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E732556F8E500A31BBB /* RealmProvider.swift */; };
 		A5085E8A2556F8E500A31BBB /* bundled.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5085E752556F8E500A31BBB /* bundled.realm */; };
 		A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E7D2556F8E500A31BBB /* Reminder_.swift */; };
-		A5085E902556F8E500A31BBB /* Subtask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E7F2556F8E500A31BBB /* Subtask.swift */; };
-		A5085E912556F8E500A31BBB /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E802556F8E500A31BBB /* Project.swift */; };
-		A5085E922556F8E500A31BBB /* TaskDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E812556F8E500A31BBB /* TaskDate.swift */; };
-		A5085E932556F8E500A31BBB /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E822556F8E500A31BBB /* Task.swift */; };
-		A5085E942556F8E500A31BBB /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E832556F8E500A31BBB /* Tag.swift */; };
+		A5085E902556F8E500A31BBB /* RlmSubtask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E7F2556F8E500A31BBB /* RlmSubtask.swift */; };
+		A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E802556F8E500A31BBB /* RlmProject.swift */; };
+		A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E812556F8E500A31BBB /* RlmTaskDate.swift */; };
+		A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E822556F8E500A31BBB /* RlmTask.swift */; };
+		A5085E942556F8E500A31BBB /* RlmTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E832556F8E500A31BBB /* RlmTag.swift */; };
 		A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E842556F8E500A31BBB /* Repeat_.swift */; };
 		A5085E962556F8E500A31BBB /* Icon_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E852556F8E500A31BBB /* Icon_.swift */; };
 		A5085E972556F8E500A31BBB /* Priority_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E862556F8E500A31BBB /* Priority_.swift */; };
 		A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */; };
 		A5085EB9255704B800A31BBB /* DirPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB8255704B800A31BBB /* DirPath.swift */; };
+		A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168324255B2C290076D29E /* AllTasksToolbar.swift */; };
+		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
+		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
+		A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516835F255B4AE30076D29E /* AddProjectCell.swift */; };
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		D40608580B1C460ACDC82440 /* Pods_TodoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */; };
@@ -73,16 +77,20 @@
 		A5085E732556F8E500A31BBB /* RealmProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmProvider.swift; sourceTree = "<group>"; };
 		A5085E752556F8E500A31BBB /* bundled.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = bundled.realm; sourceTree = "<group>"; };
 		A5085E7D2556F8E500A31BBB /* Reminder_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder_.swift; sourceTree = "<group>"; };
-		A5085E7F2556F8E500A31BBB /* Subtask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subtask.swift; sourceTree = "<group>"; };
-		A5085E802556F8E500A31BBB /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		A5085E812556F8E500A31BBB /* TaskDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskDate.swift; sourceTree = "<group>"; };
-		A5085E822556F8E500A31BBB /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		A5085E832556F8E500A31BBB /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A5085E7F2556F8E500A31BBB /* RlmSubtask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RlmSubtask.swift; sourceTree = "<group>"; };
+		A5085E802556F8E500A31BBB /* RlmProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RlmProject.swift; sourceTree = "<group>"; };
+		A5085E812556F8E500A31BBB /* RlmTaskDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RlmTaskDate.swift; sourceTree = "<group>"; };
+		A5085E822556F8E500A31BBB /* RlmTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RlmTask.swift; sourceTree = "<group>"; };
+		A5085E832556F8E500A31BBB /* RlmTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RlmTag.swift; sourceTree = "<group>"; };
 		A5085E842556F8E500A31BBB /* Repeat_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repeat_.swift; sourceTree = "<group>"; };
 		A5085E852556F8E500A31BBB /* Icon_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon_.swift; sourceTree = "<group>"; };
 		A5085E862556F8E500A31BBB /* Priority_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority_.swift; sourceTree = "<group>"; };
 		A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Persistable.swift"; sourceTree = "<group>"; };
 		A5085EB8255704B800A31BBB /* DirPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirPath.swift; sourceTree = "<group>"; };
+		A5168324255B2C290076D29E /* AllTasksToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksToolbar.swift; sourceTree = "<group>"; };
+		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
+		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		A516835F255B4AE30076D29E /* AddProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectCell.swift; sourceTree = "<group>"; };
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		BEC0AF1747D8EA268CCC2CB4 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -187,11 +195,11 @@
 		A5085E7C2556F8E500A31BBB /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				A5085E7F2556F8E500A31BBB /* Subtask.swift */,
-				A5085E802556F8E500A31BBB /* Project.swift */,
-				A5085E812556F8E500A31BBB /* TaskDate.swift */,
-				A5085E822556F8E500A31BBB /* Task.swift */,
-				A5085E832556F8E500A31BBB /* Tag.swift */,
+				A5085E7F2556F8E500A31BBB /* RlmSubtask.swift */,
+				A5085E802556F8E500A31BBB /* RlmProject.swift */,
+				A5085E812556F8E500A31BBB /* RlmTaskDate.swift */,
+				A5085E822556F8E500A31BBB /* RlmTask.swift */,
+				A5085E832556F8E500A31BBB /* RlmTag.swift */,
 				A5085E7E2556F8E500A31BBB /* Values */,
 			);
 			path = Entities;
@@ -228,6 +236,7 @@
 		A5085EB7255704AB00A31BBB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A516832C255B33420076D29E /* Views */,
 				A5085E402556EF7B00A31BBB /* Info.plist */,
 				A5085E3D2556EF7B00A31BBB /* LaunchScreen.storyboard */,
 				A5085E3B2556EF7B00A31BBB /* Assets.xcassets */,
@@ -235,9 +244,28 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		A5168323255B2C170076D29E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5168324255B2C290076D29E /* AllTasksToolbar.swift */,
+				A516835F255B4AE30076D29E /* AddProjectCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A516832C255B33420076D29E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A516832E255B33520076D29E /* PlusView.swift */,
+				A5168357255B43760076D29E /* CustomButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */ = {
 			isa = PBXGroup;
 			children = (
+				A5168323255B2C170076D29E /* Views */,
 				A5085E362556EF7800A31BBB /* AllTasksVc.swift */,
 			);
 			path = AllTasksScreen_;
@@ -512,21 +540,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */,
+				A516832F255B33520076D29E /* PlusView.swift in Sources */,
 				A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */,
-				A5085E932556F8E500A31BBB /* Task.swift in Sources */,
+				A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */,
 				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
 				A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */,
-				A5085E902556F8E500A31BBB /* Subtask.swift in Sources */,
-				A5085E942556F8E500A31BBB /* Tag.swift in Sources */,
-				A5085E922556F8E500A31BBB /* TaskDate.swift in Sources */,
+				A5085E902556F8E500A31BBB /* RlmSubtask.swift in Sources */,
+				A5085E942556F8E500A31BBB /* RlmTag.swift in Sources */,
+				A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */,
+				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
 				A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */,
 				A5085E972556F8E500A31BBB /* Priority_.swift in Sources */,
-				A5085E912556F8E500A31BBB /* Project.swift in Sources */,
+				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */,
 				A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */,
+				A5168358255B43760076D29E /* CustomButton.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
 				A5085EB9255704B800A31BBB /* DirPath.swift in Sources */,
 			);

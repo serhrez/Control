@@ -17,5 +17,6 @@ class AppNavigationController: NavigationController {
         isMotionEnabled = true
         guard let navBar = navigationBar as? NavigationBar else { return }
         navBar.isTranslucent = true
+        statusBarController?.statusBar.tintColor = .blue
     }
 }

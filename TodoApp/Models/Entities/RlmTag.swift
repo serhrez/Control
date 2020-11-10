@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-final class Tag: Object {
+final class RlmTag: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var createdAt = Date()
@@ -25,7 +25,7 @@ final class Tag: Object {
 //    }
 }
 
-extension Tag {
+extension RlmTag {
     enum Property: String {
         case id, name, createdAt
     }

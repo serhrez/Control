@@ -10,11 +10,11 @@ import Foundation
 import RealmSwift
 import UIKit
 
-final class Project: Object {
+final class RlmProject: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var notes: String? = nil
-    let tasks = List<Task>()
+    let tasks = List<RlmTask>()
     @objc dynamic var createdAt = Date()
     
     @objc dynamic private var _icon = ""
@@ -34,7 +34,7 @@ final class Project: Object {
     }
     
     override static func primaryKey() -> String? {
-        return Project.Property.id.rawValue
+        return RlmProject.Property.id.rawValue
     }
     
     convenience init(name: String, icon: Icon = Icon.text(""), notes: String? = nil, color: UIColor = .red, date: Date = Date()) {
@@ -47,7 +47,7 @@ final class Project: Object {
     }
 }
 
-extension Project {
+extension RlmProject {
     enum Property: String {
         case id, name, notes, createdAt, _icon, _color
     }
