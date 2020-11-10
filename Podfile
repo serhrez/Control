@@ -6,6 +6,11 @@ target 'TodoApp' do
   use_frameworks!
 
   # Pods for TodoApp
+  pod 'RealmSwift'
+  pod 'Material', :git => 'https://github.com/cointowitcher/Material'
+  pod 'NewPopMenu', :git => 'https://github.com/cointowitcher/PopMenu'
+  pod 'MGSwipeTableCell'
+  pod 'RxSwift'
 
   target 'TodoAppTests' do
     inherit! :search_paths

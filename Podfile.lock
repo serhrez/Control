@@ -1,3 +1,58 @@
-PODFILE CHECKSUM: afbbf81af39a94c9b288ce3ba8a2b5d43a712ced
+PODS:
+  - Material (3.1.8):
+    - Material/Core (= 3.1.8)
+  - Material/Core (3.1.8):
+    - Motion (~> 3.1.1)
+  - MGSwipeTableCell (1.6.11)
+  - Motion (3.1.3):
+    - Motion/Core (= 3.1.3)
+  - Motion/Core (3.1.3)
+  - NewPopMenu (2.1.2)
+  - Realm (10.1.2):
+    - Realm/Headers (= 10.1.2)
+  - Realm/Headers (10.1.2)
+  - RealmSwift (10.1.2):
+    - Realm (= 10.1.2)
+  - RxSwift (5.1.1)
 
-COCOAPODS: 1.9.1
+DEPENDENCIES:
+  - Material (from `https://github.com/cointowitcher/Material`)
+  - MGSwipeTableCell
+  - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
+  - RealmSwift
+  - RxSwift
+
+SPEC REPOS:
+  trunk:
+    - MGSwipeTableCell
+    - Motion
+    - Realm
+    - RealmSwift
+    - RxSwift
+
+EXTERNAL SOURCES:
+  Material:
+    :git: https://github.com/cointowitcher/Material
+  NewPopMenu:
+    :git: https://github.com/cointowitcher/PopMenu
+
+CHECKOUT OPTIONS:
+  Material:
+    :commit: 8418f54194b10a45c14943f72194f1a20978a2c1
+    :git: https://github.com/cointowitcher/Material
+  NewPopMenu:
+    :commit: 7af36d84ed286483d33180b2a1920b251788aa85
+    :git: https://github.com/cointowitcher/PopMenu
+
+SPEC CHECKSUMS:
+  Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
+  MGSwipeTableCell: b804e4e450dee439c42250be90bd50458bf67fce
+  Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
+  NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
+  Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
+  RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+
+PODFILE CHECKSUM: 727960665898bdfc618511bb41ceea5ddab91ab4
+
+COCOAPODS: 1.10.0
