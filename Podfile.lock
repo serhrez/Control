@@ -1,4 +1,5 @@
 PODS:
+  - Differentiator (4.0.1)
   - Material (3.1.8):
     - Material/Core (= 3.1.8)
   - Material/Core (3.1.8):
@@ -16,6 +17,10 @@ PODS:
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
@@ -27,16 +32,19 @@ DEPENDENCIES:
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
   - RxCocoa
+  - RxDataSources
   - RxSwift
   - SnapKit
 
 SPEC REPOS:
   trunk:
+    - Differentiator
     - MGSwipeTableCell
     - Motion
     - Realm
     - RealmSwift
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
     - SnapKit
@@ -56,6 +64,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/cointowitcher/PopMenu
 
 SPEC CHECKSUMS:
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   MGSwipeTableCell: b804e4e450dee439c42250be90bd50458bf67fce
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
@@ -63,10 +72,11 @@ SPEC CHECKSUMS:
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: d9144b3dc00dd243660a58bbb63d1891686b69a3
+PODFILE CHECKSUM: 03b2f157241936de2f0afbcd6171fc0f6334a7ca
 
 COCOAPODS: 1.10.0

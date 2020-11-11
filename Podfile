@@ -13,6 +13,7 @@ target 'TodoApp' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'SnapKit'
+  pod 'RxDataSources'
 
   target 'TodoAppTests' do
     inherit! :search_paths
