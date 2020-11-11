@@ -13,6 +13,11 @@ PODS:
   - Realm/Headers (10.1.2)
   - RealmSwift (10.1.2):
     - Realm (= 10.1.2)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
   - RxSwift (5.1.1)
   - SnapKit (5.0.1)
 
@@ -21,6 +26,7 @@ DEPENDENCIES:
   - MGSwipeTableCell
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
+  - RxCocoa
   - RxSwift
   - SnapKit
 
@@ -30,6 +36,8 @@ SPEC REPOS:
     - Motion
     - Realm
     - RealmSwift
+    - RxCocoa
+    - RxRelay
     - RxSwift
     - SnapKit
 
@@ -54,9 +62,11 @@ SPEC CHECKSUMS:
   NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 02016bb9a77489496013825785a325afbd7df91a
+PODFILE CHECKSUM: d9144b3dc00dd243660a58bbb63d1891686b69a3
 
 COCOAPODS: 1.10.0

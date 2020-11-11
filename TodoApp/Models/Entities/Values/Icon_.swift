@@ -11,6 +11,7 @@ import Foundation
 enum Icon {
     case text(String)
     case image(URL)
+    case assetImage(String)
     
     init(rawValue: String) {
         switch rawValue {
@@ -18,6 +19,8 @@ enum Icon {
             self = .text(String(x.dropFirst()))
         case let x where x.starts(with: "i"):
             self = .image(URL(fileURLWithPath: String(x.dropFirst())))
+        case let x where x.starts(with: "a"):
+            self = .assetImage(String(x.dropFirst()))
         default:
             self = .text("")
         }
@@ -27,6 +30,7 @@ enum Icon {
         switch self {
         case let .text(text): return "t\(text)"
         case let .image(url): return "i\(url.absoluteString)"
+        case let .assetImage(imageName): return "a\(imageName)"
         }
     }
 }

@@ -8,6 +8,8 @@
 import UIKit
 import Motion
 import Material
+import RxSwift
+import RxCocoa
 
 class AllTasksVc: UIViewController {
     
@@ -24,9 +26,21 @@ class AllTasksVc: UIViewController {
         view.backgroundColor = UIColor(hex: "#F6F6F3")
         setupNavigationBar()
         
+        let textField = UITextField()
+        
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
-        view.layout(AddProjectCell()).center()
     }
+    
+//    func setupStackView() {
+        //        let stackView = UIStackView(arrangedSubviews: [
+        //            ProjectViewCell(icon: .assetImage("Image"), name: "Inbox", progress: 0.2, tasksCount: 4, color: UIColor(hex: "#571CFF")!),
+        //            ProjectViewCell(icon: .text("🚒"), name: "Work", progress: 0.75, tasksCount: 77, color: .systemGreen),
+        //            ProjectViewCell(icon: .text("🏝"), name: "Happy Weekend", progress: 0.85, tasksCount: 7, color: .systemBlue)
+        //        ])
+        //        stackView.spacing = 7
+        //        stackView.axis = .vertical
+        //        view.layout(stackView).center().leading(16).trailing(16)
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

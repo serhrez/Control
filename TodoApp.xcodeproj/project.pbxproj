@@ -33,6 +33,10 @@
 		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
 		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
 		A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516835F255B4AE30076D29E /* AddProjectCell.swift */; };
+		A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E040255BFD4500B301C7 /* ProgressCircleView.swift */; };
+		A533E046255C1EC400B301C7 /* CircleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E045255C1EC400B301C7 /* CircleText.swift */; };
+		A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */; };
+		A533E054255C27C400B301C7 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E053255C27C400B301C7 /* IconView.swift */; };
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		D40608580B1C460ACDC82440 /* Pods_TodoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */; };
@@ -91,6 +95,10 @@
 		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		A516835F255B4AE30076D29E /* AddProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectCell.swift; sourceTree = "<group>"; };
+		A533E040255BFD4500B301C7 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
+		A533E045255C1EC400B301C7 /* CircleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleText.swift; sourceTree = "<group>"; };
+		A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewCell.swift; sourceTree = "<group>"; };
+		A533E053255C27C400B301C7 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		BEC0AF1747D8EA268CCC2CB4 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -247,8 +255,8 @@
 		A5168323255B2C170076D29E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5168324255B2C290076D29E /* AllTasksToolbar.swift */,
-				A516835F255B4AE30076D29E /* AddProjectCell.swift */,
+				A533E04A255C1F3F00B301C7 /* SupportingViews */,
+				A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,8 +266,20 @@
 			children = (
 				A516832E255B33520076D29E /* PlusView.swift */,
 				A5168357255B43760076D29E /* CustomButton.swift */,
+				A533E053255C27C400B301C7 /* IconView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A533E04A255C1F3F00B301C7 /* SupportingViews */ = {
+			isa = PBXGroup;
+			children = (
+				A5168324255B2C290076D29E /* AllTasksToolbar.swift */,
+				A516835F255B4AE30076D29E /* AddProjectCell.swift */,
+				A533E040255BFD4500B301C7 /* ProgressCircleView.swift */,
+				A533E045255C1EC400B301C7 /* CircleText.swift */,
+			);
+			path = SupportingViews;
 			sourceTree = "<group>";
 		};
 		A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */ = {
@@ -548,16 +568,20 @@
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
 				A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */,
+				A533E054255C27C400B301C7 /* IconView.swift in Sources */,
 				A5085E902556F8E500A31BBB /* RlmSubtask.swift in Sources */,
 				A5085E942556F8E500A31BBB /* RlmTag.swift in Sources */,
 				A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */,
+				A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */,
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
 				A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */,
 				A5085E972556F8E500A31BBB /* Priority_.swift in Sources */,
 				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */,
+				A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */,
 				A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */,
+				A533E046255C1EC400B301C7 /* CircleText.swift in Sources */,
 				A5168358255B43760076D29E /* CustomButton.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
 				A5085EB9255704B800A31BBB /* DirPath.swift in Sources */,

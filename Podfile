@@ -11,6 +11,7 @@ target 'TodoApp' do
   pod 'NewPopMenu', :git => 'https://github.com/cointowitcher/PopMenu'
   pod 'MGSwipeTableCell'
   pod 'RxSwift'
+  pod 'RxCocoa'
   pod 'SnapKit'
 
   target 'TodoAppTests' do
