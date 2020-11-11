@@ -8,25 +8,23 @@
 import Foundation
 import UIKit
 import Material
+import MGSwipeTableCell
 
-final class AddProjectCell: UIView {
+final class AddProjectCell: MGSwipeTableCell {
+    static let reuseIdentifier = "AddProjectCell"
     static let height: CGFloat = 80
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    func configure() {
         setupViews()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override var intrinsicContentSize: CGSize {
+        .init(width: 0, height: Self.height)
     }
     
     func setupViews() {
-        let containerView = UIView()
-        containerView.backgroundColor = .red
-        containerView.backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
-        containerView.layer.cornerRadius = 16
-        layout(containerView).edges().height(Self.height).width(200)
+        backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
+        layer.cornerRadius = 16
         
         let addImage = UIImageView(image: Material.Icon.cm.add)
         let centerView = UIView()

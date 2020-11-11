@@ -10,27 +10,29 @@ import UIKit
 import Material
 import MGSwipeTableCell
 
-final class ProjectViewCell: UIView {
+final class ProjectViewCell: MGSwipeTableCell {
     static let reuseIdentifier = "projectviewcell"
     
-    private let icon: Icon
-    private let name: String
-    private let progress: CGFloat
-    private let tasksCount: Int
-    private let color: UIColor
+    private var icon: Icon!
+    private var name: String!
+    private var progress: CGFloat!
+    private var tasksCount: Int!
+    private var color: UIColor!
     
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 80)
     }
     
-    init(icon: Icon, name: String, progress: CGFloat, tasksCount: Int, color: UIColor) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    func configure(icon: Icon, name: String, progress: CGFloat, tasksCount: Int, color: UIColor) {
         self.icon = icon
         self.name = name
         self.progress = progress
         self.tasksCount = tasksCount
         self.color = color
-        super.init(frame: .zero)
-//        super.init(style: .default, reuseIdentifier: Self.reuseIdentifier)
         setupViews()
     }
     
@@ -41,15 +43,17 @@ final class ProjectViewCell: UIView {
     func setupViews() {
         backgroundColor = .white
         layer.cornerRadius = 16
+        let iconViewContainer = UIView()
         let iconView = IconView(icon)
-        layout(iconView).leading(25).centerY()
+        iconViewContainer.layout(iconView).centerX().top().bottom()
+        layout(iconViewContainer).leading(23).centerY().width(28)
         
         let nameLabel = UILabel()
         nameLabel.font = .boldSystemFont(ofSize: 18)
         layout(nameLabel).leading(63).centerY(iconView.anchor.centerY)
         nameLabel.text = name
         
-        let tasksCountView = CircleText(text: "\(tasksCount)", bgColor: color)
+        let tasksCountView = CircleText(text: "\(tasksCount!)", bgColor: color)
         layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).width(25).height(25)
         
         let progressCircle = OuterCircle.getCircleWithProgress(percent: progress, color: color)

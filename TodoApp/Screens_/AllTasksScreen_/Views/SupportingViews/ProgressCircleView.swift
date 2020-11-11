@@ -9,45 +9,6 @@ import Foundation
 import UIKit
 import Motion
 
-class OuterCircle: UIView {
-    let wrapped: UIView
-    private let circle: UIView = UIView()
-    private let color: UIColor
-    
-    init(wrapped: UIView, color: UIColor) {
-        self.wrapped = wrapped
-        self.color = color
-        super.init(frame: .zero)
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupViews() {
-        layout(wrapped).edges(top: 3, left: 3, bottom: 3, right: 3)
-        
-        circle.layer.borderWidth = 2
-        circle.layer.borderColor = color.cgColor
-        layout(circle).edges()
-        
-        print(self.intrinsicContentSize)
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
-        circle.layer.cornerRadius = rect.height / 2
-    }
-}
-
-extension OuterCircle {
-    static func getCircleWithProgress(widthHeight: CGFloat = 20, percent: CGFloat, color: UIColor, animate: Bool = true) -> OuterCircle {
-        return OuterCircle(wrapped: ProgressCircleView(widthHeight: widthHeight, percent: percent, color: color, animate: animate), color: color)
-    }
-}
-
 class ProgressCircleView: UIView, CAAnimationDelegate {
     
     override var intrinsicContentSize: CGSize {
@@ -77,9 +38,10 @@ class ProgressCircleView: UIView, CAAnimationDelegate {
         
     func percentToRadian(_ percent: CGFloat) -> CGFloat {
         var angle = -percent * 360
-        if angle <= -360 {
+        if angle < -360 {
             angle += 360
         }
+        print("angle * CGFloat.pi / 180.0: \(angle * CGFloat.pi / 180.0)")
         return angle * CGFloat.pi / 180.0
     }
     

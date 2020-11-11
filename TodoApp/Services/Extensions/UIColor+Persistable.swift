@@ -12,6 +12,9 @@ import UIKit
 extension UIColor {
 
     // MARK: - Initialization
+    static func hex(_ hex: String) -> UIColor {
+        UIColor(hex: hex)!
+    }
 
     convenience init?(hex: String) {
         var hexNormalized = hex.trimmingCharacters(in: .whitespacesAndNewlines)

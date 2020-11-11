@@ -12,7 +12,8 @@ import RxSwift
 import RxCocoa
 
 class AllTasksVc: UIViewController {
-    
+    let viewModel: AllTasksVcVM = AllTasksVcVM()
+    let tableView = UITableView()
     let tasksToolbar = AllTasksToolbar(frame: .zero)
     
     // MARK: - UI
@@ -25,10 +26,23 @@ class AllTasksVc: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor(hex: "#F6F6F3")
         setupNavigationBar()
-        
-        let textField = UITextField()
+        setupTableView()
         
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
+    }
+    
+    func setupTableView() {
+        view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 80
+        tableView.register(ProjectViewCell.self, forCellReuseIdentifier: ProjectViewCell.reuseIdentifier)
+        tableView.register(AddProjectCell.self, forCellReuseIdentifier: AddProjectCell.reuseIdentifier)
+        viewModel.tableUpdates = { deletions, insertions, modifications in
+            self.tableView.reloadData()
+        }
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
 //    func setupStackView() {
@@ -70,3 +84,60 @@ class AllTasksVc: UIViewController {
 }
 
 extension AllTasksVc: AppNavigationRouterDelegate { }
+extension AllTasksVc: UITableViewDataSource {
+    
+    func vmIndex(for indexPath: IndexPath) -> Int {
+        indexPath.section
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : 10
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.projects.count + 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let index = vmIndex(for: indexPath)
+        if viewModel.projects.count == index {
+            let addCell = tableView.dequeueReusableCell(withIdentifier: AddProjectCell.reuseIdentifier, for: indexPath) as! AddProjectCell
+            addCell.configure()
+            addCell.selectionStyle = .none
+            return addCell
+        } else {
+            let projectCell = tableView.dequeueReusableCell(withIdentifier: ProjectViewCell.reuseIdentifier, for: indexPath) as! ProjectViewCell
+            let project = viewModel.projects[index]
+            let progress = viewModel.getProgress(for: project)
+            projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color)
+            projectCell.selectionStyle = .none
+            projectCell.motionIdentifier = project.id
+            
+            return projectCell
+        }
+    }
+}
+
+extension AllTasksVc: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = vmIndex(for: indexPath)
+        if viewModel.projects.count == index {
+            
+        } else {
+            let project = viewModel.projects[index]
+            
+            let detailsVc = ProjectDetailsVc()
+            detailsVc.view.motionIdentifier = project.id
+            router.debugPushVc(detailsVc, .fade)
+
+        }
+    }
+}

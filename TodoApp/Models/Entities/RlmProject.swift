@@ -41,7 +41,7 @@ final class RlmProject: Object {
         self.init()
         self.name = name
         self.notes = notes
-        self.icon = Icon.text("🚒")
+        self.icon = icon
         self.color = color
         self.createdAt = date
     }
