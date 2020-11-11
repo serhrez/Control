@@ -45,17 +45,6 @@ class AllTasksVc: UIViewController {
         tableView.delegate = self
     }
     
-//    func setupStackView() {
-        //        let stackView = UIStackView(arrangedSubviews: [
-        //            ProjectViewCell(icon: .assetImage("Image"), name: "Inbox", progress: 0.2, tasksCount: 4, color: UIColor(hex: "#571CFF")!),
-        //            ProjectViewCell(icon: .text("🚒"), name: "Work", progress: 0.75, tasksCount: 77, color: .systemGreen),
-        //            ProjectViewCell(icon: .text("🏝"), name: "Happy Weekend", progress: 0.85, tasksCount: 7, color: .systemBlue)
-        //        ])
-        //        stackView.spacing = 7
-        //        stackView.axis = .vertical
-        //        view.layout(stackView).center().leading(16).trailing(16)
-//    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
                 
@@ -68,9 +57,9 @@ class AllTasksVc: UIViewController {
     private func setupNavigationBar() {
         navigationItem.titleLabel.text = "All Tasks"
 
-        let menuButton = IconButton(image: Material.Icon.cm.menu?.withTintColor(.black, renderingMode: .alwaysTemplate))
-        let searchButton = IconButton(image: Material.Icon.cm.search?.withTintColor(.black, renderingMode: .alwaysTemplate))
-        let actionsButton = IconButton(image: Material.Icon.cm.edit?.withTintColor(.black, renderingMode: .alwaysTemplate))
+        let menuButton = IconButton(image: UIImage(named: "menu")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+        let searchButton = IconButton(image: UIImage(named: "search")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+        let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
         [menuButton, searchButton, actionsButton].forEach { $0.tintColor = .black }
 
         navigationItem.leftViews = [menuButton]

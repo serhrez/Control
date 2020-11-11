@@ -8,29 +8,44 @@
 
 import Foundation
 
-enum Icon {
+
+enum Icon: Codable {
     case text(String)
-    case image(URL)
-    case assetImage(String)
+    case image(url: String)
+    case assetImage(name: String, tintHex: String?)
     
-    init(rawValue: String) {
-        switch rawValue {
-        case let x where x.starts(with: "t"):
-            self = .text(String(x.dropFirst()))
-        case let x where x.starts(with: "i"):
-            self = .image(URL(fileURLWithPath: String(x.dropFirst())))
-        case let x where x.starts(with: "a"):
-            self = .assetImage(String(x.dropFirst()))
-        default:
-            self = .text("")
+    enum CodingKeys: String, CodingKey {
+        case text = "twtw"
+        case imageUrlPath
+        case assetImageName
+        case tintHex
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        if let text = try? values.decodeIfPresent(String.self, forKey: .text) {
+            self = .text(text)
+        } else
+        if let imageUrl = try? values.decodeIfPresent(String.self, forKey: .imageUrlPath) {
+            self = .image(url: imageUrl)
+        } else {
+            let assetImage = try values.decode(String.self, forKey: .assetImageName)
+            let tintHex = try? values.decodeIfPresent(String.self, forKey: .tintHex)
+            self = .assetImage(name: assetImage, tintHex: tintHex)
         }
     }
-    
-    var rawValue: String {
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case let .text(text): return "t\(text)"
-        case let .image(url): return "i\(url.absoluteString)"
-        case let .assetImage(imageName): return "a\(imageName)"
+        case let .assetImage(name: name, tintHex: tintHex):
+            try container.encode(name, forKey: .assetImageName)
+            try container.encodeIfPresent(tintHex, forKey: .tintHex)
+        case let .image(url):
+            try container.encode(url, forKey: .imageUrlPath)
+        case let .text(text):
+            try container.encode(text, forKey: .text)
         }
     }
 }

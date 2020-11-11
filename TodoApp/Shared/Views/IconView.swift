@@ -27,8 +27,11 @@ class IconView: UIView {
             textLabel.font = .systemFont(ofSize: 28)
             textLabel.text = text
             layout(textLabel).edges()
-        case let .assetImage(assetImage):
-            let image = UIImage(named: assetImage)
+        case let .assetImage(assetImage, tintHex):
+            var image = UIImage(named: assetImage)
+            if let tint = tintHex {
+                image = image?.withTintColor(.hex(tint))
+            }
             let imageView = UIImageView(image: image)
             layout(imageView).edges()
         default:

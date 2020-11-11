@@ -41,7 +41,6 @@ class ProgressCircleView: UIView, CAAnimationDelegate {
         if angle < -360 {
             angle += 360
         }
-        print("angle * CGFloat.pi / 180.0: \(angle * CGFloat.pi / 180.0)")
         return angle * CGFloat.pi / 180.0
     }
     

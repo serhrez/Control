@@ -17,10 +17,24 @@ final class RlmProject: Object {
     let tasks = List<RlmTask>()
     @objc dynamic var createdAt = Date()
     
-    @objc dynamic private var _icon = ""
+    @objc dynamic private var _icon: Data = #"{"text":"wegw"}"#.data(using: .utf8) ?? Data()
     var icon: Icon {
-        get { return Icon(rawValue: _icon) }
-        set { _icon = newValue.rawValue }
+        get {
+            do {
+                let icon = try JSONDecoder().decode(Icon.self, from: _icon)
+                return icon
+            } catch {
+                print("error: \(error.localizedDescription) with data: \(String(data: _icon, encoding: .utf8) ?? "nodata")")
+                return .text("")
+            }
+        }
+        set {
+            do {
+                _icon = try JSONEncoder().encode(newValue)
+            } catch {
+                print("error: \(error.localizedDescription) with icon: \(newValue)")
+            }
+        }
     }
     
     @objc dynamic private var _color = ""
