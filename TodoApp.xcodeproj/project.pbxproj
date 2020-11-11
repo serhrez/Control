@@ -41,6 +41,7 @@
 		A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E089255C4B1D00B301C7 /* PredefinedRealm.swift */; };
 		A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E093255C598100B301C7 /* ProjectDetailsVc.swift */; };
 		A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E09B255C59D100B301C7 /* OuterCircle.swift */; };
+		A533E0A1255C87C200B301C7 /* OverlaySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E0A0255C87C200B301C7 /* OverlaySelectionView.swift */; };
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		D40608580B1C460ACDC82440 /* Pods_TodoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */; };
@@ -107,6 +108,7 @@
 		A533E089255C4B1D00B301C7 /* PredefinedRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredefinedRealm.swift; sourceTree = "<group>"; };
 		A533E093255C598100B301C7 /* ProjectDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsVc.swift; sourceTree = "<group>"; };
 		A533E09B255C59D100B301C7 /* OuterCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuterCircle.swift; sourceTree = "<group>"; };
+		A533E0A0255C87C200B301C7 /* OverlaySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySelectionView.swift; sourceTree = "<group>"; };
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		BEC0AF1747D8EA268CCC2CB4 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				A516832E255B33520076D29E /* PlusView.swift */,
 				A5168357255B43760076D29E /* CustomButton.swift */,
 				A533E053255C27C400B301C7 /* IconView.swift */,
+				A533E0A0255C87C200B301C7 /* OverlaySelectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
+				A533E0A1255C87C200B301C7 /* OverlaySelectionView.swift in Sources */,
 				A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */,
 				A533E054255C27C400B301C7 /* IconView.swift in Sources */,
 				A5085E902556F8E500A31BBB /* RlmSubtask.swift in Sources */,

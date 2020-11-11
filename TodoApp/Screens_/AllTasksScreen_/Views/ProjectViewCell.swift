@@ -12,6 +12,8 @@ import MGSwipeTableCell
 
 final class ProjectViewCell: MGSwipeTableCell {
     static let reuseIdentifier = "projectviewcell"
+    // Should be the same as custombuttons overlay
+    private let overlayView = OverlaySelectionView()
     
     private var icon: Icon!
     private var name: String!
@@ -43,6 +45,7 @@ final class ProjectViewCell: MGSwipeTableCell {
     func setupViews() {
         backgroundColor = .white
         layer.cornerRadius = 16
+        clipsToBounds = true
         let iconViewContainer = UIView()
         let iconView = IconView(icon)
         iconViewContainer.layout(iconView).centerX().top().bottom()
@@ -58,5 +61,14 @@ final class ProjectViewCell: MGSwipeTableCell {
         
         let progressCircle = OuterCircle.getCircleWithProgress(percent: progress, color: color)
         layout(progressCircle).centerY(iconView.anchor.centerY).trailing(tasksCountView.anchor.leading, 3)
+        
+        layout(overlayView).edges()
+    }
+    
+    private var animator = UIViewPropertyAnimator()
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        overlayView.setHighlighted(highlighted, animated: true)
     }
 }

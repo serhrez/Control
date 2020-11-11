@@ -13,6 +13,7 @@ import MGSwipeTableCell
 final class AddProjectCell: MGSwipeTableCell {
     static let reuseIdentifier = "AddProjectCell"
     static let height: CGFloat = 80
+    private let overlayView = OverlaySelectionView()
     
     func configure() {
         setupViews()
@@ -25,6 +26,7 @@ final class AddProjectCell: MGSwipeTableCell {
     func setupViews() {
         backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
         layer.cornerRadius = 16
+        clipsToBounds = true
         
         let addImage = UIImageView(image: Material.Icon.cm.add)
         let centerView = UIView()
@@ -38,5 +40,11 @@ final class AddProjectCell: MGSwipeTableCell {
         layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()
         centerView.layout(label).trailing().top().bottom().leading(addImage.anchor.trailing)
+        layout(overlayView).edges()
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        overlayView.setHighlighted(highlighted, animated: true)
     }
 }
