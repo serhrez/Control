@@ -21,6 +21,13 @@ class AllTagsVc: UIViewController {
         view.backgroundColor = .hex("#F6F6F3")
         setupTableView()
         setupNavigationBar()
+        let allTagsCell = AllTagsEnterNameCell()
+        allTagsCell.configure { tagName in
+            _ = try? RealmProvider.inMemory.realm.write {
+            RealmProvider.inMemory.realm.add(RlmTag(name: tagName))
+            }
+        }
+        view.layout(allTagsCell).center().width(400).height(55)
     }
     func setupTableView() {
         view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
@@ -33,7 +40,8 @@ class AllTagsVc: UIViewController {
             self?.tableView.reloadData()
         }
         viewModel.tableUpdates = { [weak self] deletions, insertions, modifications in
-            self?.tableView.reloadData()
+            self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .fade)
+//            self?.tableView.reloadData()
         }
         tableView.dataSource = self
         tableView.delegate = self
@@ -52,21 +60,11 @@ class AllTagsVc: UIViewController {
 extension AllTagsVc: AppNavigationRouterDelegate { }
 extension AllTagsVc: UITableViewDataSource {
     func vmIndex(for indexPath: IndexPath) -> Int {
-        indexPath.section
-    }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 7
-    }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.tags.count + 1
+        indexPath.row
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        viewModel.tags.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

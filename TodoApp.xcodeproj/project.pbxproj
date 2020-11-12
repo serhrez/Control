@@ -48,7 +48,7 @@
 		A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */; };
 		A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */; };
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
-		A56047ED255DD98000C447CF /* AllTagsEnterNameCEll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCEll.swift */; };
+		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		D40608580B1C460ACDC82440 /* Pods_TodoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */; };
@@ -122,7 +122,7 @@
 		A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsTagCell.swift; sourceTree = "<group>"; };
 		A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsAddTagCell.swift; sourceTree = "<group>"; };
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
-		A56047EC255DD98000C447CF /* AllTagsEnterNameCEll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCEll.swift; sourceTree = "<group>"; };
+		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		BEC0AF1747D8EA268CCC2CB4 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -342,7 +342,7 @@
 			children = (
 				A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */,
 				A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */,
-				A56047EC255DD98000C447CF /* AllTagsEnterNameCEll.swift */,
+				A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -632,7 +632,7 @@
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
 				A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */,
 				A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */,
-				A56047ED255DD98000C447CF /* AllTagsEnterNameCEll.swift in Sources */,
+				A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */,
 				A533E06E255C438900B301C7 /* AllTasksVcVM.swift in Sources */,
 				A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */,
 				A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */,
