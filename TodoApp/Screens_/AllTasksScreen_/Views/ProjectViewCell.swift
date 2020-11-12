@@ -64,9 +64,7 @@ final class ProjectViewCell: MGSwipeTableCell {
         
         layout(overlayView).edges()
     }
-    
-    private var animator = UIViewPropertyAnimator()
-    
+        
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         overlayView.setHighlighted(highlighted, animated: true)

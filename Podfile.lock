@@ -60,7 +60,7 @@ CHECKOUT OPTIONS:
     :commit: 8418f54194b10a45c14943f72194f1a20978a2c1
     :git: https://github.com/cointowitcher/Material
   NewPopMenu:
-    :commit: 7af36d84ed286483d33180b2a1920b251788aa85
+    :commit: fc7be853ae03e9917558748b3bd1bcca105b99ec
     :git: https://github.com/cointowitcher/PopMenu
 
 SPEC CHECKSUMS:

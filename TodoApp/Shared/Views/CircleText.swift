@@ -7,24 +7,32 @@
 
 import Foundation
 import UIKit
+import Material
 
 class CircleText: UIView {
     let bgColor: UIColor
+    let widthHeight: CGFloat
+    var label: UILabel!
     
-    init(text: String, bgColor: UIColor) {
+    init(text: String, bgColor: UIColor, widthHeight: CGFloat = 26) {
         self.bgColor = bgColor
+        self.widthHeight = widthHeight
         super.init(frame: .zero)
         backgroundColor = .clear
-        let label = UILabel()
+        let containerView = UIView()
+        label = UILabel()
         label.text = text
         label.textColor = .white
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 16)
+        switch text.count {
+        case 1: label.font = .boldSystemFont(ofSize: 16)
+        case 2: label.font = .boldSystemFont(ofSize: 14)
+        default: label.font = .boldSystemFont(ofSize: 11)
+
+        }
         
-        label.adjustsFontSizeToFitWidth = true
-        
-        label.minimumScaleFactor = 0.5
-        layout(label).edges(top: 1, left: 5, bottom: 1, right: 5)
+        containerView.layout(label).center()
+        layout(containerView).edges().width(widthHeight).height(widthHeight)
     }
     
     required init?(coder: NSCoder) {
@@ -39,6 +47,6 @@ class CircleText: UIView {
     }
     
     override var intrinsicContentSize: CGSize {
-        .init(width: 26, height: 26)
+        .init(width: widthHeight, height: widthHeight)
     }
 }

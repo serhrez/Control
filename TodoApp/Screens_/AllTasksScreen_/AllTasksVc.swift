@@ -10,13 +10,16 @@ import Motion
 import Material
 import RxSwift
 import RxCocoa
+import PopMenu
 
 class AllTasksVc: UIViewController {
     let viewModel: AllTasksVcVM = AllTasksVcVM()
     let tableView = UITableView()
     let tasksToolbar = AllTasksToolbar(frame: .zero)
-    
-    // MARK: - UI
+    let menuButton = IconButton(image: UIImage(named: "menu")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    let searchButton = IconButton(image: UIImage(named: "search")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -24,7 +27,7 @@ class AllTasksVc: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = UIColor(hex: "#F6F6F3")
+        view.backgroundColor = .hex("#F6F6F3")
         setupNavigationBar()
         setupTableView()
         
@@ -35,11 +38,14 @@ class AllTasksVc: UIViewController {
         view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.rowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(ProjectViewCell.self, forCellReuseIdentifier: ProjectViewCell.reuseIdentifier)
         tableView.register(AddProjectCell.self, forCellReuseIdentifier: AddProjectCell.reuseIdentifier)
-        viewModel.tableUpdates = { deletions, insertions, modifications in
-            self.tableView.reloadData()
+        viewModel.initialValues = { [weak self] in
+            self?.tableView.reloadData()
+        }
+        viewModel.tableUpdates = { [weak self] deletions, insertions, modifications in
+            self?.tableView.reloadData()
         }
         tableView.dataSource = self
         tableView.delegate = self
@@ -57,13 +63,46 @@ class AllTasksVc: UIViewController {
     private func setupNavigationBar() {
         navigationItem.titleLabel.text = "All Tasks"
 
-        let menuButton = IconButton(image: UIImage(named: "menu")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-        let searchButton = IconButton(image: UIImage(named: "search")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-        let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
         [menuButton, searchButton, actionsButton].forEach { $0.tintColor = .black }
-
+        actionsButton.addTarget(self, action: #selector(actionsButtonClicked), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
+        menuButton.addTarget(self, action: #selector(menuButtonClicked), for: .touchUpInside)
+        
         navigationItem.leftViews = [menuButton]
         navigationItem.rightViews = [searchButton, actionsButton]
+    }
+    
+    @objc private func searchButtonClicked() {
+        
+    }
+    
+    @objc private func menuButtonClicked() {
+    }
+    
+    // MARK: - POPUP
+    @objc private func actionsButtonClicked() {
+        let actions: [PopuptodoAction] = [
+            PopuptodoAction(title: "Open Tags", image: UIImage(named: "tag"), didSelect: openTags),
+            PopuptodoAction(title: "Sort by name", image: UIImage(named: "switch"), didSelect: sortChange),
+            PopuptodoAction(title: "Edit Projects", image: UIImage(named: "adjustments"), didSelect: editProjects)
+        ]
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
+        popMenu.appearance = .appAppearance
+        
+        present(popMenu, animated: true)
+    }
+    
+    func openTags(action: PopMenuAction) {
+        
+    }
+    
+    func sortChange(action: PopMenuAction) {
+        
+    }
+    
+    func editProjects(action: PopMenuAction) {
+        
     }
 
     var didDisappear: () -> Void = { }

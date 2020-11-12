@@ -11,7 +11,7 @@ import RealmSwift
 
 final class RlmTask: Object, Identifiable {
     @objc dynamic var id = UUID().uuidString
-    @objc dynamic var tag: RlmTag?
+    let tags = List<RlmTag>()
     @objc dynamic var date: RlmTaskDate?
     let subtask = List<RlmSubtask>()
     @objc dynamic var isDone = false
@@ -28,10 +28,9 @@ final class RlmTask: Object, Identifiable {
         RlmTask.Property.id.rawValue
     }
     
-    convenience init(name: String, isDone: Bool, tag: RlmTag? = nil, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
+    convenience init(name: String, isDone: Bool, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
         self.init()
         self.taskDescription = name
-        self.tag = tag
         self.date = date
         self.isDone = isDone
         self.createdAt = createdAt
