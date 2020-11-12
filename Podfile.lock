@@ -1,4 +1,5 @@
 PODS:
+  - AttributedLib (3.0.0)
   - Differentiator (4.0.1)
   - Material (3.1.8):
     - Material/Core (= 3.1.8)
@@ -27,6 +28,7 @@ PODS:
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
+  - AttributedLib
   - Material (from `https://github.com/cointowitcher/Material`)
   - MGSwipeTableCell
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
@@ -38,6 +40,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AttributedLib
     - Differentiator
     - MGSwipeTableCell
     - Motion
@@ -64,6 +67,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/cointowitcher/PopMenu
 
 SPEC CHECKSUMS:
+  AttributedLib: ad537d4f9285ed57fc4d9103dd83c2ee6be1582b
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   MGSwipeTableCell: b804e4e450dee439c42250be90bd50458bf67fce
@@ -77,6 +81,6 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 03b2f157241936de2f0afbcd6171fc0f6334a7ca
+PODFILE CHECKSUM: a604257d72ab763a35f0a56c2d0fd705380c08c6
 
 COCOAPODS: 1.10.0
