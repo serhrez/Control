@@ -9,12 +9,12 @@ target 'TodoApp' do
   pod 'RealmSwift'
   pod 'Material', :git => 'https://github.com/cointowitcher/Material'
   pod 'NewPopMenu', :git => 'https://github.com/cointowitcher/PopMenu'
-  pod 'MGSwipeTableCell'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'SnapKit'
   pod 'RxDataSources'
   pod 'AttributedLib'
+  pod 'SwipeCellKit'
 
   target 'TodoAppTests' do
     inherit! :search_paths
