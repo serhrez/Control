@@ -11,15 +11,10 @@ import Material
 
 final class AddProjectCell: UITableViewCell {
     static let reuseIdentifier = "AddProjectCell"
-    static let height: CGFloat = 80
     private let overlayView = OverlaySelectionView()
     
     func configure() {
         setupViews()
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        .init(width: 0, height: Self.height)
     }
     
     func setupViews() {

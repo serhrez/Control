@@ -47,8 +47,8 @@ class AllTasksVc: UIViewController {
         viewModel.tableUpdates = { [weak self] deletions, insertions, modifications in
             self?.tableView.reloadData()
         }
-        tableView.dataSource = self
         tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -127,28 +127,32 @@ extension AllTasksVc: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.projects.count + 1
+        viewModel.models.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let index = vmIndex(for: indexPath)
-        if viewModel.projects.count == index {
+        let model = viewModel.models[index]
+        switch model {
+        case .addProject:
             let addCell = tableView.dequeueReusableCell(withIdentifier: AddProjectCell.reuseIdentifier, for: indexPath) as! AddProjectCell
             addCell.configure()
             addCell.selectionStyle = .none
             return addCell
-        } else {
+        case let .project(project):
             let projectCell = tableView.dequeueReusableCell(withIdentifier: ProjectViewCell.reuseIdentifier, for: indexPath) as! ProjectViewCell
-            let project = viewModel.projects[index]
             let progress = viewModel.getProgress(for: project)
             projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color)
             projectCell.selectionStyle = .none
             projectCell.motionIdentifier = project.id
-            
             return projectCell
         }
     }
@@ -157,15 +161,13 @@ extension AllTasksVc: UITableViewDataSource {
 extension AllTasksVc: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = vmIndex(for: indexPath)
-        if viewModel.projects.count == index {
-            
-        } else {
-            let project = viewModel.projects[index]
-            
+        let model = viewModel.models[index]
+        switch model {
+        case .addProject: break
+        case let .project(project):
             let detailsVc = ProjectDetailsVc()
             detailsVc.view.motionIdentifier = project.id
             router.debugPushVc(detailsVc, .fade)
-
         }
     }
 }

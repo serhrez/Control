@@ -13,13 +13,13 @@ final class ProjectViewCell: UITableViewCell {
     static let reuseIdentifier = "projectviewcell"
     // Should be the same as custombuttons overlay
     private let overlayView = OverlaySelectionView()
+    private let tasksCountView = OvalText()
     
     private var icon: Icon!
     private var name: String!
     private var progress: CGFloat!
     private var tasksCount: Int!
     private var color: UIColor!
-    let tasksCountView = CircleText()
     
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 80)
@@ -36,6 +36,7 @@ final class ProjectViewCell: UITableViewCell {
         self.tasksCount = tasksCount
         self.color = color
         tasksCountView.bgColor = color
+        tasksCountView.text = "\(tasksCount * 2)"
         setupViews()
     }
     
@@ -57,7 +58,7 @@ final class ProjectViewCell: UITableViewCell {
         layout(nameLabel).leading(63).centerY(iconView.anchor.centerY)
         nameLabel.text = name
         
-        layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).width(25).height(25)
+        layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).height(26)
         
         let progressCircle = OuterCircle.getCircleWithProgress(percent: progress, color: color)
         layout(progressCircle).centerY(iconView.anchor.centerY).trailing(tasksCountView.anchor.leading, 3)

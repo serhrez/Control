@@ -10,7 +10,10 @@ import RealmSwift
 
 class AllTasksVcVM {
     typealias TableUpdatesFunc = (_ deletions: [Int], _ insertions: [Int], _ modifications: [Int]) -> Void
-    private(set) var projects: [RlmProject] = []
+    private var projects: [RlmProject] = []
+    var models: [Model] {
+        projects.map { Model.project($0) } + [.addProject]
+    }
     private var tokens: [NotificationToken] = []
     var tableUpdates: TableUpdatesFunc?
     var initialValues: (() -> Void)?
@@ -40,5 +43,10 @@ class AllTasksVcVM {
         } else {
             return Double(project.tasks.filter { $0.isDone }.count) / Double(count)
         }
+    }
+    
+    enum Model {
+        case project(RlmProject)
+        case addProject
     }
 }
