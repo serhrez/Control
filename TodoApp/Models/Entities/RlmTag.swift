@@ -18,11 +18,10 @@ final class RlmTag: Object {
         self.init()
         self.name = name
     }
-    
-    // TODO: Add this, and update bundled realm
-//    override class func primaryKey() -> String? {
-//        Subtask.Property.id.rawValue
-//    }
+
+    override class func primaryKey() -> String? {
+        Self.Property.id.rawValue
+    }
 }
 
 extension RlmTag {
