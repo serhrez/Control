@@ -18,7 +18,7 @@ enum Models: IdentifiableType, Equatable {
     var identity: String {
         switch self {
         case let .tag(rlmTag):
-            return rlmTag.id
+            return rlmTag.isInvalidated ? "deleted-\(UUID().uuidString)" : rlmTag.id
         case .addTagEnterName:
             return "addTagEnterName"
         case .addTag:
