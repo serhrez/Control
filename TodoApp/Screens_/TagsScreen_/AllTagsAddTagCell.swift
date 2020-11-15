@@ -13,7 +13,6 @@ class AllTagsAddTagCell: UICollectionViewCell {
     static let reuseIdentifier = "alltagsaddtagcell"
     
     private let overlayView = OverlaySelectionView()
-    private var isActive: Bool = true
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 55)
     }
@@ -26,11 +25,7 @@ class AllTagsAddTagCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func configure(_ isActive: Bool) {
-        self.isActive = isActive
-    }
-    
+        
     func setupViews() {
         backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
         layer.cornerRadius = 16
@@ -54,9 +49,7 @@ class AllTagsAddTagCell: UICollectionViewCell {
     
     override var isHighlighted: Bool {
         didSet {
-            if isActive {
-                overlayView.setHighlighted(isHighlighted, animated: true)
-            }
+            overlayView.setHighlighted(isHighlighted, animated: true)
         }
     }
 

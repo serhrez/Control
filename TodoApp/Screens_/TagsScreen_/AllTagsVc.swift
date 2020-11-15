@@ -15,7 +15,7 @@ import RxCocoa
 import Typist
 
 class AllTagsVc: UIViewController {
-    private let bag = DisposeBag()
+    let bag = DisposeBag()
     let viewModel: AllTagsVcVm = .init()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let keyboard = Typist()
@@ -54,11 +54,10 @@ class AllTagsVc: UIViewController {
         collectionView.register(AllTagsAddTagCell.self, forCellWithReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
         collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
 
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionOfCustomData> { (data, collectionView, indexPath, ds) -> UICollectionViewCell in
-            switch ds {
-            case let .addTag(isAddedTag):
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            switch model {
+            case .addTag:
                 let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell
-                addCell.configure(isAddedTag)
                 return addCell
             case let .tag(tag):
                 let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
@@ -68,17 +67,11 @@ class AllTagsVc: UIViewController {
                 return tagCell
             case .addTagEnterName:
                 let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
-                addTagEnterName.configure { (str) in
-                    _ = try! RealmProvider.inMemory.realm.write {
-                        RealmProvider.inMemory.realm.add(RlmTag(name: str))
-                    }
-                    self.viewModel.allowAdding(bool: false)
-                    
-                }
+                addTagEnterName.configure(tagCreated: self.viewModel.addTag)
                 return addTagEnterName
             }
         }
-        viewModel.modelsq
+        viewModel.modelsUpdate
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         collectionView.delegate = self
@@ -95,7 +88,7 @@ class AllTagsVc: UIViewController {
             let alertVc = UIAlertController(title: "Are you sure?", message: "you really wanna delete this \(tag.name)??", preferredStyle: .alert)
             alertVc.addAction(UIAlertAction(title: "Hmm, not sure", style: .default))
             alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.viewModel.deleteItem(tag: tag)
+                self.viewModel.deleteTag(tag)
             }))
             present(alertVc, animated: true, completion: nil)
         default: return
@@ -114,7 +107,8 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         var options = SwipeOptions()
         options.transitionStyle = .drag
         options.minimumButtonWidth = 87
-        options.maximumButtonWidth = 87
+        options.maximumButtonWidth = 200
+        options.expansionStyle = .selection
         return options
     }
     
@@ -139,10 +133,8 @@ extension AllTagsVc: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = viewModel.models[indexPath.section].items[indexPath.row]
         switch model {
-        case let .addTag(isAddable):
-            if isAddable {
-                viewModel.allowAdding()
-            }
+        case .addTag:
+            viewModel.allowAdding()
         case .addTagEnterName: break
         case let .tag(tag):
             print("tag selected: \(tag)")
