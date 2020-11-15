@@ -37,11 +37,11 @@ class AllTagsTagCell: SwipeCollectionViewCell {
         clipsToBounds = true
         tasksCountView.bgColor = .hex("#00CE15")
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-        layout(nameLabel).centerY().leading(20)
+        contentView.layout(nameLabel).centerY().leading(20)
+
+        contentView.layout(tasksCountView).centerY().trailing(15).leading(nameLabel.anchor.trailing, 15) { _, _ in .greaterThanOrEqual }
         
-        layout(tasksCountView).centerY().trailing(15).leading(nameLabel.anchor.trailing, 15) { _, _ in .greaterThanOrEqual }
-        
-        layout(overlayView).edges()
+        contentView.layout(overlayView).edges()
     }
     
     override var isHighlighted: Bool {

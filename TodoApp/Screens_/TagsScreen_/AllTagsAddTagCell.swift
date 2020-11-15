@@ -46,10 +46,10 @@ class AllTagsAddTagCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = UIColor(hex: "#a4a4a4")
 
-        layout(centerView).center()
+        contentView.layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()
         centerView.layout(label).trailing().top().bottom().leading(addImage.anchor.trailing, 5)
-        layout(overlayView).edges()
+        contentView.layout(overlayView).edges()
     }
     
     override var isHighlighted: Bool {

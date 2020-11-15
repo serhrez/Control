@@ -64,6 +64,7 @@ class AllTagsVc: UIViewController {
                 let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
                 tagCell.configure(name: tag.name, tasksCount: self.viewModel.allTasksCount(for: tag))
                 tagCell.motionIdentifier = tag.id
+                tagCell.delegate = self
                 return tagCell
             case .addTagEnterName:
                 let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
@@ -87,6 +88,20 @@ class AllTagsVc: UIViewController {
         navigationItem.titleLabel.text = "Tags"
     }
     
+    func handleSwipeActionDeletion(action: SwipeAction, indexPath: IndexPath) {
+        let tag = viewModel.models[0].items[indexPath.row]
+        switch tag {
+        case let .tag(tag):
+            let alertVc = UIAlertController(title: "Are you sure?", message: "you really wanna delete this \(tag.name)??", preferredStyle: .alert)
+            alertVc.addAction(UIAlertAction(title: "Hmm, not sure", style: .default))
+            alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.viewModel.deleteItem(tag: tag)
+            }))
+            present(alertVc, animated: true, completion: nil)
+        default: return
+        }
+    }
+    
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
@@ -95,8 +110,21 @@ class AllTagsVc: UIViewController {
 
 extension AllTagsVc: AppNavigationRouterDelegate { }
 extension AllTagsVc: SwipeCollectionViewCellDelegate {
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .drag
+        options.minimumButtonWidth = 87
+        options.maximumButtonWidth = 87
+        return options
+    }
+    
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        return []
+        let model = viewModel.models[0].items[indexPath.row]
+        guard case .tag = model else { return [] }
+        let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
+        deleteAction.backgroundColor = .hex("#EF4439")
+        deleteAction.image = UIImage(named: "trash")
+        return [deleteAction]
     }
 }
 

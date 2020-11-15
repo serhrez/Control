@@ -45,7 +45,7 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         }
         nameField.textColor = .black
         nameField.font = .systemFont(ofSize: 16, weight: .semibold)
-        layout(nameField).centerY().leading(20).trailing(20)
+        contentView.layout(nameField).centerY().leading(20).trailing(20)
         nameField.delegate = self
     }
 }

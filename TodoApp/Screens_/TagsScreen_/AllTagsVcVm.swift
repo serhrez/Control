@@ -93,4 +93,10 @@ class AllTagsVcVm {
         isInAdding = bool
         self.modelsq.onNext(self.models)
     }
+    
+    func deleteItem(tag: RlmTag) {
+        try! RealmProvider.inMemory.realm.write {
+            RealmProvider.inMemory.realm.delete(tag)
+        }
+    }
 }
