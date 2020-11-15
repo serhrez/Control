@@ -9,27 +9,28 @@ import Foundation
 import UIKit
 import Material
 
-class AllTagsAddTagCell: UITableViewCell {
+class AllTagsAddTagCell: UICollectionViewCell {
     static let reuseIdentifier = "alltagsaddtagcell"
     
     private let overlayView = OverlaySelectionView()
-    
+    private var isActive: Bool = true
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 55)
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
-        setupViews()
+    func configure(_ isActive: Bool) {
+        self.isActive = isActive
     }
-
+    
     func setupViews() {
         backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
         layer.cornerRadius = 16
@@ -51,8 +52,12 @@ class AllTagsAddTagCell: UITableViewCell {
         layout(overlayView).edges()
     }
     
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        overlayView.setHighlighted(highlighted, animated: true)
+    override var isHighlighted: Bool {
+        didSet {
+            if isActive {
+                overlayView.setHighlighted(isHighlighted, animated: true)
+            }
+        }
     }
+
 }

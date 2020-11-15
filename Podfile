@@ -15,6 +15,7 @@ target 'TodoApp' do
   pod 'RxDataSources'
   pod 'AttributedLib'
   pod 'SwipeCellKit'
+  pod 'RxDataSources'
 
   target 'TodoAppTests' do
     inherit! :search_paths

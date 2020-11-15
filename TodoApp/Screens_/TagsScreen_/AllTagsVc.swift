@@ -8,10 +8,15 @@
 import Foundation
 import UIKit
 import Material
+import SwipeCellKit
+import RxDataSources
+import RxSwift
+import RxCocoa
 
 class AllTagsVc: UIViewController {
+    private let bag = DisposeBag()
     let viewModel: AllTagsVcVm = .init()
-    let tableView = UITableView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -19,32 +24,44 @@ class AllTagsVc: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = .hex("#F6F6F3")
-        setupTableView()
+        setupCollectionView()
         setupNavigationBar()
-        let allTagsCell = AllTagsEnterNameCell()
-        allTagsCell.configure { tagName in
-            _ = try? RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.add(RlmTag(name: tagName))
+    }
+    func setupCollectionView() {
+        view.layout(collectionView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        collectionView.backgroundColor = .clear
+        collectionView.alwaysBounceVertical = true
+        collectionView.register(AllTagsTagCell.self, forCellWithReuseIdentifier: AllTagsTagCell.reuseIdentifier)
+        collectionView.register(AllTagsAddTagCell.self, forCellWithReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
+        collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
+
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<SectionOfCustomData> { (data, collectionView, indexPath, ds) -> UICollectionViewCell in
+            switch ds {
+            case let .addTag(isAddedTag):
+                let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell
+                addCell.configure(isAddedTag)
+                return addCell
+            case let .tag(tag):
+                let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
+                tagCell.configure(name: tag.name, tasksCount: self.viewModel.allTasksCount(for: tag))
+                tagCell.motionIdentifier = tag.id
+                return tagCell
+            case .addTagEnterName:
+                let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
+                addTagEnterName.configure { (str) in
+                    _ = try! RealmProvider.inMemory.realm.write {
+                        RealmProvider.inMemory.realm.add(RlmTag(name: str))
+                    }
+                    self.viewModel.allowAdding(bool: false)
+                    
+                }
+                return addTagEnterName
             }
         }
-        view.layout(allTagsCell).center().width(400).height(55)
-    }
-    func setupTableView() {
-        view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(AllTagsTagCell.self, forCellReuseIdentifier: AllTagsTagCell.reuseIdentifier)
-        tableView.register(AllTagsAddTagCell.self, forCellReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
-        viewModel.initialValues = { [weak self] in
-            self?.tableView.reloadData()
-        }
-        viewModel.tableUpdates = { [weak self] deletions, insertions, modifications in
-            self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .fade)
-//            self?.tableView.reloadData()
-        }
-        tableView.dataSource = self
-        tableView.delegate = self
+        viewModel.modelsq
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        collectionView.delegate = self
     }
         
     func setupNavigationBar() {
@@ -58,42 +75,31 @@ class AllTagsVc: UIViewController {
 }
 
 extension AllTagsVc: AppNavigationRouterDelegate { }
-extension AllTagsVc: UITableViewDataSource {
-    func vmIndex(for indexPath: IndexPath) -> Int {
-        indexPath.row
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.tags.count + 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let index = vmIndex(for: indexPath)
-        if viewModel.tags.count == index {
-            let addCell = tableView.dequeueReusableCell(withIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell
-            addCell.configure()
-            addCell.selectionStyle = .none
-            return addCell
-        } else {
-            let tagCell = tableView.dequeueReusableCell(withIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
-            let tag = viewModel.tags[index]
-            tagCell.configure(name: tag.name, tasksCount: viewModel.allTasksCount(for: tag))
-            tagCell.motionIdentifier = tag.id
-            tagCell.selectionStyle = .none
-            return tagCell
-        }
+extension AllTagsVc: SwipeCollectionViewCellDelegate {
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        return []
     }
 }
 
-extension AllTagsVc: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = vmIndex(for: indexPath)
-        if viewModel.tags.count == index {
-            
-        } else {
-            let tag = viewModel.tags[index]
-            
-            
+extension AllTagsVc: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        .init(width: collectionView.frame.width, height: 55)
+    }
+
+}
+
+extension AllTagsVc: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = viewModel.models[indexPath.section].items[indexPath.row]
+        switch model {
+        case let .addTag(isAddable):
+            if isAddable {
+                viewModel.allowAdding()
+            }
+        case .addTagEnterName: break
+        case let .tag(tag):
+            print("tag selected: \(tag)")
+            break
         }
     }
 }

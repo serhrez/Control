@@ -8,51 +8,45 @@
 import Foundation
 import UIKit
 import Material
-import MGSwipeTableCell
+import SwipeCellKit
 
-class AllTagsTagCell: MGSwipeTableCell {
+class AllTagsTagCell: SwipeCollectionViewCell {
     static let reuseIdentifier = "alltagstagcell"
     
     private let overlayView = OverlaySelectionView()
-    
-    private var name: String!
-    private var tasksCount: Int!
-    
-    override var intrinsicContentSize: CGSize {
-        .init(width: .zero, height: 55)
+    private let tasksCountView = CircleText(widthHeight: 25)
+    private let nameLabel = UILabel()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func configure(name: String, tasksCount: Int) {
-        self.name = name
-        self.tasksCount = tasksCount
-        setupViews()
+        self.nameLabel.text = name
+        self.tasksCountView.text = "\(tasksCount)"
     }
     
     func setupViews() {
         backgroundColor = .white
         layer.cornerRadius = 16
         clipsToBounds = true
-        let nameLabel = UILabel()
-        nameLabel.text = name
+        tasksCountView.bgColor = .hex("#00CE15")
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         layout(nameLabel).centerY().leading(20)
         
-        let tasksCountView = CircleText(text: "\(tasksCount!)", bgColor: .hex("#00CE15"), widthHeight: 25)
         layout(tasksCountView).centerY().trailing(15).leading(nameLabel.anchor.trailing, 15) { _, _ in .greaterThanOrEqual }
         
         layout(overlayView).edges()
     }
     
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-        overlayView.setHighlighted(highlighted, animated: true)
+    override var isHighlighted: Bool {
+        didSet {
+            overlayView.setHighlighted(isHighlighted, animated: true)
+        }
     }
 }

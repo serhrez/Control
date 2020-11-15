@@ -10,26 +10,38 @@ import UIKit
 import Material
 
 class CircleText: UIView {
-    let bgColor: UIColor
-    let widthHeight: CGFloat
-    var label: UILabel!
+    var bgColor: UIColor? {
+        didSet {
+            let previousBgColor = self.bgColor
+            if previousBgColor != bgColor {
+                setNeedsDisplay()
+            }
+        }
+    }
+    var text: String? {
+        set {
+            guard let text = newValue else { return }
+            label.text = text
+            switch text.count {
+            case 1: label.font = .boldSystemFont(ofSize: 16)
+            case 2: label.font = .boldSystemFont(ofSize: 14)
+            default: label.font = .boldSystemFont(ofSize: 11)
+            }
+        }
+        get { label.text }
+    }
     
-    init(text: String, bgColor: UIColor, widthHeight: CGFloat = 26) {
-        self.bgColor = bgColor
+    private let widthHeight: CGFloat
+    private var label: UILabel!
+    
+    init(widthHeight: CGFloat = 26) {
         self.widthHeight = widthHeight
         super.init(frame: .zero)
         backgroundColor = .clear
         let containerView = UIView()
         label = UILabel()
-        label.text = text
         label.textColor = .white
         label.textAlignment = .center
-        switch text.count {
-        case 1: label.font = .boldSystemFont(ofSize: 16)
-        case 2: label.font = .boldSystemFont(ofSize: 14)
-        default: label.font = .boldSystemFont(ofSize: 11)
-
-        }
         
         containerView.layout(label).center()
         layout(containerView).edges().width(widthHeight).height(widthHeight)
@@ -41,6 +53,7 @@ class CircleText: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        guard let bgColor = bgColor else { return }
         let ovalPath = UIBezierPath(ovalIn: rect)
         bgColor.setFill()
         ovalPath.fill()

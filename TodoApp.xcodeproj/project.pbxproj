@@ -270,6 +270,7 @@
 		A5085EB7255704AB00A31BBB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A5796AB22561A91A00423112 /* Helpers */,
 				A533E0A8255C8D2700B301C7 /* Custom3rdViews */,
 				A516832C255B33420076D29E /* Views */,
 				A5085E402556EF7B00A31BBB /* Info.plist */,
@@ -345,6 +346,13 @@
 				A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		A5796AB22561A91A00423112 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */ = {

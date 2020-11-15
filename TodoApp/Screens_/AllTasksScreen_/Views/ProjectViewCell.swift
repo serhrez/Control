@@ -8,9 +8,8 @@
 import Foundation
 import UIKit
 import Material
-import MGSwipeTableCell
 
-final class ProjectViewCell: MGSwipeTableCell {
+final class ProjectViewCell: UITableViewCell {
     static let reuseIdentifier = "projectviewcell"
     // Should be the same as custombuttons overlay
     private let overlayView = OverlaySelectionView()
@@ -20,6 +19,7 @@ final class ProjectViewCell: MGSwipeTableCell {
     private var progress: CGFloat!
     private var tasksCount: Int!
     private var color: UIColor!
+    let tasksCountView = CircleText()
     
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 80)
@@ -35,6 +35,7 @@ final class ProjectViewCell: MGSwipeTableCell {
         self.progress = progress
         self.tasksCount = tasksCount
         self.color = color
+        tasksCountView.bgColor = color
         setupViews()
     }
     
@@ -56,7 +57,6 @@ final class ProjectViewCell: MGSwipeTableCell {
         layout(nameLabel).leading(63).centerY(iconView.anchor.centerY)
         nameLabel.text = name
         
-        let tasksCountView = CircleText(text: "\(tasksCount!)", bgColor: color)
         layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).width(25).height(25)
         
         let progressCircle = OuterCircle.getCircleWithProgress(percent: progress, color: color)
