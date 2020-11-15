@@ -12,11 +12,14 @@ import SwipeCellKit
 import RxDataSources
 import RxSwift
 import RxCocoa
+import Typist
 
 class AllTagsVc: UIViewController {
     private let bag = DisposeBag()
     let viewModel: AllTagsVcVm = .init()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let keyboard = Typist()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -26,9 +29,25 @@ class AllTagsVc: UIViewController {
         view.backgroundColor = .hex("#F6F6F3")
         setupCollectionView()
         setupNavigationBar()
+        setupKeyboard()
     }
+    
+    func setupKeyboard() {
+        keyboard
+            .on(event: .willChangeFrame) { [unowned self] (options) in
+                let height = options.endFrame.height
+                self.view.layout(self.collectionView)
+                    .bottomSafe(height - self.view.safeAreaInsets.bottom)
+            }
+            .on(event: .willHide, do: { (options) in
+                self.view.layout(self.collectionView).bottomSafe()
+            })
+            .start()
+    }
+    
     func setupCollectionView() {
         view.layout(collectionView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         collectionView.register(AllTagsTagCell.self, forCellWithReuseIdentifier: AllTagsTagCell.reuseIdentifier)
@@ -63,7 +82,7 @@ class AllTagsVc: UIViewController {
             .disposed(by: bag)
         collectionView.delegate = self
     }
-        
+            
     func setupNavigationBar() {
         navigationItem.titleLabel.text = "Tags"
     }
