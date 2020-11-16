@@ -36,8 +36,11 @@ class AllTagsVc: UIViewController {
         keyboard
             .on(event: .willChangeFrame) { [unowned self] (options) in
                 let height = options.endFrame.height
-                self.view.layout(self.collectionView)
-                    .bottomSafe(height - self.view.safeAreaInsets.bottom)
+                UIView.animate(withDuration: 0) {
+                    self.view.layout(self.collectionView)
+                        .bottomSafe(height - self.view.safeAreaInsets.bottom)
+                    self.view.layoutIfNeeded()
+                }
             }
             .on(event: .willHide, do: { (options) in
                 self.view.layout(self.collectionView).bottomSafe()
