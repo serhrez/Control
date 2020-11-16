@@ -29,7 +29,7 @@ PODS:
   - Typist (1.4.2)
 
 DEPENDENCIES:
-  - AttributedLib
+  - AttributedLib (from `https://github.com/cointowitcher/Attributed`)
   - Material (from `https://github.com/cointowitcher/Material`)
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
@@ -42,7 +42,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AttributedLib
     - Differentiator
     - Motion
     - Realm
@@ -56,12 +55,17 @@ SPEC REPOS:
     - Typist
 
 EXTERNAL SOURCES:
+  AttributedLib:
+    :git: https://github.com/cointowitcher/Attributed
   Material:
     :git: https://github.com/cointowitcher/Material
   NewPopMenu:
     :git: https://github.com/cointowitcher/PopMenu
 
 CHECKOUT OPTIONS:
+  AttributedLib:
+    :commit: 8ec31da2b7286eab191c31b21bf3665acbd4495d
+    :git: https://github.com/cointowitcher/Attributed
   Material:
     :commit: 8418f54194b10a45c14943f72194f1a20978a2c1
     :git: https://github.com/cointowitcher/Material
@@ -70,7 +74,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/cointowitcher/PopMenu
 
 SPEC CHECKSUMS:
-  AttributedLib: ad537d4f9285ed57fc4d9103dd83c2ee6be1582b
+  AttributedLib: 7aa34dca681e463f2f4aa6c70ef9a905af3a29a5
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
@@ -85,6 +89,6 @@ SPEC CHECKSUMS:
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
 
-PODFILE CHECKSUM: 8ca63ff8fe45423d1e3cef137abcf33fe3b5ecc7
+PODFILE CHECKSUM: d6ca059de725a7e5c76ee9ed63de91856d57c272
 
 COCOAPODS: 1.10.0

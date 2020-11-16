@@ -13,7 +13,7 @@ target 'TodoApp' do
   pod 'RxCocoa'
   pod 'SnapKit'
   pod 'RxDataSources'
-  pod 'AttributedLib'
+  pod 'AttributedLib', :git => 'https://github.com/cointowitcher/Attributed'
   pod 'SwipeCellKit'
   pod 'RxDataSources'
   pod 'Typist'
