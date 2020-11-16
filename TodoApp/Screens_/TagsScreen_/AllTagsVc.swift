@@ -15,10 +15,10 @@ import RxCocoa
 import Typist
 
 class AllTagsVc: UIViewController {
-    let bag = DisposeBag()
-    let viewModel: AllTagsVcVm = .init()
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    let keyboard = Typist()
+    private let bag = DisposeBag()
+    private let viewModel: AllTagsVcVm = .init()
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let keyboard = Typist()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +55,7 @@ class AllTagsVc: UIViewController {
         collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
 
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            
             switch model {
             case .addTag:
                 let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell

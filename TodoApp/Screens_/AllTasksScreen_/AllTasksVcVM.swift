@@ -19,7 +19,6 @@ class AllTasksVcVM {
     var initialValues: (() -> Void)?
     
     init() {
-        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
         let token = RealmProvider.inMemory.realm.objects(RlmProject.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {

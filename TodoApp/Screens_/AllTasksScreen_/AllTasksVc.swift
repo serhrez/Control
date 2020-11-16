@@ -94,7 +94,8 @@ class AllTasksVc: UIViewController {
     }
     
     func openTags(action: PopMenuAction) {
-        
+        dismiss(animated: false, completion: nil)
+        router.openAllTags()
     }
     
     func sortChange(action: PopMenuAction) {

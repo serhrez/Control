@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewController = AllTasksVc()
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
-        
+        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
+
         window.rootViewController = navigationVc
         
         self.window = window

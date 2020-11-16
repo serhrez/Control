@@ -32,6 +32,10 @@ class AppNavigationRouter {
     func debugPushVc(_ vc: UIViewController & AppNavigationRouterDelegate, _ transitionType: MotionTransitionAnimationType = .none) {
         pushVc(vc, transitionType)
     }
+    
+    func openAllTags() {
+        pushVc(AllTagsVc(), .autoReverse(presenting: .push(direction: .left)))
+    }
 }
 
 extension UIViewController {

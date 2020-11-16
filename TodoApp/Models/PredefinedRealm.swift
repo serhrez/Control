@@ -68,8 +68,8 @@ class PredefinedRealm {
             realm.add(project2)
             realm.add(project3)
             
-//            let tags5to11 = Array(5...9).map { RlmTag(name: "tag\($0)")}
-//            realm.add(tags5to11)
+            let tags5to11 = Array(5...9).map { RlmTag(name: "tag\($0)")}
+            realm.add(tags5to11)
         }
     }
 }

@@ -12,12 +12,14 @@ import RxSwift
 
 class AllTagsVcVm {
     
+    private let bag = DisposeBag()
     private(set) var tags: [RlmTag] = []
     private let modelsUpdateSubject = PublishSubject<Void>()
-    var modelsUpdate: Observable<[AnimSection<Model>]> {
-        modelsUpdateSubject.compactMap { [weak self] in self?.models }
-    }
-
+    private var tokens: [NotificationToken] = []
+    private var isInAdding: Bool = false
+    
+    // MARK: Outputs
+    lazy var modelsUpdate: Observable<[AnimSection<Model>]> = modelsUpdateSubject.compactMap { [weak self] in self?.models }.share(replay: 1, scope: .whileConnected)
     var models: [AnimSection<Model>] {
         var models = tags.map { Model.tag($0) }
         if isInAdding {
@@ -27,11 +29,10 @@ class AllTagsVcVm {
         }
         return [AnimSection(items: models)]
     }
-    private var tokens: [NotificationToken] = []
-    private var isInAdding: Bool = false
+
 
     init() {
-        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
+        modelsUpdate.subscribe().disposed(by: bag)
         let token = RealmProvider.inMemory.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
