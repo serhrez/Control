@@ -17,6 +17,7 @@ target 'TodoApp' do
   pod 'SwipeCellKit'
   pod 'RxDataSources'
   pod 'Typist'
+  pod 'WSTagsField', :git => 'https://github.com/cointowitcher/WSTagsField'
 
   target 'TodoAppTests' do
     inherit! :search_paths
