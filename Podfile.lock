@@ -14,6 +14,7 @@ PODS:
   - Realm/Headers (10.1.2)
   - RealmSwift (10.1.2):
     - Realm (= 10.1.2)
+  - ResizingTokenField (0.1.1)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - Material (from `https://github.com/cointowitcher/Material`)
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
+  - ResizingTokenField (from `https://github.com/cointowitcher/ResizingTokenField`)
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -63,6 +65,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/cointowitcher/Material
   NewPopMenu:
     :git: https://github.com/cointowitcher/PopMenu
+  ResizingTokenField:
+    :git: https://github.com/cointowitcher/ResizingTokenField
   WSTagsField:
     :git: https://github.com/cointowitcher/WSTagsField
 
@@ -76,6 +80,9 @@ CHECKOUT OPTIONS:
   NewPopMenu:
     :commit: fc7be853ae03e9917558748b3bd1bcca105b99ec
     :git: https://github.com/cointowitcher/PopMenu
+  ResizingTokenField:
+    :commit: bc8948acbdf11e2615c490354232f71ab995684b
+    :git: https://github.com/cointowitcher/ResizingTokenField
   WSTagsField:
     :commit: 4b76006cfff64ed78cc4f586ee80c641f43b84e2
     :git: https://github.com/cointowitcher/WSTagsField
@@ -88,6 +95,7 @@ SPEC CHECKSUMS:
   NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
+  ResizingTokenField: a3e970ce8f50e1a1f2e39fd639b3c1ff52ccbb0a
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -97,6 +105,6 @@ SPEC CHECKSUMS:
   Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: bb354001e0c9363a102e4297ab047da014541c20
+PODFILE CHECKSUM: f3190d4db96299fe6146d00fe6ca4e917493812f
 
 COCOAPODS: 1.10.0
