@@ -14,6 +14,11 @@ final class RlmSubtask: Object {
     @objc dynamic var name = ""
     @objc dynamic var createdAt = Date()
     
+    convenience init(name: String) {
+        self.init()
+        self.name = name
+    }
+    
     override class func primaryKey() -> String? {
         RlmSubtask.Property.id.rawValue
     }

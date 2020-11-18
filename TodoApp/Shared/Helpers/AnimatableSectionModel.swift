@@ -10,15 +10,15 @@ import RxDataSources
 
 struct AnimSection<Item: IdentifiableType & Equatable>: AnimatableSectionModelType, IdentifiableType {
     var items: [Item]
+    var identity: String = "asm"
     
     init(original: AnimSection<Item>, items: [Item]) {
         self = original
         self.items = items
     }
     
-    init(items: [Item]) {
+    init(identity: String = "asm", items: [Item]) {
+        self.identity = identity
         self.items = items
     }
-    
-    var identity: String { "asm" }
 }

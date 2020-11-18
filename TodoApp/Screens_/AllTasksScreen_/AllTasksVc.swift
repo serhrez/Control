@@ -159,16 +159,18 @@ extension AllTasksVc: UITableViewDataSource {
     }
 }
 
-extension AllTasksVc: UITableViewDelegate {
+extension AllTasksVc: UITableViewDelegate {    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = vmIndex(for: indexPath)
         let model = viewModel.models[index]
         switch model {
         case .addProject: break
         case let .project(project):
-            let detailsVc = ProjectDetailsVc()
-            detailsVc.view.motionIdentifier = project.id
-            router.debugPushVc(detailsVc, .fade)
+            if project.name == "Inbox" {
+                let inboxVc = InboxTasksVc()
+                inboxVc.view.motionIdentifier = project.id
+                router.debugPushVc(inboxVc, .fade)
+            }
         }
     }
 }

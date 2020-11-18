@@ -16,11 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        
-        let viewController = AllTasksVc()
+        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
+        let viewController = InboxTasksVc()
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
-        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
 
         window.rootViewController = navigationVc
         
