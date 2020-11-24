@@ -19,6 +19,7 @@ target 'TodoApp' do
   pod 'Typist'
   pod 'WSTagsField', :git => 'https://github.com/cointowitcher/WSTagsField'
   pod 'ResizingTokenField', :git => 'https://github.com/cointowitcher/ResizingTokenField'
+  pod 'UITextView+Placeholder'
 
   target 'TodoAppTests' do
     inherit! :search_paths
