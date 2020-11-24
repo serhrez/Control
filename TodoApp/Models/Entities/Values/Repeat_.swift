@@ -8,12 +8,14 @@
 
 import Foundation
 
-enum Repeat: String {
+enum Repeat: String, CustomStringConvertible {
     case daily
     case everyWeekday
     case weekly
     case monthly
     case yearly
+    
+    static let all: [Repeat] = [.daily, .everyWeekday, .weekly, .monthly, .yearly]
     
     
     var description: String {

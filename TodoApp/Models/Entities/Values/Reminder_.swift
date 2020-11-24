@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Reminder: String {
+enum Reminder: String, CustomStringConvertible {
     case onDay
     case oneDayEarlier
     case twoDaysEarlier

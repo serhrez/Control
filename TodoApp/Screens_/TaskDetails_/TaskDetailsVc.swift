@@ -37,6 +37,7 @@ class TaskDetailsVc: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupViewModelBinding()
+        setupBindings()
     }
     
     private func setupViews() {
@@ -45,7 +46,6 @@ class TaskDetailsVc: UIViewController {
         setupNavigationBar()
         
         setupContainerView()
-        setupBindings()
         setupTableView()
     }
     

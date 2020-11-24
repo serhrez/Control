@@ -10,7 +10,7 @@ import UIKit
 import Material
 
 class CheckboxView: UIView {
-    private let uncheckedView: UIView = {
+    private lazy var uncheckedView: UIView = {
         let uncheckedView = UIView()
         uncheckedView.borderColor = .hex("#DFDFDF")
         uncheckedView.layer.borderWidth = 2
@@ -19,21 +19,62 @@ class CheckboxView: UIView {
 
         return uncheckedView
     }()
-    private let checkedView: UIView = {
+    
+    private lazy var uncheckedView2: UIView = {
+        let uncheckedView = UIView()
+        uncheckedView.borderColor = .hex("#447BFE")
+        uncheckedView.layer.borderWidth = 2
+        uncheckedView.layer.cornerRadius = 6
+        uncheckedView.layer.cornerCurve = .continuous
+        
+        let viewInside = UIView()
+        viewInside.layer.cornerRadius = 2
+        viewInside.layer.backgroundColor = UIColor.hex("#447BFE").cgColor
+        uncheckedView.layout(viewInside).edges(top: 4, left: 4, bottom: 4, right: 4)
+        
+        return uncheckedView
+    }()
+    private let checkedViewImage = UIImageView(image: UIImage(named: "checkedsvg"))
+    private let checkedRectangleImage = UIImageView(image: UIImage(named: "checkedrectanglesvg"))
+    private lazy var checkedView: UIView = {
         let checkedView = UIView()
-        checkedView.backgroundColor = .hex("#00CE15")
         checkedView.layer.cornerRadius = 6
         checkedView.layer.cornerCurve = .continuous
-        checkedView.layout(UIImageView(image: UIImage(named: "checkbox-ok"))).edges()
+        checkedView.layout(checkedRectangleImage).edges()
+        checkedView.layout(checkedViewImage).edges()
+        checkedRectangleImage.tintColor = .hex("#00CE15")
 
         return checkedView
     }()
     private let animator = UIViewPropertyAnimator()
     var onSelected: (() -> Void)?
     private var isChecked: Bool?
+    private let isStyle2: Bool
     
-    init() {
+    private var selectedViewx: UIView {
+        checkedView
+    }
+    private var uncheckedViewx: UIView {
+        isStyle2 ? uncheckedView2 : uncheckedView
+    }
+    var tint: UIColor {
+        get {
+            checkedViewImage.tintColor
+        }
+        set {
+            checkedViewImage.tintColor = newValue
+            checkedRectangleImage.tintColor = newValue
+        }
+    }
+
+    init(isStyle2: Bool = false) {
+        self.isStyle2 = isStyle2
         super.init(frame: .zero)
+        if isStyle2 {
+            checkedViewImage.image = UIImage(named: "checkedsvg")
+            self.checkedView.backgroundColor = .white//.hex("#447BFE")
+            checkedViewImage.tintColor = .blue
+        }
         setupViews()
     }
     
@@ -58,18 +99,18 @@ class CheckboxView: UIView {
     }
     
     private func setupViews() {
-        layout(uncheckedView).edges()
-        layout(checkedView).edges()
+        layout(uncheckedViewx).edges()
+        layout(selectedViewx).edges()
         layout(SomeControl(onClick: { [unowned self] in self.onSelected?() })).edges()
     }
     private func changeState(withAnimation: Bool) {
         UIView.animate(withDuration: withAnimation ? 0.5 : 0) {
             if self.isChecked ?? false {
-                self.checkedView.layer.opacity = 1.0
-                self.uncheckedView.layer.opacity = 0
+                self.selectedViewx.layer.opacity = 1.0
+                self.uncheckedViewx.layer.opacity = 0
             } else {
-                self.checkedView.layer.opacity = 0
-                self.uncheckedView.layer.opacity = 1.0
+                self.selectedViewx.layer.opacity = 0
+                self.uncheckedViewx.layer.opacity = 1.0
             }
         }
     }

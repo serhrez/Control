@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
-        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
+        let viewController = Selection1Vc.repeatVc(onDone: { _ in }, selected: .everyWeekday)
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 

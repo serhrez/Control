@@ -66,6 +66,8 @@
 		A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */; };
 		A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E4921A256D2FC0004E707B /* AllTagsSelectionTagCell.swift */; };
 		A5E49220256D441B004E707B /* InsetUITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E4921F256D441B004E707B /* InsetUITextView.swift */; };
+		A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E492E1256D78EB004E707B /* Selection1Vc.swift */; };
+		A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E492ED256D7BE4004E707B /* Selection1View.swift */; };
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */; };
@@ -158,6 +160,8 @@
 		A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVcVm.swift; sourceTree = "<group>"; };
 		A5E4921A256D2FC0004E707B /* AllTagsSelectionTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsSelectionTagCell.swift; sourceTree = "<group>"; };
 		A5E4921F256D441B004E707B /* InsetUITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetUITextView.swift; sourceTree = "<group>"; };
+		A5E492E1256D78EB004E707B /* Selection1Vc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection1Vc.swift; sourceTree = "<group>"; };
+		A5E492ED256D7BE4004E707B /* Selection1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection1View.swift; sourceTree = "<group>"; };
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVcVm.swift; sourceTree = "<group>"; };
@@ -439,6 +443,23 @@
 			path = TaskDetails_;
 			sourceTree = "<group>";
 		};
+		A5E492E0256D74CC004E707B /* ReminderScreen_ */ = {
+			isa = PBXGroup;
+			children = (
+				A5E492EC256D7BD5004E707B /* Views */,
+				A5E492E1256D78EB004E707B /* Selection1Vc.swift */,
+			);
+			path = ReminderScreen_;
+			sourceTree = "<group>";
+		};
+		A5E492EC256D7BD5004E707B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A5E492ED256D7BE4004E707B /* Selection1View.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +473,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A5E492E0256D74CC004E707B /* ReminderScreen_ */,
 				A5DD59D42565BC34002AEF42 /* TaskDetails_ */,
 				A54D645F2562982B00AC3F41 /* InboxScreen_ */,
 				A56047CC255D989400C447CF /* TagsScreen_ */,
@@ -730,6 +752,7 @@
 				A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */,
 				A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */,
 				A533E06E255C438900B301C7 /* AllTasksVcVM.swift in Sources */,
+				A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */,
 				A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */,
 				A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */,
 				A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */,
@@ -755,6 +778,7 @@
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
+				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
 				A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */,
 				A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */,
 				A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */,
