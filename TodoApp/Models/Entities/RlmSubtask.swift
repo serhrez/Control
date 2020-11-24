@@ -13,10 +13,13 @@ final class RlmSubtask: Object {
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name = ""
     @objc dynamic var createdAt = Date()
+    @objc dynamic var isDone = false
     
-    convenience init(name: String) {
+    convenience init(name: String, createdAt: Date = Date(), isDone: Bool = false) {
         self.init()
         self.name = name
+        self.createdAt = createdAt
+        self.isDone = isDone
     }
     
     override class func primaryKey() -> String? {
@@ -26,7 +29,7 @@ final class RlmSubtask: Object {
 
 extension RlmSubtask {
     enum Property: String {
-        case id, name, createdAt
+        case id, name, createdAt, isDone
     }
 }
 

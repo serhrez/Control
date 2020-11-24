@@ -13,16 +13,28 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 import Typist
+import RealmSwift
 
 class AllTagsVc: UIViewController {
     private let bag = DisposeBag()
-    private let viewModel: AllTagsVcVm = .init()
+    private let viewModel: AllTagsVcVm
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let keyboard = Typist()
+    private let mode: Mode
+    
+    init(mode: Mode) {
+        self.mode = mode
+        self.viewModel = .init(mode: mode)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        setupViews() 
     }
     
     private func setupViews() {
@@ -53,10 +65,14 @@ class AllTagsVc: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
-        collectionView.register(AllTagsTagCell.self, forCellWithReuseIdentifier: AllTagsTagCell.reuseIdentifier)
+        switch mode {
+        case .show:
+            collectionView.register(AllTagsTagCell.self, forCellWithReuseIdentifier: AllTagsTagCell.reuseIdentifier)
+        case .selection:
+            collectionView.register(AllTagsSelectionTagCell.self, forCellWithReuseIdentifier: AllTagsSelectionTagCell.reuseIdentifier)
+        }
         collectionView.register(AllTagsAddTagCell.self, forCellWithReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
         collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
-
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             
             switch model {
@@ -64,11 +80,20 @@ class AllTagsVc: UIViewController {
                 let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell
                 return addCell
             case let .tag(tag):
-                let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
-                tagCell.configure(name: tag.name, tasksCount: self.viewModel.allTasksCount(for: tag))
-                tagCell.motionIdentifier = tag.id
-                tagCell.delegate = self
-                return tagCell
+                switch self.mode {
+                case .show:
+                    let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsTagCell.reuseIdentifier, for: indexPath) as! AllTagsTagCell
+                    tagCell.configure(name: tag.name, tasksCount: self.viewModel.allTasksCount(for: tag))
+                    tagCell.motionIdentifier = tag.id
+                    tagCell.delegate = self
+                    return tagCell
+                case .selection:
+                    let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsSelectionTagCell.reuseIdentifier, for: indexPath) as! AllTagsSelectionTagCell
+                    tagCell.configure(name: tag.name, isSelected: viewModel.selectionSet.contains(tag), onSelected: { [unowned self] in self.viewModel.changeTagInSelectionSet(tag: tag, shouldBeInSet: $0) })
+                    tagCell.motionIdentifier = tag.id
+                    tagCell.delegate = self
+                    return tagCell
+                }
             case .addTagEnterName:
                 let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
                 addTagEnterName.configure(tagCreated: self.viewModel.addTag)
@@ -79,6 +104,14 @@ class AllTagsVc: UIViewController {
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         collectionView.delegate = self
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        switch mode {
+        case .show: break
+        case let .selection(selected: _, selection):
+            selection(Array(viewModel.selectionSet))
+        }
     }
             
     func setupNavigationBar() {
@@ -91,8 +124,8 @@ class AllTagsVc: UIViewController {
         case let .tag(tag):
             let alertVc = UIAlertController(title: "Are you sure?", message: "you really wanna delete this \(tag.name)??", preferredStyle: .alert)
             alertVc.addAction(UIAlertAction(title: "Hmm, not sure", style: .default))
-            alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.viewModel.deleteTag(tag)
+            alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+                self?.viewModel.deleteTag(tag)
             }))
             present(alertVc, animated: true, completion: nil)
         default: return
@@ -144,5 +177,12 @@ extension AllTagsVc: UICollectionViewDelegate {
             print("tag selected: \(tag)")
             break
         }
+    }
+}
+
+extension AllTagsVc {
+    enum Mode {
+        case show
+        case selection(selected: [RlmTag], ([RlmTag]) -> Void)
     }
 }

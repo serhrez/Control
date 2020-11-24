@@ -15,24 +15,19 @@ enum Repeat: String {
     case monthly
     case yearly
     
-    static let allViewCases: [Repeat?] = [nil, .daily, .everyWeekday, .weekly, .monthly, .yearly]
-}
-
-extension Repeat {
-    static var textClosure: (Repeat?) -> String = {
-        switch $0 {
-            case .daily:
-                return "Daily"
-            case .everyWeekday:
-                return "Every Weekday"
-            case .weekly:
-                return "Weekly"
-            case .monthly:
-                return "Monthly"
-            case .yearly:
-                return "Yearly"
-            case .none:
-                return "None"
+    
+    var description: String {
+        switch self {
+        case .daily:
+            return "Daily"
+        case .everyWeekday:
+            return "Every Weekday"
+        case .weekly:
+            return "Weekly"
+        case .monthly:
+            return "Monthly"
+        case .yearly:
+            return "Yearly"
         }
     }
 }

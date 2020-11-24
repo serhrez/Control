@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "layers-subtract@2.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "layers-subtract@3.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "layers-subtract.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

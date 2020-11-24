@@ -11,7 +11,7 @@ import ResizingTokenField
 class ResizingToken: ResizingTokenFieldToken, Equatable {
     
     static func == (lhs: ResizingToken, rhs: ResizingToken) -> Bool {
-        return lhs === rhs
+        return lhs.title == rhs.title
     }
     
     var title: String

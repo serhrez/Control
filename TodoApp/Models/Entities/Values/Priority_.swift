@@ -11,6 +11,6 @@ import Foundation
 enum Priority: String {
     case none
     case low
-    case middle
+    case medium
     case high
 }

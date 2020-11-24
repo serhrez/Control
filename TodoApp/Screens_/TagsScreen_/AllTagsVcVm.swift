@@ -17,6 +17,7 @@ class AllTagsVcVm {
     private let modelsUpdateSubject = PublishSubject<Void>()
     private var tokens: [NotificationToken] = []
     private var isInAdding: Bool = false
+    private(set) var selectionSet: Set<RlmTag>
     
     // MARK: Outputs
     lazy var modelsUpdate: Observable<[AnimSection<Model>]> = modelsUpdateSubject.compactMap { [weak self] in self?.models }.share(replay: 1, scope: .whileConnected)
@@ -31,12 +32,19 @@ class AllTagsVcVm {
     }
 
 
-    init() {
+    init(mode: AllTagsVc.Mode) {
+        switch mode {
+        case let .selection(selected: selected, _):
+            selectionSet = .init(selected)
+        case .show:
+            selectionSet = .init()
+        }
         modelsUpdate.subscribe().disposed(by: bag)
         let token = RealmProvider.inMemory.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
-            case let .update(projects, deletions: _, insertions: _, modifications: _):
+            case let .update(projects, deletions: dels, insertions: _, modifications: _):
+                dels.forEach { self.selectionSet.remove(self.tags[$0]) }
                 self.tags = Array(projects.sorted(byKeyPath: "createdAt"))
             case let .initial(projects):
                 self.tags = Array(projects.sorted(byKeyPath: "createdAt"))
@@ -68,6 +76,14 @@ class AllTagsVcVm {
     func deleteTag(_ tag: RlmTag) {
         try! RealmProvider.inMemory.realm.write {
             RealmProvider.inMemory.realm.delete(tag)
+        }
+    }
+        
+    func changeTagInSelectionSet(tag: RlmTag, shouldBeInSet: Bool) {
+        if shouldBeInSet {
+            selectionSet.insert(tag)
+        } else {
+            selectionSet.remove(tag)
         }
     }
 }

@@ -53,6 +53,15 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         }
     }
     
+    var imageTintColor: UIColor {
+        get {
+            return iconImageView.tintColor
+        }
+        set {
+            iconImageView.tintColor = newValue
+        }
+    }
+    
     /// Font for the label.
     public var font: UIFont {
         get {
@@ -136,8 +145,8 @@ public class PopuptodoAction: NSObject, PopMenuAction {
             view.addSubview(iconImageView)
             
             NSLayoutConstraint.activate([
-                iconImageView.widthAnchor.constraint(equalToConstant: iconWidthHeight),
-                iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor),
+//                iconImageView.widthAnchor.constraint(equalToConstant: iconWidthHeight),
+                iconImageView.heightAnchor.constraint(equalToConstant: iconWidthHeight),
                 iconImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: iconLeftPadding),
                 iconImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
             ])
@@ -146,7 +155,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         view.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: hasImage ? iconImageView.trailingAnchor : view.leadingAnchor, constant: hasImage ? iconToTextOffset : iconLeftPadding),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: hasImage ? iconLeftPadding + iconWidthHeight + iconToTextOffset : iconLeftPadding),
             titleLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 20),
             titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])

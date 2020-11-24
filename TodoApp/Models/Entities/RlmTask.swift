@@ -15,6 +15,7 @@ final class RlmTask: Object, Identifiable {
     @objc dynamic var date: RlmTaskDate?
     let subtask = List<RlmSubtask>()
     @objc dynamic var isDone = false
+    @objc dynamic var name = ""
     @objc dynamic var taskDescription = ""
     @objc dynamic var createdAt = Date()
     
@@ -28,9 +29,10 @@ final class RlmTask: Object, Identifiable {
         RlmTask.Property.id.rawValue
     }
     
-    convenience init(name: String, isDone: Bool, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
+    convenience init(name: String, taskDescription: String = "", isDone: Bool, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
         self.init()
-        self.taskDescription = name
+        self.name = name
+        self.taskDescription = taskDescription
         self.date = date
         self.isDone = isDone
         self.createdAt = createdAt

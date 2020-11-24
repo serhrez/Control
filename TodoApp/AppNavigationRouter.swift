@@ -33,8 +33,8 @@ class AppNavigationRouter {
         pushVc(vc, transitionType)
     }
     
-    func openAllTags() {
-        pushVc(AllTagsVc(), .autoReverse(presenting: .push(direction: .left)))
+    func openAllTags(mode: AllTagsVc.Mode) {
+        pushVc(AllTagsVc(mode: mode), .autoReverse(presenting: .push(direction: .left)))
     }
 }
 

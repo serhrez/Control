@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Material
 
-class CheckboxView: UIView {
+class AutoselectCheckboxView: UIView {
     private let uncheckedView: UIView = {
         let uncheckedView = UIView()
         uncheckedView.borderColor = .hex("#DFDFDF")
@@ -29,8 +29,8 @@ class CheckboxView: UIView {
         return checkedView
     }()
     private let animator = UIViewPropertyAnimator()
-    var onSelected: (() -> Void)?
-    private var isChecked: Bool?
+    var onSelected: ((Bool) -> Void)?
+    private var isChecked: Bool = false
     
     init() {
         super.init(frame: .zero)
@@ -41,36 +41,36 @@ class CheckboxView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(priority: Priority) {
-        switch priority {
-        case .high: uncheckedView.borderColor = .hex("#EF4439")
-        case .medium: uncheckedView.borderColor = .hex("#FF9900")
-        case .low: uncheckedView.borderColor = .hex("#447BFE")
-        case .none: uncheckedView.borderColor = .hex("#DFDFDF")
-        }
-    }
-    
     func configure(isChecked: Bool) {
-        let previousIsChecked = self.isChecked
-        guard self.isChecked != isChecked else { return }
         self.isChecked = isChecked
-        changeState(withAnimation: previousIsChecked != nil)
+        changeState(withAnimation: false)
     }
     
     private func setupViews() {
         layout(uncheckedView).edges()
         layout(checkedView).edges()
-        layout(SomeControl(onClick: { [unowned self] in self.onSelected?() })).edges()
+        layout(SomeControl(onClick: { [unowned self] in
+            isChecked.toggle()
+            changeState(withAnimation: true)
+            onSelected?(isChecked)
+        })).edges()
     }
     private func changeState(withAnimation: Bool) {
-        UIView.animate(withDuration: withAnimation ? 0.5 : 0) {
-            if self.isChecked ?? false {
+        func changeState() {
+            if self.isChecked {
                 self.checkedView.layer.opacity = 1.0
                 self.uncheckedView.layer.opacity = 0
             } else {
                 self.checkedView.layer.opacity = 0
                 self.uncheckedView.layer.opacity = 1.0
             }
+        }
+        if withAnimation {
+            UIView.animate(withDuration: 0.5) {
+                changeState()
+            }
+        } else {
+            changeState()
         }
     }
 

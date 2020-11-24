@@ -31,12 +31,12 @@ final class RlmTaskDate: Object {
     }
     
     // TODO: Add this, and update bundled realm
-//    override class func primaryKey() -> String? {
-//        Tag.TaskDate.id.rawValue
-//    }
+    override class func primaryKey() -> String? {
+        RlmTaskDate.TaskDate.id.rawValue
+    }
 }
 
-extension RlmTag {
+extension RlmTaskDate {
     enum TaskDate: String {
         case id, date, _reminder, _repeat
     }

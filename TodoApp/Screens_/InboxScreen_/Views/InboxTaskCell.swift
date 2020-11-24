@@ -39,11 +39,6 @@ class InboxTaskCell: UICollectionViewCell {
         stack.spacing = 10
         return stack
     }()
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd HH:mm"
-        return formatter
-    }()
 
     
     override init(frame: CGRect) {
@@ -64,7 +59,7 @@ class InboxTaskCell: UICollectionViewCell {
             verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))
         }
         if let date = date {
-            verticalHorizontalStack.addArrangedSubview(getDateLabel(text: dateFormatter.string(from: date)))
+            verticalHorizontalStack.addArrangedSubview(getDateLabel(text: DateFormatter.str(from: date)))
         }
         if hasChecklist {
             indicators.addArrangedSubview(UIImageView(image: UIImage(named: "list-check")))
