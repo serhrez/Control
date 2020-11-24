@@ -36,6 +36,15 @@ class AppNavigationRouter {
     func openAllTags(mode: AllTagsVc.Mode) {
         pushVc(AllTagsVc(mode: mode), .autoReverse(presenting: .push(direction: .left)))
     }
+    
+    func openReminder(onDone: @escaping (Reminder?) -> Void, selected: Reminder?) {
+        pushVc(Selection1Vc.reminderVc(onDone: onDone, selected: selected), .autoReverse(presenting: .push(direction: .left)))
+    }
+    
+    func openRepeat(onDone: @escaping (Repeat?) -> Void, selected: Repeat?) {
+        pushVc(Selection1Vc.repeatVc(onDone: onDone, selected: selected), .autoReverse(presenting: .push(direction: .left)))
+    }
+
 }
 
 extension UIViewController {

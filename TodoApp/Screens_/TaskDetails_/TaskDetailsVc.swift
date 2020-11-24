@@ -194,7 +194,7 @@ class TaskDetailsVc: UIViewController {
     }()
     let checkboxh1: CheckboxView = {
         let view = CheckboxView()
-        
+        view.tint = .hex("#00CE15")
         return view
     }()
     let taskNameh1: UILabel = {
@@ -357,11 +357,8 @@ class TaskDetailsVc: UIViewController {
         if tokenField.isHidden {
             actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: addTagsSelected))
         }
-        if repeatDetailLabel.isHidden {
-            actions.append(PopuptodoAction(title: "Repeat", image: UIImage(named: "repeat"), didSelect: repeatSelected))
-        }
         if spacerBeforeLabels.isHidden {
-            actions.append(PopuptodoAction(title: "Add Calendar", image: UIImage(named: "repeat"), didSelect: repeatSelected))
+            actions.append(PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected))
         }
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: selectPrioritySelected),
@@ -388,9 +385,7 @@ class TaskDetailsVc: UIViewController {
         view.endEditing(true)
         router.openAllTags(mode: .selection(selected: viewModel.task.flatMap { Array($0.tags) } ?? [], viewModel.addTags))
     }
-    func repeatSelected(action: PopMenuAction) {
-        dismiss(animated: true, completion: nil)
-    }
+
     func selectPrioritySelected(action: PopMenuAction) {
         let actions: [PopuptodoAction] = [
             PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectHighPriority() }),
@@ -408,7 +403,6 @@ class TaskDetailsVc: UIViewController {
     }
     func addCalendarSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
-
     }
     func deleteTodoSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)

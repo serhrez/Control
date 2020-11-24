@@ -34,8 +34,8 @@ class CheckboxView: UIView {
         
         return uncheckedView
     }()
-    private let checkedViewImage = UIImageView(image: UIImage(named: "checkedsvg"))
-    private let checkedRectangleImage = UIImageView(image: UIImage(named: "checkedrectanglesvg"))
+    private let checkedViewImage = UIImageView(image: UIImage(named: "checkedsvg")?.withRenderingMode(.alwaysTemplate))
+    private let checkedRectangleImage = UIImageView(image: UIImage(named: "checkedrectanglesvg")?.withRenderingMode(.alwaysTemplate))
     private lazy var checkedView: UIView = {
         let checkedView = UIView()
         checkedView.layer.cornerRadius = 6

@@ -73,11 +73,12 @@ class Selection1Vc: UIViewController {
     
     @objc func doneClicked() {
         onDone(selectedIndex)
+        router.navigationController.popViewController(animated: true)
     }
     
     lazy var clearDoneButtons: UIView = {
         let clearButton = UIButton(type: .custom)
-        let attrClear = "Clear".at.attributed { attr in
+        let attrClear = "Back".at.attributed { attr in
             attr.font(.systemFont(ofSize: 18, weight: .semibold))
         }
         clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)

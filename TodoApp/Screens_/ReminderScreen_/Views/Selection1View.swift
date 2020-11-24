@@ -27,7 +27,7 @@ class Selection1View: UIView {
     init(text: String, isSelected: Bool, isStyle2: Bool) {
         self.isStyle2 = isStyle2
         super.init(frame: .zero)
-        
+        checkbox.tint = .hex("#447BFE")
         layout(checkbox).leading().centerY()
         checkbox.configure(isChecked: isSelected)
         layout(textLabel).leading(33).top().bottom().trailing()

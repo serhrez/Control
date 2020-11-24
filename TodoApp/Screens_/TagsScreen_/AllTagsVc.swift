@@ -174,7 +174,6 @@ extension AllTagsVc: UICollectionViewDelegate {
             viewModel.allowAdding()
         case .addTagEnterName: break
         case let .tag(tag):
-            print("tag selected: \(tag)")
             break
         }
     }
