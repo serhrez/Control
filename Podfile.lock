@@ -2,6 +2,7 @@ PODS:
   - AttributedLib (3.0.0)
   - Differentiator (4.0.1)
   - GrowingTextView (0.7.2)
+  - JTAppleCalendar (8.0.3)
   - Material (3.1.8):
     - Material/Core (= 3.1.8)
   - Material/Core (3.1.8):
@@ -34,6 +35,7 @@ PODS:
 DEPENDENCIES:
   - AttributedLib (from `https://github.com/cointowitcher/Attributed`)
   - GrowingTextView
+  - JTAppleCalendar
   - Material (from `https://github.com/cointowitcher/Material`)
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
   - RealmSwift
@@ -50,6 +52,7 @@ SPEC REPOS:
   trunk:
     - Differentiator
     - GrowingTextView
+    - JTAppleCalendar
     - Motion
     - Realm
     - RealmSwift
@@ -94,6 +97,7 @@ SPEC CHECKSUMS:
   AttributedLib: 7aa34dca681e463f2f4aa6c70ef9a905af3a29a5
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
+  JTAppleCalendar: 932cadea40b1051beab10f67843451d48ba16c99
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
   NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
@@ -109,6 +113,6 @@ SPEC CHECKSUMS:
   Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: 4544bc6cb85ea8b562396226fafc0ebb2d7b918e
+PODFILE CHECKSUM: cf3242eda7bb3235c49c3d2d5c793be587a9a8ca
 
 COCOAPODS: 1.10.0

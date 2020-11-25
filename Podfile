@@ -20,6 +20,7 @@ target 'TodoApp' do
   pod 'WSTagsField', :git => 'https://github.com/cointowitcher/WSTagsField'
   pod 'ResizingTokenField', :git => 'https://github.com/cointowitcher/ResizingTokenField'
   pod 'GrowingTextView'
+  pod 'JTAppleCalendar'
 
   target 'TodoAppTests' do
     inherit! :search_paths
