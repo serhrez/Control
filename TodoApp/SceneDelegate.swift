@@ -17,7 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
-        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
+//        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
+        let taskDate = RlmTaskDate()
+        _ = try! RealmProvider.inMemory.realm.write {
+            RealmProvider.inMemory.realm.add(taskDate)
+        }
+        let viewController = CalendarVc(viewModel: .init(taskDate: taskDate))
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 

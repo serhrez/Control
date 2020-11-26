@@ -11,7 +11,7 @@ import RealmSwift
 
 final class RlmTaskDate: Object {
     @objc dynamic var id = UUID().uuidString
-    @objc dynamic var date: Date? = Date() // TODO: shouldn't be forced
+    @objc dynamic var date: Date?
     @objc dynamic private var _reminder: String?
     var reminder: Reminder? {
         get { _reminder.flatMap { Reminder(rawValue: $0) } }
@@ -25,7 +25,7 @@ final class RlmTaskDate: Object {
     
     convenience init(date: Date?, reminder: Reminder?, repeat: Repeat?) {
         self.init()
-        self.date = date ?? Date()
+        self.date = date
         self.reminder = reminder
         self.repeat = `repeat`
     }

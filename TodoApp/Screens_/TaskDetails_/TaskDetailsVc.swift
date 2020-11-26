@@ -17,7 +17,7 @@ import RxDataSources
 import SwipeCellKit
 import GrowingTextView
 
-class TaskDetailsVc: UIViewController {
+final class TaskDetailsVc: UIViewController {
     private let viewModel: TaskDetailsVcVm
     private let bag = DisposeBag()
     private let subtasksTable = UITableView()

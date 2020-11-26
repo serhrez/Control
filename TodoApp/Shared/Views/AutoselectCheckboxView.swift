@@ -49,7 +49,7 @@ class AutoselectCheckboxView: UIView {
     private func setupViews() {
         layout(uncheckedView).edges()
         layout(checkedView).edges()
-        layout(SomeControl(onClick: { [unowned self] in
+        layout(OnClickControl(onClick: { [unowned self] _ in
             isChecked.toggle()
             changeState(withAnimation: true)
             onSelected?(isChecked)
@@ -71,23 +71,6 @@ class AutoselectCheckboxView: UIView {
             }
         } else {
             changeState()
-        }
-    }
-
-    class SomeControl: UIControl {
-        var onClick: () -> Void
-        init(onClick: @escaping () -> Void) {
-            self.onClick = onClick
-            super.init(frame: .zero)
-            addTarget(self, action: #selector(touchUp), for: .touchUpInside)
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        @objc private func touchUp() {
-            onClick()
         }
     }
 }

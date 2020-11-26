@@ -67,43 +67,12 @@ class Selection1Vc: UIViewController {
         selectionViews[selectedIndex].setIsChecked(true)
     }
     
-    @objc func clearClicked() {
-        router.navigationController.popViewController(animated: true)
-    }
-    
-    @objc func doneClicked() {
-        onDone(selectedIndex)
-        router.navigationController.popViewController(animated: true)
-    }
-    
-    lazy var clearDoneButtons: UIView = {
-        let clearButton = UIButton(type: .custom)
-        let attrClear = "Back".at.attributed { attr in
-            attr.font(.systemFont(ofSize: 18, weight: .semibold))
-        }
-        clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)
-        clearButton.setAttributedTitle(attrClear, for: .normal)
-        let separator = UIView()
-        separator.backgroundColor = .hex("#DFDFDF")
-        separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        separator.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        let doneButton = UIButton(type: .custom)
-        let attrDone = "Done".at.attributed { attr in
-            attr.font(.systemFont(ofSize: 18, weight: .semibold)).foreground(color: .hex("#447BFE"))
-        }
-        doneButton.addTarget(self, action: #selector(doneClicked), for: .touchUpInside)
-        doneButton.setAttributedTitle(attrDone, for: .normal)
-        let stack = UIView()
-        let container1 = UIView()
-        container1.layout(clearButton).center()
-        let container2 = UIView()
-        container2.layout(doneButton).center()
-        [container1, separator, container2].forEach { stack.addSubview($0) }
-        stack.layout(container1).width(container2.anchor.width).top().bottom().leading().trailing(separator.anchor.leading, 6)
-        stack.layout(separator).top().bottom().trailing(container2.anchor.leading, 6)
-        stack.layout(container2).top().bottom().trailing()
-        return stack
-    }()
+    lazy var clearDoneButtons: ClearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
+        self.router.navigationController.popViewController(animated: true)
+    }, done: { [unowned self] in
+        self.onDone(self.selectedIndex)
+        self.router.navigationController.popViewController(animated: true)
+    })
     
     var didDisappear: () -> Void = { }
     deinit {
