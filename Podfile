@@ -21,6 +21,7 @@ target 'TodoApp' do
   pod 'ResizingTokenField', :git => 'https://github.com/cointowitcher/ResizingTokenField'
   pod 'GrowingTextView'
   pod 'JTAppleCalendar'
+  pod 'SwiftDate'
 
   target 'TodoAppTests' do
     inherit! :search_paths
