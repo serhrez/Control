@@ -8,8 +8,11 @@
 import Foundation
 import UIKit
 import Material
+import RxSwift
+import SwiftDate
 
 final class CalendarVc: UIViewController {
+    private let bag = DisposeBag()
     private let viewModel: CalendarVcVm
     private let containerView: UIView = {
         let view = UIView()
@@ -18,7 +21,7 @@ final class CalendarVc: UIViewController {
         return view
     }()
     private lazy var calendarView: CalendarView = {
-        let view = CalendarView(alreadySelectedDate: .init(), selectDate: viewModel.selectDate, datePriorities: viewModel.datePriorities)
+        let view = CalendarView(alreadySelectedDate: .init(), selectDate: viewModel.selectDayFromJct, datePriorities: viewModel.datePriorities)
         return view
     }()
     private let separatorView: UIView = {
@@ -56,16 +59,20 @@ final class CalendarVc: UIViewController {
     }()
     private let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
+        self.router.navigationController.popViewController(animated: true)
         print("clear")
     }, done: { [unowned self] in
-        print("done")
+        self.router.navigationController.popViewController(animated: true)
+        self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
     })
     lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
     lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: clickedReminder)
     lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: clickedRepeat)
     
-    init(viewModel: CalendarVcVm) {
+    private let onDone: (Date?, Reminder?, Repeat?) -> Void
+    init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
         self.viewModel = viewModel
+        self.onDone = onDone
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -80,12 +87,18 @@ final class CalendarVc: UIViewController {
     }
     
     private func setupBinding() {
-        viewModel.onUpdate = { [unowned self] in
-            timeButton.configure(selectedText: self.viewModel.formattedTimeText)
-            if let date = viewModel.taskDate.date { calendarView.jctselectDate(date) }
-            reminderButton.configure(selectedText: viewModel.taskDate.reminder?.description)
-            repeatButton.configure(selectedText: viewModel.taskDate.repeat?.description)
-        }
+        viewModel.date.subscribe(onNext: { [unowned self] date in
+            timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
+            if !(date.1 ?? false) {
+                if let date = date.0 { calendarView.jctselectDate(date) }
+            }
+        }).disposed(by: bag)
+        viewModel.reminder.subscribe(onNext: { [unowned self] reminder in
+            reminderButton.configure(selectedText: reminder?.description)
+        }).disposed(by: bag)
+        viewModel.repeat.subscribe(onNext: { [unowned self] `repeat` in
+            repeatButton.configure(selectedText: `repeat`?.description)
+        }).disposed(by: bag)
     }
 
     private func setupViews() {
@@ -123,10 +136,10 @@ final class CalendarVc: UIViewController {
     }
     
     func clickedReminder() {
-        router.openReminder(onDone: { [unowned self] in self.viewModel.reminderSelected($0) }, selected: viewModel.taskDate.reminder)
+        router.openReminder(onDone: { [unowned self] in self.viewModel.reminderSelected($0) }, selected: viewModel.reminder.value)
     }
     func clickedRepeat() {
-        router.openRepeat(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.taskDate.repeat)
+        router.openRepeat(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.repeat.value)
     }
     func clickedTime() {
         

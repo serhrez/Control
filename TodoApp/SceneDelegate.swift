@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftDate
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -14,15 +15,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
-        
+        SwiftDate.defaultRegion = .current
         let window = UIWindow(windowScene: windowScene)
         PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
 //        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
-        let taskDate = RlmTaskDate()
-        _ = try! RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.add(taskDate)
-        }
-        let viewController = CalendarVc(viewModel: .init(taskDate: taskDate))
+        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 

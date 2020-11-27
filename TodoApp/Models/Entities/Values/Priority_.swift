@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Priority: String {
+enum Priority: String, Hashable {
     case none
     case low
     case medium

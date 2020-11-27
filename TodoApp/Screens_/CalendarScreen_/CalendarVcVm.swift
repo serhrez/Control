@@ -7,80 +7,67 @@
 
 import Foundation
 import SwiftDate
+import RxSwift
+import RxCocoa
 import RealmSwift
 
 class CalendarVcVm {
-    let taskDate: RlmTaskDate
-    var onUpdate: (() -> Void)?
-    var formattedTimeText: String? {
-        taskDate.date?.toFormat("HH:mm")
-    }
-    private var tokens: [NotificationToken] = []
     
-    init(taskDate: RlmTaskDate) {
-        self.taskDate = taskDate
-        let taskDateToken = taskDate.observe { [unowned self] _ in
-            self.onUpdate?()
-        }
-        tokens.append(contentsOf: [taskDateToken])
+    let reminder: BehaviorRelay<Reminder?>
+    let `repeat`: BehaviorRelay<Repeat?>
+    // Bool - is update from calendarView?
+    let date: BehaviorRelay<(Date?, Bool?)>
+    private var datesPrioritiesDict = [Date: Set<Priority>]()
+
+    init(reminder: Reminder?, repeat: Repeat?, date: Date?) {
+        self.reminder = .init(value: reminder)
+        self.repeat = .init(value: `repeat`)
+        self.date = .init(value: (date, nil))
+        setupDatesSet()
     }
-    func selectDate(_ date: Date) {
-        setNewDateWithPreviousSeconds(date)
+    func setupDatesSet() {
+        for task in RealmProvider.inMemory.realm.objects(RlmTask.self) where task.date?.date != nil && task.priority != .none {
+            let startDate = task.date!.date!.dateAtStartOf(.day)
+            var prioritiesOnDate = datesPrioritiesDict[startDate] ?? []
+            prioritiesOnDate.insert(task.priority)
+            datesPrioritiesDict[startDate] = prioritiesOnDate
+        }
     }
     
     func datePriorities(_ date: Date) -> (blue: Bool, orange: Bool, red: Bool) {
-        return (false, false, false)
+        guard let set = datesPrioritiesDict[date.dateAtStartOf(.day)] else { return (false, false, false) }
+        return (set.contains(.low), set.contains(.medium), set.contains(.high))
     }
     
-    private func setNewDateWithPreviousSeconds(_ date: Date) {
-        guard let dateSeconds = taskDate.date?.second else {
-            _ = try! RealmProvider.inMemory.realm.write {
-                taskDate.date = date
-            }
-            return
-        }
-        var todayDate = getDateWithoutSeconds(date)
-        todayDate = todayDate + dateSeconds.seconds
-        _ = try! RealmProvider.inMemory.realm.write {
-            taskDate.date = todayDate
-        }
-        print("date selected: \(taskDate.date?.toFormat("MM-dd-yyyy HH:mm"))")
-    }
-    private func getDateWithoutSeconds(_ date: Date) -> Date {
-        var date = date
-        date = date - date.second.seconds
-        return date
+    func selectDayFromJct(_ datex: Date) {
+        date.accept((datex.dateBySet(hour: date.value.0?.hour ?? Date().hour, min: date.value.0?.minute ?? Date().hour, secs: date.value.0?.second), true))
     }
     
     func clickedToday() {
-        setNewDateWithPreviousSeconds(DateInRegion().date)
+        date.accept((Date().dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
     }
     func clickedTomorrow() {
-        setNewDateWithPreviousSeconds(DateInRegion().date + 1.days)
+        date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
     }
     func clickedNextMonday() {
-        setNewDateWithPreviousSeconds(DateInRegion().date.nextWeekday(.monday))
+        date.accept((Date().nextWeekday(.monday).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
     }
     func clickedEvening() {
-        var date = taskDate.date ?? DateInRegion().date
-        if date.hour < 18 {
-            date = getDateWithoutSeconds(date)
-            date = date + 18.hours
-            _ = try! RealmProvider.inMemory.realm.write {
-                taskDate.date = date
-            }
+        if date.value.0.flatMap({ $0.hour < 18 }) ?? true {
+            date.accept(((date.value.0 ?? Date()).dateBySet(hour: 19, min: date.value.0?.minute, secs: 0), false))
         }
     }
     
     func reminderSelected(_ reminder: Reminder?) {
-        _ = try! RealmProvider.inMemory.realm.write {
-            taskDate.reminder = reminder
-        }
+        self.reminder.accept(reminder)
     }
     
     func repeatSelected(_ repeatx: Repeat?) {
-        _ = try! RealmProvider.inMemory.realm.write {
-            taskDate.repeat = repeatx
-        }
+        self.repeat.accept(repeatx)
     }
+}
+
+fileprivate struct DatePriority: Hashable {
+    var date: Date
+    var priority: Priority
 }

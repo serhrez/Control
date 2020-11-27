@@ -48,10 +48,9 @@ final class CalendarView: UIView {
         jct.showsHorizontalScrollIndicator = false
         jct.scrollToDate(alreadySelectedDate, animateScroll: false)
     }
-    private var alreadySelectedDateb: Date?
+    var wasLastUpdateViaJctSelect: Bool = false
     func jctselectDate(_ date: Date) {
-        guard !(alreadySelectedDateb?.isInside(date: date, granularity: .day) ?? false) else { return }
-        alreadySelectedDateb = date
+        wasLastUpdateViaJctSelect = true
         jct.selectDates([date])
         jct.scrollToDate(date)
     }
@@ -109,8 +108,10 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         guard let cell = cell as? TAJTDateCell else { return }
         let priorities = datePriorities(date)
         cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red)
-        alreadySelectedDateb = date
+        if !wasLastUpdateViaJctSelect {
         selectDate(date)
+        }
+        wasLastUpdateViaJctSelect = false
     }
     func calendar(_ calendar: JTACMonthView, shouldDeselectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) -> Bool {
         return true

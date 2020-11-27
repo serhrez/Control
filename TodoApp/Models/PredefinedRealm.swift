@@ -7,10 +7,12 @@
 
 import Foundation
 import RealmSwift
+import SwiftDate
 
 class PredefinedRealm {
     static func populateRealm(_ realm: Realm) {
-        _ = try? realm.write {
+        do {
+        try realm.write {
             let tag1 = RlmTag(name: "tag1")
             let tag2 = RlmTag(name: "tag2")
             let tag3 = RlmTag(name: "tag3")
@@ -34,9 +36,13 @@ class PredefinedRealm {
             task.tags.append(tag4)
             project1.tasks.append(task)
             task = RlmTask(name: "Empty task", isDone: true)
+            task.date = RlmTaskDate(date: Date(), reminder: .onDay, repeat: .monthly)
+            task.priority = .high
             project1.tasks.append(task)
             task = RlmTask(name: "Task3", isDone: false)
-            task.date = .init(date: Date(), reminder: nil, repeat: nil)
+            task.priority = .medium
+
+            task.date = .init(date: Date().dateAt(.nextWeek), reminder: .threeDaysEarlier, repeat: nil)
             project1.tasks.append(task)
             task = RlmTask(name: "Task4", isDone: true)
             task.subtask.append(RlmSubtask(name: "Subtask1"))
@@ -59,7 +65,7 @@ class PredefinedRealm {
             project2.tasks.append(RlmTask(name: "Task4", isDone: false))
             project2.tasks.append(RlmTask(name: "Task5", isDone: false))
             project2.tasks.append(RlmTask(name: "Task6", isDone: false))
-            
+
             let project3 = RlmProject(name: "Work", icon: .text("🏝"), notes: "", color: .hex("#447bfe"), date: Date())
             project3.tasks.append(RlmTask(name: "Task1", isDone: true))
             project3.tasks.append(RlmTask(name: "Task2", isDone: true))
@@ -80,9 +86,12 @@ class PredefinedRealm {
             realm.add(project1)
             realm.add(project2)
             realm.add(project3)
-            
+
             let tags5to11 = Array(5...9).map { RlmTag(name: "tag\($0)")}
             realm.add(tags5to11)
+        }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
