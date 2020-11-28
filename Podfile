@@ -22,6 +22,7 @@ target 'TodoApp' do
   pod 'GrowingTextView'
   pod 'JTAppleCalendar'
   pod 'SwiftDate'
+  pod 'InfiniteLayout'
 
   target 'TodoAppTests' do
     inherit! :search_paths
