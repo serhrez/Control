@@ -74,6 +74,8 @@
 		A592319025726536008E955D /* TimePickerVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318F25726536008E955D /* TimePickerVc.swift */; };
 		A59231B42572C0FB008E955D /* TimeSelectionxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231B32572C0FB008E955D /* TimeSelectionxView.swift */; };
 		A59231B92572C1B3008E955D /* TPVTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231B82572C1B3008E955D /* TPVTextCell.swift */; };
+		A59231BF2572D87E008E955D /* SearchVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231BE2572D87E008E955D /* SearchVc.swift */; };
+		A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231C62572E2FC008E955D /* SearchVcVm.swift */; };
 		A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59CD256573CF002AEF42 /* ResizingToken.swift */; };
 		A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */; };
 		A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */; };
@@ -181,6 +183,8 @@
 		A592318F25726536008E955D /* TimePickerVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerVc.swift; sourceTree = "<group>"; };
 		A59231B32572C0FB008E955D /* TimeSelectionxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectionxView.swift; sourceTree = "<group>"; };
 		A59231B82572C1B3008E955D /* TPVTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPVTextCell.swift; sourceTree = "<group>"; };
+		A59231BE2572D87E008E955D /* SearchVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVc.swift; sourceTree = "<group>"; };
+		A59231C62572E2FC008E955D /* SearchVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVcVm.swift; sourceTree = "<group>"; };
 		A5DD59CD256573CF002AEF42 /* ResizingToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingToken.swift; sourceTree = "<group>"; };
 		A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVc.swift; sourceTree = "<group>"; };
 		A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVcVm.swift; sourceTree = "<group>"; };
@@ -517,6 +521,15 @@
 			path = TimePickerScreen_;
 			sourceTree = "<group>";
 		};
+		A59231BD2572D86B008E955D /* SearchScreen_ */ = {
+			isa = PBXGroup;
+			children = (
+				A59231BE2572D87E008E955D /* SearchVc.swift */,
+				A59231C62572E2FC008E955D /* SearchVcVm.swift */,
+			);
+			path = SearchScreen_;
+			sourceTree = "<group>";
+		};
 		A5DD59D42565BC34002AEF42 /* TaskDetails_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +570,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A59231BD2572D86B008E955D /* SearchScreen_ */,
 				A592318E25726520008E955D /* TimePickerScreen_ */,
 				A592318425718DFB008E955D /* Sharedx */,
 				A52251BA256EF35000747E16 /* CalendarScreen_ */,
@@ -865,6 +879,7 @@
 				A5E49220256D441B004E707B /* InsetUITextView.swift in Sources */,
 				A5085E942556F8E500A31BBB /* RlmTag.swift in Sources */,
 				A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */,
+				A59231BF2572D87E008E955D /* SearchVc.swift in Sources */,
 				A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */,
 				A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */,
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
@@ -876,6 +891,7 @@
 				A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */,
 				A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */,
 				A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */,
+				A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */,
 				A52251C4256EF3B300747E16 /* CalendarVcVm.swift in Sources */,
 				A5356D8D2569C3460042F604 /* DateDetailLabel.swift in Sources */,
 				A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */,

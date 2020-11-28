@@ -54,7 +54,7 @@ class AllTagsVc: UIViewController {
                     self.view.layoutIfNeeded()
                 }
             }
-            .on(event: .willHide, do: { (options) in
+            .on(event: .willHide, do: { [unowned self] (options) in
                 self.view.layout(self.collectionView).bottomSafe()
             })
             .start()
