@@ -30,8 +30,8 @@ class TimeSelectionxView: UIView {
     
     private func setupViews() {
         layout(collectionView).edges().height(192).width(72)
-        gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.white.cgColor]
-        gradient.locations = [0, 0.7, 0.3, 1]
+        gradient.colors = [UIColor.white.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor.white.cgColor]
+        gradient.locations = [0, 0.33, 0.4, 0.6, 0.67, 1]
         gradient.mask = collectionView.layer
         gradient.frame = .init(x: 0, y: 0, width: 72, height: 192)
         layer.insertSublayer(gradient, at: 0)
