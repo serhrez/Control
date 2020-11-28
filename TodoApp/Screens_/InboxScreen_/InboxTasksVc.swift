@@ -37,13 +37,13 @@ final class InboxTasksVc: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
-        collectionView.register(InboxTaskCell.self, forCellWithReuseIdentifier: InboxTaskCell.reuseIdentifier)
+        collectionView.register(TaskCellx1.self, forCellWithReuseIdentifier: TaskCellx1.reuseIdentifier)
         collectionView.register(InboxDoneTaskCell.self, forCellWithReuseIdentifier: InboxDoneTaskCell.reuseIdentifier)
         
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<InboxTasksVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             switch model {
             case let .task(task):
-                let taskCell = collectionView.dequeueReusableCell(withReuseIdentifier: InboxTaskCell.reuseIdentifier, for: indexPath) as! InboxTaskCell
+                let taskCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx1.reuseIdentifier, for: indexPath) as! TaskCellx1
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
                     _ = try! RealmProvider.inMemory.realm.write {
                         task.isDone.toggle()

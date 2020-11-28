@@ -33,6 +33,7 @@
 		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
 		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
 		A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516835F255B4AE30076D29E /* AddProjectCell.swift */; };
+		A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B6855257188A50042AA85 /* TagDetailVc.swift */; };
 		A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251AD256EED7D00747E16 /* CalendarView.swift */; };
 		A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251BB256EF38C00747E16 /* CalendarVc.swift */; };
 		A52251C4256EF3B300747E16 /* CalendarVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251C3256EF3B300747E16 /* CalendarVcVm.swift */; };
@@ -57,7 +58,7 @@
 		A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */; };
 		A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */; };
 		A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64602562983F00AC3F41 /* InboxTasksVc.swift */; };
-		A54D646A2562A18B00AC3F41 /* InboxTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64692562A18A00AC3F41 /* InboxTaskCell.swift */; };
+		A54D646A2562A18B00AC3F41 /* TaskCellx1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64692562A18A00AC3F41 /* TaskCellx1.swift */; };
 		A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D646E2562A25500AC3F41 /* CheckboxView.swift */; };
 		A54D6474256308DF00AC3F41 /* InboxDoneTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */; };
 		A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */; };
@@ -68,6 +69,8 @@
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
 		A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */; };
 		A5796B012561E7CE00423112 /* OvalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796B002561E7CE00423112 /* OvalText.swift */; };
+		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
+		A592318A25725B90008E955D /* TaskCellx2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318925725B90008E955D /* TaskCellx2.swift */; };
 		A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59CD256573CF002AEF42 /* ResizingToken.swift */; };
 		A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */; };
 		A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */; };
@@ -134,6 +137,7 @@
 		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		A516835F255B4AE30076D29E /* AddProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectCell.swift; sourceTree = "<group>"; };
+		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
 		A52251AD256EED7D00747E16 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		A52251BB256EF38C00747E16 /* CalendarVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVc.swift; sourceTree = "<group>"; };
 		A52251C3256EF3B300747E16 /* CalendarVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVcVm.swift; sourceTree = "<group>"; };
@@ -158,7 +162,7 @@
 		A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDoneButtons.swift; sourceTree = "<group>"; };
 		A54D64602562983F00AC3F41 /* InboxTasksVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVc.swift; sourceTree = "<group>"; };
-		A54D64692562A18A00AC3F41 /* InboxTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTaskCell.swift; sourceTree = "<group>"; };
+		A54D64692562A18A00AC3F41 /* TaskCellx1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx1.swift; sourceTree = "<group>"; };
 		A54D646E2562A25500AC3F41 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDoneTaskCell.swift; sourceTree = "<group>"; };
 		A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PopMenuAppearance+appAppearance.swift"; sourceTree = "<group>"; };
@@ -169,6 +173,8 @@
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
 		A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableSectionModel.swift; sourceTree = "<group>"; };
 		A5796B002561E7CE00423112 /* OvalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalText.swift; sourceTree = "<group>"; };
+		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
+		A592318925725B90008E955D /* TaskCellx2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx2.swift; sourceTree = "<group>"; };
 		A5DD59CD256573CF002AEF42 /* ResizingToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingToken.swift; sourceTree = "<group>"; };
 		A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVc.swift; sourceTree = "<group>"; };
 		A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVcVm.swift; sourceTree = "<group>"; };
@@ -365,6 +371,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A51B6854257188560042AA85 /* TagDetailScreen_ */ = {
+			isa = PBXGroup;
+			children = (
+				A51B6855257188A50042AA85 /* TagDetailVc.swift */,
+				A592317F257188EE008E955D /* TagDetailVcVm.swift */,
+			);
+			name = TagDetailScreen_;
+			path = TagsScreen_;
+			sourceTree = "<group>";
+		};
 		A52251BA256EF35000747E16 /* CalendarScreen_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,7 +449,6 @@
 		A54D64682562A17700AC3F41 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A54D64692562A18A00AC3F41 /* InboxTaskCell.swift */,
 				A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */,
 			);
 			path = Views;
@@ -467,6 +482,23 @@
 				A5DD59CD256573CF002AEF42 /* ResizingToken.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A592318425718DFB008E955D /* Sharedx */ = {
+			isa = PBXGroup;
+			children = (
+				A592318525718E04008E955D /* Cells */,
+			);
+			path = Sharedx;
+			sourceTree = "<group>";
+		};
+		A592318525718E04008E955D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A54D64692562A18A00AC3F41 /* TaskCellx1.swift */,
+				A592318925725B90008E955D /* TaskCellx2.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		A5DD59D42565BC34002AEF42 /* TaskDetails_ */ = {
@@ -509,10 +541,12 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A592318425718DFB008E955D /* Sharedx */,
 				A52251BA256EF35000747E16 /* CalendarScreen_ */,
 				A5E492E0256D74CC004E707B /* SelectionVcs_ */,
 				A5DD59D42565BC34002AEF42 /* TaskDetails_ */,
 				A54D645F2562982B00AC3F41 /* InboxScreen_ */,
+				A51B6854257188560042AA85 /* TagDetailScreen_ */,
 				A56047CC255D989400C447CF /* TagsScreen_ */,
 				A533E092255C596400B301C7 /* ProjectDetailsScreen_ */,
 				A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */,
@@ -792,6 +826,7 @@
 				A533E06E255C438900B301C7 /* AllTasksVcVM.swift in Sources */,
 				A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */,
 				A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */,
+				A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */,
 				A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */,
 				A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
@@ -801,7 +836,7 @@
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
 				A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */,
-				A54D646A2562A18B00AC3F41 /* InboxTaskCell.swift in Sources */,
+				A54D646A2562A18B00AC3F41 /* TaskCellx1.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
 				A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */,
@@ -827,6 +862,8 @@
 				A5356D8D2569C3460042F604 /* DateDetailLabel.swift in Sources */,
 				A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */,
 				A56047D1255D98F100C447CF /* AllTagsVc.swift in Sources */,
+				A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */,
+				A592318A25725B90008E955D /* TaskCellx2.swift in Sources */,
 				A5085E972556F8E500A31BBB /* Priority_.swift in Sources */,
 				A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */,
 				A533E0AA255C8D4300B301C7 /* PopuptodoAction.swift in Sources */,

@@ -49,7 +49,8 @@ class AutoselectCheckboxView: UIView {
     private func setupViews() {
         layout(uncheckedView).edges()
         layout(checkedView).edges()
-        layout(OnClickControl(onClick: { [unowned self] _ in
+        layout(OnClickControl(onClick: { [unowned self] touchDown in
+            guard touchDown else { return }
             isChecked.toggle()
             changeState(withAnimation: true)
             onSelected?(isChecked)

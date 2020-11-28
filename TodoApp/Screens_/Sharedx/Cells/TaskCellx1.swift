@@ -1,5 +1,5 @@
 //
-//  InboxTaskCell.swift
+//  TaskCellx1.swift
 //  TodoApp
 //
 //  Created by sergey on 16.11.2020.
@@ -10,8 +10,8 @@ import UIKit
 import Material
 import ResizingTokenField
 
-class InboxTaskCell: UICollectionViewCell {
-    static let reuseIdentifier = "inboxtaskcell"
+class TaskCellx1: UICollectionViewCell {
+    static let reuseIdentifier = "taskcellx1"
     
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()
@@ -62,12 +62,22 @@ class InboxTaskCell: UICollectionViewCell {
             verticalHorizontalStack.addArrangedSubview(getDateLabel(text: DateFormatter.str(from: date)))
         }
         if hasChecklist {
-            indicators.addArrangedSubview(UIImageView(image: UIImage(named: "list-check")))
+            indicators.addArrangedSubview(getIndicatorImageView("list-check"))
         }
         if date != nil {
-            indicators.addArrangedSubview(UIImageView(image: UIImage(named: "calendar")))
+            indicators.addArrangedSubview(getIndicatorImageView("calendar"))
         }
         verticalHorizontalStack.addArrangedSubview(UIView()) // works like spacer, so that view will be stretched to the left
+    }
+    
+    private func getIndicatorImageView(_ name: String) -> UIImageView {
+        let image = UIImage(named: name)
+        let imageView = UIImageView(image: image?.withRenderingMode(.alwaysTemplate))
+        imageView.contentMode = .scaleAspectFit
+        imageView.heightAnchor.constraint(equalToConstant: 11).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 11).isActive = true
+        imageView.tintColor = .hex("#A4A4A4")
+        return imageView
     }
     
     func setupViews() {
@@ -125,13 +135,4 @@ class InboxTaskCell: UICollectionViewCell {
         return label
     }
 
-}
-
-extension UIStackView {
-    func CSTremoveAllSubviews() {
-        arrangedSubviews.forEach {
-            removeArrangedSubview($0)
-            $0.removeFromSuperview()
-        }
-    }
 }
