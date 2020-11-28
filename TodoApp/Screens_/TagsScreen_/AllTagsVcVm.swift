@@ -40,7 +40,7 @@ class AllTagsVcVm {
             selectionSet = .init()
         }
         modelsUpdate.subscribe().disposed(by: bag)
-        let token = RealmProvider.inMemory.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
+        let token = RealmProvider.main.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
             case let .update(projects, deletions: dels, insertions: _, modifications: _):
@@ -57,7 +57,7 @@ class AllTagsVcVm {
     }
 
     func allTasksCount(for tag: RlmTag) -> Int {
-        return RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.tags.contains(where: { $0.id == tag.id }) }.count
+        return RealmProvider.main.realm.objects(RlmTask.self).filter { $0.tags.contains(where: { $0.id == tag.id }) }.count
     }
     
     func allowAdding() {
@@ -66,16 +66,16 @@ class AllTagsVcVm {
     }
     
     func addTag(name: String) {
-        try! RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.add(RlmTag(name: name))
+        try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.add(RlmTag(name: name))
         }
         isInAdding = false
         self.modelsUpdateSubject.onNext(())
     }
     
     func deleteTag(_ tag: RlmTag) {
-        try! RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.delete(tag)
+        try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.delete(tag)
         }
     }
         

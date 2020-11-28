@@ -19,7 +19,7 @@ class AllTasksVcVM {
     var initialValues: (() -> Void)?
     
     init() {
-        let token = RealmProvider.inMemory.realm.objects(RlmProject.self).observe(on: .main) { [weak self] changes in
+        let token = RealmProvider.main.realm.objects(RlmProject.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
             case let .update(projects, deletions: deletions, insertions: insertions, modifications: modifications):

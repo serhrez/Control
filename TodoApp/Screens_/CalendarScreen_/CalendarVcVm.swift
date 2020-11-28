@@ -26,7 +26,7 @@ class CalendarVcVm {
         setupDatesSet()
     }
     func setupDatesSet() {
-        for task in RealmProvider.inMemory.realm.objects(RlmTask.self) where task.date?.date != nil && task.priority != .none {
+        for task in RealmProvider.main.realm.objects(RlmTask.self) where task.date?.date != nil && task.priority != .none {
             let startDate = task.date!.date!.dateAtStartOf(.day)
             var prioritiesOnDate = datesPrioritiesDict[startDate] ?? []
             prioritiesOnDate.insert(task.priority)

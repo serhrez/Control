@@ -45,7 +45,7 @@ final class InboxTasksVc: UIViewController {
             case let .task(task):
                 let taskCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx1.reuseIdentifier, for: indexPath) as! TaskCellx1
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
-                    _ = try! RealmProvider.inMemory.realm.write {
+                    _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }
@@ -53,7 +53,7 @@ final class InboxTasksVc: UIViewController {
             case let .doneTask(task):
                 let doneCell = collectionView.dequeueReusableCell(withReuseIdentifier: InboxDoneTaskCell.reuseIdentifier, for: indexPath) as! InboxDoneTaskCell
                 doneCell.configure(text: task.name) {
-                    _ = try! RealmProvider.inMemory.realm.write {
+                    _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }

@@ -22,7 +22,7 @@ class TagDetailVcVm {
     }
     
     func updateTasksForTag() {
-        let tasks = Array(RealmProvider.inMemory.realm.objects(RlmTask.self)).filter { [unowned self] in $0.tags.contains(self.tag) }.map { Model(task: $0) }
+        let tasks = Array(RealmProvider.main.realm.objects(RlmTask.self)).filter { [unowned self] in $0.tags.contains(self.tag) }.map { Model(task: $0) }
         let animSect = AnimSection(identity: "qwe", items: tasks)
         self.tasks.accept([animSect])
     }
@@ -43,7 +43,7 @@ class TagDetailVcVm {
     }
     
     func taskSelected(_ task: RlmTask, isDone: Bool) {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task.isDone = isDone
         }
         reorderElements()

@@ -70,14 +70,14 @@ class TaskDetailsVcVm {
     private var dateToken: NotificationToken?
     
     func addEmptyDescription() {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.taskDescription = "Emptyxpk"
         }
     }
     
     func addTags(_ tags: [RlmTag]) {
         guard let task = task else { return }
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task.tags.replaceSubrange(task.tags.startIndex..<task.tags.endIndex, with: tags)
         }
     }
@@ -88,19 +88,19 @@ class TaskDetailsVcVm {
     }
     
     func selectHighPriority() {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.priority = .high
         }
     }
     
     func selectMediumPriority() {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.priority = .medium
         }
     }
     
     func selectLowPriority() {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.priority = .low
         }
     }
@@ -110,8 +110,8 @@ class TaskDetailsVcVm {
         self.task = nil
         tokens.removeAll()
         dateToken = nil
-        _ = try! RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.delete(task)
+        _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.delete(task)
         }
     }
     func listenToDate() {
@@ -121,7 +121,7 @@ class TaskDetailsVcVm {
         }
     }
     func toggleDone() {
-        _ = try! RealmProvider.inMemory.realm.write { [weak self] in
+        _ = try! RealmProvider.main.realm.write { [weak self] in
             self?.task?.isDone.toggle()
         }
     }
@@ -130,26 +130,26 @@ class TaskDetailsVcVm {
         guard let tagIndex = task?.tags.firstIndex(where: { $0.name == title }) else {
             fatalError("We should've found it")
         }
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.tags.remove(at: tagIndex)
         }
     }
         
     func createSubtask(with name: String) {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             task?.subtask.append(RlmSubtask(name: name))
         }
     }
     
     func toggleDoneSubtask(subtask: RlmSubtask, isDone: Bool) {
-        _ = try! RealmProvider.inMemory.realm.write {
+        _ = try! RealmProvider.main.realm.write {
             subtask.isDone = isDone
         }
     }
     
     func deleteSubtask(subtask: RlmSubtask) {
-        _ = try! RealmProvider.inMemory.realm.write {
-            RealmProvider.inMemory.realm.delete(subtask)
+        _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.delete(subtask)
         }
     }
 

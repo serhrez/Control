@@ -25,7 +25,7 @@ class InboxTasksVcVm {
     
     init() {
         modelsUpdate.subscribe().disposed(by: bag)
-        let rlmProject = RealmProvider.inMemory.realm.objects(RlmProject.self).filter { $0.name == "Inbox" }.first!
+        let rlmProject = RealmProvider.main.realm.objects(RlmProject.self).filter { $0.name == "Inbox" }.first!
         let token = rlmProject.tasks.observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {

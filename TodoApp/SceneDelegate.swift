@@ -17,10 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         SwiftDate.defaultRegion = .current
         let window = UIWindow(windowScene: windowScene)
-        PredefinedRealm.populateRealm(RealmProvider.inMemory.realm)
-//        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.inMemory.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
+        _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.deleteAll()
+        }
+        PredefinedRealm.populateRealm(RealmProvider.main.realm)
+//        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
 //        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
-//        let tag1 = RealmProvider.inMemory.realm.objects(RlmTag.self).filter { $0.name == "tag1" }.first!
+//        let tag1 = RealmProvider.main.realm.objects(RlmTag.self).filter { $0.name == "tag1" }.first!
 //        let viewController = TagDetailVc(viewModel: .init(tag: tag1))
 //        let viewController = TimePickerVc(hours: 12, minutes: 23, onDone: { print($0) })
         let viewController = SearchVc()
