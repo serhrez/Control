@@ -16,6 +16,11 @@ PODS:
     - Motion/Core (= 3.1.3)
   - Motion/Core (3.1.3)
   - NewPopMenu (2.1.2)
+  - Nimble (9.0.0)
+  - Quick (3.0.0)
+  - ReactorKit (2.1.1):
+    - RxSwift (~> 5.0)
+    - WeakMapTable (~> 1.1)
   - Realm (10.1.2):
     - Realm/Headers (= 10.1.2)
   - Realm/Headers (10.1.2)
@@ -34,8 +39,10 @@ PODS:
   - RxSwift (5.1.1)
   - SnapKit (5.0.1)
   - SwiftDate (6.3.1)
+  - SwiftyBeaver (1.9.3)
   - SwipeCellKit (2.7.1)
   - Typist (1.4.2)
+  - WeakMapTable (1.2.0)
   - WSTagsField (5.4.0)
 
 DEPENDENCIES:
@@ -45,6 +52,9 @@ DEPENDENCIES:
   - JTAppleCalendar
   - Material (from `https://github.com/cointowitcher/Material`)
   - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
+  - Nimble
+  - Quick
+  - ReactorKit
   - RealmSwift
   - ResizingTokenField (from `https://github.com/cointowitcher/ResizingTokenField`)
   - RxCocoa
@@ -52,6 +62,7 @@ DEPENDENCIES:
   - RxSwift
   - SnapKit
   - SwiftDate
+  - SwiftyBeaver
   - SwipeCellKit
   - Typist
   - WSTagsField (from `https://github.com/cointowitcher/WSTagsField`)
@@ -63,6 +74,9 @@ SPEC REPOS:
     - InfiniteLayout
     - JTAppleCalendar
     - Motion
+    - Nimble
+    - Quick
+    - ReactorKit
     - Realm
     - RealmSwift
     - RxCocoa
@@ -71,8 +85,10 @@ SPEC REPOS:
     - RxSwift
     - SnapKit
     - SwiftDate
+    - SwiftyBeaver
     - SwipeCellKit
     - Typist
+    - WeakMapTable
 
 EXTERNAL SOURCES:
   AttributedLib:
@@ -112,6 +128,9 @@ SPEC CHECKSUMS:
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
   NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
+  Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
+  Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
+  ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
   ResizingTokenField: a3e970ce8f50e1a1f2e39fd639b3c1ff52ccbb0a
@@ -121,10 +140,12 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
   Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: 9b0c669edcdc0f4e0317aea01e89bb9f5d5f7194
+PODFILE CHECKSUM: c50a1bfd00a213eabaf944474a4aedacfab48dcb
 
 COCOAPODS: 1.10.0
