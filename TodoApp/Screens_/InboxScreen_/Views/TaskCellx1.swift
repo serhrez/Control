@@ -10,9 +10,8 @@ import UIKit
 import Material
 import ResizingTokenField
 
-class TaskCellx1: UICollectionViewCell {
+class TaskCellx1: UITableViewCell {
     static let reuseIdentifier = "taskcellx1"
-    
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()
     private let nameLabel: UILabel = {
@@ -39,10 +38,9 @@ class TaskCellx1: UICollectionViewCell {
         stack.spacing = 10
         return stack
     }()
-
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     
@@ -82,8 +80,8 @@ class TaskCellx1: UICollectionViewCell {
     
     func setupViews() {
         contentView.layer.backgroundColor = UIColor.white.cgColor
-        contentView.layer.cornerRadius = 16
-        contentView.clipsToBounds = true
+        layer.cornerRadius = 16
+        clipsToBounds = true
 
         contentView.layout(checkboxView).centerY().width(22).leading(20)
         checkboxView.configure(isChecked: false)
@@ -93,15 +91,13 @@ class TaskCellx1: UICollectionViewCell {
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(verticalHorizontalStack)
         contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
-
         
         contentView.layout(overlayView).edges()
+        contentView.heightAnchor.constraint(equalToConstant: 62).isActive = true
     }
-                
-    override var isHighlighted: Bool {
-        didSet {
-            overlayView.setHighlighted(isHighlighted, animated: true)
-        }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        overlayView.setHighlighted(isHighlighted, animated: true)
     }
     
     class TagView: UIView {

@@ -15,7 +15,7 @@ import RxSwift
 final class InboxTasksVc: UIViewController {
     private let tasksToolbar = AllTasksToolbar(frame: .zero)
     private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var tableView = UITableView()
     private let viewModel: InboxTasksVcVm = .init()
     private let bag = DisposeBag()
 
@@ -33,38 +33,49 @@ final class InboxTasksVc: UIViewController {
     }
     
     func setupCollectionView() {
-        view.layout(collectionView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        collectionView.alwaysBounceVertical = true
-        collectionView.register(TaskCellx1.self, forCellWithReuseIdentifier: TaskCellx1.reuseIdentifier)
-        collectionView.register(InboxDoneTaskCell.self, forCellWithReuseIdentifier: InboxDoneTaskCell.reuseIdentifier)
-        
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<InboxTasksVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+        view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .clear
+        tableView.alwaysBounceVertical = true
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(TaskCellx1.self, forCellReuseIdentifier: TaskCellx1.reuseIdentifier)
+        tableView.register(InboxDoneTaskCell.self, forCellReuseIdentifier: InboxDoneTaskCell.reuseIdentifier)
+        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<InboxTasksVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
             switch model {
             case let .task(task):
-                let taskCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx1.reuseIdentifier, for: indexPath) as! TaskCellx1
+                let taskCell = tableView.dequeueReusableCell(withIdentifier: TaskCellx1.reuseIdentifier, for: indexPath) as! TaskCellx1
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }
+                taskCell.selectionStyle = .none
+
                 return taskCell
             case let .doneTask(task):
-                let doneCell = collectionView.dequeueReusableCell(withReuseIdentifier: InboxDoneTaskCell.reuseIdentifier, for: indexPath) as! InboxDoneTaskCell
+                let doneCell = tableView.dequeueReusableCell(withIdentifier: InboxDoneTaskCell.reuseIdentifier, for: indexPath) as! InboxDoneTaskCell
                 doneCell.configure(text: task.name) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }
+                doneCell.selectionStyle = .none
+
                 return doneCell
+            case let .space(spacing):
+                let cell = UITableViewCell()
+                cell.heightAnchor.constraint(equalToConstant: spacing).isActive = true
+                cell.backgroundColor = .clear
+                cell.selectionStyle = .none
+                return cell
             }
         }
+        
         viewModel.modelsUpdate
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
-        collectionView.delegate = self
-
+        tableView.delegate = self
     }
     
     func setupNavigationBar() {
@@ -115,30 +126,10 @@ final class InboxTasksVc: UIViewController {
 
 extension InboxTasksVc: AppNavigationRouterDelegate { }
 
-extension InboxTasksVc: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: indexPath.section == 0 ? 62 : 27)
-    }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 || viewModel.models[0].items.isEmpty {
-            return .zero
-        } else {
-            return .init(top: 45, left: 0, bottom: 0, right: 0)
-        }
-    }
-}
-
-extension InboxTasksVc: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension InboxTasksVc: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = viewModel.models[indexPath.section].items[indexPath.row]
-//        switch model {
-//        case .addTag:
-//            viewModel.allowAdding()
-//        case .addTagEnterName: break
-//        case let .tag(tag):
-//            print("tag selected: \(tag)")
-//            break
-//        }
+
     }
 }

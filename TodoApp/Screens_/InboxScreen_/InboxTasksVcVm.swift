@@ -18,9 +18,10 @@ class InboxTasksVcVm {
     
     lazy var modelsUpdate: Observable<[AnimSection<Model>]> = modelsUpdateSubject.compactMap { [weak self] in self?.models }.share(replay: 1, scope: .whileConnected)
     var models: [AnimSection<Model>] {
-        let section1 = tasks.filter { !$0.isDone }.map { Model.task($0) }
-        let section2 = tasks.filter { $0.isDone }.map { Model.doneTask($0) }
-        return [AnimSection(identity: "section1", items: section1), AnimSection(identity: "section2", items: section2)]
+        let section1 = tasks.filter { !$0.isDone }.flatMap { [Model.task($0), Model.space(7)] }.dropLast()
+        let section2 = tasks.filter { $0.isDone }.flatMap { [Model.doneTask($0), Model.space(7)] }.dropLast()
+        let combinedItems = Array(section1.isEmpty ? section2 : section1 + [.space(45)] + section2)
+        return [AnimSection(items: combinedItems)]
     }
     
     init() {
@@ -46,11 +47,14 @@ extension InboxTasksVcVm {
     enum Model: IdentifiableType, Equatable {
         case task(RlmTask)
         case doneTask(RlmTask)
+        case space(CGFloat)
         
         var identity: String {
             switch self {
             case .task(let task), .doneTask(let task):
                 return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
+            case .space:
+                return UUID().uuidString
             }
         }
     }

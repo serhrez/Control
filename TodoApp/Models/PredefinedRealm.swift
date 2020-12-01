@@ -35,7 +35,7 @@ class PredefinedRealm {
             task.tags.append(tag2)
             task.tags.append(tag4)
             project1.tasks.append(task)
-            task = RlmTask(name: "Empty task", isDone: true)
+            task = RlmTask(name: "Plan! - Create app for iOs and Testing app for iPadOs, MacOs send to server.", isDone: true)
             task.date = RlmTaskDate(date: Date(), reminder: .onDay, repeat: .monthly)
             task.priority = .high
             project1.tasks.append(task)
