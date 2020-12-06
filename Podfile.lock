@@ -56,7 +56,7 @@ DEPENDENCIES:
   - Quick
   - ReactorKit
   - RealmSwift
-  - ResizingTokenField (from `https://github.com/cointowitcher/ResizingTokenField`)
+  - ResizingTokenField (from `LocalPods/ResizingTokenField`)
   - RxCocoa
   - RxDataSources
   - RxSwift
@@ -98,7 +98,7 @@ EXTERNAL SOURCES:
   NewPopMenu:
     :git: https://github.com/cointowitcher/PopMenu
   ResizingTokenField:
-    :git: https://github.com/cointowitcher/ResizingTokenField
+    :path: LocalPods/ResizingTokenField
   WSTagsField:
     :git: https://github.com/cointowitcher/WSTagsField
 
@@ -112,9 +112,6 @@ CHECKOUT OPTIONS:
   NewPopMenu:
     :commit: fc7be853ae03e9917558748b3bd1bcca105b99ec
     :git: https://github.com/cointowitcher/PopMenu
-  ResizingTokenField:
-    :commit: bc8948acbdf11e2615c490354232f71ab995684b
-    :git: https://github.com/cointowitcher/ResizingTokenField
   WSTagsField:
     :commit: 4b76006cfff64ed78cc4f586ee80c641f43b84e2
     :git: https://github.com/cointowitcher/WSTagsField
@@ -146,6 +143,6 @@ SPEC CHECKSUMS:
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: c50a1bfd00a213eabaf944474a4aedacfab48dcb
+PODFILE CHECKSUM: a074d5fc0283ac4ea490a39ab4e0f08d986f4fef
 
 COCOAPODS: 1.10.0

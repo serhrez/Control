@@ -12,7 +12,7 @@ target 'TodoApp' do
   pod 'SwipeCellKit'
   pod 'Typist'
   pod 'WSTagsField', :git => 'https://github.com/cointowitcher/WSTagsField'
-  pod 'ResizingTokenField', :git => 'https://github.com/cointowitcher/ResizingTokenField'
+  pod 'ResizingTokenField', :path => 'LocalPods/ResizingTokenField'
   pod 'GrowingTextView'
   pod 'JTAppleCalendar'
   pod 'InfiniteLayout'
