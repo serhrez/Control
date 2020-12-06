@@ -75,13 +75,14 @@ final class TaskDetailsVc: UIViewController {
                 cell.configure(name: subtask.name, isDone: subtask.isDone)
                 cell.delegate = self
                 cell.onSelected = { self.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0) }
+                cell.updateConstraints()
+                cell.layoutSubviews()
                 return cell
             }
         }
         viewModel.reloadSubtaskCells = { [weak self] mods in
             self?.subtasksTable.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .automatic)
         }
-        subtasksTable.backgroundColor = .clear
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
             .do(onNext: { [unowned self] _ in
@@ -223,6 +224,8 @@ final class TaskDetailsVc: UIViewController {
         description.text = ""
         description.isScrollEnabled = true
         description.maxHeight = 80
+        description.textContainerInset = .zero
+        description.textContainer.lineFragmentPadding = 0
         description.isHidden = true
         return description
     }()

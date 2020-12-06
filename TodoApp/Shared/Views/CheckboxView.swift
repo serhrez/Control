@@ -71,9 +71,10 @@ class CheckboxView: UIView {
         self.isStyle2 = isStyle2
         super.init(frame: .zero)
         if isStyle2 {
-            checkedViewImage.image = UIImage(named: "checkedsvg")
             self.checkedView.backgroundColor = .white//.hex("#447BFE")
             checkedViewImage.tintColor = .blue
+        } else {
+            checkedViewImage.tintColor = .hex("#00CE15")
         }
         setupViews()
     }

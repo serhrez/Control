@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class OverlaySelectionView: UIView {
+    var selectedBackgroundColor = UIColor.blue
     private var animator: UIViewPropertyAnimator?
 
     override init(frame: CGRect) {
@@ -20,7 +21,7 @@ class OverlaySelectionView: UIView {
     func setHighlighted(_ highlighted: Bool, animated: Bool = true) {
         if highlighted {
             animator?.stopAnimation(true)
-            self.backgroundColor = .blue
+            self.backgroundColor = selectedBackgroundColor
         } else {
             if animated {
                 animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut, animations: {

@@ -49,7 +49,8 @@ final class ProjectViewCell: UITableViewCell {
         layer.cornerRadius = 16
         clipsToBounds = true
         let iconViewContainer = UIView()
-        let iconView = IconView(icon)
+        let iconView = IconView()
+        iconView.configure(icon)
         iconViewContainer.layout(iconView).centerX().top().bottom()
         layout(iconViewContainer).leading(23).centerY().width(28)
         

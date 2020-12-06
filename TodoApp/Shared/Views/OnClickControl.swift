@@ -14,8 +14,8 @@ class OnClickControl: UIControl {
     init(onClick: @escaping (Bool) -> Void) {
         self.onClick = onClick
         super.init(frame: .zero)
-        addTarget(self, action: #selector(touchUp), for: .touchUpInside)
-        addTarget(self, action: #selector(touchDown), for: .touchDown)
+        addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchDragExit, .touchCancel])
+        addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
     }
     
     required init?(coder: NSCoder) {
