@@ -18,7 +18,7 @@ class CreateProjectVcVm {
     private let updateTasks = PublishSubject<Void>()
     let tasksUpdate = BehaviorRelay<[AnimSection<Model>]>(value: [.init(items: [])])
     var tasksModel: [AnimSection<Model>] {
-        let models = Array(project?.tasks.map { Model.task($0) } ?? [] ) + [.addTask, .task(RlmTask())]
+        let models = Array(project?.tasks.map { Model.task($0) } ?? [] ) + [.task(RlmTask(name: "gwgwgq", taskDescription: "Sgwgw", isDone: false, date: .init(date: Date(), reminder: .onDay, repeat: .daily), createdAt: Date())), .task(RlmTask())]
         return [AnimSection(items: models)]
     }
     var reloadTasksCells: (_ modifications: [Int]) -> Void = { _ in }

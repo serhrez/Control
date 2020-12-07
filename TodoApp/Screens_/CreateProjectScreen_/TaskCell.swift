@@ -13,22 +13,24 @@ import SwiftDate
 import Material
 import ResizingTokenField
 
-final class TaskCell: UITableViewCell {
+final class TaskCell: UICollectionViewCell {
     static let reuseIdentifier = "taskcell"
+    static let textFieldFont = UIFont.systemFont(ofSize: 20, weight: .regular)
+    static let dateLabelFont = UIFont.systemFont(ofSize: 12, weight: .semibold)
     private let checkboxView = CheckboxView()
     private let textField: UITextField = {
         let textField = UITextField()
         textField.layoutEdgeInsets = .zero
         textField.attributedPlaceholder = "New Checklist...".at.attributed { attr in
-            attr.font(.systemFont(ofSize: 20, weight: .regular)).foreground(color: .hex("#A4A4A4"))
+            attr.font(textFieldFont).foreground(color: .hex("#A4A4A4"))
         }
         textField.textColor = .hex("#242424")
-        textField.font = .systemFont(ofSize: 20, weight: .regular)
+        textField.font = textFieldFont
         return textField
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.font = dateLabelFont
         label.textColor = .hex("#A4A4A4")
         label.text = Int.random(in: 1...2) == 1 ? "30 December 14:35" : ""
         return label
@@ -41,14 +43,16 @@ final class TaskCell: UITableViewCell {
         return imageView
     }()
     var tokenFieldHeight: CGFloat = 0
+    var onDeleteTag: () -> Void = { }
+    var addToken: (String) -> Void = { _ in }
 
     var onSelected: (() -> Void)? {
         get { checkboxView.onSelected }
         set { checkboxView.onSelected = newValue }
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
     
@@ -64,11 +68,8 @@ final class TaskCell: UITableViewCell {
         checkboxView.configure(isChecked: isSelected)
         
         let tokens = tags.map { ResizingToken(title: $0.name) }
-        let tokenss = tokens + tokens.map { x in let q = ResizingToken(title: x.title); q.title += "x"; return q }
         tokenField.removeAll()
-        tokenField.append(tokens: tokenss)
-        print("append: \(tags.count) tags")
-//        update()
+        tokenField.append(tokens: tokens)
    }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
@@ -76,7 +77,6 @@ final class TaskCell: UITableViewCell {
         tokenField.collectionView.layoutSubviews()
         let dateLabelHeight: CGFloat = !(dateLabel.text?.isEmpty ?? true) ? dateLabel.font.lineHeight : 0
         let height = (textField.font?.lineHeight ?? 0) + dateLabelHeight + tokenFieldHeight + 2
-        print("get systemLayoutSizeFitting height: \(height)")
         return .init(width: targetSize.width, height: height)
     }
 
@@ -85,10 +85,9 @@ final class TaskCell: UITableViewCell {
         contentView.layout(textField).top().leading(32).trailing()
         contentView.layout(dateLabel).leading(textField.anchor.leading).trailing()
             .top(textField.anchor.bottom)
-        contentView.layout(tokenField).top(dateLabel.anchor.bottom).leading(textField.anchor.leading).trailing()
+        contentView.layout(tokenField).top(dateLabel.anchor.bottom).leading(textField.anchor.leading).trailing()//.bottom()
         setupTokenField()
     }
-    
     
     
     private func setupTokenField() {
@@ -99,7 +98,6 @@ final class TaskCell: UITableViewCell {
         tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
         tokenField.preferredTextFieldReturnKeyType = .done
         tokenField.contentInsets = .zero
-        tokenField.allowDeletionTags = false
         tokenField.textFieldAttributedPlaceholder = "Tag".at.attributed { attr in
             attr.foreground(color: UIColor.hex("#00CE15").withAlphaComponent(0.3)).font(.systemFont(ofSize: 15, weight: .semibold))
         }
@@ -108,6 +106,7 @@ final class TaskCell: UITableViewCell {
         tokenField.shownState = .textField
         tokenField.textFieldDelegate = self
         tokenField.contentInsets = .init(top: 2, left: 0, bottom: 2, right: 0)
+        tokenField.textFieldTextColor = UIColor.hex("#00CE15")
     }
 }
 
@@ -118,6 +117,7 @@ extension TaskCell: ResizingTokenFieldDelegate {
     }
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {
 //        viewModel.deleteTag(with: token.title)
+        onDeleteTag()
         return false
     }
     
@@ -138,7 +138,7 @@ extension TaskCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard textField == tokenField.textField else { return true }
         guard let text = textField.text, !text.isEmpty else { return true }
-        print("add token: \(text)")
+        addToken(text)
         tokenField.text = nil
         return true
     }

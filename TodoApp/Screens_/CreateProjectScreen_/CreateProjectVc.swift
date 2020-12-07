@@ -17,7 +17,8 @@ import SwiftDate
 
 class CreateProjectVc: UIViewController {
     private let viewModel: CreateProjectVcVm
-    private let tableView = UITableView()
+    private let flowLayout = UICollectionViewFlowLayout()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     private let bag = DisposeBag()
     private let container: UIView = {
         let view = UIView()
@@ -107,32 +108,54 @@ class CreateProjectVc: UIViewController {
         container.layout(plusButton).trailing(20).bottom(70)
         
         container.layout(toolbar).trailing().leading().bottom()
-        container.layout(tableView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom(toolbar.anchor.top)
+        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom(toolbar.anchor.top)
         setupTableView()
     }
     
     private func setupTableView() {
-        tableView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .clear
-        tableView.delegate = self
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
-        let allTags1 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...10))
-        let allTags2 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...10))
-
-        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
+        collectionView.register(TaskCell.self, forCellWithReuseIdentifier: TaskCell.reuseIdentifier)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        collectionView.isScrollEnabled = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = .green
+        collectionView.clipsToBounds = true
+        collectionView.contentOffset = .zero
+        collectionView.contentInset = .zero
+//        collectionView.estimatedRowHeight = UITableView.automaticDimension
+//        collectionView.rowHeight = UITableView.automaticDimension
+//        collectionView.separatorStyle = .none
+        var allTags1 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...3))
+        var allTags2 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...3))
+        let date1 = ((Int.random(in: 1...2) == 1) ? DateInRegion.randomDate().date : nil)
+        let date2 = ((Int.random(in: 1...2) == 1) ? DateInRegion.randomDate().date : nil)
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
 //            switch model {
 //            case .addTask:
-            let allTags = indexPath.row == 1 ? allTags1 : allTags2
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
+            let allTags = indexPath.row == 1 ? allTags2 : allTags1
+            let date = indexPath.row == 1 ? date2 : date1
+
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
 //                cell.configure(text: "egww", date: Date(), priority: .medium, isSelected: true, tags: Array(RealmProvider.main.realm.objects(RlmTag.self)))
-                cell.configure(text: nil, date: ((Int.random(in: 1...2) == 1) ? DateInRegion.randomDate().date : nil), priority: [Priority.high, Priority.medium, Priority.low, Priority.none].shuffled().first!, isSelected: false, tags: Array(allTags))
+                cell.configure(text: nil, date: date, priority: [Priority.high, Priority.medium, Priority.low, Priority.none].shuffled().first!, isSelected: false, tags: Array(allTags))
+            cell.onDeleteTag = {
+                indexPath.row == 1 ? allTags2.removeLast() : allTags1.removeLast()
+//                collectionView.reloadItemsAtIndexPaths([indexPath], animationStyle: .none)
+//                UIView.performWithoutAnimation {
+                                    collectionView.reloadItems(at: [indexPath])
+//                }
+            }
+            cell.addToken = {
+                indexPath.row == 1 ? allTags2.append(.init(name: $0)) : allTags1.append(.init(name: $0))
+//                UIView.performWithoutAnimation {
+                                    collectionView.reloadItems(at: [indexPath])
+//                }
+            }
 //                return cell
 //            case let .task(task):
-//                let cell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
+//                let cell = collectionView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
 //                cell.backgroundColor = .blue
 
 //                cell.subtaskCreated = self.viewModel.taskCreated
@@ -140,23 +163,23 @@ class CreateProjectVc: UIViewController {
 //            }
         }
 //        var timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-//            self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+//            self.collectionView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
 //        }
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
 //
 //        var timer2 = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-//            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
+//            self.collectionView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
 //        }
 //        }
-
 
         viewModel.reloadTasksCells = { [weak self] mods in
-            self?.tableView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .bottom)
+            print("viewModel.reloadTasksCells \(mods)")
+            self?.collectionView.reloadItems(at: mods.map { IndexPath(row: $0, section: 0) })
         }
         viewModel.tasksUpdate
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
-        tableView.backgroundColor = .clear
+        collectionView.backgroundColor = .clear
     }
 
     
@@ -217,5 +240,13 @@ extension CreateProjectVc: UITextViewDelegate {
 
 extension CreateProjectVc: AppNavigationRouterDelegate { }
 
-extension CreateProjectVc: UITableViewDelegate {
+extension CreateProjectVc: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        .zero
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: collectionView.frame.width, height: 1)
+    }
+}
+extension CreateProjectVc: UICollectionViewDelegate {
 }
