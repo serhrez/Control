@@ -71,6 +71,7 @@
 		A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
 		A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D14257430CF0098BECE /* GappedCircle.swift */; };
+		A57634FE257EE8D9009A5041 /* AlignmentRectViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */; };
 		A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */; };
 		A5796B012561E7CE00423112 /* OvalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796B002561E7CE00423112 /* OvalText.swift */; };
 		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
@@ -188,6 +189,7 @@
 		A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVcVm.swift; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		A5722D14257430CF0098BECE /* GappedCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GappedCircle.swift; sourceTree = "<group>"; };
+		A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignmentRectViews.swift; sourceTree = "<group>"; };
 		A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableSectionModel.swift; sourceTree = "<group>"; };
 		A5796B002561E7CE00423112 /* OvalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalText.swift; sourceTree = "<group>"; };
 		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				A524752C256F0EFD0000B258 /* OnClickControl.swift */,
 				A52251C8256EF9CF00747E16 /* CalendarView */,
 				A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */,
+				A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -925,6 +928,7 @@
 				A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */,
 				A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */,
 				A5085E932556F8E500A31BBB /* RlmTask.swift in Sources */,
+				A57634FE257EE8D9009A5041 /* AlignmentRectViews.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
 				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
 				A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */,
@@ -1089,6 +1093,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-function-bodies=200";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1143,6 +1148,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-function-bodies=200";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

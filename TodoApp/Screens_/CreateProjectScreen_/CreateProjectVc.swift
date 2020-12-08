@@ -44,6 +44,7 @@ class CreateProjectVc: UIViewController {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)
         textField.textColor = .hex("#242424")
+        textField.delegate = self
         textField.attributedPlaceholder = "New Project".at.attributed { attr in
             attr.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 28, weight: .bold))
         }
@@ -80,9 +81,9 @@ class CreateProjectVc: UIViewController {
         return button
     }()
     private lazy var toolbar = Toolbar(
-        onDateClicked: { print("onDateClicked") },
-        onTagClicked: { print("onTagCLicked") },
-        onPriorityClicked: { print("onPriorityClicked") })
+        onDateClicked: onDateOpenClicked,
+        onTagClicked: onTagOpenClicked,
+        onPriorityClicked: onPriorityOpenClicked)
     private let keyboard = Typist()
 
     init(viewModel: CreateProjectVcVm) {
@@ -124,57 +125,44 @@ class CreateProjectVc: UIViewController {
         collectionView.clipsToBounds = true
         collectionView.contentOffset = .zero
         collectionView.contentInset = .zero
-//        collectionView.estimatedRowHeight = UITableView.automaticDimension
-//        collectionView.rowHeight = UITableView.automaticDimension
-//        collectionView.separatorStyle = .none
-        var allTags1 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...3))
-        var allTags2 = Array(RealmProvider.main.realm.objects(RlmTag.self)).shuffled().dropFirst(Int.random(in: 1...3))
-        let date1 = ((Int.random(in: 1...2) == 1) ? DateInRegion.randomDate().date : nil)
-        let date2 = ((Int.random(in: 1...2) == 1) ? DateInRegion.randomDate().date : nil)
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-//            switch model {
-//            case .addTask:
-            let allTags = indexPath.row == 1 ? allTags2 : allTags1
-            let date = indexPath.row == 1 ? date2 : date1
-
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
-//                cell.configure(text: "egww", date: Date(), priority: .medium, isSelected: true, tags: Array(RealmProvider.main.realm.objects(RlmTag.self)))
-                cell.configure(text: nil, date: date, priority: [Priority.high, Priority.medium, Priority.low, Priority.none].shuffled().first!, isSelected: false, tags: Array(allTags))
-            cell.onDeleteTag = {
-                indexPath.row == 1 ? allTags2.removeLast() : allTags1.removeLast()
-//                collectionView.reloadItemsAtIndexPaths([indexPath], animationStyle: .none)
-//                UIView.performWithoutAnimation {
-                                    collectionView.reloadItems(at: [indexPath])
-//                }
+            let task: RlmTask
+            let isAddTask: Bool
+            let isTagAllowed: Bool
+            switch model {
+            case let .addTask(xtask, xisTagAllowed):
+                task = xtask
+                isAddTask = true
+                isTagAllowed = xisTagAllowed
+            case let .task(xtask, xisTagAllowed):
+                task = xtask
+                isAddTask = false
+                isTagAllowed = xisTagAllowed
             }
-            cell.addToken = {
-                indexPath.row == 1 ? allTags2.append(.init(name: $0)) : allTags1.append(.init(name: $0))
-//                UIView.performWithoutAnimation {
-                                    collectionView.reloadItems(at: [indexPath])
-//                }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
+            if isAddTask {
+                cell.configureAsNew(tagAllowed: isTagAllowed)
+                cell.onCreatedTask = { viewModel.taskCreated(task) }
+//                cell.onSelected = { task.isDone = $0 }
+//                cell.onTaskNameChanged = { task.name = $0 }
+                cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
+                cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
+            } else {
+                cell.configure(text: task.name, date: task.date?.date, priority: task.priority, isSelected: task.isDone, tags: Array(task.tags), tagAllowed: isTagAllowed)
+                cell.onDeleteTag = { self.viewModel.tagDeleted(with: $0, from: task) }
+                cell.addToken = { self.viewModel.tagAdded(with: $0, to: task) }
+                cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
+                cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
+                cell.onDeleteTask = { self.viewModel.shouldDelete(task) }
             }
-//                return cell
-//            case let .task(task):
-//                let cell = collectionView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
-//                cell.backgroundColor = .blue
-
-//                cell.subtaskCreated = self.viewModel.taskCreated
-                return cell
-//            }
+            cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil)  }
+            return cell
         }
-//        var timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-//            self.collectionView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
-//        }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-//
-//        var timer2 = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-//            self.collectionView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .middle)
-//        }
-//        }
 
         viewModel.reloadTasksCells = { [weak self] mods in
             print("viewModel.reloadTasksCells \(mods)")
             self?.collectionView.reloadItems(at: mods.map { IndexPath(row: $0, section: 0) })
+            self?.collectionView.layer.removeAllAnimations()
         }
         viewModel.tasksUpdate
             .bind(to: collectionView.rx.items(dataSource: dataSource))
@@ -182,6 +170,9 @@ class CreateProjectVc: UIViewController {
         collectionView.backgroundColor = .clear
     }
 
+    private func sss() {
+        
+    }
     
     private func setupKeyboard() {
         keyboard
@@ -219,10 +210,31 @@ class CreateProjectVc: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func onDateOpenClicked() {
+        let task = viewModel.taskToAddComponents
+        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (date, reminder, repeat) in
+            self?.viewModel.setDate(to: task, date: (date, reminder, `repeat`))
+        }
+    }
+    private func onTagOpenClicked() {
+        viewModel.setTagAllowed(to: viewModel.taskToAddComponents)
+    }
+    private func onPriorityOpenClicked() {
+        
+    }
     
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
+    }
+}
+
+extension CreateProjectVc: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == projectNameField {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
 
@@ -232,6 +244,7 @@ extension CreateProjectVc: UITextViewDelegate {
         if newSpace { textView.resignFirstResponder() }
         return !newSpace
     }
+    
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true

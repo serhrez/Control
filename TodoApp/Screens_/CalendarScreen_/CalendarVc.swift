@@ -144,7 +144,13 @@ final class CalendarVc: UIViewController {
     func clickedTime() {
         
     }
+    var didDisappear: () -> Void = { }
+    deinit {
+        didDisappear()
+    }
 }
+
+extension CalendarVc: AppNavigationRouterDelegate { }
 
 extension CalendarVc {
     

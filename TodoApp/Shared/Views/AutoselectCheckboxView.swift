@@ -30,7 +30,7 @@ class AutoselectCheckboxView: UIView {
     }()
     private let animator = UIViewPropertyAnimator()
     var onSelected: ((Bool) -> Void)?
-    private var isChecked: Bool = false
+    private(set) var isChecked: Bool = false
     
     init() {
         super.init(frame: .zero)
@@ -44,6 +44,15 @@ class AutoselectCheckboxView: UIView {
     func configure(isChecked: Bool) {
         self.isChecked = isChecked
         changeState(withAnimation: false)
+    }
+    
+    func configure(priority: Priority) {
+        switch priority {
+        case .high: uncheckedView.borderColor = .hex("#EF4439")
+        case .medium: uncheckedView.borderColor = .hex("#FF9900")
+        case .low: uncheckedView.borderColor = .hex("#447BFE")
+        case .none: uncheckedView.borderColor = .hex("#DFDFDF")
+        }
     }
     
     private func setupViews() {

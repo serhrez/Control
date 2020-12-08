@@ -33,6 +33,10 @@ class AppNavigationRouter {
         pushVc(vc, transitionType)
     }
     
+    func openDateVc(reminder: Reminder?, repeat: Repeat?, date: Date?, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
+        pushVc(CalendarVc(viewModel: .init(reminder: reminder, repeat: `repeat`, date: date), onDone: onDone), .autoReverse(presenting: .push(direction: .left)))
+    }
+    
     func openAllTags(mode: AllTagsVc.Mode) {
         pushVc(AllTagsVc(mode: mode), .autoReverse(presenting: .push(direction: .left)))
     }
