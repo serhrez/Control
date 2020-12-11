@@ -14,11 +14,11 @@ import GrowingTextView
 import Typist
 import RxDataSources
 import SwiftDate
+import PopMenu
 
 class CreateProjectVc: UIViewController {
     private let viewModel: CreateProjectVcVm
-    private let flowLayout = UICollectionViewFlowLayout()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    private lazy var collectionView = UITableView()
     private let bag = DisposeBag()
     private let container: UIView = {
         let view = UIView()
@@ -108,47 +108,54 @@ class CreateProjectVc: UIViewController {
         container.layout(growingTextView).leading(61).top(projectNameField.anchor.bottom, 5).trailing(12 + 24)
         container.layout(plusButton).trailing(20).bottom(70)
         
-        container.layout(toolbar).trailing().leading().bottom()
-        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom(toolbar.anchor.top)
+        container.layout(toolbar).trailing().leading().bottom(50)
+        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom()
+        let bgView = UIView()
+        bgView.backgroundColor = .red
+        collectionView.backgroundView = bgView
+//        collectionView.backgroundColor = .red
+//        let constraint = collectionView.heightAnchor.constraint(equalToConstant: 534)
+//        constraint.isActive = true
+//        var rpp = true
+//        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [self] _ in
+//            UIView.animate(withDuration: 0.1) {
+//            if rpp {
+//                collectionView.contentInset = .init(top: 0, left: 0, bottom: 234, right: 0)
+////                constraint.constant = 234
+//            } else {
+////                constraint.constant = 534
+//                collectionView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+//            }
+//            rpp.toggle()
+//            }
+//        }
         setupTableView()
     }
     
     private func setupTableView() {
-        collectionView.register(TaskCell.self, forCellWithReuseIdentifier: TaskCell.reuseIdentifier)
+        collectionView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         collectionView.isScrollEnabled = true
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .green
         collectionView.clipsToBounds = true
         collectionView.contentOffset = .zero
         collectionView.contentInset = .zero
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-            let task: RlmTask
-            let isAddTask: Bool
-            let isTagAllowed: Bool
-            switch model {
-            case let .addTask(xtask, xisTagAllowed):
-                task = xtask
-                isAddTask = true
-                isTagAllowed = xisTagAllowed
-            case let .task(xtask, xisTagAllowed):
-                task = xtask
-                isAddTask = false
-                isTagAllowed = xisTagAllowed
-            }
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
-            if isAddTask {
-                cell.configureAsNew(tagAllowed: isTagAllowed)
+        collectionView.rowHeight = UITableView.automaticDimension
+        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UITableViewCell in
+            print("cell for row at \(indexPath)")
+            let cell = collectionView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
+            let task = model.task
+            switch model.mode {
+            case .addTask:
+                cell.configureAsNew(tagAllowed: model.isTagsAllowed)
                 cell.onCreatedTask = { viewModel.taskCreated(task) }
-//                cell.onSelected = { task.isDone = $0 }
-//                cell.onTaskNameChanged = { task.name = $0 }
                 cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
                 cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
-            } else {
-                cell.configure(text: task.name, date: task.date?.date, priority: task.priority, isSelected: task.isDone, tags: Array(task.tags), tagAllowed: isTagAllowed)
+            case .task:
+                cell.configure(text: task.name, date: task.date?.date, priority: task.priority, isSelected: task.isDone, tags: Array(task.tags), tagAllowed: model.isTagsAllowed)
                 cell.onDeleteTag = { self.viewModel.tagDeleted(with: $0, from: task) }
                 cell.addToken = { self.viewModel.tagAdded(with: $0, to: task) }
                 cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
@@ -161,27 +168,35 @@ class CreateProjectVc: UIViewController {
 
         viewModel.reloadTasksCells = { [weak self] mods in
             print("viewModel.reloadTasksCells \(mods)")
-            self?.collectionView.reloadItems(at: mods.map { IndexPath(row: $0, section: 0) })
+            self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
             self?.collectionView.layer.removeAllAnimations()
+        }
+        viewModel.bringFocusToTagsAtIndex = { [unowned self] rowIndex in
+            print("viewModel.bringFocusToTagsAtIndex \(rowIndex)")
+            let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as! TaskCell
+            cell.bringFocusToTokenField()
+        }
+        viewModel.bringFocusToTextField = { [unowned self] rowIndex in
+            print("viewModel.bringFocusToTextField \(rowIndex)")
+            if self.collectionView.indexPathsForVisibleRows.flatMap({ !$0.contains(IndexPath(row: rowIndex, section: 0)) }) ?? false {
+                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: .bottom, animated: false)
+            }
+            guard let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as? TaskCell else { print("BRING FOCUS HERE ALERT viewModel.bringFocusToTextField"); return }
+            cell.bringFocusToTextField()
         }
         viewModel.tasksUpdate
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         collectionView.backgroundColor = .clear
     }
-
-    private func sss() {
-        
-    }
-    
     private func setupKeyboard() {
         keyboard
             .on(event: .willChangeFrame) { [unowned self] options in
-                let height = options.endFrame.height
-                UIView.animate(withDuration: 0) {
-                    self.view.layout(self.container).bottomSafe(height - self.view.safeAreaInsets.bottom)
-                    self.view.layoutIfNeeded()
-                }
+                var height = options.endFrame.intersection(container.frame).height
+                print("willChangeFrame height: \(height)" )
+                height += height != 0 ? 10 : 0
+                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+
             }
             .on(event: .willHide) { [unowned self] options in
                 view.layout(self.container).bottomSafe()
@@ -212,6 +227,7 @@ class CreateProjectVc: UIViewController {
     
     private func onDateOpenClicked() {
         let task = viewModel.taskToAddComponents
+        view.endEditing(true)
         router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (date, reminder, repeat) in
             self?.viewModel.setDate(to: task, date: (date, reminder, `repeat`))
         }
@@ -220,7 +236,34 @@ class CreateProjectVc: UIViewController {
         viewModel.setTagAllowed(to: viewModel.taskToAddComponents)
     }
     private func onPriorityOpenClicked() {
-        
+        let task = viewModel.taskToAddComponents
+        let actions: [PopuptodoAction] = [
+            PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .high) }),
+            PopuptodoAction(title: "Medium Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .medium) }),
+            PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .low) })
+        ]
+        actions[0].imageTintColor = .hex("#EF4439")
+        actions[1].imageTintColor = .hex("#FF9900")
+        actions[2].imageTintColor = .hex("#447BFE")
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: toolbar.tagView, actions: actions)
+        popMenu.appearance = .appAppearance
+        popMenu.isCrutchySolution1 = true
+        addChild(popMenu)
+        popMenu.view.layer.opacity = 0
+        view.layout(popMenu.view).top().left().right().bottom()
+        UIView.animate(withDuration: 0.2) {
+            popMenu.view.layer.opacity = 1
+        }
+        popMenu.didDismiss = { _ in
+            UIView.animate(withDuration: 0.2) {
+                popMenu.view.layer.opacity = 0
+            } completion: { _ in
+                popMenu.willMove(toParent: nil)
+                popMenu.view.removeFromSuperview()
+                popMenu.removeFromParent()
+            }
+        }
     }
     
     var didDisappear: () -> Void = { }
@@ -253,13 +296,18 @@ extension CreateProjectVc: UITextViewDelegate {
 
 extension CreateProjectVc: AppNavigationRouterDelegate { }
 
-extension CreateProjectVc: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .zero
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: collectionView.frame.width, height: 1)
+extension CreateProjectVc: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 24
     }
 }
+//extension CreateProjectVc: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        .zero
+//    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return .init(width: collectionView.frame.width, height: 24)
+//    }
+//}
 extension CreateProjectVc: UICollectionViewDelegate {
 }

@@ -15,7 +15,7 @@ import ResizingTokenField
 
 
 
-final class TaskCell: UICollectionViewCell {
+final class TaskCell: UITableViewCell {
     static let reuseIdentifier = "taskcell"
     private let plusView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "plus")?.withAlignmentRectInsets(.init(top: -2, left: -2, bottom: -2, right: -2)))
@@ -64,8 +64,10 @@ final class TaskCell: UICollectionViewCell {
         set { textField.onDeleteBackwardWhenEmpty = newValue }
     }
         
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        selectionStyle = .none
         setupViews()
     }
     
@@ -160,12 +162,19 @@ final class TaskCell: UICollectionViewCell {
         tokenField.contentInsets = .init(top: 6, left: 0, bottom: 2, right: 0)
         tokenField.textFieldTextColor = UIColor.hex("#00CE15")
     }
+    
+    func bringFocusToTokenField() {
+        tokenField.becomeFirstResponder()
+    }
+    
+    func bringFocusToTextField() {
+        textField.becomeFirstResponder()
+    }
 }
 
 extension TaskCell: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, willChangeHeight newHeight: CGFloat) {
         tokenFieldHeight = newHeight
-        print("newheight: \(newHeight)")
     }
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {
 //        viewModel.deleteTag(with: token.title)

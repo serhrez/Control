@@ -18,14 +18,18 @@ class CreateProjectVcVm {
     private let updateTasks = PublishSubject<Void>()
     private var addTask: RlmTask = RlmTask()
     private var taskInFocus: RlmTask?
+    private let afterReloadTaskCells = PublishSubject<Void>()
     var taskToAddComponents: RlmTask {
         taskInFocus ?? addTask
     }
+    var bringFocusToTagsAtIndex: (Int) -> Void = { _ in }
+    var bringFocusToTextField: (Int) -> Void = { _ in }
     let tasksUpdate = BehaviorRelay<[AnimSection<Model>]>(value: [.init(items: [])])
     private var tasksAllowedToHaveTags = Set<RlmTask>()
 
     var tasksModel: [AnimSection<Model>] {
-        let models = Array(project?.tasks.map { Model.task($0, tasksAllowedToHaveTags.contains($0)) } ?? [] ) + [.addTask(addTask, tasksAllowedToHaveTags.contains(addTask))]
+        var models = Array(project?.tasks.map { Model(task: $0, isTagsAllowed: tasksAllowedToHaveTags.contains($0), mode: .task) } ?? [] )
+        models += [Model(task: addTask, isTagsAllowed: tasksAllowedToHaveTags.contains(addTask), mode: .addTask)]
         return [AnimSection(items: models)]
     }
     var reloadTasksCells: (_ modifications: [Int]) -> Void = { _ in }
@@ -53,12 +57,24 @@ class CreateProjectVcVm {
                 if !mods.isEmpty {
                     reloadTasksCells(mods)
                 }
+                afterReloadTaskCells.onNext(())
             }
         }
         tokens.append(contentsOf: [tasksToken])
+        _ = try! RealmProvider.main.realm.write {
+            ["Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2", "Task2", "Task1", "Task2", "Task1", "Task2", "Task1", "Task2"].forEach {
+                self.project?.tasks.append(.init(name: $0, isDone: Int.random(in: 1...2) == 1))
+            }
+        }
     }
     
     func tagAdded(with name: String, to task: RlmTask) {
+        guard !task.tags.contains(where: { $0.name == name }) else { return }
+        afterReloadTaskCells.take(1).subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex($0) }
+        })
+        .disposed(by: bag)
         if let tag = RealmProvider.main.realm.objects(RlmTag.self).filter({ $0.name == name }).first,
            !task.tags.contains(tag) {
             _ = try! RealmProvider.main.realm.write {
@@ -72,7 +88,7 @@ class CreateProjectVcVm {
         }
     }
     func tagDeleted(with name: String, from task: RlmTask) {
-        if let tagIndex = RealmProvider.main.realm.objects(RlmTag.self).firstIndex(where: { $0.name == name }) {
+        if let tagIndex = task.tags.firstIndex(where: { $0.name == name }) {
             _ = try! RealmProvider.main.realm.write {
                 task.tags.remove(at: tagIndex)
             }
@@ -92,32 +108,35 @@ class CreateProjectVcVm {
     }
     
     func taskCreated(_ task: RlmTask) {
+        afterReloadTaskCells.take(1).subscribe(onNext: { [unowned self] in
+            tasksModel[0].items.firstIndex(where: { $0.task.id == addTask.id }).flatMap { bringFocusToTextField($0) }
+        })
+        .disposed(by: bag)
         if project?.tasks.contains(task) ?? true { return }
+        addTask = RlmTask()
         _ = try! RealmProvider.main.realm.write {
             project?.tasks.append(task)
         }
-        addTask = RlmTask()
     }
     
     func setTagAllowed(to task: RlmTask) {
+        guard task.tags.isEmpty && !tasksAllowedToHaveTags.contains(task) else { return }
         if task == addTask {
             tasksAllowedToHaveTags.insert(task)
             taskCreated(addTask)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//
-//            }
+            afterReloadTaskCells
+                .take(1)
+                .subscribe(onNext: { [weak self] in
+                    guard let self = self else { return }
+                    self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex($0) }
+                })
+                .disposed(by: bag)
         } else
-        if let taskIndex = tasksModel[0].items.firstIndex(where: {
-            switch $0 {
-            case let .addTask(xtask, _):
-                return task.id == xtask.id
-            case let .task(xtask, _):
-                return task.id == xtask.id
-            }
-        }) {
+        if let taskIndex = tasksModel[0].items.firstIndex(where: { task.id == $0.task.id }) {
             tasksAllowedToHaveTags.insert(task)
             updateTasks.onNext(())
             reloadTasksCells([taskIndex])
+            project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { bringFocusToTagsAtIndex($0) }
         }
     }
     
@@ -130,7 +149,6 @@ class CreateProjectVcVm {
     
     func onFocusChanged(to task: RlmTask?) {
         taskInFocus = task
-        print("switched to: \(task)")
     }
     
     func shouldDelete(_ task: RlmTask) {
@@ -140,18 +158,24 @@ class CreateProjectVcVm {
             }
         }
     }
+    
+    func selectPriority(to task: RlmTask, priority: Priority) {
+        
+    }
+
 }
 
 extension CreateProjectVcVm {
-    enum Model: IdentifiableType, Equatable {
-        case task(RlmTask, Bool)
-        case addTask(RlmTask, Bool)
-        
+    struct Model: IdentifiableType, Equatable {
+        var task: RlmTask
+        var isTagsAllowed: Bool
+        var mode: Mode
+        enum Mode {
+            case task
+            case addTask
+        }
         var identity: String {
-            switch self {
-            case let .task(task, _), let .addTask(task, _):
-                return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
-            }
+            return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
         }
     }
 }

@@ -11,15 +11,21 @@ import Material
 
 extension CreateProjectVc {
     class Toolbar: UIView {
+        let calendarPlusView: ClickableImage
+        let tagView: ClickableImage
+        let flagView: ClickableImage
         
         init(onDateClicked: @escaping () -> Void, onTagClicked: @escaping () -> Void, onPriorityClicked: @escaping () -> Void) {
+            calendarPlusView = ClickableImage(imageName: "calendar-plus", onClick: onDateClicked)
+            tagView = ClickableImage(imageName: "tag", onClick: onTagClicked)
+            flagView = ClickableImage(imageName: "flag", onClick: onPriorityClicked)
             super.init(frame: .zero)
             backgroundColor = .white
             let views: [UIView] = [
                 UIView(),
-                ClickableImage(imageName: "calendar-plus", onClick: onDateClicked),
-                ClickableImage(imageName: "tag", onClick: onTagClicked),
-                ClickableImage(imageName: "flag", onClick: onPriorityClicked),
+                calendarPlusView,
+                tagView,
+                flagView,
                 UIView()]
             let stack = UIStackView(arrangedSubviews: views)
             stack.distribution = .equalSpacing
@@ -32,7 +38,7 @@ extension CreateProjectVc {
             fatalError("init(coder:) has not been implemented")
         }
         
-        private class ClickableImage: UIView {
+        class ClickableImage: UIView {
             init(imageName: String, onClick: @escaping () -> Void) {
                 super.init(frame: .zero)
                 let img = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
