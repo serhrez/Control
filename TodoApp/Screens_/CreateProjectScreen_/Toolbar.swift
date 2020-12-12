@@ -11,6 +11,7 @@ import Material
 
 extension CreateProjectVc {
     class Toolbar: UIView {
+        static let height: CGFloat = 53.18
         let calendarPlusView: ClickableImage
         let tagView: ClickableImage
         let flagView: ClickableImage
@@ -31,7 +32,7 @@ extension CreateProjectVc {
             stack.distribution = .equalSpacing
             stack.axis = .horizontal
             layout(stack).leading().trailing().centerY()
-            heightAnchor.constraint(equalToConstant: 53.18).isActive = true
+            heightAnchor.constraint(equalToConstant: Self.height).isActive = true
         }
         
         required init?(coder: NSCoder) {

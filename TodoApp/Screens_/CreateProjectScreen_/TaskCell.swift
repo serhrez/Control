@@ -91,6 +91,7 @@ final class TaskCell: UITableViewCell {
         checkboxView.configure(isChecked: false)
         tokenField.shownState = tagAllowed ? .textField : .none
         tokenField.allowDeletionTags = tagAllowed
+        textField.placeholder = "New To-Do..."
     }
         
     func configure(text: String, date: Date?, priority: Priority, isSelected: Bool, tags: [RlmTag], tagAllowed: Bool) {
@@ -110,6 +111,7 @@ final class TaskCell: UITableViewCell {
         isConfiguredAsNew = false
         tokenField.shownState = (tagAllowed || !tags.isEmpty) ? .textField : .none
         tokenField.allowDeletionTags = (tagAllowed || !tags.isEmpty)
+        textField.placeholder = "To-Do..."
    }
     
     private func resetClosureBindings() {
@@ -137,7 +139,7 @@ final class TaskCell: UITableViewCell {
     func setupViews() {
         contentView.layout(plusView).top(2).leading().width(22).height(22)
         contentView.layout(checkboxView).top(2).leading()
-        contentView.layout(textField).top().leading(32).trailing() { _, _ in .lessThanOrEqual }
+        contentView.layout(textField).top().leading(32).trailing()
         contentView.layout(dateLabel).leading(textField.anchor.leading).trailing()
             .top(textField.anchor.bottom)
         contentView.layout(tokenField).top(dateLabel.anchor.bottom).leading(textField.anchor.leading).trailing()//.bottom()
@@ -207,6 +209,10 @@ extension TaskCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         onFocused(false)
+        if textField == tokenField.textField {
+            tokenField.textField?.text = ""
+            return
+        }
         guard textField == self.textField else { return }
         onTaskNameChanged(textField.text ?? "")
         if isConfiguredAsNew {
@@ -224,7 +230,7 @@ extension TaskCell: UITextFieldDelegate {
         onFocused(false)
         switch textField {
         case tokenField.textField:
-            guard let text = textField.text, !text.isEmpty else { return true }
+            guard let text = textField.text, !text.isEmpty else { textField.resignFirstResponder() ;return true }
             addToken(text)
             tokenField.text = nil
         case self.textField:
