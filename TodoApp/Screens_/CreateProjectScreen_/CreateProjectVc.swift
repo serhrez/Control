@@ -162,7 +162,7 @@ class CreateProjectVc: UIViewController {
                 cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
                 cell.onDeleteTask = { self.viewModel.shouldDelete(task) }
             }
-            cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil)  }
+            cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil, isFromTags: $1)  }
             return cell
         }
         dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade)
@@ -173,6 +173,12 @@ class CreateProjectVc: UIViewController {
             self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
         }
         viewModel.bringFocusToTagsAtIndex = { [unowned self] rowIndex in
+            guard let visibleCells = self.collectionView.indexPathsForVisibleRows?.map { $0.row },
+                  let startVisible = visibleCells.first,
+                  let endVisible = visibleCells.last else { return }
+            if !visibleCells.contains(rowIndex) {
+                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: rowIndex < startVisible ? .top : .bottom, animated: false)
+            }
             print("viewModel.bringFocusToTagsAtIndex \(rowIndex)")
             let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as! TaskCell
             UIView.performWithoutAnimation {
@@ -229,11 +235,13 @@ class CreateProjectVc: UIViewController {
     }
     
     private func plusClicked() {
-        print("plus clicked")
+        viewModel.shouldCreateProject()
+        router.navigationController.popViewController(animated: true)
     }
     
     private func closeClicked() {
-        print("close clicked")
+        viewModel.shouldCloseProject()
+        router.navigationController.popViewController(animated: true)
     }
     private func iconSelected() {
         guard let project = viewModel.project else { return }

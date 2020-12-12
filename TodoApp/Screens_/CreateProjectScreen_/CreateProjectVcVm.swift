@@ -19,15 +19,14 @@ class CreateProjectVcVm {
     private var addTask: RlmTask = RlmTask()
     private var taskInFocus: RlmTask?
     private let afterReloadTaskCells = PublishSubject<Void>()
-    var taskToAddComponents: RlmTask {
-        taskInFocus ?? addTask
-    }
+    var taskToAddComponents: RlmTask { taskInFocus ?? addTask }
     var projectPropertiesChanged: (RlmProject) -> Void = { _ in }
     var bringFocusToTagsAtIndex: (Int) -> Void = { _ in }
     var bringFocusToTextField: (Int) -> Void = { _ in }
     let tasksUpdate = BehaviorRelay<[AnimSection<Model>]>(value: [.init(items: [])])
     private var tasksAllowedToHaveTags = Set<RlmTask>()
     private let wasProjectCreatedAtPlace: Bool
+    private var realmProvider: RealmProvider
 
     var tasksModel: [AnimSection<Model>] {
         var models = Array(project?.tasks.map { Model(task: $0, isTagsAllowed: tasksAllowedToHaveTags.contains($0), mode: .task) } ?? [] )
@@ -38,15 +37,17 @@ class CreateProjectVcVm {
     
     convenience init() {
         let project = RlmProject()
-        _ = try! RealmProvider.main.realm.write {
-            RealmProvider.main.realm.add(project)
+        let provider = RealmProvider.main
+        _ = try! provider.realm.write {
+            provider.realm.add(project)
         }
-        self.init(project: project, wasProjectCreatedAtPlace: true)
+        self.init(project: project, wasProjectCreatedAtPlace: true, realmProvider: provider)
     }
     
-    init(project: RlmProject, wasProjectCreatedAtPlace: Bool = false) {
+    init(project: RlmProject, wasProjectCreatedAtPlace: Bool = false, realmProvider: RealmProvider = .main) {
         self.wasProjectCreatedAtPlace = wasProjectCreatedAtPlace
         self.project = project
+        self.realmProvider = realmProvider
         updateTasks.subscribe(onNext: { [unowned self] in self.tasksUpdate.accept(self.tasksModel) }).disposed(by: bag)
         updateTasks.onNext(())
         let tasksToken = project.tasks.observe { [unowned self] changes in
@@ -70,13 +71,13 @@ class CreateProjectVcVm {
     }
     
     func setProjectColor(color: UIColor) {
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             project?.color = color
         }
     }
         
     func setProjectIcon(_ newIcon: Icon) {
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             project?.icon = newIcon
         }
     }
@@ -88,34 +89,34 @@ class CreateProjectVcVm {
             self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex(self.getNotRealRowIndex($0)) }
         })
         .disposed(by: bag)
-        if let tag = RealmProvider.main.realm.objects(RlmTag.self).filter({ $0.name == name }).first,
+        if let tag = realmProvider.realm.objects(RlmTag.self).filter({ $0.name == name }).first,
            !task.tags.contains(tag) {
-            _ = try! RealmProvider.main.realm.write {
+            _ = try! realmProvider.realm.write {
                 task.tags.append(tag)
             }
             return
         }
         let tag = RlmTag(name: name)
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             task.tags.append(tag)
         }
     }
     func tagDeleted(with name: String, from task: RlmTask) {
         if let tagIndex = task.tags.firstIndex(where: { $0.name == name }) {
-            _ = try! RealmProvider.main.realm.write {
+            _ = try! realmProvider.realm.write {
                 task.tags.remove(at: tagIndex)
             }
         }
     }
     
     func taskNameChanged(task: RlmTask, name: String) {
-        _ = try! RealmProvider.main.realm.write(withoutNotifying: tokens) {
+        _ = try! realmProvider.realm.write(withoutNotifying: tokens) {
             task.name = name
         }
     }
     
     func changeIsDone(task: RlmTask, isDone: Bool) {
-        _ = try! RealmProvider.main.realm.write(withoutNotifying: tokens) {
+        _ = try! realmProvider.realm.write(withoutNotifying: tokens) {
             task.isDone = isDone
         }
     }
@@ -132,7 +133,7 @@ class CreateProjectVcVm {
         addTask = RlmTask()
         if task.name.isEmpty { task.name = "New To-Do" }
         
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             project?.tasks.append(task)
         }
     }
@@ -159,30 +160,61 @@ class CreateProjectVcVm {
     }
     
     func setDate(to task: RlmTask, date: (Date?, Reminder?, Repeat?)) {
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             task.date = RlmTaskDate(date: date.0, reminder: date.1, repeat: date.2)
         }
         if task == addTask { taskCreated(addTask, goToNewCellTextField: false) }
     }
     
-    func onFocusChanged(to task: RlmTask?) {
+    func onFocusChanged(to task: RlmTask?, isFromTags: Bool) {
         taskInFocus = task
+        if isFromTags, let task = task, let index = tasksModel[0].items.firstIndex(where: { $0.task.id == task.id })  {
+            bringFocusToTagsAtIndex(index)
+        }
     }
     
     func shouldDelete(_ task: RlmTask) {
         if let taskIndex = project?.tasks.firstIndex(where: { $0.id == task.id }) {
-            _ = try! RealmProvider.main.realm.write {
+            _ = try! realmProvider.realm.write {
                 project?.tasks.remove(at: taskIndex)
             }
             if taskIndex > 0 && project != nil {
-                onFocusChanged(to: project!.tasks[taskIndex - 1])
+                onFocusChanged(to: project!.tasks[taskIndex - 1], isFromTags: false)
                 bringFocusToTextField(getNotRealRowIndex(taskIndex - 1))
             }
         }
     }
     
+    var wasProjectAlreadyCreated: Bool = false
+    func shouldCreateProject() {
+        guard wasProjectCreatedAtPlace, let project = project else { return }
+        guard !wasProjectAlreadyCreated else { return }
+        wasProjectAlreadyCreated = true
+        if project.name.isEmpty {
+            _ = try! realmProvider.realm.write {
+                project.name = "New Project"
+            }
+            _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.realm.add(project)
+            }
+            shouldCloseProject()
+        }
+    }
+    
+    func shouldCloseProject() {
+        if wasProjectCreatedAtPlace {
+            _ = try! realmProvider.realm.write {
+                if let p = project {
+                    project = nil
+                    tokens.removeAll()
+                    realmProvider.realm.delete(p)
+                }
+            }
+        }
+    }
+    
     func selectPriority(to task: RlmTask, priority: Priority) {
-        _ = try! RealmProvider.main.realm.write {
+        _ = try! realmProvider.realm.write {
             task.priority = priority
         }
         if task == addTask { taskCreated(addTask) }

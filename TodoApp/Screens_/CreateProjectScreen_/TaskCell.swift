@@ -58,7 +58,7 @@ final class TaskCell: UITableViewCell {
         get { checkboxView.onSelected }
         set { checkboxView.onSelected = newValue }
     }
-    var onFocused: (Bool) -> Void = { _ in }
+    var onFocused: (_ isFocused: Bool, _ fromTags: Bool) -> Void = { _, _ in }
     var onDeleteTask: (() -> Void)? {
         get { textField.onDeleteBackwardWhenEmpty }
         set { textField.onDeleteBackwardWhenEmpty = newValue }
@@ -120,7 +120,7 @@ final class TaskCell: UITableViewCell {
         onTaskNameChanged = { _ in }
         onCreatedTask = { }
         onSelected = { _ in }
-        onFocused = { _ in }
+        onFocused = { _, _ in }
         onDeleteTask = { }
     }
 
@@ -201,14 +201,14 @@ extension TaskCell: ResizingTokenFieldDelegate {
 
 extension TaskCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        onFocused(true)
+        onFocused(true, tokenField.textField == textField)
         guard textField == self.textField && isConfiguredAsNew else { return }
         plusView.animate(.rotate(180), .fadeOut, .duration(1.5))
         checkboxView.animate(.fadeIn, .duration(1.5))
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        onFocused(false)
+        onFocused(false, tokenField.textField == textField)
         if textField == tokenField.textField {
             tokenField.textField?.text = ""
             return
@@ -227,7 +227,7 @@ extension TaskCell: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        onFocused(false)
+        onFocused(false, tokenField.textField == textField)
         switch textField {
         case tokenField.textField:
             guard let text = textField.text, !text.isEmpty else { textField.resignFirstResponder() ;return true }
