@@ -56,7 +56,7 @@ class GappedCircle: UIView {
     
     func configure(isSelected: Bool, animated: Bool = true) {
         UIView.animate(withDuration: animated ? 0.5 : 0) {
-            if isSelected {
+            if !isSelected {
                 self.middleCircle.layer.opacity = 0
             } else {
                 self.middleCircle.layer.opacity = 1

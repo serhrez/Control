@@ -22,6 +22,7 @@ class CreateProjectVcVm {
     var taskToAddComponents: RlmTask {
         taskInFocus ?? addTask
     }
+    var projectPropertiesChanged: (RlmProject) -> Void = { _ in }
     var bringFocusToTagsAtIndex: (Int) -> Void = { _ in }
     var bringFocusToTextField: (Int) -> Void = { _ in }
     let tasksUpdate = BehaviorRelay<[AnimSection<Model>]>(value: [.init(items: [])])
@@ -31,7 +32,7 @@ class CreateProjectVcVm {
     var tasksModel: [AnimSection<Model>] {
         var models = Array(project?.tasks.map { Model(task: $0, isTagsAllowed: tasksAllowedToHaveTags.contains($0), mode: .task) } ?? [] )
         models += [Model(task: addTask, isTagsAllowed: tasksAllowedToHaveTags.contains(addTask), mode: .addTask)]
-        return [AnimSection(items: models)]//.flatMap { [$0, .init(isEmptySpace: true)].dropLast() })]
+        return [AnimSection(items: models.flatMap { [$0, .init(isEmptySpace: true, task: $0.task)] }.dropLast())]
     }
     var reloadTasksCells: (_ modifications: [Int]) -> Void = { _ in }
     
@@ -57,19 +58,34 @@ class CreateProjectVcVm {
             case .update(_, deletions: _, insertions: _, modifications: let mods):
                 updateTasks.onNext(())
                 if !mods.isEmpty {
-                    reloadTasksCells(mods)
+                    reloadTasksCells(mods.map { getNotRealRowIndex($0) })
                 }
                 afterReloadTaskCells.onNext(())
             }
         }
-        tokens.append(contentsOf: [tasksToken])
+        let projectToken = project.observe { [unowned self] changes in
+            projectPropertiesChanged(project)
+        }
+        tokens.append(contentsOf: [tasksToken, projectToken])
+    }
+    
+    func setProjectColor(color: UIColor) {
+        _ = try! RealmProvider.main.realm.write {
+            project?.color = color
+        }
+    }
+        
+    func setProjectIcon(_ newIcon: Icon) {
+        _ = try! RealmProvider.main.realm.write {
+            project?.icon = newIcon
+        }
     }
     
     func tagAdded(with name: String, to task: RlmTask) {
         guard !task.tags.contains(where: { $0.name == name }) else { return }
         afterReloadTaskCells.take(1).subscribe(onNext: { [weak self] in
             guard let self = self else { return }
-            self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex($0) }
+            self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex(self.getNotRealRowIndex($0)) }
         })
         .disposed(by: bag)
         if let tag = RealmProvider.main.realm.objects(RlmTag.self).filter({ $0.name == name }).first,
@@ -130,7 +146,7 @@ class CreateProjectVcVm {
                 .take(1)
                 .subscribe(onNext: { [weak self] in
                     guard let self = self else { return }
-                    self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex($0) }
+                    self.project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { self.bringFocusToTagsAtIndex(self.getNotRealRowIndex($0)) }
                 })
                 .disposed(by: bag)
         } else
@@ -138,7 +154,7 @@ class CreateProjectVcVm {
             tasksAllowedToHaveTags.insert(task)
             updateTasks.onNext(())
             reloadTasksCells([taskIndex])
-            project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { bringFocusToTagsAtIndex($0) }
+            project?.tasks.firstIndex(where: { $0.id == task.id }).flatMap { bringFocusToTagsAtIndex(getNotRealRowIndex($0)) }
         }
     }
     
@@ -160,7 +176,7 @@ class CreateProjectVcVm {
             }
             if taskIndex > 0 && project != nil {
                 onFocusChanged(to: project!.tasks[taskIndex - 1])
-                bringFocusToTextField(taskIndex - 1)
+                bringFocusToTextField(getNotRealRowIndex(taskIndex - 1))
             }
         }
     }
@@ -189,9 +205,9 @@ extension CreateProjectVcVm {
         var isTagsAllowed: Bool
         var mode: Mode
         
-        init(isEmptySpace: Bool) {
+        init(isEmptySpace: Bool, task: RlmTask) {
             self.isEmptySpace = true
-            self.task = RlmTask()
+            self.task = task
             self.isTagsAllowed = false
             self.mode = .addTask
         }
@@ -207,7 +223,7 @@ extension CreateProjectVcVm {
             case addTask
         }
         var identity: String {
-            if isEmptySpace { return UUID().uuidString }
+            if isEmptySpace { return task.isInvalidated ? "deletedx-\(UUID().uuidString)" : task.id + "x" }
             return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
         }
     }

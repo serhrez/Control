@@ -17,7 +17,7 @@ final class RlmProject: Object {
     let tasks = List<RlmTask>()
     @objc dynamic var createdAt = Date()
     
-    @objc dynamic private var _icon: Data = #"{"text":"wegw"}"#.data(using: .utf8) ?? Data()
+    @objc dynamic private var _icon: Data = #"{"text":"🎥"}"#.data(using: .utf8) ?? Data()
     var icon: Icon {
         get {
             do {
@@ -39,7 +39,7 @@ final class RlmProject: Object {
     
     @objc dynamic private var _color = ""
     var color: UIColor {
-        get { return UIColor(hex: _color) ?? .white }
+        get { return UIColor(hex: _color) ?? .hex("#FF9900") }
         set {
             if let hex = newValue.toHex {
                 _color = hex

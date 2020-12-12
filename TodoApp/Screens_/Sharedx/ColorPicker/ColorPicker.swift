@@ -15,6 +15,7 @@ class ColorPicker: UIViewController {
     
     private lazy var circles: [GappedCircle] = colors.map { [unowned self] color in
         let g = GappedCircle(circleColor: color)
+        g.configure(isSelected: color == selectedColor, animated: false)
         g.onClick = { self.colorSelected(color) }
         return g
     }
@@ -37,10 +38,13 @@ class ColorPicker: UIViewController {
                 self.dismiss(animated: true, completion: nil)
             }
         })
-    
+    private var selectedColor: UIColor
     private let sourceViewFrame: CGRect
+    private let onColorSelection: (UIColor) -> Void
     
-    init(viewSource: UIView) {
+    init(viewSource: UIView, selectedColor: UIColor, onColorSelection: @escaping (UIColor) -> Void) {
+        self.selectedColor = selectedColor
+        self.onColorSelection = onColorSelection
         sourceViewFrame = viewSource.convert(viewSource.bounds, to: nil)
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overCurrentContext
@@ -51,10 +55,6 @@ class ColorPicker: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.hex("#F6F6F3").withAlphaComponent(0.8)
         setupViews()
-    }
-    
-    @objc func clickedd() {
-        dismiss(animated: true, completion: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -68,6 +68,9 @@ class ColorPicker: UIViewController {
     }
     
     func colorSelected(_ color: UIColor) {
-        
+        circles.first(where: { $0.circleColor == selectedColor })?.configure(isSelected: false, animated: true)
+        selectedColor = color
+        circles.first(where: { $0.circleColor == selectedColor })?.configure(isSelected: true, animated: true)
+        onColorSelection(color)
     }
 }

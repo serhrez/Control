@@ -33,6 +33,8 @@
 		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
 		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
 		A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516835F255B4AE30076D29E /* AddProjectCell.swift */; };
+		A51967612584F71D0021621A /* IconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967602584F71D0021621A /* IconPicker.swift */; };
+		A51967692584FE5D0021621A /* IconColCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967682584FE5D0021621A /* IconColCell.swift */; };
 		A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B6855257188A50042AA85 /* TagDetailVc.swift */; };
 		A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251AD256EED7D00747E16 /* CalendarView.swift */; };
 		A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251BB256EF38C00747E16 /* CalendarVc.swift */; };
@@ -151,6 +153,8 @@
 		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		A516835F255B4AE30076D29E /* AddProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectCell.swift; sourceTree = "<group>"; };
+		A51967602584F71D0021621A /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
+		A51967682584FE5D0021621A /* IconColCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColCell.swift; sourceTree = "<group>"; };
 		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
 		A52251AD256EED7D00747E16 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		A52251BB256EF38C00747E16 /* CalendarVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVc.swift; sourceTree = "<group>"; };
@@ -402,6 +406,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		A519675F2584F65F0021621A /* IconPicker */ = {
+			isa = PBXGroup;
+			children = (
+				A51967602584F71D0021621A /* IconPicker.swift */,
+				A51967682584FE5D0021621A /* IconColCell.swift */,
+			);
+			path = IconPicker;
+			sourceTree = "<group>";
+		};
 		A51B6854257188560042AA85 /* TagDetailScreen_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,6 +554,7 @@
 		A592318425718DFB008E955D /* Sharedx */ = {
 			isa = PBXGroup;
 			children = (
+				A519675F2584F65F0021621A /* IconPicker */,
 				A5722D0E25742CB80098BECE /* ColorPicker */,
 				A592318525718E04008E955D /* Cells */,
 			);
@@ -916,6 +930,7 @@
 				A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */,
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
 				A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */,
+				A51967692584FE5D0021621A /* IconColCell.swift in Sources */,
 				A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */,
 				A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */,
 				A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */,
@@ -977,6 +992,7 @@
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
 				A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */,
+				A51967612584F71D0021621A /* IconPicker.swift in Sources */,
 				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A54D6474256308DF00AC3F41 /* InboxDoneTaskCell.swift in Sources */,
 				A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */,

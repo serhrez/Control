@@ -35,9 +35,9 @@ class CreateProjectVc: UIViewController {
         return iconView
     }()
     private lazy var colorCircle: GappedCircle = {
-        let circle = GappedCircle(circleColor: .orange, widthHeight: 22)
+        let circle = GappedCircle(circleColor: self.viewModel.project?.color ?? .hex("#ffffff"), widthHeight: 22)
         circle.onClick = self.colorSelection
-        circle.configure(isSelected: false, animated: false)
+        circle.configure(isSelected: true, animated: false)
         return circle
     }()
     private lazy var projectNameField: UITextField = {
@@ -99,6 +99,11 @@ class CreateProjectVc: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupKeyboard()
+        viewModel.projectPropertiesChanged = { [unowned self] project in
+            self.colorCircle.circleColor = project.color
+            self.clickableIcon.iconView.configure(project.icon)
+        }
+        viewModel.project.flatMap { viewModel.projectPropertiesChanged($0) }
     }
     
     func setupViews() {
@@ -127,6 +132,7 @@ class CreateProjectVc: UIViewController {
     
     private func setupTableView() {
         collectionView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
+        collectionView.register(EmptyCell.self, forCellReuseIdentifier: EmptyCell.identifier)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -136,8 +142,7 @@ class CreateProjectVc: UIViewController {
         collectionView.separatorStyle = .none
         let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UITableViewCell in
             if model.isEmptySpace {
-                let cell = UITableViewCell()
-                cell.heightAnchor.constraint(equalToConstant: 10).isActive = true
+                let cell = collectionView.dequeueReusableCell(withIdentifier: EmptyCell.identifier, for: indexPath) as! EmptyCell
                 return cell
             }
             print("cell for row at \(indexPath)")
@@ -160,10 +165,11 @@ class CreateProjectVc: UIViewController {
             cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil)  }
             return cell
         }
-        dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .none)
+        dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade)
 
         viewModel.reloadTasksCells = { [weak self] mods in
-            print("viewModel.reloadTasksCells \(mods)")
+            let cell = self?.collectionView.cellForRow(at: IndexPath(row: mods.first!, section: 0))
+            cell?.isHidden = true
             self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
 //            self?.collectionView.layer.removeAllAnimations()
         }
@@ -228,12 +234,15 @@ class CreateProjectVc: UIViewController {
         print("close clicked")
     }
     private func iconSelected() {
+        guard let project = viewModel.project else { return }
         print("iconSelected")
-        clickableIcon.motionIdentifier = "wq"
+        let iconPicker = IconPicker(viewSource: clickableIcon, selected: project.icon, onSelection: viewModel.setProjectIcon)
+        present(iconPicker, animated: true, completion: nil)
     }
     
     private func colorSelection() {
-        let colorPicker = ColorPicker(viewSource: colorCircle)
+        let selectedColor = viewModel.project?.color ?? .hex("#123456") // use any random color
+        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: selectedColor, onColorSelection: viewModel.setProjectColor)
         present(colorPicker, animated: true, completion: nil)
     }
     
@@ -329,3 +338,21 @@ extension CreateProjectVc: UITextViewDelegate {
 }
 
 extension CreateProjectVc: AppNavigationRouterDelegate { }
+
+fileprivate class EmptyCell: UITableViewCell {
+    static let identifier = "emptycell"
+
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        selectionStyle = .none
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        return .init(width: targetSize.width, height: 30)
+    }
+}

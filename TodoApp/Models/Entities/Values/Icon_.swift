@@ -9,13 +9,13 @@
 import Foundation
 
 
-enum Icon: Codable {
+enum Icon: Codable, Equatable {
     case text(String)
     case image(url: String)
     case assetImage(name: String, tintHex: String?)
     
     enum CodingKeys: String, CodingKey {
-        case text = "twtw"
+        case text
         case imageUrlPath
         case assetImageName
         case tintHex
