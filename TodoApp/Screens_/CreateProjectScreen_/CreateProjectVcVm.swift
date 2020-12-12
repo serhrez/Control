@@ -111,10 +111,11 @@ class CreateProjectVcVm {
             tasksModel[0].items.firstIndex(where: { $0.task.id == addTask.id }).flatMap { bringFocusToTextField($0) }
         })
         .disposed(by: bag)
-
         }
         if project?.tasks.contains(task) ?? true { return }
         addTask = RlmTask()
+        if task.name.isEmpty { task.name = "New To-Do" }
+        
         _ = try! RealmProvider.main.realm.write {
             project?.tasks.append(task)
         }
@@ -124,7 +125,7 @@ class CreateProjectVcVm {
         guard task.tags.isEmpty && !tasksAllowedToHaveTags.contains(task) else { return }
         if task == addTask {
             tasksAllowedToHaveTags.insert(task)
-            taskCreated(addTask)
+            taskCreated(addTask, goToNewCellTextField: false)
             afterReloadTaskCells
                 .take(1)
                 .subscribe(onNext: { [weak self] in
@@ -145,7 +146,7 @@ class CreateProjectVcVm {
         _ = try! RealmProvider.main.realm.write {
             task.date = RlmTaskDate(date: date.0, reminder: date.1, repeat: date.2)
         }
-        if task == addTask { taskCreated(addTask) }
+        if task == addTask { taskCreated(addTask, goToNewCellTextField: false) }
     }
     
     func onFocusChanged(to task: RlmTask?) {
@@ -168,6 +169,7 @@ class CreateProjectVcVm {
         _ = try! RealmProvider.main.realm.write {
             task.priority = priority
         }
+        if task == addTask { taskCreated(addTask) }
     }
     
     func getRealRowIndex(_ index: Int) -> Int {

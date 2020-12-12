@@ -111,7 +111,6 @@ class CreateProjectVc: UIViewController {
         container.layout(colorCircle).top(42).leading(26)
         container.layout(projectNameField).leading(61).top(37).trailing(12 + 24)
         container.layout(growingTextView).leading(61).top(projectNameField.anchor.bottom, 5).trailing(12 + 24)
-        container.layout(plusButton).trailing(20).bottom(70)
         
         container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom(Toolbar.height)
         container.layout(toolbarContainer).trailing().leading().bottom()
@@ -119,6 +118,10 @@ class CreateProjectVc: UIViewController {
             make.height.equalTo(Toolbar.height)
         }
         toolbarContainer.layout(toolbar).trailing().leading().top()
+        container.layout(plusButton).trailing(20)
+        plusButton.snp.makeConstraints { make in
+            make.bottom.equalTo(-70)
+        }
         setupTableView()
     }
     
@@ -157,7 +160,7 @@ class CreateProjectVc: UIViewController {
             cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil)  }
             return cell
         }
-        dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .fade, deleteAnimation: .fade)
+        dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .none)
 
         viewModel.reloadTasksCells = { [weak self] mods in
             print("viewModel.reloadTasksCells \(mods)")
@@ -205,6 +208,9 @@ class CreateProjectVc: UIViewController {
                 print("height changed to2 \(height)")
                 toolbarContainer.snp.remakeConstraints { make in
                     make.height.equalTo(Toolbar.height + height)
+                }
+                plusButton.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(70 + height))
                 }
                 UIView.animate(withDuration: 0.5) {
                     self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
