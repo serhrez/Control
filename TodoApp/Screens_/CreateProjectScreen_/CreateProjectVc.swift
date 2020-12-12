@@ -171,7 +171,6 @@ class CreateProjectVc: UIViewController {
             let cell = self?.collectionView.cellForRow(at: IndexPath(row: mods.first!, section: 0))
             cell?.isHidden = true
             self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
-//            self?.collectionView.layer.removeAllAnimations()
         }
         viewModel.bringFocusToTagsAtIndex = { [unowned self] rowIndex in
             print("viewModel.bringFocusToTagsAtIndex \(rowIndex)")
@@ -184,6 +183,9 @@ class CreateProjectVc: UIViewController {
             print("viewModel.bringFocusToTextField \(rowIndex)")
             if rowIndex == collectionView.numberOfRows(inSection: 0) - 1 {
                 collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: .bottom, animated: false)
+            } else if let visibleCells = collectionView.indexPathsForVisibleRows,
+                      !visibleCells.contains(IndexPath(row: rowIndex, section: 0)) && visibleCells.contains(IndexPath(row: rowIndex + 2, section: 0)) {
+                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: .top, animated: false)
             }
             guard let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as? TaskCell else { print("BRING FOCUS HERE ALERT viewModel.bringFocusToTextField"); return }
             cell.bringFocusToTextField()
