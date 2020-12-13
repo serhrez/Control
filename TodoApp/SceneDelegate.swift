@@ -22,12 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         PredefinedRealm.populateRealm(RealmProvider.main.realm)
 //        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
-//        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
+        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
 //        let tag1 = RealmProvider.main.realm.objects(RlmTag.self).filter { $0.name == "tag1" }.first!
 //        let viewController = TagDetailVc(viewModel: .init(tag: tag1))
 //        let viewController = TimePickerVc(hours: 12, minutes: 23, onDone: { print($0) })
 //        let viewController = SearchVc()
-        let viewController = CreateProjectVc(viewModel: .init())
+//        let viewController = CreateProjectVc(viewModel: .init())
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 

@@ -48,6 +48,10 @@ class AppNavigationRouter {
     func openRepeat(onDone: @escaping (Repeat?) -> Void, selected: Repeat?) {
         pushVc(Selection1Vc.repeatVc(onDone: onDone, selected: selected), .autoReverse(presenting: .push(direction: .left)))
     }
+    
+    func openTime(onDone: @escaping (_ hours: Int, _ minutes: Int) -> Void, selected: (hours: Int, minutes: Int)?) {
+        pushVc(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: onDone), .autoReverse(presenting: .push(direction: .left)))
+    }
 
 }
 

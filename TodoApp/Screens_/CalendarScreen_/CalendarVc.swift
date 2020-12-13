@@ -142,7 +142,8 @@ final class CalendarVc: UIViewController {
         router.openRepeat(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.repeat.value)
     }
     func clickedTime() {
-        
+        let date = viewModel.date.value.0
+        router.openTime(onDone: { [unowned self] in self.viewModel.timeSelected(hours: $0, minutes: $1) }, selected: date.flatMap { ($0.hour, $0.minute) })
     }
     var didDisappear: () -> Void = { }
     deinit {

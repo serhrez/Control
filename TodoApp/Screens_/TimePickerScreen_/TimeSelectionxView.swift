@@ -56,7 +56,6 @@ class TimeSelectionxView: UIView {
     
     func viewDidAppear() {
         collectionView.velocityMultiplier = 500
-        collectionView.scrollToItem(at: IndexPath(item: initialSelected, section: 0), at: .centeredVertically, animated: false)
     }
 }
 extension TimeSelectionxView: UICollectionViewDelegateFlowLayout {
@@ -73,8 +72,14 @@ extension TimeSelectionxView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TPVTextCell.reuseIdentifier, for: indexPath) as! TPVTextCell
         let realIndexPath = self.collectionView.indexPath(from: indexPath)
-        cell.configure(text: "\(realIndexPath.item)")
+        cell.configure(text: "\(getNumberForItem(realIndexPath.item))")
         return cell
+    }
+    
+    func getNumberForItem(_ item: Int) -> Int {
+        let r = item + initialSelected
+        if numberOfItems <= r { return r - numberOfItems }
+        return r
     }
     
 }
@@ -83,6 +88,6 @@ extension TimeSelectionxView: InfiniteCollectionViewDelegate {
     func infiniteCollectionView(_ infiniteCollectionView: InfiniteCollectionView, didChangeCenteredIndexPath from: IndexPath?, to: IndexPath?) {
         guard let to = to else { return }
         let realIndexPath = self.collectionView.indexPath(from: to)
-        selected = realIndexPath.item
+        selected = getNumberForItem(realIndexPath.item)
     }
 }

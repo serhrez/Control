@@ -50,7 +50,12 @@ class CalendarVcVm {
         date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
     }
     func clickedNextMonday() {
-        date.accept((Date().nextWeekday(.monday).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        var nextWeekday = Date().nextWeekday(.monday)
+        if Date().isInside(date: nextWeekday, granularity: .weekOfMonth) {
+            nextWeekday = nextWeekday.nextWeekday(.tuesday).nextWeekday(.monday)
+        }
+
+        date.accept((nextWeekday.dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
     }
     func clickedEvening() {
         if date.value.0.flatMap({ $0.hour < 18 }) ?? true {
@@ -64,6 +69,11 @@ class CalendarVcVm {
     
     func repeatSelected(_ repeatx: Repeat?) {
         self.repeat.accept(repeatx)
+    }
+    
+    func timeSelected(hours: Int, minutes: Int) {
+        let currDate = (date.value.0 ?? Date()).dateBySet(hour: hours, min: minutes, secs: 0)
+        self.date.accept((currDate, false))
     }
 }
 

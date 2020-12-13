@@ -35,8 +35,8 @@ class TimePickerVc: UIViewController {
     private var clearDoneButtons: ClearDoneButtons!
     
     init(hours: Int, minutes: Int, onDone: @escaping ((hours: Int, minutes: Int)) -> Void) {
-        self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 23, selected: hours)
-        self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 59, selected: minutes)
+        self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 24, selected: hours)
+        self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 60, selected: minutes)
         super.init(nibName: nil, bundle: nil)
         clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
             self.router.navigationController.popViewController(animated: true)
@@ -60,8 +60,14 @@ class TimePickerVc: UIViewController {
         incontainerCenter.layout(timeSelectionMinutesView).trailing().top().bottom()
         containerView.layout(clearDoneButtons).top(incontainerCenter.anchor.bottom, 63).bottom(20).leading(20).trailing(20)
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         [timeSelectionHoursView, timeSelectionMinutesView].forEach { $0.viewDidAppear() }
     }
+    deinit {
+        didDisappear()
+    }
+    var didDisappear: () -> Void = { }
 }
+extension TimePickerVc: AppNavigationRouterDelegate { }
