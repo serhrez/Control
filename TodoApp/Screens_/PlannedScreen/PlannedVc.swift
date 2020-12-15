@@ -21,8 +21,11 @@ final class PlannedVc: UIViewController {
     private lazy var calendarView: CalendarView = {
         let layout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - calendarPadding * 2 - calendarInset * 2, cellColumns: 7, cellRows: 6)
         let view = CalendarView(layout: layout, alreadySelectedDate: .init(), selectDate: { [weak self] date in
-            self?.calendarViewCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false);
-            self?.viewModel.selectDayFromJct(date);
+            if let cvc = self?.calendarViewCollectionView,
+               cvc.numberOfSections > 0 && cvc.numberOfItems(inSection: 0) > 0 {
+                self?.calendarViewCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            }
+            self?.viewModel.selectDayFromJct(date)
         }, datePriorities: viewModel.datePriorities)
         return view
     }()

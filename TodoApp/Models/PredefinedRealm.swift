@@ -52,9 +52,11 @@ class PredefinedRealm {
             let project2 = RlmProject(name: "Work", icon: .text("🚒"), notes: "", color: .hex("#00CE15"), date: Date())
             task = RlmTask(name: "Task1", isDone: true)
             task.tags.append(tag1)
+            task.priority = .low
             task.date = .init(date: datereferencex, reminder: .threeDaysEarlier, repeat: nil)
             project2.tasks.append(task)
             task = RlmTask(name: "Task2", isDone: true)
+            task.priority = .high
             task.tags.append(tag2)
             task.date = .init(date: datereferencex, reminder: .threeDaysEarlier, repeat: nil)
             project2.tasks.append(task)

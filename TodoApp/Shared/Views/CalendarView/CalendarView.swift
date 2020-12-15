@@ -67,9 +67,15 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: range.start)
         header.configure(month: month, year: year, onPrev: {
-            calendar.scrollToSegment(.previous)
+            calendar.isUserInteractionEnabled = false
+            calendar.scrollToSegment(.previous) {
+                calendar.isUserInteractionEnabled = true
+            }
         }, onNext: {
-            calendar.scrollToSegment(.next)
+            calendar.isUserInteractionEnabled = false
+            calendar.scrollToSegment(.next) {
+                calendar.isUserInteractionEnabled = true
+            }
         })
         header.setTaLayout(taLayout: taLayout)
         return header

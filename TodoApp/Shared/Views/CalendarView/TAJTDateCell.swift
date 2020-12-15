@@ -45,6 +45,9 @@ class TAJTDateCell: JTACDayCell {
         selectedView.isHidden = !cellState.isSelected
         previousIndicatorsStack?.removeFromSuperview()
         var indicatorColors: [UIColor] = []
+        if gray {
+            indicatorColors.append(.hex("#A4A4A4"))
+        }
         if blue {
             indicatorColors.append(cellState.isSelected ? .white : UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1))
         }
@@ -53,9 +56,6 @@ class TAJTDateCell: JTACDayCell {
         }
         if red {
             indicatorColors.append(UIColor(red: 0.938, green: 0.266, blue: 0.223, alpha: 1))
-        }
-        if gray {
-            indicatorColors.append(.hex("#A4A4A4"))
         }
         previousIndicatorsStack = getIndicatorsStack(colors: indicatorColors)
         layout(previousIndicatorsStack!).centerX().top(label.anchor.bottom, 4)
