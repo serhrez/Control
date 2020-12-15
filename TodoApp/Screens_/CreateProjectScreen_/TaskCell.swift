@@ -13,9 +13,7 @@ import SwiftDate
 import Material
 import ResizingTokenField
 
-
-
-final class TaskCell: UITableViewCell {
+final class TaskCell: UICollectionViewCell {
     static let reuseIdentifier = "taskcell"
     private let plusView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "plus")?.withAlignmentRectInsets(.init(top: -2, left: -2, bottom: -2, right: -2)))
@@ -51,9 +49,10 @@ final class TaskCell: UITableViewCell {
     }()
     var tokenFieldHeight: CGFloat = 0
     var onDeleteTag: (String) -> Void = { _ in }
-    var addToken: (String) -> Void = { _ in }
+    var addToken: (String) -> Bool = { _ in false }
     var onTaskNameChanged: (String) -> Void = { _ in }
     var onCreatedTask: () -> Void = {  }
+    var shouldUpdateLayout: () -> Void = { }
     var onSelected: ((Bool) -> Void)? {
         get { checkboxView.onSelected }
         set { checkboxView.onSelected = newValue }
@@ -64,10 +63,8 @@ final class TaskCell: UITableViewCell {
         set { textField.onDeleteBackwardWhenEmpty = newValue }
     }
         
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        selectionStyle = .none
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
     
@@ -75,6 +72,13 @@ final class TaskCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     var isConfiguredAsNew: Bool = false
+    
+    func update(date: Date?, priority: Priority) {
+        checkboxView.configure(priority: priority)
+        dateLabel.text = date?.toFormat("yyyy MMM HH:mm")
+
+//        tokenField.tokens
+    }
     
     func configureAsNew(tagAllowed: Bool) {
         resetClosureBindings()
@@ -116,7 +120,7 @@ final class TaskCell: UITableViewCell {
     
     private func resetClosureBindings() {
         onDeleteTag = { _ in }
-        addToken = { _ in }
+        addToken = { _ in false }
         onTaskNameChanged = { _ in }
         onCreatedTask = { }
         onSelected = { _ in }
@@ -166,7 +170,7 @@ final class TaskCell: UITableViewCell {
     }
     
     func bringFocusToTokenField() {
-        tokenField.becomeFirstResponder()
+        _ = tokenField.becomeFirstResponder()
     }
     
     func bringFocusToTextField() {
@@ -178,12 +182,16 @@ extension TaskCell: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, willChangeHeight newHeight: CGFloat) {
         tokenFieldHeight = newHeight
     }
+
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {
-//        viewModel.deleteTag(with: token.title)
         if tokenField.allowDeletionTags {
             onDeleteTag(token.title)
         }
-        return false
+        return true
+    }
+    
+    func resizingTokenField(_ tokenField: ResizingTokenField, didRemoveToken token: ResizingTokenFieldToken) {
+        shouldUpdateLayout()
     }
     
     func resizingTokenFieldShouldCollapseTokens(_ tokenField: ResizingTokenField) -> Bool {
@@ -197,6 +205,7 @@ extension TaskCell: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, configurationForDefaultCellRepresenting token: ResizingTokenFieldToken) -> DefaultTokenCellConfiguration? {
         ResizingTokenConfiguration()
     }
+    
 }
 
 extension TaskCell: UITextFieldDelegate {
@@ -231,11 +240,17 @@ extension TaskCell: UITextFieldDelegate {
         switch textField {
         case tokenField.textField:
             guard let text = textField.text, !text.isEmpty else { textField.resignFirstResponder() ;return true }
-            addToken(text)
             tokenField.text = nil
+            if addToken(text) {
+                let token = ResizingToken(title: text)
+                tokenField.append(tokens: [token])
+                shouldUpdateLayout()
+                bringFocusToTokenField()
+            }
         case self.textField:
-            if !(textField.text?.isEmpty ?? true) && isConfiguredAsNew { onTaskNameChanged(textField.text ?? ""); onCreatedTask(); resetClosureBindings() }
-            textField.resignFirstResponder()
+            if !(textField.text?.isEmpty ?? true) && isConfiguredAsNew { onTaskNameChanged(textField.text ?? ""); onCreatedTask(); resetClosureBindings(); return false } else {
+                textField.resignFirstResponder()
+            }
         default: break
         }
         return true

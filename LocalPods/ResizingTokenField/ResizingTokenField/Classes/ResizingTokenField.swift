@@ -428,6 +428,7 @@ open class ResizingTokenField: UIView, UICollectionViewDataSource, UICollectionV
             self.remove(tokens: [token], animated: self.shouldTextInputRemoveTokensAnimated)
             _ = self.textField?.becomeFirstResponder()
             self.text = text
+            self.delegate?.resizingTokenField(self, didRemoveToken: token)
         }
     }
     

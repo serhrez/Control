@@ -15,10 +15,49 @@ import Typist
 import RxDataSources
 import SwiftDate
 import PopMenu
+import ResizingTokenField
+
+class CustomLayout: UICollectionViewLayout {
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        guard let collectionView = collectionView, collectionView.numberOfSections > 0 else { return nil }
+        return (0..<collectionView.numberOfItems(inSection: 0)).compactMap { layoutAttributesForItem(at: .init(row: $0, section: 0)) }
+    }
+
+    var heights: [IndexPath: CGFloat] = [:]
+
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        guard let collectionView = collectionView else { return nil }
+        let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        let y: CGFloat = heights[IndexPath(item: indexPath.item - 1, section: 0)] ?? 0
+        attrs.frame = .init(x: 0, y: y, width: collectionView.frame.width, height: 30)
+        heights[indexPath] = attrs.frame.maxY
+
+        return attrs
+    }
+
+    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        guard let collectionView = collectionView else { return nil }
+        let indexPath = itemIndexPath
+        let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        let y: CGFloat = heights[IndexPath(item: indexPath.item - 1, section: 0)] ?? 0
+        attrs.frame = .init(x: 0, y: y, width: collectionView.frame.width, height: 30)
+        heights[indexPath] = attrs.frame.maxY
+
+        return attrs
+    }
+
+    override var collectionViewContentSize: CGSize {
+        guard let collectionView = collectionView, collectionView.numberOfSections > 0 else { return .init(width: 0, height: 0) }
+        return .init(width: collectionView.frame.width, height: heights[IndexPath(item: collectionView.numberOfItems(inSection: 0) - 1, section: 0)] ?? 0)
+    }
+}
 
 class CreateProjectVc: UIViewController {
+    let privateTokenField = ResizingTokenField()
+
     private let viewModel: CreateProjectVcVm
-    private lazy var collectionView = UITableView()
+    private var flowLayout = CustomLayout()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     private let bag = DisposeBag()
     private let container: UIView = {
         let view = UIView()
@@ -128,25 +167,22 @@ class CreateProjectVc: UIViewController {
             make.bottom.equalTo(-70)
         }
         setupTableView()
+        collectionView.layout(privateTokenField).top().leading().trailing()
     }
     
     private func setupTableView() {
-        collectionView.register(TaskCell.self, forCellReuseIdentifier: TaskCell.reuseIdentifier)
-        collectionView.register(EmptyCell.self, forCellReuseIdentifier: EmptyCell.identifier)
+        collectionView.register(TaskCell.self, forCellWithReuseIdentifier: TaskCell.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.contentOffset = .zero
+//        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+//        flowLayout.itemSize = UICollectionViewFlowLayout.automaticSize
         collectionView.contentInset = .zero
-        collectionView.rowHeight = UITableView.automaticDimension
-        collectionView.separatorStyle = .none
-        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UITableViewCell in
-            if model.isEmptySpace {
-                let cell = collectionView.dequeueReusableCell(withIdentifier: EmptyCell.identifier, for: indexPath) as! EmptyCell
-                return cell
-            }
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             print("cell for row at \(indexPath)")
-            let cell = collectionView.dequeueReusableCell(withIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
             let task = model.task
             switch model.mode {
             case .addTask:
@@ -163,37 +199,45 @@ class CreateProjectVc: UIViewController {
                 cell.onDeleteTask = { self.viewModel.shouldDelete(task) }
             }
             cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil, isFromTags: $1)  }
+            cell.shouldUpdateLayout = updateLayout
             return cell
         }
         dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade)
-
-        viewModel.reloadTasksCells = { [weak self] mods in
-            let cell = self?.collectionView.cellForRow(at: IndexPath(row: mods.first!, section: 0))
-            cell?.isHidden = true
-            self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
+        viewModel.shouldUpdateCells = { [unowned self] rows in
+            let ips = rows.map { IndexPath(row: $0, section: 0) }
+            for ip in ips {
+                guard let cell = collectionView.cellForItem(at: ip) as? TaskCell else { break }
+                let task = viewModel.tasksModel[0].items[ip.item].task
+                cell.update(date: task.date?.date, priority: task.priority)
+            }
+            updateLayout()
         }
+////            let cell = self?.collectionView.cellForRow(at: IndexPath(row: mods.first!, section: 0))
+////            cell?.isHidden = true
+////            self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
+//        }
         viewModel.bringFocusToTagsAtIndex = { [unowned self] rowIndex in
-            guard let visibleCells = self.collectionView.indexPathsForVisibleRows?.map { $0.row },
-                  let startVisible = visibleCells.first,
+            let visibleCells = self.collectionView.indexPathsForVisibleItems.map { $0.row }
+            guard let startVisible = visibleCells.first,
                   let endVisible = visibleCells.last else { return }
             if !visibleCells.contains(rowIndex) {
-                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: rowIndex < startVisible ? .top : .bottom, animated: false)
+                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: rowIndex < startVisible ? .top : .bottom, animated: false)
             }
             print("viewModel.bringFocusToTagsAtIndex \(rowIndex)")
-            let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as! TaskCell
+            let cell = collectionView.cellForItem(at: IndexPath(row: rowIndex, section: 0)) as! TaskCell
             UIView.performWithoutAnimation {
                 cell.bringFocusToTokenField()
             }
         }
         viewModel.bringFocusToTextField = { [unowned self] rowIndex in
             print("viewModel.bringFocusToTextField \(rowIndex)")
-            if rowIndex == collectionView.numberOfRows(inSection: 0) - 1 {
-                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: .bottom, animated: false)
-            } else if let visibleCells = collectionView.indexPathsForVisibleRows,
-                      !visibleCells.contains(IndexPath(row: rowIndex, section: 0)) && visibleCells.contains(IndexPath(row: rowIndex + 2, section: 0)) {
-                collectionView.scrollToRow(at: IndexPath(row: rowIndex, section: 0), at: .top, animated: false)
+            let visibleCells = collectionView.indexPathsForVisibleItems
+            if rowIndex == collectionView.numberOfItems(inSection: 0) - 1 {
+                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: .bottom, animated: false)
+            } else if !visibleCells.contains(IndexPath(row: rowIndex, section: 0)) && visibleCells.contains(IndexPath(row: rowIndex + 2, section: 0)) {
+                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: .top, animated: false)
             }
-            guard let cell = collectionView.cellForRow(at: IndexPath(row: rowIndex, section: 0)) as? TaskCell else { print("BRING FOCUS HERE ALERT viewModel.bringFocusToTextField"); return }
+            guard let cell = collectionView.cellForItem(at: IndexPath(row: rowIndex, section: 0)) as? TaskCell else { print("BRING FOCUS HERE ALERT viewModel.bringFocusToTextField"); return }
             cell.bringFocusToTextField()
         }
         viewModel.tasksUpdate
@@ -205,21 +249,9 @@ class CreateProjectVc: UIViewController {
         keyboard
             //.toolbar(scrollView: collectionView)
             .on(event: .willChangeFrame) { [unowned self] options in
-                print("height changed to: \(options.endFrame.intersection(container.frame).height)")
                 heightChangeSubject.on(.next((options.endFrame.intersection(container.frame).height)))
-            }
-            .on(event: .willHide) { [unowned self] options in
-                heightChangeSubject.on(.next(options.endFrame.intersection(container.frame).height))
-            }
-            .start()
-        
-        Observable.merge(heightChangeSubject
-                            .debounce(.milliseconds(50), scheduler: MainScheduler.instance),
-                         heightChangeSubject
-                             .filter { $0 != 0 })
-            .distinctUntilChanged()
-            .subscribe(onNext: { [unowned self] height in
-                print("height changed to2 \(height)")
+                let height = options.endFrame.intersection(container.frame).height
+//                print("height changed to2 \(height)")
                 toolbarContainer.snp.remakeConstraints { make in
                     make.height.equalTo(Toolbar.height + height)
                 }
@@ -230,8 +262,45 @@ class CreateProjectVc: UIViewController {
                     self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                     view.layoutSubviews()
                 }
-            })
-            .disposed(by: bag)
+
+            }
+            .on(event: .willHide) { [unowned self] options in
+                heightChangeSubject.on(.next(options.endFrame.intersection(container.frame).height))
+                let height = options.endFrame.intersection(container.frame).height
+//                print("height changed to2 \(height)")
+                toolbarContainer.snp.remakeConstraints { make in
+                    make.height.equalTo(Toolbar.height + height)
+                }
+                plusButton.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(70 + height))
+                }
+                UIView.animate(withDuration: 0.5) {
+                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                    view.layoutSubviews()
+                }
+
+            }
+            .start()
+        
+//        Observable.merge(heightChangeSubject
+//                            .debounce(.milliseconds(50), scheduler: MainScheduler.instance),
+//                         heightChangeSubject
+//                             .filter { $0 != 0 })
+//            .distinctUntilChanged()
+//            .subscribe(onNext: { [unowned self] height in
+//                print("height changed to2 \(height)")
+//                toolbarContainer.snp.remakeConstraints { make in
+//                    make.height.equalTo(Toolbar.height + height)
+//                }
+//                plusButton.snp.remakeConstraints { make in
+//                    make.bottom.equalTo(-(70 + height))
+//                }
+//                UIView.animate(withDuration: 0.5) {
+//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+//                    view.layoutSubviews()
+//                }
+//            })
+//            .disposed(by: bag)
     }
     
     private func plusClicked() {
@@ -301,19 +370,34 @@ class CreateProjectVc: UIViewController {
         }
     }
     
+    private func updateLayout() {
+        guard !collectionView.indexPathsForVisibleItems.isEmpty else { return }
+        collectionView.performBatchUpdates({
+            self.flowLayout.invalidateLayout()
+        }, completion: nil)
+    }
+    
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
     }
     var estimatedHeights: [IndexPath: CGFloat] = [:]
 }
-extension CreateProjectVc: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        estimatedHeights[indexPath] = cell.frame.height
+extension CreateProjectVc: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size: CGSize = .init(width: collectionView.frame.width, height: estimatedHeights[indexPath] ?? 0.1)
+        estimatedHeights[indexPath] = size.height
+        return size
     }
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return estimatedHeights[indexPath] ?? .zero
-    }
+    
+}
+extension CreateProjectVc: UICollectionViewDelegate {
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        estimatedHeights[indexPath] = cell.frame.height
+//    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return estimatedHeights[indexPath] ?? .zero
+//    }
 }
 
 extension CreateProjectVc: UITextFieldDelegate {
@@ -348,21 +432,3 @@ extension CreateProjectVc: UITextViewDelegate {
 }
 
 extension CreateProjectVc: AppNavigationRouterDelegate { }
-
-fileprivate class EmptyCell: UITableViewCell {
-    static let identifier = "emptycell"
-
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        selectionStyle = .none
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        return .init(width: targetSize.width, height: 30)
-    }
-}
