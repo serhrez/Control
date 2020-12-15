@@ -39,12 +39,12 @@ final class InboxTasksVc: UIViewController {
         tableView.alwaysBounceVertical = true
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(TaskCellx1.self, forCellReuseIdentifier: TaskCellx1.reuseIdentifier)
+        tableView.register(TaskCellx1TB.self, forCellReuseIdentifier: TaskCellx1TB.reuseIdentifier)
         tableView.register(InboxDoneTaskCell.self, forCellReuseIdentifier: InboxDoneTaskCell.reuseIdentifier)
         let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<InboxTasksVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
             switch model {
             case let .task(task):
-                let taskCell = tableView.dequeueReusableCell(withIdentifier: TaskCellx1.reuseIdentifier, for: indexPath) as! TaskCellx1
+                let taskCell = tableView.dequeueReusableCell(withIdentifier: TaskCellx1TB.reuseIdentifier, for: indexPath) as! TaskCellx1TB
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()

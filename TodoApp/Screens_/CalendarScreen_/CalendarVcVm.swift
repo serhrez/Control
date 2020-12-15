@@ -17,26 +17,17 @@ class CalendarVcVm {
     let `repeat`: BehaviorRelay<Repeat?>
     // Bool - is update from calendarView?
     let date: BehaviorRelay<(Date?, Bool?)>
-    private var datesPrioritiesDict = [Date: Set<Priority>]()
+    private let datePrioritiesHolder = DatePrioritiesHolder()
 
     init(reminder: Reminder?, repeat: Repeat?, date: Date?) {
         self.reminder = .init(value: reminder)
         self.repeat = .init(value: `repeat`)
         self.date = .init(value: (date, nil))
-        setupDatesSet()
-    }
-    func setupDatesSet() {
-        for task in RealmProvider.main.realm.objects(RlmTask.self) where task.date?.date != nil && task.priority != .none {
-            let startDate = task.date!.date!.dateAtStartOf(.day)
-            var prioritiesOnDate = datesPrioritiesDict[startDate] ?? []
-            prioritiesOnDate.insert(task.priority)
-            datesPrioritiesDict[startDate] = prioritiesOnDate
-        }
+        datePrioritiesHolder.updateDatesSet()
     }
     
-    func datePriorities(_ date: Date) -> (blue: Bool, orange: Bool, red: Bool) {
-        guard let set = datesPrioritiesDict[date.dateAtStartOf(.day)] else { return (false, false, false) }
-        return (set.contains(.low), set.contains(.medium), set.contains(.high))
+    func datePriorities(_ date: Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool) {
+        datePrioritiesHolder.datePriorities(date)
     }
     
     func selectDayFromJct(_ datex: Date) {

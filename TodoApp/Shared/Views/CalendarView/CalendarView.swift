@@ -16,10 +16,10 @@ final class CalendarView: UIView {
     private let jct = JTACMonthView()
     private let formatter = DateFormatter()
     private let selectDate: (Date) -> Void
-    private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool)
+    private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)
     private let alreadySelectedDate: Date
     
-    init(layout: CalendarViewLayout = .default1, alreadySelectedDate: Date, selectDate: @escaping (Date) -> Void, datePriorities: @escaping (Date) -> (blue: Bool, orange: Bool, red: Bool)) {
+    init(layout: CalendarViewLayout = .default1, alreadySelectedDate: Date, selectDate: @escaping (Date) -> Void, datePriorities: @escaping (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)) {
         self.taLayout = layout
         self.selectDate = selectDate
         self.datePriorities = datePriorities
@@ -77,7 +77,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         guard let cell = cell as? TAJTDateCell else { return }
         let priorities = datePriorities(date)
-        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red)
+        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red, gray: priorities.gray)
     }
     
     func configureCalendar(_ calendar: JTACMonthView) -> ConfigurationParameters {
@@ -96,7 +96,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     func calendar(_ calendar: JTACMonthView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTACDayCell {
         guard let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: TAJTDateCell.idq, for: indexPath) as? TAJTDateCell else { return TAJTDateCell() }
         let priorities = datePriorities(date)
-        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red)
+        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red, gray: priorities.gray)
         return cell
     }
     func calendar(_ calendar: JTACMonthView, shouldSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) -> Bool {
@@ -106,7 +106,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
         guard let cell = cell as? TAJTDateCell else { return }
         let priorities = datePriorities(date)
-        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red)
+        cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red, gray: priorities.gray)
         if !wasLastUpdateViaJctSelect {
         selectDate(date)
         }
@@ -118,7 +118,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     func calendar(_ calendar: JTACMonthView, didDeselectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
         if let cell = cell as? TAJTDateCell {
             let priorities = datePriorities(date)
-            cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red)
+            cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red, gray: priorities.gray)
         }
     }
     func calendarSizeForMonths(_ calendar: JTACMonthView?) -> MonthSize? {

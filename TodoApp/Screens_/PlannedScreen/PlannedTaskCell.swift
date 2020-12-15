@@ -1,8 +1,8 @@
 //
-//  TaskCellx1.swift
+//  PlannedTaskCell.swift
 //  TodoApp
 //
-//  Created by sergey on 16.11.2020.
+//  Created by sergey on 15.12.2020.
 //
 
 import Foundation
@@ -10,37 +10,57 @@ import UIKit
 import Material
 import ResizingTokenField
 
-class TaskCellx1TB: UITableViewCell {
-    static let reuseIdentifier = "taskcellx1tb"
+class PlannedTaskCell: UICollectionViewCell {
+    static let reuseIdentifier = "plannedtaskcell"
     private let overlayView = OverlaySelectionView()
-    private let checkboxView = CheckboxView()
+    private let checkboxView = AutoselectCheckboxView()
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-
+        label.heightAnchor.constraint(equalToConstant: 24).isActive = true
         return label
     }()
     private let verticalStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 1
+        stack.spacing = 0
         return stack
     }()
+    
     private let verticalHorizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 6
         return stack
     }()
-    private let indicators: UIStackView = {
+    
+    private let verticalStackRight: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
+        stack.setContentHuggingPriority(.init(1), for: .horizontal)
+        stack.alignment = .trailing
+        return stack
+    }()
+    private let verticalStackRightIndicators: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 10
         return stack
     }()
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 10, weight: .bold)
+        label.textColor = .hex("#a4a4a4")
+        label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
+
+        return label
+    }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
     
@@ -48,22 +68,22 @@ class TaskCellx1TB: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(text: String, date: Date?, tagName: String?, hasChecklist: Bool, onSelected: @escaping () -> Void) {
+    func configure(text: String, date: Date, priority: Priority, tagName: String?, otherTags: Bool, isSelected: Bool, hasChecklist: Bool, onSelected: @escaping (Bool) -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()
-        indicators.CSTremoveAllSubviews()
+        verticalStackRightIndicators.CSTremoveAllSubviews()
         checkboxView.onSelected = onSelected
+        checkboxView.configure(isChecked: isSelected)
+        checkboxView.configure(priority: priority)
         nameLabel.text = text
+        dateLabel.text = date.toFormat("hh:mm a")
         if let tagName = tagName {
             verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))
         }
-        if let date = date {
-            verticalHorizontalStack.addArrangedSubview(getDateLabel(text: DateFormatter.str(from: date)))
-        }
         if hasChecklist {
-            indicators.addArrangedSubview(getIndicatorImageView("list-check"))
+            verticalStackRightIndicators.addArrangedSubview(getIndicatorImageView("list-check"))
         }
         if date != nil {
-            indicators.addArrangedSubview(getIndicatorImageView("calendar"))
+            verticalStackRightIndicators.addArrangedSubview(getIndicatorImageView("calendar"))
         }
         verticalHorizontalStack.addArrangedSubview(UIView()) // works like spacer, so that view will be stretched to the left
     }
@@ -86,18 +106,25 @@ class TaskCellx1TB: UITableViewCell {
         contentView.layout(checkboxView).centerY().width(22).leading(20)
         checkboxView.configure(isChecked: false)
         
-        contentView.layout(indicators).centerY().trailing(21)
+        contentView.layout(verticalStackRight).centerY().trailing(21)
         
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(verticalHorizontalStack)
-        contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
-        
+        verticalStackRight.addArrangedSubview(dateLabel)
+        verticalStackRight.addArrangedSubview(verticalStackRightIndicators)
+        contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).centerY()
+        contentView.layout(verticalStackRight).leading(verticalStack.anchor.trailing, 8)
         contentView.layout(overlayView).edges()
-        contentView.heightAnchor.constraint(equalToConstant: 62).isActive = true
     }
     
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        overlayView.setHighlighted(isHighlighted, animated: true)
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        return .init(width: targetSize.width, height: 62)
+    }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            overlayView.setHighlighted(isHighlighted, animated: true)
+        }
     }
     
     class TagView: UIView {
@@ -109,26 +136,18 @@ class TaskCellx1TB: UITableViewCell {
         init(text: String) {
             super.init(frame: .zero)
             self.text = text
-            layout(label).leading(8).trailing(8).top(2).bottom(2)
+            layout(label).leading(8).trailing(8).centerY()
             label.font = .systemFont(ofSize: 12, weight: .semibold)
             backgroundColor = UIColor.hex("#00CE15").withAlphaComponent(0.1)
             label.textColor = .hex("#00CE15")
-            layer.cornerRadius = 12
+            layer.cornerRadius = 8
             layer.cornerCurve = .continuous
+            self.heightAnchor.constraint(equalToConstant: 16).isActive = true
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-    }
-
-    private func getDateLabel(text: String) -> UILabel {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .hex("#A4A4A4")
-        label.text = text
-        
-        return label
     }
 
 }

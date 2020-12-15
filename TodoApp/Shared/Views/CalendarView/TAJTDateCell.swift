@@ -32,7 +32,7 @@ class TAJTDateCell: JTACDayCell {
     }
 
     
-    func configure(with cellState: CellState, blue: Bool, orange: Bool, red: Bool) {
+    func configure(with cellState: CellState, blue: Bool, orange: Bool, red: Bool, gray: Bool) {
         label.text = cellState.text
         if cellState.isSelected {
             label.textColor = .white
@@ -53,6 +53,9 @@ class TAJTDateCell: JTACDayCell {
         }
         if red {
             indicatorColors.append(UIColor(red: 0.938, green: 0.266, blue: 0.223, alpha: 1))
+        }
+        if gray {
+            indicatorColors.append(.hex("#A4A4A4"))
         }
         previousIndicatorsStack = getIndicatorsStack(colors: indicatorColors)
         layout(previousIndicatorsStack!).centerX().top(label.anchor.bottom, 4)
