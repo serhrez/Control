@@ -38,10 +38,9 @@ final class CalendarView: UIView {
         jct.register(TAJTDateHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TAJTDateHeader")
         jct.calendarDataSource = self
         jct.calendarDelegate = self
-        jct.cellSize = taLayout.cellWidthHeight
+        jct.cellSize = taLayout.cellWidthHeight + taLayout.columnsSpace
         jct.minimumLineSpacing = 0
-        jct.minimumInteritemSpacing = 0
-//        jct.minimumInteritemSpacing = taLayout.columnsSpace
+        jct.minimumInteritemSpacing = taLayout.columnsSpace / 2
         jct.scrollDirection = .horizontal
         jct.backgroundColor = .clear
         jct.scrollingMode = .stopAtEachCalendarFrame
@@ -136,16 +135,15 @@ struct CalendarViewLayout {
         min(availableWidth / cellColumns, 48)
     }
     var columnsSpace: CGFloat {
-        return 0
-//        let availableSpace = availableWidth - cellWidthHeight * cellColumns
-//        if availableSpace < 0.1 {
-//            return 0
-//        } else {
-//            return availableSpace / (cellColumns - 1)
-//        }
+        let availableSpace = (availableWidth - cellWidthHeight * cellColumns) / cellColumns
+        if availableSpace < 0.1 {
+            return 0
+        } else {
+            return availableSpace
+        }
     }
     var overallWidth: CGFloat {
-        cellColumns * cellWidthHeight + (cellColumns - 1) * columnsSpace
+        cellColumns * cellWidthHeight + (cellColumns - 1) * columnsSpace + columnsSpace
     }
     var overallHeight: CGFloat {
         cellWidthHeight * (cellRows + 2) // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
