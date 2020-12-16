@@ -77,7 +77,10 @@ class PlannedTaskCell: UICollectionViewCell {
         nameLabel.text = text
         dateLabel.text = date.toFormat("hh:mm a")
         if let tagName = tagName {
-            verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))
+            verticalHorizontalStack.addArrangedSubview(SingleTagView(text: tagName))
+        }
+        if otherTags {
+            verticalHorizontalStack.addArrangedSubview(ThreeDotsTagView())
         }
         if hasChecklist {
             verticalStackRightIndicators.addArrangedSubview(getIndicatorImageView("list-check"))
@@ -124,29 +127,6 @@ class PlannedTaskCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             overlayView.setHighlighted(isHighlighted, animated: true)
-        }
-    }
-    
-    class TagView: UIView {
-        let label = UILabel(frame: .zero)
-        var text: String {
-            get { label.text ?? "" }
-            set { label.text = newValue }
-        }
-        init(text: String) {
-            super.init(frame: .zero)
-            self.text = text
-            layout(label).leading(8).trailing(8).centerY()
-            label.font = .systemFont(ofSize: 12, weight: .semibold)
-            backgroundColor = UIColor.hex("#00CE15").withAlphaComponent(0.1)
-            label.textColor = .hex("#00CE15")
-            layer.cornerRadius = 8
-            layer.cornerCurve = .continuous
-            self.heightAnchor.constraint(equalToConstant: 16).isActive = true
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
         }
     }
 

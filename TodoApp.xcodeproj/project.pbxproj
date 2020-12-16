@@ -99,6 +99,7 @@
 		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */; };
+		A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A8EB258A247900FB50FC /* SingleTagView.swift */; };
 		A5FD7D302588C7B6002D7145 /* PlannedVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D2F2588C7B6002D7145 /* PlannedVc.swift */; };
 		A5FD7D352588C7BD002D7145 /* PlannedVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D342588C7BD002D7145 /* PlannedVcVm.swift */; };
 		A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D392588D393002D7145 /* PlannedVcHeader.swift */; };
@@ -225,6 +226,7 @@
 		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVcVm.swift; sourceTree = "<group>"; };
+		A5F6A8EB258A247900FB50FC /* SingleTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTagView.swift; sourceTree = "<group>"; };
 		A5FD7D2F2588C7B6002D7145 /* PlannedVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVc.swift; sourceTree = "<group>"; };
 		A5FD7D342588C7BD002D7145 /* PlannedVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVcVm.swift; sourceTree = "<group>"; };
 		A5FD7D392588D393002D7145 /* PlannedVcHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVcHeader.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				A52251C8256EF9CF00747E16 /* CalendarView */,
 				A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */,
 				A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */,
+				A5F6A8EB258A247900FB50FC /* SingleTagView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */,
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
 				A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */,
+				A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */,
 				A51967692584FE5D0021621A /* IconColCell.swift in Sources */,
 				A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */,
 				A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */,
