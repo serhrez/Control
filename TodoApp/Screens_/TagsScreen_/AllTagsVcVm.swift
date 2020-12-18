@@ -44,7 +44,6 @@ class AllTagsVcVm {
             guard let self = self else { return }
             switch changes {
             case let .update(projects, deletions: dels, insertions: _, modifications: _):
-                dels.forEach { self.selectionSet.remove(self.tags[$0]) }
                 self.tags = Array(projects.sorted(byKeyPath: "createdAt"))
             case let .initial(projects):
                 self.tags = Array(projects.sorted(byKeyPath: "createdAt"))
@@ -66,6 +65,8 @@ class AllTagsVcVm {
     }
     
     func addTag(name: String) {
+        guard !name.isEmpty else { return }
+        guard !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == name }) else { return }
         try! RealmProvider.main.realm.write {
             RealmProvider.main.realm.add(RlmTag(name: name))
         }
@@ -74,6 +75,7 @@ class AllTagsVcVm {
     }
     
     func deleteTag(_ tag: RlmTag) {
+        self.selectionSet.remove(tag)
         try! RealmProvider.main.realm.write {
             RealmProvider.main.realm.delete(tag)
         }

@@ -111,6 +111,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()

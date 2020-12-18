@@ -13,7 +13,7 @@ import AttributedLib
 class AllTagsEnterNameCell: UICollectionViewCell {
     static let reuseIdentifier = "alltagsenternamecell"
     
-    private let nameField = UITextField()
+    let nameField = UITextField()
     
     var tagCreated: ((String) -> Void)?
     
@@ -29,7 +29,6 @@ class AllTagsEnterNameCell: UICollectionViewCell {
     func configure(tagCreated: ((String) -> Void)?) {
         self.tagCreated = tagCreated
         nameField.text = ""
-        nameField.becomeFirstResponder()
     }
 
     func setupViews() {
@@ -45,12 +44,15 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         contentView.layout(nameField).centerY().leading(20).trailing(20)
         nameField.delegate = self
     }
+    override func becomeFirstResponder() -> Bool {
+        return nameField.becomeFirstResponder()
+    }
 }
 
 extension AllTagsEnterNameCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         tagCreated?(textField.text ?? "")
-        textField.resignFirstResponder()
+
         return true
     }
 }

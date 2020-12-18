@@ -18,7 +18,8 @@ import RealmSwift
 class AllTagsVc: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: AllTagsVcVm
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let layout = UICollectionViewFlowLayout()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     private let keyboard = Typist()
     private let mode: Mode
     
@@ -47,15 +48,14 @@ class AllTagsVc: UIViewController {
     func setupKeyboard() {
         keyboard
             .on(event: .willChangeFrame) { [unowned self] (options) in
-                let height = options.endFrame.height
-                UIView.animate(withDuration: 0) {
-                    self.view.layout(self.collectionView)
-                        .bottomSafe(height - self.view.safeAreaInsets.bottom)
-                    self.view.layoutIfNeeded()
-                }
+                let height = options.endFrame.intersection(view.frame).height
+                print("willChangeFrame set height: \(height)")
+                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             }
             .on(event: .willHide, do: { [unowned self] (options) in
-                self.view.layout(self.collectionView).bottomSafe()
+                let height = options.endFrame.intersection(view.frame).height
+                print("willHide set height: \(height)")
+                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             })
             .start()
     }
@@ -102,6 +102,15 @@ class AllTagsVc: UIViewController {
         }
         viewModel.modelsUpdate
             .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        viewModel.modelsUpdate
+            .compactMap { $0[0].items.firstIndex(where: { $0 == .addTag }) }
+            .subscribe(onNext: { [weak self] index in
+                if let indexPath = self?.collectionView.indexPathsForVisibleItems.first(where: { $0.row == index }),
+                   let cell = self?.collectionView.cellForItem(at: indexPath) as? AllTagsEnterNameCell {
+                    cell.becomeFirstResponder()
+                }
+            })
             .disposed(by: bag)
         collectionView.delegate = self
     }
@@ -154,7 +163,8 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         guard case .tag = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")
+        deleteAction.image = UIImage(named: "trash")?.withRenderingMode(.alwaysTemplate)
+        deleteAction.textColor = .white
         return [deleteAction]
     }
 }
