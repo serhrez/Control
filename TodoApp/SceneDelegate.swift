@@ -17,7 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         SwiftDate.defaultRegion = .current
         let window = UIWindow(windowScene: windowScene)
-        _ = try! FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
+        do {
+            try FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
+        } catch {
+            print(error.localizedDescription)
+        }
         PredefinedRealm.populateRealm(RealmProvider.main.realm)
 //        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
 //        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })

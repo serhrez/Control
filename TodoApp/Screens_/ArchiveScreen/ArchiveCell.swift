@@ -13,7 +13,7 @@ import SwipeCellKit
 class ArchiveCell: SwipeCollectionViewCell {
     static let reuseIdentifier = "archiveCell"
     private let overlayView = OverlaySelectionView()
-    private let checkboxView = AutoselectCheckboxViewArchive()
+    private let checkboxView = CheckboxViewArchive()
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
@@ -48,14 +48,14 @@ class ArchiveCell: SwipeCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(state: AutoselectCheckboxViewArchive.State) {
+    func update(state: CheckboxViewArchive.State) {
         checkboxView.configure(state: state)
     }
         
-    func configure(text: String, date: Date?, tagName: String?, hasChecklist: Bool, state: AutoselectCheckboxViewArchive.State, stateShouldChange: @escaping (AutoselectCheckboxViewArchive.State) -> AutoselectCheckboxViewArchive.State) {
+    func configure(text: String, date: Date?, tagName: String?, hasChecklist: Bool, state: CheckboxViewArchive.State, clickedWithState: @escaping (CheckboxViewArchive.State) -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()
         indicators.CSTremoveAllSubviews()
-        checkboxView.onStateChanged = stateShouldChange
+        checkboxView.onStateChanged = clickedWithState
         checkboxView.configure(state: state)
         nameLabel.text = text
         if let tagName = tagName {

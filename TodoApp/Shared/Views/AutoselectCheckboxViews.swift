@@ -10,7 +10,7 @@ import UIKit
 import Material
 
 
-class AutoselectCheckboxViewArchive: AutoselectCheckboxViewBase {
+class CheckboxViewArchive: AutoselectCheckboxViewBase {
     private let uncheckedView: UIView = {
         let uncheckedView = UIView()
         uncheckedView.borderColor = .hex("#DFDFDF")
@@ -24,16 +24,15 @@ class AutoselectCheckboxViewArchive: AutoselectCheckboxViewBase {
     private lazy var deleteView: UIView = UIImageView(image: UIImage(named: "closebutton"))
     private lazy var restoreView: UIView = getView(imageName: "restore", color: .hex("#FF9900"))
     private(set) var state: State = .unchecked
-    var onStateChanged: (State) -> State = { _ in .unchecked }
+    var onStateChanged: (State) -> Void = { _ in }
     
     init() {
         super.init(frame: .zero)
         viewsToLayout = [uncheckedView, checkedView, deleteView, restoreView]
-        baseOnSelected = { [weak self] in
-            guard let self = self else { return false }
-            let previousState = self.state
-            self.state = self.onStateChanged(self.state)
-            return previousState != self.state
+        clicked = { [weak self] in
+            guard let self = self else { return }
+            self.onStateChanged(self.state)
+            return
         }
     }
     
@@ -43,7 +42,7 @@ class AutoselectCheckboxViewArchive: AutoselectCheckboxViewBase {
     
     func configure(state: State) {
         self.state = state
-        setupState()
+        changeState(withAnimation: true)
     }
     
     override func setupState() {
@@ -77,7 +76,7 @@ class AutoselectCheckboxViewArchive: AutoselectCheckboxViewBase {
 
 
 class AutoselectCheckboxViewBase: UIView {
-    fileprivate var baseOnSelected: (() -> Bool) = { false }
+    fileprivate var clicked: (() -> Void) = { }
     private var onClickControl: OnClickControl?
     fileprivate var viewsToLayout: [UIView] = [] {
         willSet {
@@ -88,9 +87,7 @@ class AutoselectCheckboxViewBase: UIView {
             }
             layout(OnClickControl(onClick: { [unowned self] touchDown in
                 guard touchDown else { return }
-                if baseOnSelected() {
-                    changeState(withAnimation: true)
-                }
+                clicked()
             })).edges()
         }
     }
@@ -98,7 +95,7 @@ class AutoselectCheckboxViewBase: UIView {
     fileprivate func setupState() {
     }
     
-    private func changeState(withAnimation: Bool) {
+    fileprivate func changeState(withAnimation: Bool) {
         if withAnimation {
             UIView.animate(withDuration: 0.5) {
                 self.setupState()

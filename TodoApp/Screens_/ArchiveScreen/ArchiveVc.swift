@@ -43,10 +43,27 @@ final class ArchiveVc: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
-        flowLayout.minimumLineSpacing = 7
         collectionView.delegate = self
+        flowLayout.minimumLineSpacing = 7
         collectionView.register(ArchiveCell.self, forCellWithReuseIdentifier: ArchiveCell.reuseIdentifier)
-        collectionView.dataSource = self
+        let dataSource = UpdateDiffDataSource<ArchiveVcVm.Model>(collectionView: collectionView) { [unowned self] (collectionView, ip, model) -> UICollectionViewCell in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCell.reuseIdentifier, for: ip) as! ArchiveCell
+            let task = model.task
+            let state = model.state
+            cell.delegate = self
+            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty, state: state.checkboxState(isTaskDone: task.isDone), clickedWithState: { state in
+                viewModel.clickedOnCellCheckbox(item: ip.row, with: state)
+            })
+            return cell
+        }
+        collectionView.dataSource = dataSource
+        dataSource.updateCell = { cell, ip, model in
+            let cell = cell as! ArchiveCell
+            cell.update(state: model.state.checkboxState(isTaskDone: model.task.isDone))
+        }
+        viewModel.models
+            .subscribe(dataSource.modelBinding)
+            .disposed(by: bag)
     }
 
     private func setupNavigationBar() {
@@ -68,7 +85,6 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
-//        deleteAction.
         deleteAction.backgroundColor = .hex("#EF4439")
         deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
         deleteAction.hidesWhenSelected = true
@@ -78,24 +94,14 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
         restoreAction.hidesWhenSelected = true
     
         return [deleteAction, restoreAction]
-//        return []
     }
     
     func handleSwipeActionDeletion(action: SwipeAction, path: IndexPath) {
-        let item = viewModel.models[0].items[path.item]
-        viewModel.models[0].items[path.item] = .init(task: item.task, state: .delete)
-        if let cell = collectionView.cellForItem(at: path) as? ArchiveCell {
-            cell.update(state: .delete)
-        }
+        viewModel.updateState(item: path.item, state: .delete)
     }
     
     func handleSwipeActionRestore(action: SwipeAction, path: IndexPath) {
-        let item = viewModel.models[0].items[path.item]
-        viewModel.models[0].items[path.item] = .init(task: item.task, state: .restore)
-        
-        if let cell = collectionView.cellForItem(at: path) as? ArchiveCell {
-            cell.update(state: .restore)
-        }
+        viewModel.updateState(item: path.item, state: .restore)
     }
 }
 extension ArchiveVc: UICollectionViewDelegateFlowLayout {
@@ -108,36 +114,8 @@ extension ArchiveVc: UICollectionViewDelegate {
     
 }
 
-extension ArchiveVc: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.models[0].items.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let model = viewModel.models[0].items[indexPath.item]
-        let task = model.task
-        let state = model.state
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCell.reuseIdentifier, for: indexPath) as! ArchiveCell
-        cell.delegate = self
-        cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty, state: state.checkboxState(isTaskDone: task.isDone)) { fromState in
-            switch fromState {
-            case .checked:
-                return .unchecked
-            case .unchecked:
-                return .checked
-            case .delete:
-                return fromState
-            case .restore:
-                return fromState
-            }
-        }
-        return cell
-
-    }
-}
-
 extension ArchiveVcVm.State {
-    func checkboxState(isTaskDone: Bool) -> AutoselectCheckboxViewArchive.State {
+    func checkboxState(isTaskDone: Bool) -> CheckboxViewArchive.State {
         switch self {
         case .delete: return .delete
         case .restore: return .restore
