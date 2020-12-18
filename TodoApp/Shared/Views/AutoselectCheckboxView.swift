@@ -28,7 +28,6 @@ class AutoselectCheckboxView: UIView {
 
         return checkedView
     }()
-    private let animator = UIViewPropertyAnimator()
     var onSelected: ((Bool) -> Void)?
     private(set) var isChecked: Bool = false
     

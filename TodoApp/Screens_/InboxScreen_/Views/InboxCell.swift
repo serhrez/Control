@@ -10,8 +10,8 @@ import UIKit
 import Material
 import ResizingTokenField
 
-class TaskCellx1TB: UITableViewCell {
-    static let reuseIdentifier = "taskcellx1tb"
+class InboxCell: UITableViewCell {
+    static let reuseIdentifier = "inboxcell"
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()
     private let nameLabel: UILabel = {

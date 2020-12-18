@@ -164,7 +164,6 @@ final class PlannedVc: UIViewController {
     }
     
     private let gradientView = GradientView()
-    
 }
 
 extension PlannedVc: UICollectionViewDelegate {

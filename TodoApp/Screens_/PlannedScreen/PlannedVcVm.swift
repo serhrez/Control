@@ -66,12 +66,7 @@ class PlannedVcVm {
     
     func reordered(_ models: [Model]) -> [Model] {
         return models.filter { $0.task.date?.date != nil }.sorted(by: { model1, model2 in
-//            if model1.task.isDone != model2.task.isDone {
-//                return model2.task.isDone
-//            }
-//            else {
-                return model1.task.date!.date! <= model2.task.date!.date!
-//            }
+            return model1.task.date!.date! <= model2.task.date!.date!
         })
     }
     
@@ -83,7 +78,6 @@ class PlannedVcVm {
     
     func selectDayFromJct(_ date: Date) {
         calendarModelsUpdateSubject.onNext(date.dateAt(.startOfDay))
-//        date.accept((datex.dateBySet(hour: date.value.0?.hour ?? Date().hour, min: date.value.0?.minute ?? Date().hour, secs: date.value.0?.second), true))
     }
     
     func datePriorities(_ date: Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool) {

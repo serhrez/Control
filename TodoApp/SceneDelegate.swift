@@ -17,9 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         SwiftDate.defaultRegion = .current
         let window = UIWindow(windowScene: windowScene)
-        _ = try! RealmProvider.main.realm.write {
-            RealmProvider.main.realm.deleteAll()
-        }
+        _ = try! FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
         PredefinedRealm.populateRealm(RealmProvider.main.realm)
 //        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
 //        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
@@ -28,7 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = TimePickerVc(hours: 12, minutes: 23, onDone: { print($0) })
 //        let viewController = SearchVc()
 //        let viewController = CreateProjectVc(viewModel: .init())
-        let viewController = PlannedVc()
+//        let viewController = PlannedVc()
+        let viewController = ArchiveVc(viewModel: .init())
         
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc

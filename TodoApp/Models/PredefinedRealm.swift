@@ -68,7 +68,9 @@ class PredefinedRealm {
             task.tags.append(tag4)
             task.date = .init(date: datereferencex, reminder: .threeDaysEarlier, repeat: nil)
             project2.tasks.append(task)
-            project2.tasks.append(RlmTask(name: "Task4", isDone: false))
+            task = RlmTask(name: "Task4", isDone: false)
+            realm.add(RlmArchived(taskId: task.id, timeDeleted: Date()))
+            project2.tasks.append(task)
             project2.tasks.append(RlmTask(name: "Task5", isDone: false))
             project2.tasks.append(RlmTask(name: "Task6", isDone: false))
 
@@ -124,6 +126,8 @@ class PredefinedRealm {
             task.tags.append(tag3)
             task.date = .init(date: datereferencex, reminder: .threeDaysEarlier, repeat: nil)
             project3.tasks.append(task)
+            realm.add(RlmArchived(taskId: task.id, timeDeleted: Date()))
+
 
             task = RlmTask(name: "Task14", isDone: true)
             task.tags.append(tag2)
@@ -134,6 +138,7 @@ class PredefinedRealm {
             task = RlmTask(name: "Task15", isDone: true)
             task.date = .init(date: datereferencex, reminder: .threeDaysEarlier, repeat: nil)
             project3.tasks.append(task)
+            realm.add(RlmArchived(taskId: task.id, timeDeleted: Date()))
 
             task = RlmTask(name: "Task16", isDone: true)
             task.tags.append(tag1)
