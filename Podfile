@@ -25,6 +25,7 @@ target 'TodoApp' do
   pod 'SwiftDate'
   pod 'SwiftyBeaver'
   pod 'ReactorKit'
+  pod 'DeepDiff'
 
   def testing_pods
     pod 'Quick'

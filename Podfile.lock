@@ -1,5 +1,6 @@
 PODS:
   - AttributedLib (3.0.0)
+  - DeepDiff (2.3.1)
   - Differentiator (4.0.1)
   - GrowingTextView (0.7.2)
   - InfiniteLayout (0.4.2):
@@ -47,6 +48,7 @@ PODS:
 
 DEPENDENCIES:
   - AttributedLib (from `https://github.com/cointowitcher/Attributed`)
+  - DeepDiff
   - GrowingTextView
   - InfiniteLayout
   - JTAppleCalendar
@@ -69,6 +71,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - DeepDiff
     - Differentiator
     - GrowingTextView
     - InfiniteLayout
@@ -118,6 +121,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AttributedLib: 7aa34dca681e463f2f4aa6c70ef9a905af3a29a5
+  DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
@@ -143,6 +147,6 @@ SPEC CHECKSUMS:
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: a074d5fc0283ac4ea490a39ab4e0f08d986f4fef
+PODFILE CHECKSUM: 434c5cb439865b9476452965773d1b37d9222167
 
 COCOAPODS: 1.10.0
