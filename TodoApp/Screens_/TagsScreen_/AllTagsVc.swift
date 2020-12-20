@@ -18,8 +18,18 @@ import RealmSwift
 class AllTagsVc: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: AllTagsVcVm
-    private let layout = UICollectionViewFlowLayout()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let collectionLayout: UICollectionViewLayout = {
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
+        var item = NSCollectionLayoutItem(layoutSize: size)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(55))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
+    }()
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private let keyboard = Typist()
     private let mode: Mode
     
@@ -46,16 +56,29 @@ class AllTagsVc: UIViewController {
     }
     
     func setupKeyboard() {
+        var previousHeight: CGFloat?
         keyboard
             .on(event: .willChangeFrame) { [unowned self] (options) in
                 let height = options.endFrame.intersection(view.frame).height
                 print("willChangeFrame set height: \(height)")
+                if previousHeight == height { return }
+                previousHeight = height
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+
+//                UIView.animate(withDuration: 0.5) {
+//                    view.layoutSubviews()
+//                }
             }
             .on(event: .willHide, do: { [unowned self] (options) in
                 let height = options.endFrame.intersection(view.frame).height
                 print("willHide set height: \(height)")
+                if previousHeight == height { return }
+                previousHeight = height
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+//
+//                UIView.animate(withDuration: 0.5) {
+//                    view.layoutSubviews()
+//                }
             })
             .start()
     }
@@ -108,7 +131,7 @@ class AllTagsVc: UIViewController {
             .subscribe(onNext: { [weak self] index in
                 if let indexPath = self?.collectionView.indexPathsForVisibleItems.first(where: { $0.row == index }),
                    let cell = self?.collectionView.cellForItem(at: indexPath) as? AllTagsEnterNameCell {
-                    cell.becomeFirstResponder()
+//                    cell.becomeFirstResponder()
                 }
             })
             .disposed(by: bag)
@@ -167,13 +190,6 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         deleteAction.textColor = .white
         return [deleteAction]
     }
-}
-
-extension AllTagsVc: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: collectionView.frame.width, height: 55)
-    }
-
 }
 
 extension AllTagsVc: UICollectionViewDelegate {

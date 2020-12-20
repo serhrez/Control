@@ -15,15 +15,15 @@ import RxSwift
 import RealmSwift
 import RxDataSources
 import SwipeCellKit
-import GrowingTextView
+import Typist
 
 final class TaskDetailsVc: UIViewController {
     private let viewModel: TaskDetailsVcVm
     private let bag = DisposeBag()
     private let subtasksTable = UITableView()
     private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    private let keyboard = Typist()
 
-    
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -47,6 +47,33 @@ final class TaskDetailsVc: UIViewController {
         
         setupContainerView()
         setupTableView()
+        setupKeyboard()
+    }
+    
+    private func setupKeyboard() {
+        var previousHeight: CGFloat?
+        keyboard
+            //.toolbar(scrollView: collectionView)
+            .on(event: .willChangeFrame) { [unowned self] options in
+                let height = options.endFrame.intersection(subtasksTable.convert(subtasksTable.bounds, to: nil)).height
+                if previousHeight == height { return }
+                previousHeight = height
+                UIView.animate(withDuration: 0.5) {
+                    self.subtasksTable.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                    view.layoutSubviews()
+                }
+            }
+            .on(event: .willHide) { [unowned self] options in
+                let height = options.endFrame.intersection(subtasksTable.convert(subtasksTable.bounds, to: nil)).height
+                if previousHeight == height { return }
+                previousHeight = height
+                UIView.animate(withDuration: 0.5) {
+                    self.subtasksTable.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                    view.layoutSubviews()
+                }
+            }
+            .start()
+
     }
     
     private func setupBindings() {
@@ -211,22 +238,11 @@ final class TaskDetailsVc: UIViewController {
         return view
     }()
     
-    lazy var taskDescription: GrowingTextView = {
-        func attrs(_ attr: Attributes) -> Attributes {
-            attr.lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
-        }
-        let description = GrowingTextView()
-        description.attributedPlaceholder = "Enter description".at.attributed(attrs)
-        description.delegate = self
-        description.maxLength = 70
-        description.font = .systemFont(ofSize: 16, weight: .regular)
-        description.attributedText = " ".at.attributed(attrs)
-        description.text = ""
-        description.isScrollEnabled = true
-        description.maxHeight = 80
-        description.textContainerInset = .zero
-        description.textContainer.lineFragmentPadding = 0
-        description.isHidden = true
+    lazy var taskDescription: MyGrowingTextView = {
+        let description = MyGrowingTextView()
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
+        description.placeholderAttrs = attributes
+        description.textFieldAttrs = attributes
         return description
     }()
         
@@ -320,6 +336,15 @@ final class TaskDetailsVc: UIViewController {
         horizontal1.addArrangedSubview(UIView())
         containerStack.addArrangedSubview(horizontal1)
         containerStack.addArrangedSubview(spacerBeforeTaskDescription)
+        var x = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
+        x.isActive = true
+        taskDescription.shouldSetHeight = {
+            x.constant = $0
+            UIView.animate(withDuration: 0.5) {
+                self.containerStack.layoutSubviews()
+                self.view.layoutSubviews()
+            }
+        }
         containerStack.addArrangedSubview(taskDescription)
         containerStack.addArrangedSubview(spacerBeforeTokenField)
         containerStack.addArrangedSubview(tokenField)
@@ -438,6 +463,12 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {
         viewModel.deleteTag(with: token.title)
         return false
+    }
+    func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutSubviews()
+            self.containerStack.layoutSubviews()
+        }
     }
     func resizingTokenFieldShouldCollapseTokens(_ tokenField: ResizingTokenField) -> Bool {
         false

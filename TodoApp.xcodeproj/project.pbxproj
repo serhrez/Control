@@ -89,6 +89,7 @@
 		A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F62574F622003715C8 /* ClickableIconView.swift */; };
 		A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45FB2574F676003715C8 /* CloseButton.swift */; };
 		A5CF460725751B7E003715C8 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF460625751B7E003715C8 /* TaskCell.swift */; };
+		A5D2801B258D65C400D23760 /* MyGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */; };
 		A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59CD256573CF002AEF42 /* ResizingToken.swift */; };
 		A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */; };
 		A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */; };
@@ -222,6 +223,7 @@
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
 		A5CF45FB2574F676003715C8 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		A5CF460625751B7E003715C8 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGrowingTextView.swift; sourceTree = "<group>"; };
 		A5DD59CD256573CF002AEF42 /* ResizingToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingToken.swift; sourceTree = "<group>"; };
 		A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVc.swift; sourceTree = "<group>"; };
 		A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVcVm.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */,
 				A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */,
 				A5F6A8EB258A247900FB50FC /* SingleTagView.swift */,
+				A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1045,6 +1048,7 @@
 				A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */,
 				A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */,
 				A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */,
+				A5D2801B258D65C400D23760 /* MyGrowingTextView.swift in Sources */,
 				A52251C4256EF3B300747E16 /* CalendarVcVm.swift in Sources */,
 				A5356D8D2569C3460042F604 /* DateDetailLabel.swift in Sources */,
 				A57D967A2588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift in Sources */,

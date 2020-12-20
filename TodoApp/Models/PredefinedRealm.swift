@@ -153,6 +153,19 @@ class PredefinedRealm {
             realm.add(project1)
             realm.add(project2)
             realm.add(project3)
+            let project4 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project5 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project6 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project7 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project8 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project9 = RlmProject(name: "Inbox", icon: .assetImage(name: "Image", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            realm.add(project4)
+            realm.add(project5)
+            realm.add(project6)
+            realm.add(project7)
+            realm.add(project8)
+            realm.add(project9)
+
 
             let tags5to11 = Array(5...9).map { RlmTag(name: "tag\($0)")}
             realm.add(tags5to11)

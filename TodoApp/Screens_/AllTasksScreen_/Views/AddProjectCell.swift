@@ -35,6 +35,7 @@ final class AddProjectCell: UITableViewCell {
         centerView.layout(addImage).top().leading().bottom()
         centerView.layout(label).trailing().top().bottom().leading(addImage.anchor.trailing)
         layout(overlayView).edges()
+        overlayView.selectedBackgroundColor = .hex("#A4A4A4")
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

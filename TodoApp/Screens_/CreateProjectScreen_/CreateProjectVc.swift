@@ -56,7 +56,23 @@ class CreateProjectVc: UIViewController {
     let privateTokenField = ResizingTokenField()
 
     private let viewModel: CreateProjectVcVm
-    private var flowLayout = CustomLayout()
+    private var flowLayout: UICollectionViewLayout = {
+//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+//        var item = NSCollectionLayoutItem(layoutSize: itemSize)
+//
+//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
+//        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+//        let section = NSCollectionLayoutSection(group: group)
+//        let layout = UICollectionViewCompositionalLayout(section: section)
+//        let list = UICollectionViewCompositionalLayout
+//        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+//        config.showsSeparators = false
+//
+//        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        return layout
+    }()// CustomLayout()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     private let bag = DisposeBag()
     private let container: UIView = {
@@ -156,7 +172,10 @@ class CreateProjectVc: UIViewController {
         container.layout(projectNameField).leading(61).top(37).trailing(12 + 24)
         container.layout(growingTextView).leading(61).top(projectNameField.anchor.bottom, 5).trailing(12 + 24)
         
-        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading).bottom(Toolbar.height)
+        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading)//.bottom(Toolbar.height)
+        collectionView.snp.makeConstraints { make in
+            make.bottom.equalTo(Toolbar.height)
+        }
         container.layout(toolbarContainer).trailing().leading().bottom()
         toolbarContainer.snp.makeConstraints { make in
             make.height.equalTo(Toolbar.height)
@@ -252,42 +271,20 @@ class CreateProjectVc: UIViewController {
                 heightChangeSubject.on(.next((options.endFrame.intersection(container.frame).height)))
                 let height = options.endFrame.intersection(container.frame).height
 //                print("height changed to2 \(height)")
-                toolbarContainer.snp.remakeConstraints { make in
-                    make.height.equalTo(Toolbar.height + height)
-                }
-                plusButton.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(70 + height))
-                }
-                UIView.animate(withDuration: 0.5) {
-                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                    view.layoutSubviews()
-                }
+//                toolbarContainer.snp.remakeConstraints { make in
+//                    make.height.equalTo(Toolbar.height + height)
+//                }
+//                plusButton.snp.remakeConstraints { make in
+//                    make.bottom.equalTo(-(70 + height))
+//                }
+//                UIView.animate(withDuration: 0.5) {
+//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+//                }
 
             }
             .on(event: .willHide) { [unowned self] options in
                 heightChangeSubject.on(.next(options.endFrame.intersection(container.frame).height))
                 let height = options.endFrame.intersection(container.frame).height
-//                print("height changed to2 \(height)")
-                toolbarContainer.snp.remakeConstraints { make in
-                    make.height.equalTo(Toolbar.height + height)
-                }
-                plusButton.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(70 + height))
-                }
-                UIView.animate(withDuration: 0.5) {
-                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                    view.layoutSubviews()
-                }
-
-            }
-            .start()
-        
-//        Observable.merge(heightChangeSubject
-//                            .debounce(.milliseconds(50), scheduler: MainScheduler.instance),
-//                         heightChangeSubject
-//                             .filter { $0 != 0 })
-//            .distinctUntilChanged()
-//            .subscribe(onNext: { [unowned self] height in
 //                print("height changed to2 \(height)")
 //                toolbarContainer.snp.remakeConstraints { make in
 //                    make.height.equalTo(Toolbar.height + height)
@@ -297,10 +294,33 @@ class CreateProjectVc: UIViewController {
 //                }
 //                UIView.animate(withDuration: 0.5) {
 //                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+//                }
+
+            }
+            .start()
+        
+        Observable.merge(heightChangeSubject
+                            .debounce(.milliseconds(50), scheduler: MainScheduler.instance),
+                         heightChangeSubject
+                             .filter { $0 != 0 })
+            .distinctUntilChanged()
+            .subscribe(onNext: { [unowned self] height in
+                print("height changed to2 \(height)")
+                toolbarContainer.snp.remakeConstraints { make in
+                    make.height.equalTo(Toolbar.height + height)
+                }
+                plusButton.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(70 + height))
+                }
+                collectionView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(height + Toolbar.height))
+                }
+//                UIView.animate(withDuration: 0.5) {
+//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
 //                    view.layoutSubviews()
 //                }
-//            })
-//            .disposed(by: bag)
+            })
+            .disposed(by: bag)
     }
     
     private func plusClicked() {
@@ -371,10 +391,11 @@ class CreateProjectVc: UIViewController {
     }
     
     private func updateLayout() {
-        guard !collectionView.indexPathsForVisibleItems.isEmpty else { return }
-        collectionView.performBatchUpdates({
-            self.flowLayout.invalidateLayout()
-        }, completion: nil)
+        self.flowLayout.invalidateLayout()
+//        guard !collectionView.indexPathsForVisibleItems.isEmpty else { return }
+//        collectionView.performBatchUpdates({
+//            self.flowLayout.invalidateLayout()
+//        }, completion: nil)
     }
     
     var didDisappear: () -> Void = { }

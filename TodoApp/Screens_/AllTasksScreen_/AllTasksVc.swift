@@ -35,7 +35,7 @@ class AllTasksVc: UIViewController {
     }
     
     func setupTableView() {
-        view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        view.layout(tableView).topSafe(20).bottom().leadingSafe(13).trailingSafe(13)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
@@ -49,7 +49,12 @@ class AllTasksVc: UIViewController {
         }
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset = .init(top: 0, left: 0, bottom: 110, right: 0)
+        tableView.showsVerticalScrollIndicator = false
+        view.layout(gradientView).bottom().leading().trailing().height(216)
     }
+    private let gradientView = GradientView()
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

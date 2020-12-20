@@ -189,8 +189,7 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
-fileprivate class GradientView: UIView {
+ class GradientView: UIView {
     private let gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
         gradient.colors = [
