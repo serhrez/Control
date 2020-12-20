@@ -35,13 +35,18 @@ class ColorPicker: UIViewController {
     private lazy var onClickBackground = OnClickControl(
         onClick: { [unowned self] in
             if !$0 {
+                if self.shouldDismiss != nil {
+                    self.shouldDismissInternal()
+                } else {
                 self.dismiss(animated: true, completion: nil)
+                }
             }
         })
     private var selectedColor: UIColor
     private let sourceViewFrame: CGRect
     private let onColorSelection: (UIColor) -> Void
-    
+    var shouldDismiss: (() -> Void)?
+    var shouldPurposelyAnimateViewBackgroundColor: Bool = false
     init(viewSource: UIView, selectedColor: UIColor, onColorSelection: @escaping (UIColor) -> Void) {
         self.selectedColor = selectedColor
         self.onColorSelection = onColorSelection
@@ -51,12 +56,34 @@ class ColorPicker: UIViewController {
         modalTransitionStyle = .crossDissolve
     }
     
+    var isShouldDismissInternal = false
+    private func shouldDismissInternal() {
+        guard !isShouldDismissInternal else { return }
+        isShouldDismissInternal = true
+        UIView.animate(withDuration: 0.5) {
+            self.view.layer.opacity = 0
+        } completion: { _ in
+            self.shouldDismiss?()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.hex("#F6F6F3").withAlphaComponent(0.8)
         setupViews()
+        if shouldPurposelyAnimateViewBackgroundColor {
+            view.layer.opacity = 0
+        }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldPurposelyAnimateViewBackgroundColor {
+            UIView.animate(withDuration: 0.5) {
+                self.view.layer.opacity = 1
+            }
+        }
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

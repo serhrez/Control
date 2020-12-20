@@ -251,7 +251,7 @@ final class TaskDetailsVc: UIViewController {
     }()
     
     lazy var taskDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView()
+        let description = MyGrowingTextView(placeholderText: "Enter description")
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
@@ -349,13 +349,13 @@ final class TaskDetailsVc: UIViewController {
         horizontal1.addArrangedSubview(UIView())
         containerStack.addArrangedSubview(horizontal1)
         containerStack.addArrangedSubview(spacerBeforeTaskDescription)
-        var x = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
-        x.isActive = true
-        taskDescription.shouldSetHeight = {
-            x.constant = $0
+        let heightConstraint = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
+        heightConstraint.isActive = true
+        taskDescription.shouldSetHeight = { [weak self] in
+            heightConstraint.constant = $0
             UIView.animate(withDuration: 0.5) {
-                self.containerStack.layoutSubviews()
-                self.view.layoutSubviews()
+                self?.containerStack.layoutSubviews()
+                self?.view.layoutSubviews()
             }
         }
         containerStack.addArrangedSubview(taskDescription)

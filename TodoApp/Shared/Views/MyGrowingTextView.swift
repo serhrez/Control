@@ -12,7 +12,10 @@ import AttributedLib
 
 class MyGrowingTextView: UIView, UITextViewDelegate {
     let textField = UITextView()
+    var growingTextFieldDelegate: UITextViewDelegate?
     let placeholderLabel = UILabel()
+    private let placeholderText: String
+    var onEnter: (() -> Void)?
     var placeholderVisible: Bool = true {
         didSet {
             placeholderLabel.isHidden = !placeholderVisible
@@ -20,7 +23,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     }
     var placeholderAttrs: Attributes {
         set {
-            placeholderLabel.attributedText = "Enter description".at.attributed(with: newValue)
+            placeholderLabel.attributedText = placeholderText.at.attributed(with: newValue)
         }
         get { Attributes() }
     }
@@ -31,7 +34,8 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         }
         get { Attributes() }
     }
-    init() {
+    init(placeholderText: String) {
+        self.placeholderText = placeholderText
         super.init(frame: .zero)
         layout(placeholderLabel).centerY().leading().trailing()
         layout(textField).edges()
@@ -76,8 +80,13 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard growingTextFieldDelegate?.textView?(textView, shouldChangeTextIn: range, replacementText: text) ?? true else { return false }
         if text == "\n" {
-            textView.resignFirstResponder()
+            if onEnter != nil {
+                onEnter?()
+            } else {
+                textView.resignFirstResponder()
+            }
             return false
         }
         return true

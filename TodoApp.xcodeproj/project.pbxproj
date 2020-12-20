@@ -62,6 +62,8 @@
 		A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64602562983F00AC3F41 /* InboxTasksVc.swift */; };
 		A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D646E2562A25500AC3F41 /* CheckboxView.swift */; };
 		A54D6474256308DF00AC3F41 /* InboxDoneTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */; };
+		A54EFB42258FB789009CFE0F /* CreateProjectVc2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB41258FB789009CFE0F /* CreateProjectVc2.swift */; };
+		A54EFB4A258FED36009CFE0F /* Configgg.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB49258FED36009CFE0F /* Configgg.swift */; };
 		A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */; };
 		A56047D1255D98F100C447CF /* AllTagsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047D0255D98F100C447CF /* AllTagsVc.swift */; };
 		A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */; };
@@ -196,6 +198,8 @@
 		A54D64602562983F00AC3F41 /* InboxTasksVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVc.swift; sourceTree = "<group>"; };
 		A54D646E2562A25500AC3F41 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDoneTaskCell.swift; sourceTree = "<group>"; };
+		A54EFB41258FB789009CFE0F /* CreateProjectVc2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc2.swift; sourceTree = "<group>"; };
+		A54EFB49258FED36009CFE0F /* Configgg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configgg.swift; sourceTree = "<group>"; };
 		A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PopMenuAppearance+appAppearance.swift"; sourceTree = "<group>"; };
 		A56047D0255D98F100C447CF /* AllTagsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVc.swift; sourceTree = "<group>"; };
 		A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsTagCell.swift; sourceTree = "<group>"; };
@@ -402,6 +406,7 @@
 				A5085E402556EF7B00A31BBB /* Info.plist */,
 				A5085E3D2556EF7B00A31BBB /* LaunchScreen.storyboard */,
 				A5085E3B2556EF7B00A31BBB /* Assets.xcassets */,
+				A54EFB49258FED36009CFE0F /* Configgg.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -531,6 +536,14 @@
 				A5F6A91B258A4BC400FB50FC /* InboxCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A54EFB40258FB772009CFE0F /* CreateProjectScreen2_ */ = {
+			isa = PBXGroup;
+			children = (
+				A54EFB41258FB789009CFE0F /* CreateProjectVc2.swift */,
+			);
+			path = CreateProjectScreen2_;
 			sourceTree = "<group>";
 		};
 		A56047CC255D989400C447CF /* TagsScreen_ */ = {
@@ -671,6 +684,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A54EFB40258FB772009CFE0F /* CreateProjectScreen2_ */,
 				A5F6A8F0258A29DD00FB50FC /* ArchiveScreen */,
 				A5FD7D2E2588C77D002D7145 /* PlannedScreen */,
 				A5722CD825740C6E0098BECE /* CreateProjectScreen_ */,
@@ -1062,9 +1076,11 @@
 				A592318A25725B90008E955D /* TaskCellx2.swift in Sources */,
 				A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */,
 				A5085E972556F8E500A31BBB /* Priority_.swift in Sources */,
+				A54EFB42258FB789009CFE0F /* CreateProjectVc2.swift in Sources */,
 				A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */,
 				A533E0AA255C8D4300B301C7 /* PopuptodoAction.swift in Sources */,
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
+				A54EFB4A258FED36009CFE0F /* Configgg.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
 				A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */,
 				A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */,
