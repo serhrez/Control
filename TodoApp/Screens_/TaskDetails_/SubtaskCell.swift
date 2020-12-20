@@ -10,7 +10,7 @@ import UIKit
 import Material
 import SwipeCellKit
 
-final class SubtaskCell: SwipeTableViewCell {
+final class SubtaskCell: SwipeCollectionViewCell {
     static let reuseIdentifier = "subtaskcell"
     static let height = 44
     private let checkboxView = AutoselectCheckboxView()
@@ -24,8 +24,8 @@ final class SubtaskCell: SwipeTableViewCell {
         set { checkboxView.onSelected = newValue }
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
     
@@ -40,8 +40,8 @@ final class SubtaskCell: SwipeTableViewCell {
     
     func setupViews() {
         contentView.layout(checkboxView).centerY().leading()
-        contentView.layout(nameLabel).centerY().leading(32)
+        contentView.layout(nameLabel).centerY().leading(32).trailing(32)
         nameLabel.font = .systemFont(ofSize: 16, weight: .regular)
-        selectionStyle = .none
+        transform = .init(rotationAngle: .pi)
     }
 }

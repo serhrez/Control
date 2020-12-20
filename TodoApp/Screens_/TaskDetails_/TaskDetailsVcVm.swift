@@ -26,7 +26,7 @@ class TaskDetailsVcVm {
     var subtasksModels: [AnimSection<Model>] {
         var models = Array(task?.subtask.map { Model.subtask($0) } ?? [])
         if !models.isEmpty || explicitAddSubtaskEnabled {
-            models.append(.addSubtask)
+            models.insert(.addSubtask, at: 0)
         }
         return [AnimSection(items: models)]
     }

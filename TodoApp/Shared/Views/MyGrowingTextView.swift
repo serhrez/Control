@@ -12,11 +12,9 @@ import AttributedLib
 
 class MyGrowingTextView: UIView, UITextViewDelegate {
     let textField = UITextView()
-//    lazy var heightConstraint: NSLayoutConstraint = heightAnchor.constraint(equalToConstant: 40)
     let placeholderLabel = UILabel()
     var placeholderVisible: Bool = true {
         didSet {
-//            heightConstraint.isActive = !placeholderVisible
             placeholderLabel.isHidden = !placeholderVisible
         }
     }
@@ -75,7 +73,6 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         let size = CGSize(width: bounds.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
         shouldSetHeight(estimatedSize.height)
-//        heightConstraint.constant = estimatedSize.height
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
