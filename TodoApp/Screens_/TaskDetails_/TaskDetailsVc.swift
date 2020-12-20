@@ -121,9 +121,9 @@ final class TaskDetailsVc: UIViewController {
                 let height = CGFloat(self.viewModel.subtasksModels[0].items.count * SubtaskCell.height + 44)
                 self.subtasksTableContainer.layout(self.subtasksTable).height(height).priority(.defaultLow)
                 if wasAlreadyLoaded {
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
+                    UIView.animate(withDuration: 0.5) {
+                        self.view.layoutIfNeeded()
+                    }
                 }
                 wasAlreadyLoaded = true
             })
