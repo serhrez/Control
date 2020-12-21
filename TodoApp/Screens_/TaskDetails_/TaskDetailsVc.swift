@@ -29,6 +29,9 @@ final class TaskDetailsVc: UIViewController {
     private lazy var subtasksTable = UICollectionView(frame: .zero, collectionViewLayout: layout)
     private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
     private let keyboard = Typist()
+    private var isCurrentlyShown = false
+    private var shouldUpdateTagsOnShown = false
+    private var wasAlreadyShown: Bool = false
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -44,6 +47,20 @@ final class TaskDetailsVc: UIViewController {
         setupViews()
         setupViewModelBinding()
         setupBindings()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("viewDidAppear")
+        if shouldUpdateTagsOnShown {
+            updateTags()
+            shouldUpdateTagsOnShown = false
+        }
+        isCurrentlyShown = true
+        wasAlreadyShown = true
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isCurrentlyShown = false
     }
     
     private func setupViews() {
@@ -148,12 +165,30 @@ final class TaskDetailsVc: UIViewController {
             .disposed(by: bag)
         viewModel.tagsObservable
             .subscribe(onNext: { [weak self] tags in
-                self?.updateTags()
+                guard let self = self else { return }
+                if self.isCurrentlyShown || !self.wasAlreadyShown {
+                    self.updateTags()
+                } else {
+                    self.shouldUpdateTagsOnShown = true
+                }
             })
             .disposed(by: bag)
     }
     
+    func layoutAnimate() {
+        print("layoutAnimate")
+        if wasAlreadyShown {
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutSubviews()
+                self.containerStack.layoutSubviews()
+            }
+        }
+    }
+    
     func setTaskDescription(_ taskDescription: String) {
+        defer {
+            layoutAnimate()
+        }
         if !self.taskDescription.text.isEmpty {
             return
         }
@@ -169,22 +204,24 @@ final class TaskDetailsVc: UIViewController {
         } else {
             self.taskDescription.text = taskDescription
         }
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutSubviews()
-            self.containerStack.layoutSubviews()
-        }
+
     }
     
     func updateTags() {
+        defer {
+            layoutAnimate()
+        }
         guard !(viewModel.task?.tags.isEmpty ?? true) else {
             self.tokenField.isHidden = true
+            self.tokenField.removeAllTokens()
             self.spacerBeforeTokenField.isHidden = true
             return
         }
         self.tokenField.isHidden = false
         self.spacerBeforeTokenField.isHidden = false
-        tokenField.removeAll()
-        tokenField.append(tokens: viewModel.task?.tags.map { ResizingToken(title: $0.name) } ?? [])
+        let old = tokenField.tokens as? [ResizingToken]
+        let newTags = ModelFormatt.tagsSorted(tags: viewModel.task.flatMap { Array($0.tags) } ?? []).map { ResizingToken(title: $0.name) }
+        tokenField.deepdiff(old: old ?? [], new: newTags)
     }
     
     func updateLabels(taskDate: RlmTaskDate?) {
@@ -211,6 +248,7 @@ final class TaskDetailsVc: UIViewController {
         } else {
             repeatDetailLabel.isHidden = true
         }
+        layoutAnimate()
     }
         
     let containerView: UIView = {
@@ -329,12 +367,11 @@ final class TaskDetailsVc: UIViewController {
     func setupTokenField() {
         tokenField.delegate = self
         tokenField.itemSpacing = 4
-        tokenField.allowDeletionTags = true
+        tokenField.allowDeletionTags = false
         tokenField.hideLabel(animated: false)
         tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
         tokenField.preferredTextFieldReturnKeyType = .done
         tokenField.contentInsets = .zero
-        tokenField.allowDeletionTags = false
         tokenField.heightAnchor.constraint(lessThanOrEqualToConstant: 135).isActive = true
         tokenField.isHidden = true
     }
@@ -353,10 +390,7 @@ final class TaskDetailsVc: UIViewController {
         heightConstraint.isActive = true
         taskDescription.shouldSetHeight = { [weak self] in
             heightConstraint.constant = $0
-            UIView.animate(withDuration: 0.5) {
-                self?.containerStack.layoutSubviews()
-                self?.view.layoutSubviews()
-            }
+            self?.layoutAnimate()
         }
         containerStack.addArrangedSubview(taskDescription)
         containerStack.addArrangedSubview(spacerBeforeTokenField)
@@ -478,10 +512,7 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
         return false
     }
     func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
-        UIView.animate(withDuration: 0.5) {
-            self.view.layoutSubviews()
-            self.containerStack.layoutSubviews()
-        }
+        
     }
     func resizingTokenFieldShouldCollapseTokens(_ tokenField: ResizingTokenField) -> Bool {
         false

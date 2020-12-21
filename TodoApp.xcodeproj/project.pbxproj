@@ -91,6 +91,7 @@
 		A5B67F7A2590FACC00EAD13D /* ProjectStartedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F792590FACC00EAD13D /* ProjectStartedView.swift */; };
 		A5B67F7F2591058500EAD13D /* ProjectNewTaskForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F7E2591058500EAD13D /* ProjectNewTaskForm.swift */; };
 		A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F8325910C6600EAD13D /* SimpleButton.swift */; };
+		A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67FAA259144E100EAD13D /* ModelFormatt.swift */; };
 		A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */; };
 		A5CF45F22574F5F0003715C8 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F12574F5F0003715C8 /* Toolbar.swift */; };
 		A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F62574F622003715C8 /* ClickableIconView.swift */; };
@@ -232,6 +233,7 @@
 		A5B67F792590FACC00EAD13D /* ProjectStartedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStartedView.swift; sourceTree = "<group>"; };
 		A5B67F7E2591058500EAD13D /* ProjectNewTaskForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNewTaskForm.swift; sourceTree = "<group>"; };
 		A5B67F8325910C6600EAD13D /* SimpleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
+		A5B67FAA259144E100EAD13D /* ModelFormatt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFormatt.swift; sourceTree = "<group>"; };
 		A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDiffRx.swift; sourceTree = "<group>"; };
 		A5CF45F12574F5F0003715C8 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
@@ -610,6 +612,7 @@
 				A5DD59CD256573CF002AEF42 /* ResizingToken.swift */,
 				A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */,
 				A5B67F742590F4B400EAD13D /* UIViewController+Extensions.swift */,
+				A5B67FAA259144E100EAD13D /* ModelFormatt.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1056,6 +1059,7 @@
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
 				A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,
+				A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
 				A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */,
 				A533E0A1255C87C200B301C7 /* OverlaySelectionView.swift in Sources */,

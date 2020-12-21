@@ -105,7 +105,17 @@ class CheckboxView: UIView {
         layout(SomeControl(onClick: { [unowned self] in self.onSelected?() })).edges()
     }
     private func changeState(withAnimation: Bool) {
-        UIView.animate(withDuration: withAnimation ? 0.5 : 0) {
+        if withAnimation {
+            UIView.animate(withDuration: 0.5) {
+                if self.isChecked ?? false {
+                    self.selectedViewx.layer.opacity = 1.0
+                    self.uncheckedViewx.layer.opacity = 0
+                } else {
+                    self.selectedViewx.layer.opacity = 0
+                    self.uncheckedViewx.layer.opacity = 1.0
+                }
+            }
+        } else {
             if self.isChecked ?? false {
                 self.selectedViewx.layer.opacity = 1.0
                 self.uncheckedViewx.layer.opacity = 0

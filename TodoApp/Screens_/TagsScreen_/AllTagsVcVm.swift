@@ -22,7 +22,7 @@ class AllTagsVcVm {
     // MARK: Outputs
     lazy var modelsUpdate: Observable<[AnimSection<Model>]> = modelsUpdateSubject.compactMap { [weak self] in self?.models }.share(replay: 1, scope: .whileConnected)
     var models: [AnimSection<Model>] {
-        var models = tags.map { Model.tag($0) }
+        var models = ModelFormatt.tagsSorted(tags: tags).map { Model.tag($0) }
         if isInAdding {
             models.append(.addTagEnterName)
         } else {

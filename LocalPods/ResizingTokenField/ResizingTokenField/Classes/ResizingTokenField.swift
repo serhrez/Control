@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import DeepDiff
 
 open class ResizingTokenField: UIView, UICollectionViewDataSource, UICollectionViewDelegate, ResizingTokenFieldFlowLayoutDelegate {
     
     /// List of currently displayed tokens.
-    var tokens: [ResizingTokenFieldToken] { return viewModel.tokens }
+    public var tokens: [ResizingTokenFieldToken] { return viewModel.tokens }
     public var maxHeight: CGFloat? {
         didSet {
             collectionView.reloadData()
@@ -253,6 +254,14 @@ open class ResizingTokenField: UIView, UICollectionViewDataSource, UICollectionV
         }
         
         return false
+    }
+    
+    public func deepdiff<T: DiffAware & ResizingTokenFieldToken>(old: [T], new: [T]) {
+        let changes = diff(old: old, new: new)
+        collectionView.reload(changes: changes) {
+            self.viewModel.tokens = []
+            self.viewModel.tokens = new
+        }
     }
     
     // MARK: - Toggle label

@@ -131,7 +131,7 @@ class AllTagsVc: UIViewController {
             .subscribe(onNext: { [weak self] index in
                 if let indexPath = self?.collectionView.indexPathsForVisibleItems.first(where: { $0.row == index }),
                    let cell = self?.collectionView.cellForItem(at: indexPath) as? AllTagsEnterNameCell {
-//                    cell.becomeFirstResponder()
+                    cell.becomeFirstResponder()
                 }
             })
             .disposed(by: bag)

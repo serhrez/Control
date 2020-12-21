@@ -7,14 +7,19 @@
 
 import Foundation
 import ResizingTokenField
+import DeepDiff
 
-class ResizingToken: ResizingTokenFieldToken, Equatable {
+class ResizingToken: ResizingTokenFieldToken, Equatable, DiffAware {
+    static func compareContent(_ a: ResizingToken, _ b: ResizingToken) -> Bool {
+        a == b
+    }
     
     static func == (lhs: ResizingToken, rhs: ResizingToken) -> Bool {
         return lhs.title == rhs.title
     }
     
     var title: String
+    var diffId: String { title }
     
     init(title: String) {
         self.title = title
