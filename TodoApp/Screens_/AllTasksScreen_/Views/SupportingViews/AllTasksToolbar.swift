@@ -11,7 +11,12 @@ import Material
 
 final class AllTasksToolbar: UIView {
     static let estimatedHeight: CGFloat = 64
+    private let containerView = CustomButton(frame: .zero)
     
+    var onClick: () -> Void {
+        get { containerView.onClick }
+        set { containerView.onClick = newValue }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -22,8 +27,6 @@ final class AllTasksToolbar: UIView {
     }
     
     func setupViews() {
-        let containerView = CustomButton(frame: .zero)
-        
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 30
         containerView.layer.borderWidth = 1

@@ -36,7 +36,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = InboxTasksVc()
 //        let viewController = ProjectDetailsVc()
 //        let viewController = AllTasksVc()
-        let viewController = CreateProjectVc2()
+//        let viewController = CreateProjectVc2()
+        let viewController = ProjectDetailsVc()
         
         let navigationVc = AppNavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc

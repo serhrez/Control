@@ -45,7 +45,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         textField.textContainerInset = .zero
         textField.contentInset = .zero
         textField.textContainer.lineFragmentPadding = 0
-        textField.isScrollEnabled = false
+        textField.isScrollEnabled = true
         placeholderVisible = true        
     }
     var wasLayouted: Bool = false
@@ -82,13 +82,16 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard growingTextFieldDelegate?.textView?(textView, shouldChangeTextIn: range, replacementText: text) ?? true else { return false }
         if text == "\n" {
-            if onEnter != nil {
-                onEnter?()
+            if let onEnter = onEnter {
+                onEnter()
             } else {
                 textView.resignFirstResponder()
             }
             return false
         }
         return true
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        growingTextFieldDelegate?.textViewDidEndEditing?(textView)
     }
 }

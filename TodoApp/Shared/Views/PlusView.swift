@@ -25,8 +25,8 @@ final class PlusView: UIView {
         containerView.layer.cornerRadius = 25
         layout(containerView).edges().width(50).height(50)
         
-        let plus = UIImageView(image: Material.Icon.cm.add)
+        let plus = UIImageView(image: UIImage(named: "plus"))
         plus.tintColor = .white
-        containerView.layout(plus).center().width(24).height(24)
+        containerView.layout(plus).center().width(18).height(18)
     }
 }

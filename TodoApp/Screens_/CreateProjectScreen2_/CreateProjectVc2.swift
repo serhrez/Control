@@ -138,14 +138,10 @@ class CreateProjectVc2: UIViewController {
         })
         
         colorPicker.shouldPurposelyAnimateViewBackgroundColor = true
-        addChild(colorPicker)
-        view.addSubview(colorPicker.view)
-        colorPicker.didMove(toParent: self)
+        addChildPresent(colorPicker)
         
-        colorPicker.shouldDismiss = {
-            colorPicker.willMove(toParent: nil)
-            colorPicker.view.removeFromSuperview()
-            colorPicker.removeFromParent()
+        colorPicker.shouldDismiss = { [weak colorPicker] in
+            colorPicker?.addChildDismiss()
         }
     }
 
