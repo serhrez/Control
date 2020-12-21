@@ -27,7 +27,8 @@ PODS:
   - Realm/Headers (10.1.2)
   - RealmSwift (10.1.2):
     - Realm (= 10.1.2)
-  - ResizingTokenField (0.1.1)
+  - ResizingTokenField (0.1.1):
+    - DeepDiff
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -134,7 +135,7 @@ SPEC CHECKSUMS:
   ReactorKit: 6d894a20c3d508344320901cd8e386fde92df4b6
   Realm: 031fdd4be7094d01b43af1a5e49766ab644bb800
   RealmSwift: 43cf2e114baa9d17d34eb81e7d0def31f21cd444
-  ResizingTokenField: a3e970ce8f50e1a1f2e39fd639b3c1ff52ccbb0a
+  ResizingTokenField: 794a9ebb33c4f7bd6b4daeb32787b982f3df6fe9
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9

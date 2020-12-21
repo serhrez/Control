@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
   s.source_files          = 'ResizingTokenField/Classes/**/*'
   s.frameworks            = 'UIKit'
+  s.dependency 'DeepDiff'
   s.description           = <<-DESC
   The token field displays an optional label at the start, a multiline list of tokens, and a text field at the end. Tokens can be collapsed into a text description. Internally it uses a collection view which supports insert and delete animations. Tokens can be customized by changing default token font and colors or providing entirely custom collection view cells. Token field provides an intrinsic content height which updates automatically as items are added and removed.
 DESC
