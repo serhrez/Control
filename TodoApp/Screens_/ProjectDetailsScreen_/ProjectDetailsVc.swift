@@ -8,8 +8,11 @@
 import Foundation
 import UIKit
 import Material
+import Typist
 
 class ProjectDetailsVc: UIViewController {
+    private var didAppear: Bool = false
+    private let keyboard = Typist()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,15 +21,50 @@ class ProjectDetailsVc: UIViewController {
         toolbarViewSetup()
         projectStartedViewSetup()
         projectNewTaskViewSetup()
+        setupKeyboard()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        didAppear = true
+        self.newFormView.didAppear()
+        self.view.layoutSubviews()
         self.view.layout(tasksToolbar).bottomSafe(30)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) {
             self.top.addShadowFromOutside()
             self.view.layoutSubviews()
         }
+    }
+    
+    func setupKeyboard() {
+        var previousHeight: CGFloat?
+        keyboard
+            .on(event: .willChangeFrame) { [unowned self] options in
+                let height = options.endFrame.intersection(view.bounds).height
+                guard previousHeight != height else { return }
+                previousHeight = height
+                newFormView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-height)
+                }
+                
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutSubviews()
+                }
+            }
+            .on(event: .willHide) { [unowned self] options in
+                let height = options.endFrame.intersection(view.bounds).height
+                guard previousHeight != height else { return }
+                previousHeight = height
+                newFormView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-height)
+                }
+                
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutSubviews()
+                }
+            }
+            .start()
+
     }
     
 //    func changeScreenState() {
@@ -37,8 +75,18 @@ class ProjectDetailsVc: UIViewController {
     private func topViewSetup() {
         view.layout(top).leading(13).trailing(13).topSafe()
         top.shouldLayoutSubviews = view.layoutSubviews
+        newFormView.shouldLayoutSubviews = view.layoutSubviews
     }
-    lazy var top = ProjectDetailsTop(color: .hex("#FF9900"), projectName: "fewfgw", projectDescription: "gewgqw", icon: .text("🚒"), onProjectNameChanged: projectNameChanged, onProjectDescriptionChanged: projectDescriptionChanged, colorSelection: colorSelection, iconSelected: iconClicked)
+    lazy var top = ProjectDetailsTop(
+        color: .hex("#FF9900"),
+        projectName: "fewfgw",
+        projectDescription: "gewgqw",
+        icon: .text("🚒"),
+        onProjectNameChanged: projectNameChanged,
+        onProjectDescriptionChanged: projectDescriptionChanged,
+        colorSelection: colorSelection,
+        iconSelected: iconClicked,
+        shouldAnimate: { [unowned self] in self.didAppear })
     private func projectNameChanged(_ newName: String) {
         
     }
@@ -72,9 +120,18 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {
-        view.layout(newFormView).center().width(400).height(200)
+        view.layout(newFormView).leading().trailing()
+        newFormView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.snp.bottom)
+        }
     }
-    private lazy var newFormView = ProjectNewTaskForm(onCalendarClicked: { _ in }, onTagClicked: { _ in }, onPriorityClicked: { _ in })
+    private lazy var newFormView = ProjectNewTaskForm(
+        onCalendarClicked: { _ in },
+        onTagClicked: { _ in },
+        onPriorityClicked: { _ in },
+        onTagPlusClicked: { },
+        shouldAnimate: { [unowned self] in self.didAppear },
+        shouldCreateTask: { print("newTask: \($0)") })
     
     var didDisappear: () -> Void = { }
     deinit {

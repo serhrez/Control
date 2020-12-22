@@ -72,11 +72,15 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     }
     var shouldSetHeight: (CGFloat) -> Void = { _ in }
     
+    var previousHeight: CGFloat?
     func textViewDidChange(_ textView: UITextView) {
         placeholderVisible = textView.text.isEmpty
         let size = CGSize(width: bounds.width, height: .infinity)
-        let estimatedSize = textView.sizeThatFits(size)
-        shouldSetHeight(estimatedSize.height)
+        let height = textView.sizeThatFits(size).height
+        if previousHeight != height {
+            shouldSetHeight(height)
+            previousHeight = height
+        }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

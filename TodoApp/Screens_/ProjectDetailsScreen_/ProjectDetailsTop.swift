@@ -24,17 +24,19 @@ class ProjectDetailsTop: UIView {
             clickableIcon.iconView.configure(icon)
         }
     }
+    let shouldAnimate: () -> Bool
     let onProjectNameChanged: (String) -> Void
     let onProjectDescriptionChanged: (String) -> Void
     let onColorSelected: (_ sourceView: UIView, _ selectedColor: UIColor) -> Void
     var shouldLayoutSubviews: () -> Void = { }
     
-    init(color: UIColor, projectName: String, projectDescription: String, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void) {
+    init(color: UIColor, projectName: String, projectDescription: String, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void, shouldAnimate: @escaping () -> Bool) {
         self.icon = icon
         self.color = color
         self.onProjectNameChanged = onProjectNameChanged
         self.onProjectDescriptionChanged = onProjectDescriptionChanged
         self.onColorSelected = colorSelection
+        self.shouldAnimate = shouldAnimate
         super.init(frame: .zero)
         self.projectNameField.text = projectName
         self.projectDescription.text = projectDescription
@@ -61,9 +63,11 @@ class ProjectDetailsTop: UIView {
             self.projectDescription.snp.remakeConstraints { make in
                 make.height.equalTo(min(newHeight, ceil(self.projectDescriptionFont.lineHeight) * 2 + self.projectDescriptionFont.lineHeight / 5 ))
             }
-            UIView.animate(withDuration: 0.5) {
-                self.layoutSubviews()
-                self.shouldLayoutSubviews()
+            if self.shouldAnimate() {
+                UIView.animate(withDuration: 0.5) {
+                    self.layoutSubviews()
+                    self.shouldLayoutSubviews()
+                }
             }
         }
     }
