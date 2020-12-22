@@ -57,7 +57,7 @@ final class IconPicker: UIViewController {
     
     init(viewSource: UIView, selected: Icon, onSelection: @escaping (Icon) -> Void) {
         self.onSelection = onSelection
-        sourceViewFrame = viewSource.frame
+        sourceViewFrame = viewSource.frame//.convert(viewSource.bounds, to: nil)
         super.init(nibName: nil, bundle: nil)
         selectedIndexPath = symbols.firstIndex(of: selected).flatMap { IndexPath(row: $0, section: 0) } ?? .init(row: -1, section: 0)
 

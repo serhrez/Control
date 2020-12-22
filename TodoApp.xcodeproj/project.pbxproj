@@ -59,6 +59,7 @@
 		A5356D8D2569C3460042F604 /* DateDetailLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5356D8C2569C3460042F604 /* DateDetailLabel.swift */; };
 		A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */; };
 		A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */; };
+		A54BFBE925926D1E0016BD08 /* TagPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54BFBE825926D1E0016BD08 /* TagPicker.swift */; };
 		A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64602562983F00AC3F41 /* InboxTasksVc.swift */; };
 		A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D646E2562A25500AC3F41 /* CheckboxView.swift */; };
 		A54D6474256308DF00AC3F41 /* InboxDoneTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */; };
@@ -201,6 +202,7 @@
 		A5356D8C2569C3460042F604 /* DateDetailLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDetailLabel.swift; sourceTree = "<group>"; };
 		A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDoneButtons.swift; sourceTree = "<group>"; };
+		A54BFBE825926D1E0016BD08 /* TagPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPicker.swift; sourceTree = "<group>"; };
 		A54D64602562983F00AC3F41 /* InboxTasksVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVc.swift; sourceTree = "<group>"; };
 		A54D646E2562A25500AC3F41 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		A54D6473256308DF00AC3F41 /* InboxDoneTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDoneTaskCell.swift; sourceTree = "<group>"; };
@@ -535,6 +537,14 @@
 			path = Custom3rdViews;
 			sourceTree = "<group>";
 		};
+		A54BFBE725926CE90016BD08 /* TagPicker */ = {
+			isa = PBXGroup;
+			children = (
+				A54BFBE825926D1E0016BD08 /* TagPicker.swift */,
+			);
+			path = TagPicker;
+			sourceTree = "<group>";
+		};
 		A54D645F2562982B00AC3F41 /* InboxScreen_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +630,7 @@
 		A592318425718DFB008E955D /* Sharedx */ = {
 			isa = PBXGroup;
 			children = (
+				A54BFBE725926CE90016BD08 /* TagPicker */,
 				A519675F2584F65F0021621A /* IconPicker */,
 				A5722D0E25742CB80098BECE /* ColorPicker */,
 				A592318525718E04008E955D /* Cells */,
@@ -1063,6 +1074,7 @@
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,
 				A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */,
 				A533E0A1255C87C200B301C7 /* OverlaySelectionView.swift in Sources */,
+				A54BFBE925926D1E0016BD08 /* TagPicker.swift in Sources */,
 				A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */,
 				A533E054255C27C400B301C7 /* IconView.swift in Sources */,
 				A5CF45F22574F5F0003715C8 /* Toolbar.swift in Sources */,
