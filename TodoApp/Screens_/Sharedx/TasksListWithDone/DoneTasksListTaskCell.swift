@@ -1,5 +1,5 @@
 //
-//  InboxDoneTaskCell.swift
+//  DoneTasksListTaskCell.swift
 //  TodoApp
 //
 //  Created by sergey on 16.11.2020.
@@ -10,8 +10,8 @@ import UIKit
 import Material
 import AttributedLib
 
-class InboxDoneTaskCell: UITableViewCell {
-    static let reuseIdentifier = "inboxdonetaskcell"
+class DoneTasksListTaskCell: UITableViewCell {
+    static let reuseIdentifier = "donetaskslisttaskcell"
     
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()

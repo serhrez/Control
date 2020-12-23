@@ -33,12 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = PlannedVc()
 //        let viewController = ArchiveVc(viewModel: .init())
 //        let viewController = AllTagsVc(mode: .selection(selected: [], { print($0) }))
-//        let viewController = InboxTasksVc()
+        let viewController = InboxTasksVc()
 //        let viewController = ProjectDetailsVc()
 //        let viewController = AllTasksVc()
 //        let viewController = CreateProjectVc2()
-        let project = RealmProvider.main.realm.objects(RlmProject.self).first
-        let viewController = ProjectDetailsVc(project: project!)
+//        let project = RealmProvider.main.realm.objects(RlmProject.self).first
+//        let viewController = ProjectDetailsVc(project: project!)
 //        let viewController = TagPicker(viewSource: UIView(frame: .init(x: 200, y: 600, width: 50, height: 50)), items: ["Work", "Plan", "Important"], finished: { print($0) })
         
         let navigationVc = AppNavigationController(rootViewController: viewController)

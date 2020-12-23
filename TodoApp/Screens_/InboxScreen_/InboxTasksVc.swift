@@ -15,10 +15,9 @@ import RxSwift
 final class InboxTasksVc: UIViewController {
     private let tasksToolbar = AllTasksToolbar(frame: .zero)
     private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-    private lazy var tableView = UITableView()
     private let viewModel: InboxTasksVcVm = .init()
     private let bag = DisposeBag()
-
+    lazy var tasksWithDoneList: TasksWithDoneList = TasksWithDoneList()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,49 +32,12 @@ final class InboxTasksVc: UIViewController {
     }
     
     func setupCollectionView() {
-        view.layout(tableView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .clear
-        tableView.alwaysBounceVertical = true
-        tableView.separatorStyle = .none
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(InboxCell.self, forCellReuseIdentifier: InboxCell.reuseIdentifier)
-        tableView.register(InboxDoneTaskCell.self, forCellReuseIdentifier: InboxDoneTaskCell.reuseIdentifier)
-        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<InboxTasksVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
-            switch model {
-            case let .task(task):
-                let taskCell = tableView.dequeueReusableCell(withIdentifier: InboxCell.reuseIdentifier, for: indexPath) as! InboxCell
-                taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
-                    _ = try! RealmProvider.main.realm.write {
-                        task.isDone.toggle()
-                    }
-                }
-                taskCell.selectionStyle = .none
-
-                return taskCell
-            case let .doneTask(task):
-                let doneCell = tableView.dequeueReusableCell(withIdentifier: InboxDoneTaskCell.reuseIdentifier, for: indexPath) as! InboxDoneTaskCell
-                doneCell.configure(text: task.name) {
-                    _ = try! RealmProvider.main.realm.write {
-                        task.isDone.toggle()
-                    }
-                }
-                doneCell.selectionStyle = .none
-
-                return doneCell
-            case let .space(spacing):
-                let cell = UITableViewCell()
-                cell.heightAnchor.constraint(equalToConstant: spacing).isActive = true
-                cell.backgroundColor = .clear
-                cell.selectionStyle = .none
-                return cell
-            }
-        }
-        
-        viewModel.modelsUpdate
-            .bind(to: tableView.rx.items(dataSource: dataSource))
+        view.layout(tasksWithDoneList).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        viewModel
+            .tasksSharedObservable
+            .filter { !$0.isEmpty }
+            .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)
-        tableView.delegate = self
     }
     
     func setupNavigationBar() {
@@ -125,11 +87,3 @@ final class InboxTasksVc: UIViewController {
 }
 
 extension InboxTasksVc: AppNavigationRouterDelegate { }
-
-
-extension InboxTasksVc: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewModel.models[indexPath.section].items[indexPath.row]
-
-    }
-}
