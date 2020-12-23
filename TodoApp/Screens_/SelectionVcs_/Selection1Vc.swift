@@ -68,10 +68,10 @@ class Selection1Vc: UIViewController {
     }
     
     lazy var clearDoneButtons: ClearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
-        self.router.navigationController.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }, done: { [unowned self] in
         self.onDone(self.selectedIndex)
-        self.router.navigationController.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     })
     
     var didDisappear: () -> Void = { }

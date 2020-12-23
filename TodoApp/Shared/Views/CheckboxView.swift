@@ -84,12 +84,7 @@ class CheckboxView: UIView {
     }
     
     func configure(priority: Priority) {
-        switch priority {
-        case .high: uncheckedView.borderColor = .hex("#EF4439")
-        case .medium: uncheckedView.borderColor = .hex("#FF9900")
-        case .low: uncheckedView.borderColor = .hex("#447BFE")
-        case .none: uncheckedView.borderColor = .hex("#DFDFDF")
-        }
+        uncheckedView.borderColor = priority.color
     }
     
     func configure(isChecked: Bool) {

@@ -23,7 +23,7 @@ class Separator: UICollectionReusableView {
     }
 }
 
-class TagPicker: UIViewController {
+final class TagPicker: UIViewController {
     let collectionLayout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
@@ -51,13 +51,15 @@ class TagPicker: UIViewController {
     private lazy var dataSource = makeDataSource()
     private let items: [String]
     private var finished: ((Output) -> Void)?
+    private var shouldDismiss: (TagPicker) -> Void
     private let viewSourceFrame: CGRect
     private let shouldPurposelyAnimateViewBackgroundColor: Bool
     typealias DataSource = UICollectionViewDiffableDataSource<Section, String>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, String>
     
-    init(viewSource: UIView, items: [String], shouldPurposelyAnimateViewBackgroundColor: Bool = true, finished: @escaping (Output) -> Void) {
+    init(viewSource: UIView, items: [String], shouldPurposelyAnimateViewBackgroundColor: Bool = true, shouldDismiss: @escaping (TagPicker) -> Void, finished: @escaping (Output) -> Void) {
         self.items = items
+        self.shouldDismiss = shouldDismiss
         self.finished = finished
         self.shouldPurposelyAnimateViewBackgroundColor = shouldPurposelyAnimateViewBackgroundColor
         viewSourceFrame = viewSource.convert(viewSource.bounds, to: nil)
@@ -71,6 +73,8 @@ class TagPicker: UIViewController {
     private let bgView = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBgView))
+        bgView.addGestureRecognizer(tapGesture)
         view.backgroundColor = .clear
         bgView.backgroundColor = .hex("#F6F6F3")
         bgView.layer.opacity = 0
@@ -78,7 +82,12 @@ class TagPicker: UIViewController {
         collectionView.register(TagPickerCell.self, forCellWithReuseIdentifier: "\(TagPickerCell.self)")
         collectionView.register(Separator.self, forSupplementaryViewOfKind: Separator.kind, withReuseIdentifier: Separator.reuseId)
         collectionView.showsVerticalScrollIndicator = false
-        view.layout(containerView).width(239).bottom(view.frame.height - viewSourceFrame.maxY).centerX(-(view.frame.width / 2) + viewSourceFrame.center.x)
+        view.layout(containerView).width(239).bottom(view.frame.height - viewSourceFrame.maxY)
+        containerView.snp.makeConstraints { make in
+            make.centerX.equalTo(-(view.frame.width / 2) + viewSourceFrame.center.x).priority(999)
+            make.leading.greaterThanOrEqualTo(30)
+            make.trailing.lessThanOrEqualTo(30)
+        }
         if items.count <= maxTagsShown {
             collectionView.isScrollEnabled = false
         }
@@ -87,11 +96,16 @@ class TagPicker: UIViewController {
         applySnapshot(animatingDifferences: false)
     }
     
+    @objc private func tappedBgView() {
+        properlyDismiss()
+    }
+    
     private let maxTagsShown = 3
     
     func getCollectionViewHeight(count: Int) -> CGFloat {
         let calcCount: Int = min(count, maxTagsShown)
-        return max(CGFloat((44 + 20) * calcCount - 10), 0)
+        let height = max(CGFloat((44 + 20) * calcCount - 10), 0)
+        return count > maxTagsShown ? height + 34 : height
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,7 +116,7 @@ class TagPicker: UIViewController {
         super.viewDidAppear(animated)
         containerView.transform = CGAffineTransform(scaleX: 1, y: 0).concatenating(.init(translationX: 0, y: containerView.frame.height / 2))
         containerView.layer.opacity = 0
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3) { [self] in
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1
             containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: .hex("#242424"))
@@ -160,6 +174,14 @@ class TagPicker: UIViewController {
         return view
     }()
     
+    private func properlyDismiss() {
+        UIView.animate(withDuration: 0.5) {
+            self.view.layer.opacity = 0
+        } completion: { _ in
+            self.shouldDismiss(self)
+        }
+    }
+    
     enum Output {
         case existed(String)
         case new(String)
@@ -170,6 +192,7 @@ extension TagPicker: UICollectionViewDelegate {
         let item = items[indexPath.row]
         finished?(.existed(item))
         finished = nil
+        properlyDismiss()
     }
 }
 
@@ -179,6 +202,7 @@ extension TagPicker: UITextFieldDelegate {
            !text.isEmpty {
             finished?(.new(text))
             finished = nil
+            properlyDismiss()
         }
         return false
     }

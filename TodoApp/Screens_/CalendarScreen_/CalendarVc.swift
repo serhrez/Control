@@ -59,11 +59,10 @@ final class CalendarVc: UIViewController {
     }()
     private let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
-        self.router.navigationController.popViewController(animated: true)
-        print("clear")
+        self.dismiss(animated: true, completion: nil)
     }, done: { [unowned self] in
-        self.router.navigationController.popViewController(animated: true)
         self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
+        self.dismiss(animated: true, completion: nil)
     })
     lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
     lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: clickedReminder)
@@ -136,14 +135,15 @@ final class CalendarVc: UIViewController {
     }
     
     func clickedReminder() {
-        router.openReminder(onDone: { [unowned self] in self.viewModel.reminderSelected($0) }, selected: viewModel.reminder.value)
+        navigationController?.pushViewController(Selection1Vc.reminderVc(onDone: { [unowned self] in self.viewModel.reminderSelected($0) }, selected: viewModel.reminder.value), animated: true)
     }
     func clickedRepeat() {
-        router.openRepeat(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.repeat.value)
+        navigationController?.pushViewController(Selection1Vc.repeatVc(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.repeat.value), animated: true)
     }
     func clickedTime() {
         let date = viewModel.date.value.0
-        router.openTime(onDone: { [unowned self] in self.viewModel.timeSelected(hours: $0, minutes: $1) }, selected: date.flatMap { ($0.hour, $0.minute) })
+        let selected = date.flatMap { (hours: $0.hour, minutes: $0.minute) }
+        navigationController?.pushViewController(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [unowned self] in self.viewModel.timeSelected(hours: $0, minutes: $1) }), animated: true)
     }
     var didDisappear: () -> Void = { }
     deinit {

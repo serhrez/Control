@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		15377D8096BDFA5A8AB35644 /* Pods_TodoApp_TodoAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B672A62E88757FAA619ADC27 /* Pods_TodoApp_TodoAppTests.framework */; };
 		1BD9D8045F138F8DC33362E8 /* Pods_TodoApp_TodoAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C521F921ACA686489458B3E4 /* Pods_TodoApp_TodoAppUITests.framework */; };
+		A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */; };
 		A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E322556EF7800A31BBB /* AppDelegate.swift */; };
 		A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E342556EF7800A31BBB /* SceneDelegate.swift */; };
 		A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E362556EF7800A31BBB /* AllTasksVc.swift */; };
@@ -146,6 +147,7 @@
 		0C54811E08ED86F42FA0E3DC /* Pods-TodoApp-TodoAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp-TodoAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-TodoApp-TodoAppUITests/Pods-TodoApp-TodoAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		258BAA21F196EE2BDE34945B /* Pods-TodoAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2AE8CF77A311AA77FB69A012 /* Pods-TodoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.release.xcconfig"; path = "Target Support Files/Pods-TodoApp/Pods-TodoApp.release.xcconfig"; sourceTree = "<group>"; };
+		A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsTaskCreateModel.swift; sourceTree = "<group>"; };
 		A5085E2F2556EF7800A31BBB /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5085E322556EF7800A31BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5085E342556EF7800A31BBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				A533E093255C598100B301C7 /* ProjectDetailsVc.swift */,
+				A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */,
 				A5B67F7E2591058500EAD13D /* ProjectNewTaskForm.swift */,
 				A5B67F792590FACC00EAD13D /* ProjectStartedView.swift */,
 				A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */,
@@ -1137,6 +1140,7 @@
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,
 				A59231B42572C0FB008E955D /* TimeSelectionxView.swift in Sources */,
+				A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */,
 				A5085EB9255704B800A31BBB /* DirPath.swift in Sources */,
 				A5F6A91C258A4BC400FB50FC /* InboxCell.swift in Sources */,
 				A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */,

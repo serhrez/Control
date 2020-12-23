@@ -19,6 +19,10 @@ class ProjectNewTaskForm: UIView {
     let onTagPlusClicked: () -> Void
     var shouldLayoutSubviews: () -> Void = { }
     var shouldCreateTask: (NewTask) -> Void = { _ in }
+    override func becomeFirstResponder() -> Bool {
+        return nameField.becomeFirstResponder()
+    }
+    // MARK: - Inputs
     var date: (Date?, Reminder?, Repeat?) = (nil,nil,nil) {
         didSet {
             let datee = date.0
@@ -42,25 +46,26 @@ class ProjectNewTaskForm: UIView {
             } else {
                 repeatDetailLabel.isHidden = true
             }
-            if date != nil || reminder != nil || repeatt != nil {
+            if datee != nil || reminder != nil || repeatt != nil {
                 stackView.setCustomSpacing(37, after: tokenField)
+                calendarButton.tintColor = .hex("#447BFE")
             } else {
                 stackView.setCustomSpacing(5, after: tokenField)
-
+                calendarButton.tintColor = .hex("#A4A4A4")
             }
         }
     }
-    override func becomeFirstResponder() -> Bool {
-        return nameField.becomeFirstResponder()
-    }
-    var tags: [RlmTag] = [] {
+
+    var tags: [String] = [] {
         didSet {
             updateTokenField()
+            tagButton.tintColor = !tags.isEmpty ? .hex("#00CE15") : .hex("#A4A4A4")
         }
     }
     var priority: Priority = .none {
         didSet {
             checkbox.configure(priority: priority)
+            priorityButton.tintColor = priority != .none ? priority.color : .hex("#A4A4A4")
         }
     }
     init(onCalendarClicked: @escaping (UIView) -> Void,
@@ -117,6 +122,16 @@ class ProjectNewTaskForm: UIView {
         layout(stackView).leading(25).trailing(25).bottom(plusButton.anchor.top, 10).top(taskDescription.anchor.bottom, 10)
     }
     
+    func getFirstResponder() -> UIView? {
+        if nameField.isFirstResponder {
+            return nameField
+        }
+        if taskDescription.textField.isFirstResponder {
+            return taskDescription.textField
+        }
+        return nil
+    }
+    
     private func shouldUpdateLayout() {
         if shouldAnimate() {
             UIView.animate(withDuration: 0.5) {
@@ -137,7 +152,7 @@ class ProjectNewTaskForm: UIView {
         self.tokenField.isHidden = false
         self.tokenFieldSpacerBefore.isHidden = false
         let old = tokenField.tokens as? [ResizingToken]
-        let newTags = ModelFormatt.tagsSorted(tags: tags).map { ResizingToken(title: $0.name) }
+        let newTags = tags.map { ResizingToken(title: $0) }
         tokenField.deepdiff(old: old ?? [], new: newTags)
     }
     
