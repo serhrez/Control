@@ -21,6 +21,15 @@ class ProjectDetailsVc: UIViewController {
             _oldState = state
         }
     }
+    private var project: RlmProject
+    init(project: RlmProject) {
+        self.project = project
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +94,11 @@ class ProjectDetailsVc: UIViewController {
         var newFormViewOpacity: Float = 0
         var animationCompletion: (() -> Void)?
         switch (oldState, newState) {
+        case (.addTask(_), _):
+            newFormView.getFirstResponder()?.resignFirstResponder()
+        default: break
+        }
+        switch (oldState, newState) {
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewOpacity = 1
             animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
@@ -93,6 +107,8 @@ class ProjectDetailsVc: UIViewController {
             newFormView.date = (newTask.date, newTask.reminder, newTask.repeatt)
             newFormView.tags = newTask.tags
             return
+        case (_, .list):
+            break
         case (_, .empty):
             projectStartedViewOpacity = 1
             tasksToolBarOpacity = 1
@@ -220,7 +236,13 @@ class ProjectDetailsVc: UIViewController {
             }))
         },
         shouldAnimate: { [unowned self] in self.didAppear },
-        shouldCreateTask: { print("newTask: \($0)") })
+        shouldCreateTask: { [weak self] newTask in
+            let rlmTask = RlmTask(name: newTask.name, taskDescription: newTask.description, isDone: false, date: RlmTaskDate(date: newTask.date, reminder: newTask.reminder, repeat: newTask.repeatt), createdAt: Date())
+            _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.realm.add(rlmTask)
+            }
+            self?.state = .list
+        })
     
     var didDisappear: () -> Void = { }
     
@@ -289,6 +311,7 @@ extension ProjectDetailsVc {
     enum PrScreenState {
         case empty
         case addTask(ProjectDetailsTaskCreateModel)
+        case list
         
         var addTaskModel: ProjectDetailsTaskCreateModel? {
             switch self {

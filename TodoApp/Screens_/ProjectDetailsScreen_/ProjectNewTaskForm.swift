@@ -18,7 +18,7 @@ class ProjectNewTaskForm: UIView {
     let onPriorityClicked: (UIView) -> Void
     let onTagPlusClicked: () -> Void
     var shouldLayoutSubviews: () -> Void = { }
-    var shouldCreateTask: (NewTask) -> Void = { _ in }
+    var shouldCreateTask: ((ProjectDetailsTaskCreateModel) -> Void)?
     override func becomeFirstResponder() -> Bool {
         return nameField.becomeFirstResponder()
     }
@@ -73,7 +73,7 @@ class ProjectNewTaskForm: UIView {
          onPriorityClicked: @escaping (UIView) -> Void,
          onTagPlusClicked: @escaping () -> Void,
          shouldAnimate: @escaping () -> Bool,
-         shouldCreateTask: @escaping (NewTask) -> Void) {
+         shouldCreateTask: @escaping (ProjectDetailsTaskCreateModel) -> Void) {
         self.onCalendarClicked = onCalendarClicked
         self.onTagClicked = onTagClicked
         self.onPriorityClicked = onPriorityClicked
@@ -236,9 +236,19 @@ class ProjectNewTaskForm: UIView {
         onPriorityClicked(priorityButton)
     }
     
-    
     func plusClicked() {
-        
+        guard let name = nameField.text, !name.isEmpty else { return }
+        let newTask = ProjectDetailsTaskCreateModel(
+            priority: priority,
+            name: name,
+            description: taskDescription.text,
+            tags: tags,
+            date: date.0,
+            reminder: date.1,
+            repeatt: date.2)
+        let shouldCreateTaskCopy = shouldCreateTask
+        shouldCreateTask = nil
+        shouldCreateTaskCopy?(newTask)
     }
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
@@ -368,16 +378,5 @@ class ImageButton: SimpleButton {
     override func configureButtonStyles() {
         super.configureButtonStyles()
         setScale(0.9, for: .highlighted)
-    }
-}
-
-extension ProjectNewTaskForm {
-    struct NewTask {
-        var name: String
-        var notes: String?
-        var date: Date?
-        var reminder: Reminder?
-        var repeatt: Repeat?
-        var tags: [RlmTag]
     }
 }

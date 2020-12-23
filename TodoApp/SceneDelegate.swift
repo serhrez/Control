@@ -37,7 +37,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = ProjectDetailsVc()
 //        let viewController = AllTasksVc()
 //        let viewController = CreateProjectVc2()
-        let viewController = ProjectDetailsVc()
+        let project = RealmProvider.main.realm.objects(RlmProject.self).first
+        let viewController = ProjectDetailsVc(project: project!)
 //        let viewController = TagPicker(viewSource: UIView(frame: .init(x: 200, y: 600, width: 50, height: 50)), items: ["Work", "Plan", "Important"], finished: { print($0) })
         
         let navigationVc = AppNavigationController(rootViewController: viewController)
