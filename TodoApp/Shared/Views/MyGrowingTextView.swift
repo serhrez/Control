@@ -63,6 +63,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
             textField.text
         }
         set {
+            placeholderVisible = newValue.isEmpty
             textField.text = newValue
         }
     }

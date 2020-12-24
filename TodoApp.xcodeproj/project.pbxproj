@@ -43,6 +43,7 @@
 		A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */; };
 		A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */; };
 		A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A524752C256F0EFD0000B258 /* OnClickControl.swift */; };
+		A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3252594AE4B00474128 /* TrashTextField.swift */; };
 		A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315CFD256678A8000D8FCD /* InsetLabel.swift */; };
 		A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D082566C700000D8FCD /* SubtaskCell.swift */; };
 		A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */; };
@@ -188,6 +189,7 @@
 		A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateCell.swift; sourceTree = "<group>"; };
 		A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateHeader.swift; sourceTree = "<group>"; };
 		A524752C256F0EFD0000B258 /* OnClickControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnClickControl.swift; sourceTree = "<group>"; };
+		A52ED3252594AE4B00474128 /* TrashTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashTextField.swift; sourceTree = "<group>"; };
 		A5315CFD256678A8000D8FCD /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		A5315D082566C700000D8FCD /* SubtaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskCell.swift; sourceTree = "<group>"; };
 		A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskAddCell.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */,
 				A5F6A8EB258A247900FB50FC /* SingleTagView.swift */,
 				A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */,
+				A52ED3252594AE4B00474128 /* TrashTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1073,6 +1076,7 @@
 				A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */,
 				A5796B012561E7CE00423112 /* OvalText.swift in Sources */,
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
+				A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */,
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
 				A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,

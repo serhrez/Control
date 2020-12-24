@@ -10,6 +10,7 @@ import UIKit
 import Material
 import AttributedLib
 import ResizingTokenField
+import SwiftDate
 
 class ProjectNewTaskForm: UIView {
     let shouldAnimate: () -> Bool
@@ -18,7 +19,7 @@ class ProjectNewTaskForm: UIView {
     let onPriorityClicked: (UIView) -> Void
     let onTagPlusClicked: () -> Void
     var shouldLayoutSubviews: () -> Void = { }
-    var shouldCreateTask: ((ProjectDetailsTaskCreateModel) -> Void)?
+    var shouldCreateTask: ((ProjectDetailsTaskCreateModel) -> Void)
     override func becomeFirstResponder() -> Bool {
         return nameField.becomeFirstResponder()
     }
@@ -132,6 +133,14 @@ class ProjectNewTaskForm: UIView {
         return nil
     }
     
+    private func resetView() {
+        nameField.text = ""
+        taskDescription.text = ""
+        tags = []
+        date = (nil, nil, nil)
+        priority = .none
+    }
+    
     private func shouldUpdateLayout() {
         if shouldAnimate() {
             UIView.animate(withDuration: 0.5) {
@@ -236,8 +245,12 @@ class ProjectNewTaskForm: UIView {
         onPriorityClicked(priorityButton)
     }
     
+    private var __lastCreated = Date.distantPast
     func plusClicked() {
-        guard let name = nameField.text, !name.isEmpty else { return }
+        let lastCreatedBefore10secs = (Date() - __lastCreated).second.flatMap { $0 > 2 } ?? true
+        print("lastCreated - seconds: \((Date() - __lastCreated).second) \(lastCreatedBefore10secs)")
+        guard let name = nameField.text, !name.isEmpty && lastCreatedBefore10secs else { return }
+        __lastCreated = Date()
         let newTask = ProjectDetailsTaskCreateModel(
             priority: priority,
             name: name,
@@ -246,10 +259,10 @@ class ProjectNewTaskForm: UIView {
             date: date.0,
             reminder: date.1,
             repeatt: date.2)
-        let shouldCreateTaskCopy = shouldCreateTask
-        shouldCreateTask = nil
-        shouldCreateTaskCopy?(newTask)
+        shouldCreateTask(newTask)
+        resetView()
     }
+    
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
         button.onClick = plusClicked

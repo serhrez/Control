@@ -13,7 +13,7 @@ import RxSwift
 
 class TasksWithDoneList: UIView {
     typealias DataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<Model>>
-    private lazy var tableView = UITableView()
+    lazy var tableView = UITableView()
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
     var itemsInput = PublishSubject<[RlmTask]>()

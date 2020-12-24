@@ -91,7 +91,7 @@ final class TagPicker: UIViewController {
         if items.count <= maxTagsShown {
             collectionView.isScrollEnabled = false
         }
-        containerView.layout(collectionView).height(getCollectionViewHeight(count: items.count)).top(12).leading(10).trailing(10)
+        containerView.layout(collectionView).height(getCollectionViewHeight(count: items.count)).top(items.isEmpty ? 0 : 12).leading(10).trailing(10)
         containerView.layout(externalCell).top(collectionView.anchor.bottom, 9).leading(collectionView).trailing(collectionView).bottom(12)
         applySnapshot(animatingDifferences: false)
     }
@@ -110,12 +110,12 @@ final class TagPicker: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        containerView.layer.opacity = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         containerView.transform = CGAffineTransform(scaleX: 1, y: 0).concatenating(.init(translationX: 0, y: containerView.frame.height / 2))
-        containerView.layer.opacity = 0
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1

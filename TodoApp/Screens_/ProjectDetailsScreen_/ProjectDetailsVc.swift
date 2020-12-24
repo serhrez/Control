@@ -10,6 +10,9 @@ import UIKit
 import Material
 import Typist
 import PopMenu
+import RealmSwift
+import RxSwift
+import RxCocoa
 
 class ProjectDetailsVc: UIViewController {
     private var didAppear: Bool = false
@@ -22,6 +25,9 @@ class ProjectDetailsVc: UIViewController {
         }
     }
     private var project: RlmProject
+    private var tokens: [NotificationToken] = []
+    private let bag = DisposeBag()
+    private let trashTextField = TrashTextField()
     init(project: RlmProject) {
         self.project = project
         super.init(nibName: nil, bundle: nil)
@@ -35,10 +41,12 @@ class ProjectDetailsVc: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .hex("#F6F6F3")
         topViewSetup()
-        toolbarViewSetup()
         projectStartedViewSetup()
         projectNewTaskViewSetup()
+        tasksWithDoneListSetup()
+        toolbarViewSetup()
         setupKeyboard()
+        self.view.addSubview(trashTextField)
         state = .empty
     }
     
@@ -49,7 +57,7 @@ class ProjectDetailsVc: UIViewController {
         self.view.layoutSubviews()
         self.view.layout(tasksToolbar).bottomSafe(30)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) {
-            self.top.addShadowFromOutside()
+            self.topView.addShadowFromOutside()
             self.view.layoutSubviews()
         }
     }
@@ -87,17 +95,25 @@ class ProjectDetailsVc: UIViewController {
 
     }
     
-    private func changeState(oldState: PrScreenState, newState: PrScreenState) {
-//        if newState == .addTask(_)
+    private func changeState(oldState: PrScreenState, newState newStatex: PrScreenState) {
+        var newState = newStatex
+        if case .emptyOrList = newState {
+            newState = project.tasks.isEmpty ? .empty : .list
+        }
+        
+        // Changing state
         var tasksToolBarOpacity: Float = 0
         var projectStartedViewOpacity: Float = 0
         var newFormViewOpacity: Float = 0
+        var tasksWithDoneListOpacity: Float = 0
         var animationCompletion: (() -> Void)?
+        // Pre change state
         switch (oldState, newState) {
         case (.addTask(_), _):
             newFormView.getFirstResponder()?.resignFirstResponder()
         default: break
         }
+        // Changing state
         switch (oldState, newState) {
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewOpacity = 1
@@ -108,6 +124,8 @@ class ProjectDetailsVc: UIViewController {
             newFormView.tags = newTask.tags
             return
         case (_, .list):
+            tasksWithDoneListOpacity = 1
+            tasksToolBarOpacity = 1
             break
         case (_, .empty):
             projectStartedViewOpacity = 1
@@ -118,6 +136,7 @@ class ProjectDetailsVc: UIViewController {
             self.tasksToolbar.layer.opacity = tasksToolBarOpacity
             self.projectStartedView.layer.opacity = projectStartedViewOpacity
             self.newFormView.layer.opacity = newFormViewOpacity
+            self.tasksWithDoneList.layer.opacity = tasksWithDoneListOpacity
         }
         if !didAppear {
             apply()
@@ -135,11 +154,11 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - TOP VIEW
     private func topViewSetup() {
-        view.layout(top).leading(13).trailing(13).topSafe()
-        top.shouldLayoutSubviews = view.layoutSubviews
+        view.layout(topView).leading(13).trailing(13).topSafe()
+        topView.shouldLayoutSubviews = view.layoutSubviews
         newFormView.shouldLayoutSubviews = view.layoutSubviews
     }
-    lazy var top = ProjectDetailsTop(
+    lazy var topView = ProjectDetailsTop(
         color: .hex("#FF9900"),
         projectName: "fewfgw",
         projectDescription: "gewgqw",
@@ -204,7 +223,7 @@ class ProjectDetailsVc: UIViewController {
         },
         onTagClicked: { [unowned self] sourceView in
             guard var addTask = self.state.addTaskModel else { return }
-            var prevFirstResponder = self.getFirstResponder()
+            let prevFirstResponder = self.getFirstResponder()
             let allTags = Array(RealmProvider.main.realm.objects(RlmTag.self))
                 .map { $0.name }
                 .filter { !addTask.tags.contains($0) }
@@ -213,18 +232,27 @@ class ProjectDetailsVc: UIViewController {
                 items: allTags,
                 shouldPurposelyAnimateViewBackgroundColor: true,
                 shouldDismiss: { tagPicker in
-                    prevFirstResponder?.becomeFirstResponder()
                     tagPicker.addChildDismiss()
+                    prevFirstResponder?.becomeFirstResponder()
                 },
                 finished: { result in
                     switch result {
-                    case let .existed(tagName), let .new(tagName) where !addTask.tags.contains(tagName):
+                    case let .existed(tagName) where !addTask.tags.contains(tagName):
                         addTask.tags.append(tagName)
                         self.state = .addTask(addTask)
+                    case let .new(tagName) where !addTask.tags.contains(tagName):
+                        addTask.tags.append(tagName)
+                        self.state = .addTask(addTask)
+                        if !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == tagName }) {
+                            _ = try! RealmProvider.main.realm.write {
+                                RealmProvider.main.realm.add(RlmTag(name: tagName))
+                            }
+                        }
                     default: break
                     }
                 })
             self.addChildPresent(tagPicker)
+            self.trashTextField.becomeFirstResponder()
         },
         onPriorityClicked: showPriorityPicker,
         onTagPlusClicked: { [unowned self] in
@@ -239,12 +267,35 @@ class ProjectDetailsVc: UIViewController {
         shouldCreateTask: { [weak self] newTask in
             let rlmTask = RlmTask(name: newTask.name, taskDescription: newTask.description, isDone: false, date: RlmTaskDate(date: newTask.date, reminder: newTask.reminder, repeat: newTask.repeatt), createdAt: Date())
             _ = try! RealmProvider.main.realm.write {
-                RealmProvider.main.realm.add(rlmTask)
+                self?.project.tasks.append(rlmTask)
             }
-            self?.state = .list
+            self?.state = .emptyOrList
         })
     
     var didDisappear: () -> Void = { }
+    
+    // MARK: - TasksWithDoneList VIEW
+    private let __tasksSubject = PublishSubject<[RlmTask]>()
+    private func tasksWithDoneListSetup() {
+        view.layout(tasksWithDoneList).top(topView.anchor.bottom, 13).leading(13).trailing(13).bottom()
+        tasksWithDoneList.tableView.contentInset = .init(top: 0, left: 0, bottom: 110, right: 0)
+        __tasksSubject
+            .bind(to: tasksWithDoneList.itemsInput)
+            .disposed(by: bag)
+        let token = project.tasks.observe(on: .main) { [weak self] changes in
+            guard let self = self else { return }
+            switch changes {
+            case let .update(projects, deletions: _, insertions: _, modifications: _):
+                self.__tasksSubject.onNext(Array(projects.sorted(byKeyPath: "createdAt")))
+            case let .initial(projects):
+                self.__tasksSubject.onNext(Array(projects.sorted(byKeyPath: "createdAt")))
+            case let .error(error):
+                print(error)
+            }
+        }
+        tokens.append(token)
+    }
+    private lazy var tasksWithDoneList = TasksWithDoneList()
     
     // MARK: - Util funcs
     private func getFirstResponder() -> UIView? {
@@ -256,6 +307,7 @@ class ProjectDetailsVc: UIViewController {
     
     private func showPriorityPicker(sourceView: UIView) {
 //        let task = viewModel.taskToAddComponents
+        let prevFirstResponder = self.getFirstResponder()
         let actions: [PopuptodoAction] = [
             PopuptodoAction(title: "High Priority",
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
@@ -288,19 +340,18 @@ class ProjectDetailsVc: UIViewController {
         popMenu.isCrutchySolution1 = true
         popMenu.view.layer.opacity = 0
         addChildPresent(popMenu)
+        trashTextField.becomeFirstResponder()
         UIView.animate(withDuration: 0.2) {
             popMenu.view.layer.opacity = 1
         }
-        popMenu.didDismiss = { _ in
+        popMenu.didDismiss = { [weak popMenu] _ in
             UIView.animate(withDuration: 0.2) {
-                popMenu.view.layer.opacity = 0
+                popMenu?.view.layer.opacity = 0
             } completion: { _ in
-                popMenu.willMove(toParent: nil)
-                popMenu.view.removeFromSuperview()
-                popMenu.removeFromParent()
+                popMenu?.addChildDismiss()
+                prevFirstResponder?.becomeFirstResponder()
             }
         }
-
     }
     deinit {
         didDisappear()
@@ -312,6 +363,7 @@ extension ProjectDetailsVc {
         case empty
         case addTask(ProjectDetailsTaskCreateModel)
         case list
+        case emptyOrList
         
         var addTaskModel: ProjectDetailsTaskCreateModel? {
             switch self {
