@@ -16,11 +16,19 @@ class TasksWithDoneList: UIView {
     lazy var tableView = UITableView()
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
+    private let onSelected: (RlmTask) -> Void
+    private var currentItems: [RlmTask]?
     var itemsInput = PublishSubject<[RlmTask]>()
     
-    init() {
+    init(onSelected: @escaping (RlmTask) -> Void) {
+        self.onSelected = onSelected
         super.init(frame: .zero)
         setupView()
+        itemsInput
+            .subscribe(onNext: { [weak self] rlmTasks in
+                self?.currentItems = rlmTasks
+            })
+            .disposed(by: bag)
     }
     
     required init?(coder: NSCoder) {
@@ -83,7 +91,11 @@ class TasksWithDoneList: UIView {
 }
 
 extension TasksWithDoneList: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let currentItems = currentItems else { return }
+        let item = currentItems[indexPath.row]
+        onSelected(item)
+    }
 }
 
 extension TasksWithDoneList {

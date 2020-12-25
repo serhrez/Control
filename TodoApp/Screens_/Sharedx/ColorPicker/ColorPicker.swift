@@ -36,7 +36,7 @@ class ColorPicker: UIViewController {
         onClick: { [unowned self] in
             if !$0 {
                 if self.shouldDismiss != nil {
-                    self.shouldDismissInternal()
+                    self.shouldDismissAnimated()
                 } else {
                 self.dismiss(animated: true, completion: nil)
                 }
@@ -44,10 +44,10 @@ class ColorPicker: UIViewController {
         })
     private var selectedColor: UIColor
     private let sourceViewFrame: CGRect
-    private let onColorSelection: (UIColor) -> Void
+    private let onColorSelection: (UIColor, ColorPicker) -> Void
     var shouldDismiss: (() -> Void)?
     var shouldPurposelyAnimateViewBackgroundColor: Bool = false
-    init(viewSource: UIView, selectedColor: UIColor, onColorSelection: @escaping (UIColor) -> Void) {
+    init(viewSource: UIView, selectedColor: UIColor, onColorSelection: @escaping (UIColor, ColorPicker) -> Void) {
         self.selectedColor = selectedColor
         self.onColorSelection = onColorSelection
         sourceViewFrame = viewSource.convert(viewSource.bounds, to: nil)
@@ -57,7 +57,7 @@ class ColorPicker: UIViewController {
     }
     
     var isShouldDismissInternal = false
-    private func shouldDismissInternal() {
+    func shouldDismissAnimated() {
         guard !isShouldDismissInternal else { return }
         isShouldDismissInternal = true
         UIView.animate(withDuration: 0.5) {
@@ -98,6 +98,6 @@ class ColorPicker: UIViewController {
         circles.first(where: { $0.circleColor == selectedColor })?.configure(isSelected: false, animated: true)
         selectedColor = color
         circles.first(where: { $0.circleColor == selectedColor })?.configure(isSelected: true, animated: true)
-        onColorSelection(color)
+        onColorSelection(color, self)
     }
 }

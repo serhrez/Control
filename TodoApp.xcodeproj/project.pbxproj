@@ -44,6 +44,9 @@
 		A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */; };
 		A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A524752C256F0EFD0000B258 /* OnClickControl.swift */; };
 		A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3252594AE4B00474128 /* TrashTextField.swift */; };
+		A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */; };
+		A52ED3352595169700474128 /* EmojiiList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3342595169700474128 /* EmojiiList.swift */; };
+		A52ED3A325951C9100474128 /* EmojiList.txt in Resources */ = {isa = PBXBuildFile; fileRef = A52ED3A225951C9100474128 /* EmojiList.txt */; };
 		A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315CFD256678A8000D8FCD /* InsetLabel.swift */; };
 		A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D082566C700000D8FCD /* SubtaskCell.swift */; };
 		A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */; };
@@ -190,6 +193,9 @@
 		A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateHeader.swift; sourceTree = "<group>"; };
 		A524752C256F0EFD0000B258 /* OnClickControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnClickControl.swift; sourceTree = "<group>"; };
 		A52ED3252594AE4B00474128 /* TrashTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashTextField.swift; sourceTree = "<group>"; };
+		A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerFullVc.swift; sourceTree = "<group>"; };
+		A52ED3342595169700474128 /* EmojiiList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiiList.swift; sourceTree = "<group>"; };
+		A52ED3A225951C9100474128 /* EmojiList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = EmojiList.txt; sourceTree = "<group>"; };
 		A5315CFD256678A8000D8FCD /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		A5315D082566C700000D8FCD /* SubtaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskCell.swift; sourceTree = "<group>"; };
 		A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskAddCell.swift; sourceTree = "<group>"; };
@@ -504,6 +510,16 @@
 			path = CalendarView;
 			sourceTree = "<group>";
 		};
+		A52ED32A25950C8000474128 /* IconPickerFull */ = {
+			isa = PBXGroup;
+			children = (
+				A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */,
+				A52ED3342595169700474128 /* EmojiiList.swift */,
+				A52ED3A225951C9100474128 /* EmojiList.txt */,
+			);
+			path = IconPickerFull;
+			sourceTree = "<group>";
+		};
 		A5315D072566C6D0000D8FCD /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,6 +644,7 @@
 		A592318425718DFB008E955D /* Sharedx */ = {
 			isa = PBXGroup;
 			children = (
+				A52ED32A25950C8000474128 /* IconPickerFull */,
 				A5EB2B532593FF210004A048 /* TasksListWithDone */,
 				A54BFBE725926CE90016BD08 /* TagPicker */,
 				A519675F2584F65F0021621A /* IconPicker */,
@@ -899,6 +916,7 @@
 				A5085E3F2556EF7B00A31BBB /* LaunchScreen.storyboard in Resources */,
 				A5085E3C2556EF7B00A31BBB /* Assets.xcassets in Resources */,
 				A5085E8A2556F8E500A31BBB /* bundled.realm in Resources */,
+				A52ED3A325951C9100474128 /* EmojiList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,6 +1091,7 @@
 				A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
 				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
+				A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */,
 				A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */,
 				A5796B012561E7CE00423112 /* OvalText.swift in Sources */,
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
@@ -1126,6 +1145,7 @@
 				A54EFB42258FB789009CFE0F /* CreateProjectVc2.swift in Sources */,
 				A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */,
 				A533E0AA255C8D4300B301C7 /* PopuptodoAction.swift in Sources */,
+				A52ED3352595169700474128 /* EmojiiList.swift in Sources */,
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
 				A54EFB4A258FED36009CFE0F /* Configgg.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,

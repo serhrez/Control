@@ -53,6 +53,9 @@ class AppNavigationRouter {
         pushVc(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: onDone), .autoReverse(presenting: .push(direction: .left)))
     }
 
+    func openIconPicker(onDone: @escaping (String) -> Void) {
+        pushVc(IconPickerFullVc(onSelected: onDone), .autoReverse(presenting: .push(direction: .left)))
+    }
 }
 
 extension UIViewController {

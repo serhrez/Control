@@ -17,7 +17,7 @@ final class InboxTasksVc: UIViewController {
     private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
     private let viewModel: InboxTasksVcVm = .init()
     private let bag = DisposeBag()
-    lazy var tasksWithDoneList: TasksWithDoneList = TasksWithDoneList()
+    lazy var tasksWithDoneList: TasksWithDoneList = TasksWithDoneList(onSelected: { print($0) })
     
     override func viewDidLoad() {
         super.viewDidLoad()

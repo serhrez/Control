@@ -27,6 +27,7 @@ class ProjectDetailsTop: UIView {
     let shouldAnimate: () -> Bool
     let onProjectNameChanged: (String) -> Void
     let onProjectDescriptionChanged: (String) -> Void
+    let iconSelected: () -> Void
     let onColorSelected: (_ sourceView: UIView, _ selectedColor: UIColor) -> Void
     var shouldLayoutSubviews: () -> Void = { }
     
@@ -36,6 +37,7 @@ class ProjectDetailsTop: UIView {
         self.onProjectNameChanged = onProjectNameChanged
         self.onProjectDescriptionChanged = onProjectDescriptionChanged
         self.onColorSelected = colorSelection
+        self.iconSelected = iconSelected
         self.shouldAnimate = shouldAnimate
         super.init(frame: .zero)
         self.projectNameField.text = projectName
@@ -48,7 +50,6 @@ class ProjectDetailsTop: UIView {
     }
     
     func setupViews() {
-        layer.compositingFilter = "darkenBlendMode"
         backgroundColor = .white
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
@@ -108,13 +109,6 @@ class ProjectDetailsTop: UIView {
         return circle
     }()
     
-    private func iconSelected() {
-        print("iconSelected")
-        //        guard let project = viewModel.project else { return }
-//        let iconPicker = IconPicker(viewSource: clickableIcon, selected: project.icon, onSelection: viewModel.setProjectIcon)
-//        present(iconPicker, animated: true, completion: nil)
-    }
-    
     private lazy var clickableIcon: ClickableIconView = {
         let iconView = ClickableIconView(onClick: iconSelected)
         iconView.iconView.iconFontSize = 58
@@ -124,6 +118,13 @@ class ProjectDetailsTop: UIView {
         return iconView
     }()
 
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return super.point(inside: point, with: event)
+    }
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let superHitTest = super.hitTest(point, with: event)
+        return superHitTest ?? clickableIcon.hitTest(point, with: event)
+    }
 }
 
 extension ProjectDetailsTop: UITextViewDelegate {

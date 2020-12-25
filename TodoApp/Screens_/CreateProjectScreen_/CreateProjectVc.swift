@@ -341,7 +341,10 @@ class CreateProjectVc: UIViewController {
     
     private func colorSelection() {
         let selectedColor = viewModel.project?.color ?? .hex("#123456") // use any random color
-        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: selectedColor, onColorSelection: viewModel.setProjectColor)
+        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: selectedColor, onColorSelection: { [weak self] color, picker in
+            self?.viewModel.setProjectColor(color: color)
+            picker.shouldDismissAnimated()
+        })
         present(colorPicker, animated: true, completion: nil)
     }
     

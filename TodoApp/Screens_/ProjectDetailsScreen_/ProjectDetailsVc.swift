@@ -40,6 +40,7 @@ class ProjectDetailsVc: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .hex("#F6F6F3")
+        projectBindingSetup()
         topViewSetup()
         projectStartedViewSetup()
         projectNewTaskViewSetup()
@@ -48,6 +49,7 @@ class ProjectDetailsVc: UIViewController {
         setupKeyboard()
         self.view.addSubview(trashTextField)
         state = .empty
+        projectPropertiesChanged() // Init state
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,7 +62,7 @@ class ProjectDetailsVc: UIViewController {
             self.topView.addShadowFromOutside()
             self.view.layoutSubviews()
         }
-    }
+    } 
     
     func setupKeyboard() {
         var previousHeight: CGFloat?
@@ -151,6 +153,26 @@ class ProjectDetailsVc: UIViewController {
 //        if oldState != newState && newState ==
     }
     
+    private func projectPropertiesChanged() {
+        topView.color = project.color
+        topView.icon = project.icon
+    }
+    
+    private func projectBindingSetup() {
+        let token = project.observe(on: .main) { [weak self] change in
+            switch change {
+            case .change(_, _):
+                self?.projectPropertiesChanged()
+                break
+            case .deleted:
+                break
+            case let .error(error):
+                print(error)
+                break
+            }
+        }
+        tokens.append(token)
+    }
     
     // MARK: - TOP VIEW
     private func topViewSetup() {
@@ -163,27 +185,40 @@ class ProjectDetailsVc: UIViewController {
         projectName: "fewfgw",
         projectDescription: "gewgqw",
         icon: .text("🚒"),
-        onProjectNameChanged: projectNameChanged,
-        onProjectDescriptionChanged: projectDescriptionChanged,
+        onProjectNameChanged: { [weak self] newName in
+            _ = try! RealmProvider.main.realm.write {
+                self?.project.name = newName
+            }
+        },
+        onProjectDescriptionChanged: { [weak self] newDescription in
+            _ = try! RealmProvider.main.realm.write {
+                self?.project.notes = newDescription
+            }
+        },
         colorSelection: colorSelection,
-        iconSelected: iconClicked,
+        iconSelected: { [weak self] in
+            self?.router.openIconPicker(onDone: { selected in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.icon = Icon.text(selected)
+                }
+            })
+        },
         shouldAnimate: { [unowned self] in self.didAppear })
-    private func projectNameChanged(_ newName: String) {
-        
-    }
-    private func projectDescriptionChanged(_ newDescription: String) {
-        
-    }
     private func colorSelection(_ sourceView: UIView, _ selectedColor: UIColor) {
-        let colorPicker = ColorPicker(viewSource: sourceView, selectedColor: selectedColor, onColorSelection: { print($0) })
+        let colorPicker = ColorPicker(
+            viewSource: sourceView,
+            selectedColor: selectedColor,
+            onColorSelection: { [weak self] color, picker in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.color = color
+                }
+                picker.shouldDismissAnimated()
+            })
         colorPicker.shouldPurposelyAnimateViewBackgroundColor = true
         addChildPresent(colorPicker)
         colorPicker.shouldDismiss = { [weak colorPicker] in
             colorPicker?.addChildDismiss()
         }
-    }
-    private func iconClicked() {
-        
     }
     
     // MARK: - Toolbar VIEW
@@ -278,7 +313,7 @@ class ProjectDetailsVc: UIViewController {
     private let __tasksSubject = PublishSubject<[RlmTask]>()
     private func tasksWithDoneListSetup() {
         view.layout(tasksWithDoneList).top(topView.anchor.bottom, 13).leading(13).trailing(13).bottom()
-        tasksWithDoneList.tableView.contentInset = .init(top: 0, left: 0, bottom: 110, right: 0)
+        tasksWithDoneList.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
         __tasksSubject
             .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)
@@ -295,7 +330,14 @@ class ProjectDetailsVc: UIViewController {
         }
         tokens.append(token)
     }
-    private lazy var tasksWithDoneList = TasksWithDoneList()
+    private lazy var tasksWithDoneList = TasksWithDoneList(
+        onSelected: { [unowned self] task in
+//            let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: task))
+//            taskDetailsVc.manuallyLayoutContainerView = true
+//            self.addChild(taskDetailsVc)
+//            self.view.layout(taskDetailsVc.view).top(self.topView.anchor.bottom).leading(13).trailing(13).bottomSafe()
+//            taskDetailsVc.didMove(toParent: nil)
+    })
     
     // MARK: - Util funcs
     private func getFirstResponder() -> UIView? {

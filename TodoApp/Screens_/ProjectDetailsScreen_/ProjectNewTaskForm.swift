@@ -96,6 +96,7 @@ class ProjectNewTaskForm: UIView {
         super.willMove(toSuperview: newSuperview)
     }
     func setupViews() {
+        addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
         backgroundColor = .hex("#ffffff")
         layer.cornerRadius = 16
         layout(checkbox).leading(26).top(22)

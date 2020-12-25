@@ -32,6 +32,7 @@ final class TaskDetailsVc: UIViewController {
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
+    public var manuallyLayoutContainerView: Bool = false
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -258,37 +259,37 @@ final class TaskDetailsVc: UIViewController {
         return view
     }()
     
-    let containerStack: UIStackView = {
+    private let containerStack: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .vertical
         return stack
     }()
     
-    let horizontal1: UIStackView = {
+    private let horizontal1: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
         stack.spacing = 13
         stack.alignment = .center
         return stack
     }()
-    let checkboxh1: CheckboxView = {
+    private let checkboxh1: CheckboxView = {
         let view = CheckboxView()
         view.tint = .hex("#00CE15")
         return view
     }()
-    let taskNameh1: UILabel = {
+    private let taskNameh1: UILabel = {
         let taskLabel = UILabel()
         taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
         return taskLabel
     }()
     
-    let spacerBeforeTaskDescription: UIView = {
+    private let spacerBeforeTaskDescription: UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 16).isActive = true
         return view
     }()
     
-    lazy var taskDescription: MyGrowingTextView = {
+    private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description")
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
@@ -296,30 +297,30 @@ final class TaskDetailsVc: UIViewController {
         return description
     }()
         
-    let subtasksTableContainer: UIView = {
+    private let subtasksTableContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         view.clipsToBounds = true
         return view
     }()
     
-    let spacerBeforeTokenField: UIView = {
+    private let spacerBeforeTokenField: UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 26).isActive = true
         view.isHidden = true
         return view
     }()
     
-    let tokenField: ResizingTokenField = ResizingTokenField()
+    private let tokenField: ResizingTokenField = ResizingTokenField()
     
-    let spacerBeforeLabels: UIView = {
+    private let spacerBeforeLabels: UIView = {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         view.isHidden = true
         return view
     }()
     
-    let stackDateDetail: UIStackView = {
+    private let stackDateDetail: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
         stack.spacing = 0
@@ -327,7 +328,7 @@ final class TaskDetailsVc: UIViewController {
         return stack
     }()
     
-    let dateDetailLabel: DateDetailLabel = {
+    private let dateDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
         view.setImage(image: UIImage(named: "alarm"))
         view.isHidden = true
@@ -340,7 +341,7 @@ final class TaskDetailsVc: UIViewController {
         return view
     }()
     
-    let stackReminderRepeat: UIStackView = {
+    private let stackReminderRepeat: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
         stack.alignment = .leading
@@ -350,14 +351,14 @@ final class TaskDetailsVc: UIViewController {
         return stack
     }()
         
-    let reminderDetailLabel: DateDetailLabel = {
+    private let reminderDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
         view.setImage(image: UIImage(named: "bell"))
         view.isHidden = true
         return view
     }()
     
-    let repeatDetailLabel: DateDetailLabel = {
+    private let repeatDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
         view.setImage(image: UIImage(named: "repeat"))
         view.isHidden = true
@@ -377,7 +378,9 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupContainerView() {
+        if !manuallyLayoutContainerView {
         view.layout(containerView).leading(13).trailing(13).topSafe(30).bottomSafe(30) { _, _ in .lessThanOrEqual }
+        }
         containerView.layout(containerStack).leading(26).trailing(26).top(23).bottom(23)
         containerStack.isUserInteractionEnabled = true
         horizontal1.isUserInteractionEnabled = true

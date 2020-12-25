@@ -132,7 +132,7 @@ class CreateProjectVc2: UIViewController {
     
     private func colorSelection() {
         
-        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: color, onColorSelection: { [weak self] newColor in
+        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: color, onColorSelection: { [weak self] newColor, picker in
             self?.color = newColor
             self?.colorCircle.circleColor = newColor
         })
