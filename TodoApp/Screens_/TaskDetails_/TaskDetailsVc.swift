@@ -48,6 +48,7 @@ final class TaskDetailsVc: UIViewController {
         setupViews()
         setupViewModelBinding()
         setupBindings()
+        updateTags()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -294,6 +295,7 @@ final class TaskDetailsVc: UIViewController {
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
+        description.growingTextFieldDelegate = self
         return description
     }()
         
@@ -435,9 +437,7 @@ final class TaskDetailsVc: UIViewController {
         if tokenField.isHidden {
             actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: addTagsSelected))
         }
-        if spacerBeforeLabels.isHidden {
-            actions.append(PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected))
-        }
+        actions.append(PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected))
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: selectPrioritySelected),
             PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: deleteTodoSelected),
@@ -480,7 +480,17 @@ final class TaskDetailsVc: UIViewController {
         popMenuVc?.present(popMenu, animated: true)
     }
     func addCalendarSelected(action: PopMenuAction) {
+        guard let task = viewModel.task else { return }
         dismiss(animated: true, completion: nil)
+        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { (newDate, newReminder, newRepeat) in
+            _ = try! RealmProvider.main.realm.write {
+                if newDate == nil && newReminder == nil && newRepeat == nil {
+                    task.date = nil
+                } else {
+                    task.date = RlmTaskDate(date: newDate, reminder: newReminder, repeat: newRepeat)
+                }
+            }
+        }
     }
     func deleteTodoSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
@@ -567,9 +577,24 @@ extension UIImage {
 
 extension TaskDetailsVc: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        switch textView {
+        case taskDescription.textField:
+            break
+        default:
+            break
+        }
         let newSpace = text.contains { $0.isNewline }
         if newSpace { textView.resignFirstResponder() }
         return !newSpace
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        switch textView {
+        case taskDescription.textField:
+            viewModel.changeDescription(textView.text)
+            break
+        default:
+            break
+        }
     }
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()

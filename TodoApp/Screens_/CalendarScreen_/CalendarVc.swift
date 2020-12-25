@@ -59,19 +59,28 @@ final class CalendarVc: UIViewController {
     }()
     private let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
-        self.dismiss(animated: true, completion: nil)
+        if self.isOpenedFromRouter {
+            self.router.navigationController.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }, done: { [unowned self] in
         self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
-        self.dismiss(animated: true, completion: nil)
+        if self.isOpenedFromRouter {
+            self.router.navigationController.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     })
     lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
     lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: clickedReminder)
     lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: clickedRepeat)
-    
+    private let isOpenedFromRouter: Bool
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
-    init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
+    init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void, isOpenedFromRouted: Bool = false) {
         self.viewModel = viewModel
         self.onDone = onDone
+        self.isOpenedFromRouter = isOpenedFromRouted
         super.init(nibName: nil, bundle: nil)
     }
     

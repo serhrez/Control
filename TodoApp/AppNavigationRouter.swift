@@ -34,7 +34,7 @@ class AppNavigationRouter {
     }
     
     func openDateVc(reminder: Reminder?, repeat: Repeat?, date: Date?, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
-        pushVc(CalendarVc(viewModel: .init(reminder: reminder, repeat: `repeat`, date: date), onDone: onDone), .autoReverse(presenting: .push(direction: .left)))
+        pushVc(CalendarVc(viewModel: .init(reminder: reminder, repeat: `repeat`, date: date), onDone: onDone, isOpenedFromRouted: true), .autoReverse(presenting: .push(direction: .left)))
     }
     
     func openAllTags(mode: AllTagsVc.Mode) {
@@ -55,6 +55,10 @@ class AppNavigationRouter {
 
     func openIconPicker(onDone: @escaping (String) -> Void) {
         pushVc(IconPickerFullVc(onSelected: onDone), .autoReverse(presenting: .push(direction: .left)))
+    }
+    
+    func openTaskDetails(_ task: RlmTask) {
+        pushVc(TaskDetailsVc(viewModel: .init(task: task)), .autoReverse(presenting: .push(direction: .left)))
     }
 }
 

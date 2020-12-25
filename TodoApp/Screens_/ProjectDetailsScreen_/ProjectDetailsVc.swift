@@ -332,11 +332,7 @@ class ProjectDetailsVc: UIViewController {
     }
     private lazy var tasksWithDoneList = TasksWithDoneList(
         onSelected: { [unowned self] task in
-//            let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: task))
-//            taskDetailsVc.manuallyLayoutContainerView = true
-//            self.addChild(taskDetailsVc)
-//            self.view.layout(taskDetailsVc.view).top(self.topView.anchor.bottom).leading(13).trailing(13).bottomSafe()
-//            taskDetailsVc.didMove(toParent: nil)
+            self.router.openTaskDetails(task)
     })
     
     // MARK: - Util funcs

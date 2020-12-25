@@ -152,6 +152,12 @@ class TaskDetailsVcVm {
             RealmProvider.main.realm.delete(subtask)
         }
     }
+    
+    func changeDescription(_ newDescription: String) {
+        _ = try! RealmProvider.main.realm.write {
+            task?.taskDescription = newDescription
+        }
+    }
 
 }
 
