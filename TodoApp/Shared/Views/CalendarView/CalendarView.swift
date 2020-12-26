@@ -153,8 +153,7 @@ struct CalendarViewLayout {
     }
     var overallHeight: CGFloat {
         cellWidthHeight * (cellRows + 2) // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
-
     }
     
-    static let default1: CalendarViewLayout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - 13 * 2, cellColumns: 7, cellRows: 6)
+    static let default1: CalendarViewLayout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - 13 * 2 - 10 * 2, cellColumns: 7, cellRows: 6)
 }

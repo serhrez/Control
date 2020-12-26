@@ -17,6 +17,7 @@ class CalendarVcVm {
     let `repeat`: BehaviorRelay<Repeat?>
     // Bool - is update from calendarView?
     let date: BehaviorRelay<(Date?, Bool?)>
+    var shouldGoBackAndSave: () -> Void = { }
     private let datePrioritiesHolder = DatePrioritiesHolder()
 
     init(reminder: Reminder?, repeat: Repeat?, date: Date?) {
@@ -36,9 +37,11 @@ class CalendarVcVm {
     
     func clickedToday() {
         date.accept((Date().dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        shouldGoBackAndSave()
     }
     func clickedTomorrow() {
         date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        shouldGoBackAndSave()
     }
     func clickedNextMonday() {
         var nextWeekday = Date().nextWeekday(.monday)
@@ -47,11 +50,13 @@ class CalendarVcVm {
         }
 
         date.accept((nextWeekday.dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        shouldGoBackAndSave()
     }
     func clickedEvening() {
         if date.value.0.flatMap({ $0.hour < 18 }) ?? true {
             date.accept(((date.value.0 ?? Date()).dateBySet(hour: 19, min: date.value.0?.minute, secs: 0), false))
         }
+        shouldGoBackAndSave()
     }
     
     func reminderSelected(_ reminder: Reminder?) {
@@ -65,6 +70,12 @@ class CalendarVcVm {
     func timeSelected(hours: Int, minutes: Int) {
         let currDate = (date.value.0 ?? Date()).dateBySet(hour: hours, min: minutes, secs: 0)
         self.date.accept((currDate, false))
+    }
+    
+    func clearAll() {
+        date.accept((nil, false))
+        self.repeat.accept(nil)
+        self.reminder.accept(nil)
     }
 }
 

@@ -17,30 +17,39 @@ class ClearDoneButtons: UIView {
         self.clear = clear
         self.done = done
         super.init(frame: .zero)
-        let clearButton = UIButton(type: .custom)
+        let clearButton = NewCustomButton(type: .custom)
         let attrClear = "Back".at.attributed { attr in
             attr.font(.systemFont(ofSize: 18, weight: .semibold))
         }
         clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)
         clearButton.setAttributedTitle(attrClear, for: .normal)
+        clearButton.opacityState = .init(highlighted: 0.5, normal: 1)
+        
         let separator = UIView()
         separator.backgroundColor = .hex("#DFDFDF")
         separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
         separator.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        let doneButton = UIButton(type: .custom)
+        
+        let doneButton = NewCustomButton(type: .custom)
         let attrDone = "Done".at.attributed { attr in
             attr.font(.systemFont(ofSize: 18, weight: .semibold)).foreground(color: .hex("#447BFE"))
         }
         doneButton.addTarget(self, action: #selector(doneClicked), for: .touchUpInside)
         doneButton.setAttributedTitle(attrDone, for: .normal)
-        let container1 = UIView()
-        container1.layout(clearButton).center()
-        let container2 = UIView()
-        container2.layout(doneButton).center()
-        [container1, separator, container2].forEach { addSubview($0) }
-        layout(container1).width(container2.anchor.width).top().bottom().leading().trailing(separator.anchor.leading, 6)
-        layout(separator).top().bottom().trailing(container2.anchor.leading, 6)
-        layout(container2).top().bottom().trailing()
+        doneButton.opacityState = .init(highlighted: 0.5, normal: 1)
+        
+        layout(clearButton).leading().bottom().top()
+        layout(separator).top().bottom().leading(clearButton.anchor.trailing)
+        layout(doneButton).top().bottom().leading(separator.anchor.trailing).trailing()
+        clearButton.widthAnchor.constraint(equalTo: doneButton.widthAnchor).isActive = true
+//        let container1 = UIView()
+//        container1.layout(clearButton).center()
+//        let container2 = UIView()
+//        container2.layout(doneButton).center()
+//        [container1, separator, container2].forEach { addSubview($0) }
+//        layout(container1).width(container2.anchor.width).top().bottom().leading().trailing(separator.anchor.leading, 6)
+//        layout(separator).top().bottom().trailing(container2.anchor.leading, 6)
+//        layout(container2).top().bottom().trailing()
 
     }
     

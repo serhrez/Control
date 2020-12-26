@@ -16,6 +16,7 @@ import RealmSwift
 import RxDataSources
 import SwipeCellKit
 import Typist
+import SnapKit
 
 final class TaskDetailsVc: UIViewController {
     private let viewModel: TaskDetailsVcVm

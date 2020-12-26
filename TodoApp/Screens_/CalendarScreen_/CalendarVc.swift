@@ -10,6 +10,7 @@ import UIKit
 import Material
 import RxSwift
 import SwiftDate
+import AttributedLib
 
 final class CalendarVc: UIViewController {
     private let bag = DisposeBag()
@@ -43,7 +44,7 @@ final class CalendarVc: UIViewController {
     }()
     lazy var tomorrowButton: CalendarButton1 = {
         let button = CalendarButton1(image: "calendar-plussvg", text: "Tomorrow", onClick: viewModel.clickedTomorrow)
-        button.imageView.tintColor = .hex("#447BFE")
+        button.imageView2.tintColor = .hex("#447BFE")
         return button
     }()
     lazy var nextMondayButton: CalendarButton1 = {
@@ -64,14 +65,7 @@ final class CalendarVc: UIViewController {
         } else {
             self.dismiss(animated: true, completion: nil)
         }
-    }, done: { [unowned self] in
-        self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
-        if self.isOpenedFromRouter {
-            self.router.navigationController.popViewController(animated: true)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
-    })
+    }, done: done)
     lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
     lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: clickedReminder)
     lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: clickedRepeat)
@@ -107,6 +101,7 @@ final class CalendarVc: UIViewController {
         viewModel.repeat.subscribe(onNext: { [unowned self] `repeat` in
             repeatButton.configure(selectedText: `repeat`?.description)
         }).disposed(by: bag)
+        viewModel.shouldGoBackAndSave = done
     }
 
     private func setupViews() {
@@ -137,10 +132,34 @@ final class CalendarVc: UIViewController {
         ])
         buttonsStackCenterLayout2.axis = .vertical
         buttonsStackCenterLayout2.spacing = 27
-        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 34).bottom()
+        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 34)//.bottom()
+        scrollView.layout(clearButton).top(buttonsStackCenterLayout2.anchor.bottom, 30).leading(25).trailing(25).bottom(10).height(55)
         let scrollHeight = scrollView.frameLayoutGuide.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         scrollHeight.priority = .init(1)
         scrollHeight.isActive = true
+    }
+        
+    private func done() {
+        self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
+        if self.isOpenedFromRouter {
+            self.router.navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    private lazy var clearButton: NewCustomButton = {
+        let button = NewCustomButton()
+        button.stateBackgroundColor = .init(highlighted: UIColor.hex("#DFDFDF"), normal: UIColor.hex("#DFDFDF").withAlphaComponent(0.4))
+        button.setAttributedTitle("Clear".at.attributed { $0.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(clickedClear), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    @objc func clickedClear() {
+        viewModel.clearAll()
     }
     
     func clickedReminder() {
@@ -164,25 +183,29 @@ extension CalendarVc: AppNavigationRouterDelegate { }
 
 extension CalendarVc {
     
-    class CalendarButton1: OnClickControl {
-        let imageView = UIImageView(frame: .zero)
-
+    class CalendarButton1: UIButton {
+        let imageView2 = UIImageView(frame: .zero)
+        private let onClick: () -> Void
         init(image imageName: String, text: String, onClick: @escaping () -> Void) {
-            super.init(onClick: { _ in })
-            imageView.image = UIImage(named: imageName)
-            layout(imageView).top().centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
+            self.onClick = onClick
+            super.init(frame: .zero)
+            imageView2.image = UIImage(named: imageName)
+            layout(imageView2).top().centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
             let label = UILabel()
             label.text = text
             label.font = .systemFont(ofSize: 16, weight: .semibold)
             label.numberOfLines = 0
             label.textAlignment = .center
-            layout(label).top(imageView.anchor.bottom, 9).centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
+            layout(label).top(imageView2.anchor.bottom, 9).centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
                 .bottom()
-            self.onClick = { isSelected in
-                self.layer.opacity = isSelected ? 0.7 : 1
-                if isSelected { onClick() }
-            }
+            addTarget(self, action: #selector(onClickFunc), for: .touchUpInside)
+//            self.onClick = { isSelected in
+//                self.layer.opacity = isSelected ? 0.7 : 1
+//                if isSelected { onClick() }
+//            }
         }
+        
+        @objc func onClickFunc() { onClick() }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -192,7 +215,7 @@ extension CalendarVc {
     class CalendarButton2: UIView {
         let imageView = UIImageView(frame: .zero)
         let label = UILabel()
-        let button = UIButton(type: .custom)
+        let button = NewCustomButton(type: .custom)
         private let onClick: () -> Void
         
         init(image imageName: String, text: String, onClick: @escaping () -> Void) {
@@ -207,6 +230,7 @@ extension CalendarVc {
             layout(button).trailing().centerY()
             button.addTarget(self, action: #selector(clicked), for: .touchUpInside)
             configure(selectedText: nil)
+            button.pointInsideInsets = .init(top: 15, left: 15, bottom: 15, right: 15)
         }
         
         required init?(coder: NSCoder) {
@@ -225,5 +249,21 @@ extension CalendarVc {
                 button.setTitleColor(.hex("#A4A4A4"), for: .normal)
             }
         }
+        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+            let superHit = super.hitTest(point, with: event)
+            return superHit ?? button.hitTest(point, with: event)
+        }
     }
+}
+
+extension UIImage {
+  class func imageWithColor(color: UIColor) -> UIImage {
+    let rect: CGRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+    UIGraphicsBeginImageContextWithOptions(CGSize(width: 1, height: 1), false, 0)
+    color.setFill()
+    UIRectFill(rect)
+    let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image!
+  }
 }

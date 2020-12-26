@@ -33,6 +33,12 @@ class Selection1View: UIView {
         layout(textLabel).leading(33).top().bottom().trailing()
         textLabel.text = text
         textLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(clicked))
+        addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func clicked() {
+        onSelected?()
     }
     
     required init?(coder: NSCoder) {
