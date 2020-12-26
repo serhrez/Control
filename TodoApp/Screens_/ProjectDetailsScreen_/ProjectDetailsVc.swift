@@ -17,8 +17,8 @@ import RxCocoa
 class ProjectDetailsVc: UIViewController {
     private var didAppear: Bool = false
     private let keyboard = Typist()
-    private var _oldState: PrScreenState = .empty
-    private var state: PrScreenState = .empty {
+    private var _oldState: PrScreenState = .emptyOrList 
+    private var state: PrScreenState = .emptyOrList {
         didSet {
             changeState(oldState: _oldState, newState: state)
             _oldState = state
@@ -48,8 +48,21 @@ class ProjectDetailsVc: UIViewController {
         toolbarViewSetup()
         setupKeyboard()
         self.view.addSubview(trashTextField)
-        state = .empty
+        state = .emptyOrList
         projectPropertiesChanged() // Init state
+        applySharedNavigationBarAppearance()
+        addGestureToNavBar()
+    }
+    
+    // We add gesture to nav bar in order to check if topView icon was clicked
+    func addGestureToNavBar() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navBarClicked))
+        navigationController?.navigationBar.addGestureRecognizer(gestureRecognizer)
+    }
+    @objc func navBarClicked(_ gesture: UITapGestureRecognizer) {
+        let point = gesture.location(in: nil)
+        print("point: \(point) \(topView)")
+        topView.navBarClicked(point: point)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,7 +75,7 @@ class ProjectDetailsVc: UIViewController {
             self.topView.addShadowFromOutside()
             self.view.layoutSubviews()
         }
-    } 
+    }
     
     func setupKeyboard() {
         var previousHeight: CGFloat?
@@ -252,7 +265,7 @@ class ProjectDetailsVc: UIViewController {
                 addTask.repeatt = $2
                 self.state = .addTask(addTask)
             })
-            let nav = AppNavigationController(rootViewController: vc)
+            let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .overFullScreen
             self.present(nav, animated: true)
         },

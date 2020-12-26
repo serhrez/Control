@@ -16,16 +16,16 @@ protocol AppNavigationRouterDelegate: AnyObject {
 
 class AppNavigationRouter {
     
-    var navigationController: AppNavigationController!
+    var navigationController: UINavigationController!
     public static let shared = AppNavigationRouter()
     private init() { }
     
     private func pushVc(_ vc: UIViewController & AppNavigationRouterDelegate, _ transitionType: MotionTransitionAnimationType, animated: Bool = true) {
-        let previousTransitionType = navigationController.motionNavigationTransitionType
-        navigationController.motionNavigationTransitionType = transitionType
-        vc.didDisappear = { [weak self] in
-            self?.navigationController.motionNavigationTransitionType = previousTransitionType
-        }
+//        let previousTransitionType = navigationController.motionNavigationTransitionType
+//        navigationController.motionNavigationTransitionType = transitionType
+//        vc.didDisappear = { [weak self] in
+//            self?.navigationController.motionNavigationTransitionType = previousTransitionType
+//        }
         navigationController.pushViewController(vc, animated: true)
     }
     

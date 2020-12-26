@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Material
 import Typist
-
+import AttributedLib
 
 class IconPickerEmojiCell: UICollectionViewCell {
     static let reuseIdentifier = "ipecell"
@@ -111,6 +111,7 @@ final class IconPickerFullVc: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        applySharedNavigationBarAppearance()
         setupSearchBar()
         setupKeyboard()
         view.backgroundColor = .hex("#F6F6F3")
@@ -127,27 +128,16 @@ final class IconPickerFullVc: UIViewController {
     }
     
     private func setupSearchBar() {
-        let searchBar = SearchBar()
-        let img = UIImageView(image: UIImage(named: "searchsvg"))
-        img.contentMode = .scaleAspectFit
-        let imgContainer = UIView()
-        imgContainer.layout(img).center().width(18).height(18)
-        searchBar.leftViews = [imgContainer]
-        searchBar.contentEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: 10)
-        searchBar.backgroundColor = .white
-        searchBar.layer.cornerRadius = 16
-        searchBar.layer.cornerCurve = .continuous
+        let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
         searchBar.delegate = self
-        searchBar.textField.delegate = self
-        navigationItem.centerViews = [searchBar]
-        navigationItem.backButton.isHidden = true
-        let cancelButton = UIButton(type: .system)
-        cancelButton.setAttributedTitle("Cancel".at.attributed { attr in
-            attr.foreground(color: UIColor.hex("#447BFE")).font(.systemFont(ofSize: 16, weight: .bold))
-        }, for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelClicked), for: .touchUpInside)
-        navigationItem.rightViews = [cancelButton]
-        navigationItem.contentViewAlignment = .full
+        searchBar.searchTextField.backgroundColor = .hex("#ffffff")
+        
+        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClicked))
+        cancelButton.tintColor = UIColor.hex("#447BFE")
+        cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
+        navigationItem.rightBarButtonItems = [cancelButton]
     }
     
     private func setupKeyboard() {
@@ -236,33 +226,29 @@ extension IconPickerFullVc: UICollectionViewDelegate {
     }
 }
 
-extension IconPickerFullVc: SearchBarDelegate {
-    func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        guard let text = text else { return }
-//        DispatchQueue.global(qos: .userInteractive).async { [self] in
-            if text.isEmpty { self.items = IconPickerFullVc.allEmojis; return }
-            var newItems: [ItemWithSection] = []
-            
-            for emoj in IconPickerFullVc.allEmojis {
-                if checkSimilarity(str1: emoj.0.viewString, str2: text) {
-                    newItems.append(emoj)
-                } else {
-                    let newEmojis: [Emojii] = emoj.1.filter { checkSimilarity(str1: $0.description, str2: text) }
-                    newItems.append((emoj.0, newEmojis))
-                }
+extension IconPickerFullVc: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty { self.items = IconPickerFullVc.allEmojis; return }
+        var newItems: [ItemWithSection] = []
+        
+        for emoj in IconPickerFullVc.allEmojis {
+            if checkSimilarity(str1: emoj.0.viewString, str2: searchText) {
+                newItems.append(emoj)
+            } else {
+                let newEmojis: [Emojii] = emoj.1.filter { checkSimilarity(str1: $0.description, str2: searchText) }
+                newItems.append((emoj.0, newEmojis))
             }
-            items = newItems.filter { !$0.1.isEmpty }
-//        }
+        }
+        items = newItems.filter { !$0.1.isEmpty }
+
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     private func checkSimilarity(str1: String, str2: String) -> Bool {
         return str1.contains(str2) || str2.contains(str1)
     }
-    
-    func searchBar(searchBar: SearchBar, didClear textField: UITextField, with text: String?) {
-        
-    }
-    
 }
 
 extension IconPickerFullVc: UITextFieldDelegate {

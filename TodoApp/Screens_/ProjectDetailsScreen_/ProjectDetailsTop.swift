@@ -117,6 +117,11 @@ class ProjectDetailsTop: UIView {
         iconView.heightAnchor.constraint(equalToConstant: 58).isActive = true
         return iconView
     }()
+    func navBarClicked(point: CGPoint) {
+        if clickableIcon.point(inside: clickableIcon.convert(point, from: nil), with: nil) {
+            iconSelected()
+        }
+    }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         return super.point(inside: point, with: event)

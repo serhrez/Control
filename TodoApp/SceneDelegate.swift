@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = TagPicker(viewSource: UIView(frame: .init(x: 200, y: 600, width: 50, height: 50)), items: ["Work", "Plan", "Important"], finished: { print($0) })
 //        let viewController = IconPickerFullVc(onSelected: { print($0) })
         
-        let navigationVc = AppNavigationController(rootViewController: viewController)
+        let navigationVc = UINavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 
         window.rootViewController = navigationVc

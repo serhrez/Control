@@ -17,18 +17,13 @@ class TasksWithDoneList: UIView {
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
     private let onSelected: (RlmTask) -> Void
-    private var currentItems: [RlmTask]?
-    var itemsInput = PublishSubject<[RlmTask]>()
+    private var currentItems: [AnimSection<Model>]?
+    let itemsInput = PublishSubject<[RlmTask]>()
     
     init(onSelected: @escaping (RlmTask) -> Void) {
         self.onSelected = onSelected
         super.init(frame: .zero)
         setupView()
-        itemsInput
-            .subscribe(onNext: { [weak self] rlmTasks in
-                self?.currentItems = rlmTasks
-            })
-            .disposed(by: bag)
     }
     
     required init?(coder: NSCoder) {
@@ -51,7 +46,9 @@ class TasksWithDoneList: UIView {
             let combinedItems = Array(section1.isEmpty ? section2 : section1 + [.space(45)] + section2)
             return [AnimSection(items: combinedItems)]
         }
-        .do(onNext: { print($0) })
+        .do(onNext: { [weak self] in
+            self?.currentItems = $0
+        })
         .bind(to: tableView.rx.items(dataSource: dataSource))
         .disposed(by: bag)
     }
@@ -93,8 +90,14 @@ class TasksWithDoneList: UIView {
 extension TasksWithDoneList: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let currentItems = currentItems else { return }
-        let item = currentItems[indexPath.row]
-        onSelected(item)
+        let item = currentItems[indexPath.section].items[indexPath.row] // TODO: Somewhy crashes
+        switch item {
+        case let .task(task):
+            onSelected(task)
+        case let .doneTask(task):
+            onSelected(task)
+        default: break
+        }
     }
 }
 

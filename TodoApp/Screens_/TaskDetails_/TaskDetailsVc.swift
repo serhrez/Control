@@ -27,7 +27,11 @@ final class TaskDetailsVc: UIViewController {
         }
     }()
     private lazy var subtasksTable = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
     private let keyboard = Typist()
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
@@ -415,12 +419,8 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.titleLabel.text = "Task info"
-
-        [actionsButton].forEach { $0.tintColor = .black }
-        actionsButton.addTarget(self, action: #selector(actionsButtonClicked), for: .touchUpInside)
-        
-        navigationItem.rightViews = [actionsButton]
+        applySharedNavigationBarAppearance()
+        navigationItem.rightBarButtonItem = actionsButton
     }
     
     

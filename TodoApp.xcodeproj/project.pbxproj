@@ -76,6 +76,7 @@
 		A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */; };
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
+		A56EFBA425976C5E004A2DB9 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */; };
 		A5722CDA25740C890098BECE /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CD925740C890098BECE /* CreateProjectVc.swift */; };
 		A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -112,7 +113,6 @@
 		A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E492E1256D78EB004E707B /* Selection1Vc.swift */; };
 		A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E492ED256D7BE4004E707B /* Selection1View.swift */; };
 		A5EB2B552593FF360004A048 /* TasksWithDoneList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EB2B542593FF360004A048 /* TasksWithDoneList.swift */; };
-		A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
 		A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */; };
 		A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A8EB258A247900FB50FC /* SingleTagView.swift */; };
@@ -225,6 +225,7 @@
 		A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsAddTagCell.swift; sourceTree = "<group>"; };
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
+		A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		A5722CD925740C890098BECE /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
 		A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVcVm.swift; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -261,7 +262,6 @@
 		A5E492E1256D78EB004E707B /* Selection1Vc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection1Vc.swift; sourceTree = "<group>"; };
 		A5E492ED256D7BE4004E707B /* Selection1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection1View.swift; sourceTree = "<group>"; };
 		A5EB2B542593FF360004A048 /* TasksWithDoneList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksWithDoneList.swift; sourceTree = "<group>"; };
-		A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
 		A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVcVm.swift; sourceTree = "<group>"; };
 		A5F6A8EB258A247900FB50FC /* SingleTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTagView.swift; sourceTree = "<group>"; };
@@ -339,7 +339,6 @@
 				A5085E322556EF7800A31BBB /* AppDelegate.swift */,
 				A5085E342556EF7800A31BBB /* SceneDelegate.swift */,
 				A5EF5F7C255B242D0088DE0A /* Screens_ */,
-				A5EF5F5E255B13E30088DE0A /* AppNavigationController.swift */,
 				A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */,
 				A5085EB7255704AB00A31BBB /* Shared */,
 				A5085EB02557046600A31BBB /* Services */,
@@ -418,6 +417,7 @@
 				A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */,
 				A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */,
 				A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */,
+				A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1089,6 +1089,7 @@
 				A57634FE257EE8D9009A5041 /* AlignmentRectViews.swift in Sources */,
 				A5B67F752590F4B400EAD13D /* UIViewController+Extensions.swift in Sources */,
 				A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */,
+				A56EFBA425976C5E004A2DB9 /* UINavigationController+Extensions.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
 				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
 				A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */,
@@ -1156,7 +1157,6 @@
 				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A54D6474256308DF00AC3F41 /* DoneTasksListTaskCell.swift in Sources */,
 				A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */,
-				A5EF5F5F255B13E30088DE0A /* AppNavigationController.swift in Sources */,
 				A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */,
 				A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */,
 				A533E046255C1EC400B301C7 /* CircleText.swift in Sources */,
