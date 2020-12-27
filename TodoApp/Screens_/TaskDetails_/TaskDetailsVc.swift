@@ -27,7 +27,18 @@ final class TaskDetailsVc: UIViewController {
             return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
         }
     }()
-    private lazy var subtasksTable = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let spacerBeforeSubtasksTable: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "spacerBeforeSubtasksTable"
+        view.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        view.isHidden = true
+        return view
+    }()
+    private lazy var subtasksTable: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
+        return collectionView
+    }()
     private lazy var actionsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
         button.tintColor = .hex("#242424")
@@ -37,7 +48,6 @@ final class TaskDetailsVc: UIViewController {
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
-    public var manuallyLayoutContainerView: Bool = false
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -86,24 +96,21 @@ final class TaskDetailsVc: UIViewController {
         keyboard
             //.toolbar(scrollView: collectionView)
             .on(event: .willChangeFrame) { [unowned self] options in
-                
-                let height = options.endFrame.intersection(subtasksTable.convert(subtasksTable.bounds, to: nil)).height
+                let height = options.endFrame.intersection(scrollView.convert(scrollView.bounds, to: nil)).height
                 testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
                 UIView.animate(withDuration: 0.5) {
-                    self.subtasksTable.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                    view.layoutSubviews()
+                    self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                 }
             }
             .on(event: .willHide) { [unowned self] options in
-                let height = options.endFrame.intersection(subtasksTable.convert(subtasksTable.bounds, to: nil)).height
+                let height = options.endFrame.intersection(scrollView.convert(scrollView.bounds, to: nil)).height
                 testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
                 UIView.animate(withDuration: 0.5) {
-                    self.subtasksTable.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                    view.layoutSubviews()
+                    self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                 }
             }
             .start()
@@ -142,8 +149,12 @@ final class TaskDetailsVc: UIViewController {
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
             .do(onNext: { [unowned self] _ in
-                let height = CGFloat(self.viewModel.subtasksModels[0].items.count * SubtaskCell.height + 44)
-                self.subtasksTableContainer.layout(self.subtasksTable).height(height).priority(.defaultLow)
+                let itemsCount = self.viewModel.subtasksModels[0].items.count
+                let height = CGFloat(itemsCount * SubtaskCell.height)// + (itemsCount > 0 ? 44 : 0))
+                self.subtasksTable.snp.remakeConstraints { make in
+                    make.height.equalTo(height)
+                }
+                self.spacerBeforeSubtasksTable.isHidden = height < 5
                 if wasAlreadyLoaded {
                     UIView.animate(withDuration: 0.5) {
                         self.view.layoutIfNeeded()
@@ -160,13 +171,14 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupViewModelBinding() {
+        self.taskNameh1.text = viewModel.task?.name
+        self.setTaskDescription(viewModel.task?.taskDescription ?? "")
+        viewModel.shouldEnableTaskDescription = explicitlyEnableTaskDescription
         viewModel.taskObservable
             .subscribe(onNext: { [weak self] task in
                 guard let self = self else { return }
                 self.checkboxh1.configure(isChecked: task.isDone)
                 self.checkboxh1.configure(priority: task.priority)
-                self.taskNameh1.text = task.name
-                self.setTaskDescription(task.taskDescription)
                 self.updateLabels(taskDate: task.date)
             })
             .disposed(by: bag)
@@ -181,9 +193,8 @@ final class TaskDetailsVc: UIViewController {
             })
             .disposed(by: bag)
     }
-    
+    var __previousHeight: CGFloat?
     func layoutAnimate() {
-        print("layoutAnimate")
         if wasAlreadyShown {
             UIView.animate(withDuration: 0.5) {
                 self.view.layoutSubviews()
@@ -206,12 +217,13 @@ final class TaskDetailsVc: UIViewController {
         }
         self.taskDescription.isHidden = false
         spacerBeforeTaskDescription.isHidden = false
-        if taskDescription == "Emptyxpk" {
-            self.taskDescription.text = ""
-        } else {
-            self.taskDescription.text = taskDescription
-        }
-
+        self.taskDescription.text = taskDescription
+    }
+    
+    func explicitlyEnableTaskDescription() {
+        self.taskDescription.isHidden = false
+        spacerBeforeTaskDescription.isHidden = false
+        layoutAnimate()
     }
     
     func updateTags() {
@@ -232,11 +244,8 @@ final class TaskDetailsVc: UIViewController {
     }
     
     func updateLabels(taskDate: RlmTaskDate?) {
-        if taskDate?.date != nil || taskDate?.reminder != nil || taskDate?.repeat != nil {
-            spacerBeforeLabels.isHidden = false
-        } else {
-            spacerBeforeLabels.isHidden = true
-        }
+        datesStackSeparator.isHidden = !(taskDate?.date != nil && (taskDate?.reminder != nil || taskDate?.repeat != nil))
+        spacerBeforeLabels.isHidden = !(taskDate?.date != nil || taskDate?.reminder != nil || taskDate?.repeat != nil)
         if let date = taskDate?.date {
             dateDetailLabel.isHidden = false
             dateDetailLabel.configure(with: DateFormatter.str(from: date))
@@ -260,6 +269,7 @@ final class TaskDetailsVc: UIViewController {
         
     let containerView: UIView = {
         let view = UIView()
+        view.accessibilityIdentifier = "containerView"
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         return view
@@ -267,6 +277,7 @@ final class TaskDetailsVc: UIViewController {
     
     private let containerStack: UIStackView = {
         let stack = UIStackView(frame: .zero)
+        stack.accessibilityIdentifier = "containerStack"
         stack.axis = .vertical
         return stack
     }()
@@ -274,6 +285,7 @@ final class TaskDetailsVc: UIViewController {
     private let horizontal1: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
+        stack.accessibilityIdentifier = "horizontal1"
         stack.spacing = 13
         stack.alignment = .center
         return stack
@@ -281,22 +293,28 @@ final class TaskDetailsVc: UIViewController {
     private let checkboxh1: CheckboxView = {
         let view = CheckboxView()
         view.tint = .hex("#00CE15")
+        view.accessibilityIdentifier = "checkboxh1"
         return view
     }()
-    private let taskNameh1: UILabel = {
-        let taskLabel = UILabel()
+    private lazy var taskNameh1: UITextField = {
+        let taskLabel = UITextField()
         taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        taskLabel.accessibilityIdentifier = "taskNameh1"
+        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4")) }
+        taskLabel.delegate = self
         return taskLabel
     }()
     
     private let spacerBeforeTaskDescription: UIView = {
         let view = UIView()
+        view.accessibilityIdentifier = "spaceBeforeTaskDescription"
         view.heightAnchor.constraint(equalToConstant: 16).isActive = true
         return view
     }()
     
     private lazy var taskDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Enter description")
+        let description = MyGrowingTextView(placeholderText: "Enter description", scrollBehavior: .noScroll)
+        description.accessibilityIdentifier = "taskDescription"
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
@@ -304,15 +322,9 @@ final class TaskDetailsVc: UIViewController {
         return description
     }()
         
-    private let subtasksTableContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.clipsToBounds = true
-        return view
-    }()
-    
     private let spacerBeforeTokenField: UIView = {
         let view = UIView()
+        view.accessibilityIdentifier = "spacerBeforeTokenField"
         view.heightAnchor.constraint(equalToConstant: 26).isActive = true
         view.isHidden = true
         return view
@@ -322,6 +334,7 @@ final class TaskDetailsVc: UIViewController {
     
     private let spacerBeforeLabels: UIView = {
         let view = UIView()
+        view.accessibilityIdentifier = "spacerBeforeLabels"
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         view.isHidden = true
         return view
@@ -329,6 +342,7 @@ final class TaskDetailsVc: UIViewController {
     
     private let stackDateDetail: UIStackView = {
         let stack = UIStackView(frame: .zero)
+        stack.accessibilityIdentifier = "stackDateDetail"
         stack.axis = .horizontal
         stack.spacing = 0
         stack.alignment = .center
@@ -337,13 +351,15 @@ final class TaskDetailsVc: UIViewController {
     
     private let dateDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
-        view.setImage(image: UIImage(named: "alarm"))
+        view.accessibilityIdentifier = "dateDetailLabel"
+        view.setImage(image: UIImage(named: "alarm")?.resize(toWidth: 14))
         view.isHidden = true
         return view
     }()
     
     private let datesStackSeparator: UIView = {
         let view = UIView()
+        view.accessibilityIdentifier = "datesStackSeparator"
         view.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return view
     }()
@@ -354,21 +370,29 @@ final class TaskDetailsVc: UIViewController {
         stack.alignment = .leading
         stack.spacing = 6
         stack.layoutMargins = .init(top: 6, left: 0, bottom: 0, right: 0)
+        stack.accessibilityIdentifier = "stackReminderRepeat"
         //stack.distribution = .fill
         return stack
     }()
         
     private let reminderDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
-        view.setImage(image: UIImage(named: "bell"))
+        view.setImage(image: UIImage(named: "bell")?.resize(toWidth: 16))
+        view.accessibilityIdentifier = "reminderDetailLabel"
         view.isHidden = true
         return view
     }()
     
     private let repeatDetailLabel: DateDetailLabel = {
         let view = DateDetailLabel()
-        view.setImage(image: UIImage(named: "repeat"))
+        view.setImage(image: UIImage(named: "repeat")?.resize(toWidth: 13))
         view.isHidden = true
+        view.accessibilityIdentifier = "repeatDetailLabel"
+        return view
+    }()
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.accessibilityIdentifier = "scrollView"
         return view
     }()
     
@@ -385,10 +409,17 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupContainerView() {
-        if !manuallyLayoutContainerView {
-        view.layout(containerView).leading(13).trailing(13).topSafe(30).bottomSafe(30) { _, _ in .lessThanOrEqual }
+        view.layout(containerView).leading(13).trailing(13).topSafe(30)
+            .bottomSafe(30) { _, _ -> LayoutRelation in
+            return .lessThanOrEqual
         }
-        containerView.layout(containerStack).leading(26).trailing(26).top(23).bottom(23)
+        containerView.layout(scrollView).edges()
+        scrollView.layout(containerStack).leading(26).trailing(26).top(23)
+        scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerStack.heightAnchor, constant: 23 + 23).isActive = true // 23 top + 23 bottom
+        let containerHeight = containerView.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
+        containerHeight.priority = .init(749)
+        containerHeight.isActive = true
+        scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
         containerStack.isUserInteractionEnabled = true
         horizontal1.isUserInteractionEnabled = true
         horizontal1.addArrangedSubview(checkboxh1)
@@ -396,17 +427,17 @@ final class TaskDetailsVc: UIViewController {
         horizontal1.addArrangedSubview(UIView())
         containerStack.addArrangedSubview(horizontal1)
         containerStack.addArrangedSubview(spacerBeforeTaskDescription)
-        let heightConstraint = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
-        heightConstraint.isActive = true
+        let taskDescriptionHeight = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
+        taskDescriptionHeight.isActive = true
         taskDescription.shouldSetHeight = { [weak self] in
-            heightConstraint.constant = $0
+            taskDescriptionHeight.constant = $0
             self?.layoutAnimate()
         }
         containerStack.addArrangedSubview(taskDescription)
         containerStack.addArrangedSubview(spacerBeforeTokenField)
         containerStack.addArrangedSubview(tokenField)
-        subtasksTableContainer.layout(subtasksTable).leading().trailing().bottom().top(26)
-        containerStack.addArrangedSubview(subtasksTableContainer)
+        containerStack.addArrangedSubview(spacerBeforeSubtasksTable)
+        containerStack.addArrangedSubview(subtasksTable)
         containerStack.addArrangedSubview(spacerBeforeLabels)
         stackDateDetail.addArrangedSubview(dateDetailLabel)
         stackDateDetail.addArrangedSubview(UIView()) // empty view
@@ -502,12 +533,7 @@ final class TaskDetailsVc: UIViewController {
         let subtaskmodel = viewModel.subtasksModels[0].items[indexPath.row]
         switch subtaskmodel {
         case let .subtask(subtask):
-            let alertVc = UIAlertController(title: "Are you sure?", message: "you really wanna delete this \(subtask.name)??", preferredStyle: .alert)
-            alertVc.addAction(UIAlertAction(title: "Hmm, not sure", style: .default))
-            alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
-                self?.viewModel.deleteSubtask(subtask: subtask)
-            }))
-            present(alertVc, animated: true, completion: nil)
+            viewModel.deleteSubtask(subtask: subtask)
         default: return
         }
     }
@@ -524,6 +550,9 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {
         viewModel.deleteTag(with: token.title)
         return false
+    }
+    func resizingTokenField(_ tokenField: ResizingTokenField, willChangeHeight newHeight: CGFloat) {
+        
     }
     func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
         
@@ -573,6 +602,32 @@ extension UIImage {
         }
 
         return image.withRenderingMode(self.renderingMode)
+    }
+}
+
+extension TaskDetailsVc: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case taskNameh1:
+            if taskDescription.isHidden {
+                taskNameh1.resignFirstResponder()
+            } else {
+                taskDescription.becomeFirstResponder()
+            }
+        default: break
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+        case taskNameh1:
+            if let newName = taskNameh1.text,
+               !newName.isEmpty {
+                viewModel.changeName(newName)
+            }
+        default: break
+        }
     }
 }
 

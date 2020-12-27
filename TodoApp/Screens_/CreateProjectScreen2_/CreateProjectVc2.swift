@@ -169,7 +169,7 @@ class CreateProjectVc2: UIViewController {
     }()
     
     lazy var projectDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Notes")
+        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
         description.onEnter = { }
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 20, weight: .regular))
         description.placeholderAttrs = attributes

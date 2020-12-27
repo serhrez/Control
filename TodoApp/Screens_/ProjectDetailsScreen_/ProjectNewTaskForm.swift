@@ -280,7 +280,7 @@ class ProjectNewTaskForm: UIView {
 
     private let taskDescriptionFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
     lazy var taskDescription: MyGrowingTextView = {
-        let textView = MyGrowingTextView(placeholderText: "Need to add notes?")
+        let textView = MyGrowingTextView(placeholderText: "Need to add notes?", scrollBehavior: .scrollIfTwoLines)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
         let attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))

@@ -93,7 +93,7 @@ class ProjectDetailsTop: UIView {
     
     private let projectDescriptionFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
     lazy var projectDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Notes")
+        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
         description.onEnter = { [weak description] in description?.textField.resignFirstResponder() }
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(projectDescriptionFont)
         description.placeholderAttrs = attributes

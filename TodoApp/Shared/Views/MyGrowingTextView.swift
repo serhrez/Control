@@ -34,8 +34,11 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         }
         get { Attributes() }
     }
-    init(placeholderText: String) {
+    
+    private var scrollBehavior: ScrollBehavior
+    init(placeholderText: String, scrollBehavior: ScrollBehavior) {
         self.placeholderText = placeholderText
+        self.scrollBehavior = scrollBehavior
         super.init(frame: .zero)
         layout(placeholderLabel).centerY().leading().trailing()
         layout(textField).edges()
@@ -45,7 +48,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         textField.textContainerInset = .zero
         textField.contentInset = .zero
         textField.textContainer.lineFragmentPadding = 0
-        textField.isScrollEnabled = true
+        textField.isScrollEnabled = false
         placeholderVisible = true        
     }
     var wasLayouted: Bool = false
@@ -78,6 +81,14 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         placeholderVisible = textView.text.isEmpty
         let size = CGSize(width: bounds.width, height: .infinity)
         let height = textView.sizeThatFits(size).height
+        if scrollBehavior == .scrollIfTwoLines {
+            if let lineHeight = textView.font?.lineHeight,
+               height > lineHeight * 2 {
+                textView.isScrollEnabled = true
+            } else {
+                textView.isScrollEnabled = false
+            }
+        }
         if previousHeight != height {
             shouldSetHeight(height)
             previousHeight = height
@@ -98,5 +109,16 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         growingTextFieldDelegate?.textViewDidEndEditing?(textView)
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        return textField.becomeFirstResponder()
+    }
+}
+
+extension MyGrowingTextView {
+    enum ScrollBehavior {
+        case noScroll
+        case scrollIfTwoLines
     }
 }

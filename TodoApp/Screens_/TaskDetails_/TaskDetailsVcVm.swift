@@ -32,6 +32,7 @@ class TaskDetailsVcVm {
     }
     private var explicitAddSubtaskEnabled = false
     var reloadSubtaskCells: (_ modifications: [Int]) -> Void = { _ in }
+    var shouldEnableTaskDescription: () -> Void = { }
 
     
     init(task: RlmTask) {
@@ -57,7 +58,7 @@ class TaskDetailsVcVm {
                 subtasksUpdateSubject.onNext(())
             case let .update(_, deletions: _, insertions: _, modifications: mods):
                 if !task.subtask.isEmpty {
-                    explicitAddSubtaskEnabled = false
+                    explicitAddSubtaskEnabled = true
                 }
                 subtasksUpdateSubject.onNext(())
                 reloadSubtaskCells(mods)
@@ -70,9 +71,7 @@ class TaskDetailsVcVm {
     private var dateToken: NotificationToken?
     
     func addEmptyDescription() {
-        _ = try! RealmProvider.main.realm.write {
-            task?.taskDescription = "Emptyxpk"
-        }
+        shouldEnableTaskDescription()
     }
     
     func addTags(_ tags: [RlmTag]) {
@@ -159,6 +158,11 @@ class TaskDetailsVcVm {
         }
     }
 
+    func changeName(_ newName: String) {
+        _ = try! RealmProvider.main.realm.write {
+            task?.name = newName
+        }
+    }
 }
 
 extension TaskDetailsVcVm {

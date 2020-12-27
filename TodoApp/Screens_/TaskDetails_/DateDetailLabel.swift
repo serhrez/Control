@@ -21,6 +21,7 @@ class DateDetailLabel: UIView {
         layer.cornerCurve = .continuous
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         clipsToBounds = true
+        imageView.contentMode = .center
     }
     
     required init?(coder: NSCoder) {
