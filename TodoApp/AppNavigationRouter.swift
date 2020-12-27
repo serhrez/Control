@@ -60,6 +60,10 @@ class AppNavigationRouter {
     func openTaskDetails(_ task: RlmTask) {
         pushVc(TaskDetailsVc(viewModel: .init(task: task)), .autoReverse(presenting: .push(direction: .left)))
     }
+    
+    func openArchive() {
+        pushVc(ArchiveVc(viewModel: .init()), .auto)
+    }
 }
 
 extension UIViewController {

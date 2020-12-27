@@ -10,26 +10,13 @@ import UIKit
 import Material
 import AttributedLib
 
-class Separator: UICollectionReusableView {
-    static let kind = "separatorkind"
-    static let reuseId = "separatorid"
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .hex("#DFDFDF")
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 final class TagPicker: UIViewController {
     let collectionLayout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
         let separator = NSCollectionLayoutSupplementaryItem(
             layoutSize: .init(widthDimension: .absolute(199), heightDimension: .absolute(1)),
-            elementKind: Separator.kind,
+            elementKind: UICollectionSeparator.kind,
             containerAnchor: .init(edges: [.bottom], absoluteOffset: .init(x: 0, y: 9.5)))
         let item = NSCollectionLayoutItem(layoutSize: itemSize, supplementaryItems: [separator])
         item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
@@ -80,7 +67,7 @@ final class TagPicker: UIViewController {
         bgView.layer.opacity = 0
         view.layout(bgView).edges()
         collectionView.register(TagPickerCell.self, forCellWithReuseIdentifier: "\(TagPickerCell.self)")
-        collectionView.register(Separator.self, forSupplementaryViewOfKind: Separator.kind, withReuseIdentifier: Separator.reuseId)
+        collectionView.register(UICollectionSeparator.self, forSupplementaryViewOfKind: UICollectionSeparator.kind, withReuseIdentifier: UICollectionSeparator.reuseId)
         collectionView.showsVerticalScrollIndicator = false
         view.layout(containerView).width(239).bottom(view.frame.height - viewSourceFrame.maxY)
         containerView.snp.makeConstraints { make in
@@ -142,7 +129,7 @@ final class TagPicker: UIViewController {
             return cell
         }
         dataSource.supplementaryViewProvider = { collectionView, kind, ip -> UICollectionReusableView? in
-            return collectionView.dequeueReusableSupplementaryView(ofKind: Separator.kind, withReuseIdentifier: Separator.reuseId, for: ip)
+            return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionSeparator.kind, withReuseIdentifier: UICollectionSeparator.reuseId, for: ip)
         }
         return dataSource
     }

@@ -102,6 +102,10 @@
 		A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F8325910C6600EAD13D /* SimpleButton.swift */; };
 		A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67FAA259144E100EAD13D /* ModelFormatt.swift */; };
 		A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */; };
+		A5C8E89F2598B8BE00D77514 /* SettingsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */; };
+		A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */; };
+		A5C8E8A9259945F000D77514 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A8259945F000D77514 /* SettingsCell.swift */; };
+		A5C8E8AE2599462500D77514 /* UICollectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */; };
 		A5CF45F22574F5F0003715C8 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F12574F5F0003715C8 /* Toolbar.swift */; };
 		A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F62574F622003715C8 /* ClickableIconView.swift */; };
 		A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45FB2574F676003715C8 /* CloseButton.swift */; };
@@ -253,6 +257,10 @@
 		A5B67F8325910C6600EAD13D /* SimpleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
 		A5B67FAA259144E100EAD13D /* ModelFormatt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFormatt.swift; sourceTree = "<group>"; };
 		A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDiffRx.swift; sourceTree = "<group>"; };
+		A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVc.swift; sourceTree = "<group>"; };
+		A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVcCollectionView.swift; sourceTree = "<group>"; };
+		A5C8E8A8259945F000D77514 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionSeparator.swift; sourceTree = "<group>"; };
 		A5CF45F12574F5F0003715C8 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
 		A5CF45FB2574F676003715C8 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -474,6 +482,7 @@
 				A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */,
 				A52ED3252594AE4B00474128 /* TrashTextField.swift */,
 				A58281FD2597DCB80097178A /* NewCustomButton.swift */,
+				A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -695,6 +704,16 @@
 			path = UpdateDiff;
 			sourceTree = "<group>";
 		};
+		A5C8E89D2598B8AC00D77514 /* SettingsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */,
+				A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */,
+				A5C8E8A8259945F000D77514 /* SettingsCell.swift */,
+			);
+			path = SettingsScreen;
+			sourceTree = "<group>";
+		};
 		A5DD59D42565BC34002AEF42 /* TaskDetails_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,6 +764,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A5C8E89D2598B8AC00D77514 /* SettingsScreen */,
 				A533E092255C596400B301C7 /* ProjectDetailsScreen_ */,
 				A54EFB40258FB772009CFE0F /* CreateProjectScreen2_ */,
 				A5F6A8F0258A29DD00FB50FC /* ArchiveScreen */,
@@ -1072,6 +1092,7 @@
 				A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */,
 				A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */,
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
+				A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */,
 				A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */,
 				A5B67F702590D8F900EAD13D /* ProjectDetailsTop.swift in Sources */,
 				A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */,
@@ -1112,6 +1133,7 @@
 				A5DD59D62565BC4A002AEF42 /* TaskDetailsVc.swift in Sources */,
 				A533E0A1255C87C200B301C7 /* OverlaySelectionView.swift in Sources */,
 				A54BFBE925926D1E0016BD08 /* TagPicker.swift in Sources */,
+				A5C8E8A9259945F000D77514 /* SettingsCell.swift in Sources */,
 				A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */,
 				A533E054255C27C400B301C7 /* IconView.swift in Sources */,
 				A5CF45F22574F5F0003715C8 /* Toolbar.swift in Sources */,
@@ -1154,6 +1176,7 @@
 				A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */,
 				A533E0AA255C8D4300B301C7 /* PopuptodoAction.swift in Sources */,
 				A52ED3352595169700474128 /* EmojiiList.swift in Sources */,
+				A5C8E8AE2599462500D77514 /* UICollectionSeparator.swift in Sources */,
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
 				A54EFB4A258FED36009CFE0F /* Configgg.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
@@ -1164,6 +1187,7 @@
 				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A54D6474256308DF00AC3F41 /* DoneTasksListTaskCell.swift in Sources */,
 				A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */,
+				A5C8E89F2598B8BE00D77514 /* SettingsVc.swift in Sources */,
 				A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */,
 				A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */,
 				A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */,

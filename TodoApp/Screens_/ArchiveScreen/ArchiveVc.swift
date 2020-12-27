@@ -68,10 +68,16 @@ final class ArchiveVc: UIViewController {
 
     private func setupNavigationBar() {
         navigationItem.titleLabel.text = "Archive"
-        
     }
     
+    var didDisappear: () -> Void = { }
+    
+    deinit {
+        didDisappear()
+    }
 }
+
+extension ArchiveVc: AppNavigationRouterDelegate { }
 
 extension ArchiveVc: SwipeCollectionViewCellDelegate {
     
