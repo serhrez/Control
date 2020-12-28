@@ -526,6 +526,7 @@ final class TaskDetailsVc: UIViewController {
     }
     func deleteTodoSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
+        router.navigationController.popViewController(animated: true)
         viewModel.deleteItselfInRealm()
     }
     

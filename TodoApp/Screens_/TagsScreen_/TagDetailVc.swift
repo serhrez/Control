@@ -31,7 +31,8 @@ class TagDetailVc: UIViewController {
     }
     
     private func setupViews() {
-        navigationItem.titleLabel.text = "Tag: \(viewModel.tag.name)"
+        applySharedNavigationBarAppearance()
+        title = "Tag: \(viewModel.tag.name)"
         view.backgroundColor = .hex("#F6F6F3")
         setupCollectionView()
     }
@@ -45,7 +46,7 @@ class TagDetailVc: UIViewController {
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<TagDetailVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             let task = model.task
             let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            tagCell.configure(text: task.name, date: task.date?.date, tagName: self.viewModel.getOtherTagThanItself(for: task)?.name, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.taskSelected(task, isDone: $0) })
+            tagCell.configure(text: task.name, date: task.date?.date, tagName: nil, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.taskSelected(task, isDone: $0) })
             return tagCell
         }
         viewModel.tasks
@@ -53,7 +54,13 @@ class TagDetailVc: UIViewController {
             .disposed(by: bag)
         collectionView.delegate = self
     }
+    var didDisappear: () -> Void = { }
+    deinit {
+        didDisappear()
+    }
 }
+
+extension TagDetailVc: AppNavigationRouterDelegate { }
 
 extension TagDetailVc: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -62,5 +69,9 @@ extension TagDetailVc: UICollectionViewDelegateFlowLayout {
 }
 
 extension TagDetailVc: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = viewModel.tasks.value[0].items[indexPath.row]
+        let taskDetails = TaskDetailsVc(viewModel: .init(task: item.task))
+        router.debugPushVc(taskDetails)
+    }
 }

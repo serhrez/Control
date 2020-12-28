@@ -78,7 +78,7 @@ class SearchVc: UIViewController {
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<SearchVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             let task = model.task
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })
+            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })
             return cell
         }
         viewModel.searchResult

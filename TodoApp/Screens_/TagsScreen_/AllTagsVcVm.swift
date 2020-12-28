@@ -40,7 +40,13 @@ class AllTagsVcVm {
             selectionSet = .init()
         }
         modelsUpdate.subscribe().disposed(by: bag)
-        let token = RealmProvider.main.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
+        if case .show = mode { // Maybe we should use not only on show but who knows
+            let tasksToken = RealmProvider.main.realm.objects(RlmTask.self).observe(on: .main) { [weak self] _ in
+                self?.modelsUpdateSubject.onNext(())
+            }
+            tokens.append(tasksToken)
+        }
+        let tagsToken = RealmProvider.main.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
             case let .update(projects, deletions: dels, insertions: _, modifications: _):
@@ -52,7 +58,7 @@ class AllTagsVcVm {
             }
             self.modelsUpdateSubject.onNext(())
         }
-        tokens.append(token)
+        tokens.append(tagsToken)
     }
 
     func allTasksCount(for tag: RlmTag) -> Int {
@@ -70,6 +76,10 @@ class AllTagsVcVm {
         try! RealmProvider.main.realm.write {
             RealmProvider.main.realm.add(RlmTag(name: name))
         }
+        isInAdding = false
+        self.modelsUpdateSubject.onNext(())
+    }
+    func addTagClosedWithoutAdding() {
         isInAdding = false
         self.modelsUpdateSubject.onNext(())
     }

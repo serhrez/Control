@@ -119,21 +119,12 @@ class AllTagsVc: UIViewController {
                 }
             case .addTagEnterName:
                 let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
-                addTagEnterName.configure(tagCreated: self.viewModel.addTag)
+                addTagEnterName.configure(tagCreated: self.viewModel.addTag, shouldClose: self.viewModel.addTagClosedWithoutAdding)
                 return addTagEnterName
             }
         }
         viewModel.modelsUpdate
             .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-        viewModel.modelsUpdate
-            .compactMap { $0[0].items.firstIndex(where: { $0 == .addTag }) }
-            .subscribe(onNext: { [weak self] index in
-                if let indexPath = self?.collectionView.indexPathsForVisibleItems.first(where: { $0.row == index }),
-                   let cell = self?.collectionView.cellForItem(at: indexPath) as? AllTagsEnterNameCell {
-                    cell.becomeFirstResponder()
-                }
-            })
             .disposed(by: bag)
         collectionView.delegate = self
     }
@@ -147,7 +138,8 @@ class AllTagsVc: UIViewController {
     }
             
     func setupNavigationBar() {
-        navigationItem.titleLabel.text = "Tags"
+        applySharedNavigationBarAppearance()
+        title = "Tags"
     }
     
     func handleSwipeActionDeletion(action: SwipeAction, indexPath: IndexPath) {
@@ -182,6 +174,7 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
         let model = viewModel.models[0].items[indexPath.row]
         guard case .tag = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
@@ -200,6 +193,15 @@ extension AllTagsVc: UICollectionViewDelegate {
             viewModel.allowAdding()
         case .addTagEnterName: break
         case let .tag(tag):
+            switch mode {
+            case .selection: break
+            case .show:
+                let tasksNotEmpty = !RealmProvider.main.realm.objects(RlmTask.self).filter { $0.tags.contains(tag) }.isEmpty
+                if tasksNotEmpty {
+                    let tagDetailVc = TagDetailVc(viewModel: .init(tag: tag))
+                    router.debugPushVc(tagDetailVc)
+                }
+            }
             break
         }
     }

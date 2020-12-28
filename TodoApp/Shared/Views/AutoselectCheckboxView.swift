@@ -28,6 +28,16 @@ class AutoselectCheckboxView: UIView {
 
         return checkedView
     }()
+    private lazy var onClickControl: OnClickControl = {
+        let onClickControl = OnClickControl(onClick: { [unowned self] touchDown in
+            guard touchDown else { return }
+            self.isChecked.toggle()
+            self.changeState(withAnimation: true)
+            self.onSelected?(self.isChecked)
+        })
+        onClickControl.pointInsideInsets = .init(top: 15, left: 10, bottom: 15, right: 10)
+        return onClickControl
+    }()
     var onSelected: ((Bool) -> Void)?
     private(set) var isChecked: Bool = false
     
@@ -57,12 +67,7 @@ class AutoselectCheckboxView: UIView {
     private func setupViews() {
         layout(uncheckedView).edges()
         layout(checkedView).edges()
-        layout(OnClickControl(onClick: { [unowned self] touchDown in
-            guard touchDown else { return }
-            isChecked.toggle()
-            changeState(withAnimation: true)
-            onSelected?(isChecked)
-        })).edges()
+        layout(onClickControl).edges()
     }
     private func changeState(withAnimation: Bool) {
         func changeState() {
@@ -81,5 +86,8 @@ class AutoselectCheckboxView: UIView {
         } else {
             changeState()
         }
+    }
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        return onClickControl.hitTest(point, with: event)
     }
 }

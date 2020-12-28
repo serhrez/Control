@@ -50,10 +50,11 @@ class TaskCellx2: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(text: String, date: Date?, tagName: String?, hasChecklist: Bool, isChecked: Bool, onSelected: @escaping (Bool) -> Void) {
+    func configure(text: String, date: Date?, tagName: String?, priority: Priority, hasChecklist: Bool, isChecked: Bool, onSelected: @escaping (Bool) -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()
         indicators.CSTremoveAllSubviews()
         checkboxView.configure(isChecked: isChecked)
+        checkboxView.configure(priority: priority)
         checkboxView.onSelected = onSelected
         nameLabel.text = text
         if let tagName = tagName {

@@ -16,6 +16,7 @@ class AllTagsEnterNameCell: UICollectionViewCell {
     let nameField = UITextField()
     
     var tagCreated: ((String) -> Void)?
+    var shouldClose: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,9 +27,11 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(tagCreated: ((String) -> Void)?) {
+    func configure(tagCreated: ((String) -> Void)?, shouldClose: @escaping () -> Void) {
         self.tagCreated = tagCreated
+        self.shouldClose = shouldClose
         nameField.text = ""
+        nameField.becomeFirstResponder()
     }
 
     func setupViews() {
@@ -51,7 +54,12 @@ class AllTagsEnterNameCell: UICollectionViewCell {
 
 extension AllTagsEnterNameCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        tagCreated?(textField.text ?? "")
+        defer { textField.resignFirstResponder() }
+        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
+            shouldClose?()
+            return true
+        }
+        tagCreated?(text)
 
         return true
     }
