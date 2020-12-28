@@ -51,18 +51,7 @@ class ProjectDetailsVc: UIViewController {
         state = .emptyOrList
         projectPropertiesChanged() // Init state
         applySharedNavigationBarAppearance()
-        addGestureToNavBar()
-    }
-    
-    // We add gesture to nav bar in order to check if topView icon was clicked
-    func addGestureToNavBar() {
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navBarClicked))
-        navigationController?.navigationBar.addGestureRecognizer(gestureRecognizer)
-    }
-    @objc func navBarClicked(_ gesture: UITapGestureRecognizer) {
-        let point = gesture.location(in: nil)
-        print("point: \(point) \(topView)")
-        topView.navBarClicked(point: point)
+        setupNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,10 +94,10 @@ class ProjectDetailsVc: UIViewController {
 
     }
     
-    private func changeState(oldState: PrScreenState, newState newStatex: PrScreenState) {
-        var newState = newStatex
+    private func changeState(oldState: PrScreenState, newState newState: PrScreenState) {
         if case .emptyOrList = newState {
-            newState = project.tasks.isEmpty ? .empty : .list
+            state = project.tasks.isEmpty ? .empty : .list
+            return
         }
         
         // Changing state
@@ -180,6 +169,41 @@ class ProjectDetailsVc: UIViewController {
             }
         }
         tokens.append(token)
+    }
+    
+    // MARK: - Navigation Bar
+    func setupNavigationBar() {
+        addGestureToNavBar() // We add gesture to nav bar in order to check if topView icon was clicked
+        navigationItem.rightBarButtonItem = actionsButton
+    }
+    func addGestureToNavBar() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navBarClicked))
+        navigationController?.navigationBar.addGestureRecognizer(gestureRecognizer)
+    }
+    @objc func navBarClicked(_ gesture: UITapGestureRecognizer) {
+        let point = gesture.location(in: nil)
+        print("point: \(point) \(topView)")
+        topView.navBarClicked(point: point)
+    }
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
+    
+    @objc func actionsButtonClicked() {
+        var actions: [PopuptodoAction] = []
+        if case .list = state {
+            actions += [.init(title: "Delete all done tasks", image: UIImage(named: "plus"), color: .hex("#242424"), didSelect: { _ in
+                
+            })]
+        }
+        guard !actions.isEmpty else { return }
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
+        popMenu.shouldDismissOnSelection = false
+        popMenu.appearance = .appAppearance
+        present(popMenu, animated: true)
     }
     
     // MARK: - TOP VIEW
@@ -315,9 +339,7 @@ class ProjectDetailsVc: UIViewController {
             }
             self?.state = .emptyOrList
         })
-    
-    var didDisappear: () -> Void = { }
-    
+        
     // MARK: - TasksWithDoneList VIEW
     private let __tasksSubject = PublishSubject<[RlmTask]>()
     private func tasksWithDoneListSetup() {
@@ -400,6 +422,9 @@ class ProjectDetailsVc: UIViewController {
             }
         }
     }
+    
+    var didDisappear: () -> Void = { }
+
     deinit {
         didDisappear()
     }

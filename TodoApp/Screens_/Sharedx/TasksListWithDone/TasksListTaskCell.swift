@@ -93,7 +93,6 @@ class TasksListTaskCell: UITableViewCell {
         contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
         
         contentView.layout(overlayView).edges()
-        contentView.heightAnchor.constraint(equalToConstant: 62).isActive = true
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

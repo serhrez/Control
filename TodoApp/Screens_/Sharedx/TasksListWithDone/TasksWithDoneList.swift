@@ -36,7 +36,6 @@ class TasksWithDoneList: UIView {
         tableView.backgroundColor = .clear
         tableView.alwaysBounceVertical = true
         tableView.separatorStyle = .none
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(TasksListTaskCell.self, forCellReuseIdentifier: TasksListTaskCell.reuseIdentifier)
         tableView.register(DoneTasksListTaskCell.self, forCellReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier)
         tableView.delegate = self
@@ -76,9 +75,8 @@ class TasksWithDoneList: UIView {
                 doneCell.selectionStyle = .none
 
                 return doneCell
-            case let .space(spacing):
+            case .space:
                 let cell = UITableViewCell()
-                cell.heightAnchor.constraint(equalToConstant: spacing).isActive = true
                 cell.backgroundColor = .clear
                 cell.selectionStyle = .none
                 return cell
@@ -88,6 +86,19 @@ class TasksWithDoneList: UIView {
 }
 
 extension TasksWithDoneList: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let currentItems = currentItems else { return UITableView.automaticDimension }
+        let item = currentItems[indexPath.section].items[indexPath.row]
+        switch item {
+        case .task:
+            return 62
+        case .doneTask:
+            return 24
+        case let .space(spacing):
+            return spacing
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let currentItems = currentItems else { return }
         let item = currentItems[indexPath.section].items[indexPath.row] // TODO: Somewhy crashes

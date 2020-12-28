@@ -14,10 +14,19 @@ import RxSwift
 
 final class InboxTasksVc: UIViewController {
     private let tasksToolbar = AllTasksToolbar(frame: .zero)
-    private let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
+
     private let viewModel: InboxTasksVcVm = .init()
     private let bag = DisposeBag()
-    lazy var tasksWithDoneList: TasksWithDoneList = TasksWithDoneList(onSelected: { print($0) })
+    lazy var tasksWithDoneList: TasksWithDoneList = TasksWithDoneList(onSelected: { [weak self] task in
+        guard !task.isDone else { return }
+        let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: task))
+        self?.router.debugPushVc(taskDetailsVc)
+    })
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +50,9 @@ final class InboxTasksVc: UIViewController {
     }
     
     func setupNavigationBar() {
-        navigationItem.titleLabel.text = "Inbox"
-        
-        actionsButton.addTarget(self, action: #selector(actionsButtonClicked), for: .touchUpInside)
-        
-        actionsButton.tintColor = .black
-        navigationItem.rightViews = [actionsButton]
+        applySharedNavigationBarAppearance()
+        title = "Inbox"
+        navigationItem.rightBarButtonItem = actionsButton
     }
     
     // MARK: - POPUP

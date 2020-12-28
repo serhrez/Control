@@ -38,7 +38,7 @@ class DoneTasksListTaskCell: UITableViewCell {
         contentView.layout(checkboxView).top(2).bottom() { _, _ in .lessThanOrEqual }.leading(20)
         checkboxView.configure(isChecked: true)
         contentView.layout(nameLabel).top().bottom().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
-        nameLabel.numberOfLines = 0
+        nameLabel.numberOfLines = 1
         contentView.layer.cornerRadius = 16
         backgroundColor = .clear
     }
