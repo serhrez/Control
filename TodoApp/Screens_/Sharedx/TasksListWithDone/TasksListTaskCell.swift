@@ -79,20 +79,24 @@ class TasksListTaskCell: UITableViewCell {
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.white.cgColor
-        layer.cornerRadius = 16
-        clipsToBounds = true
-
-        contentView.layout(checkboxView).centerY().width(22).leading(20)
+        contentView.layer.backgroundColor = UIColor.clear.cgColor
+        // Had to create second contentView so we have separat
+        let contentView2 = UIView()
+        contentView2.layer.backgroundColor = UIColor.white.cgColor
+        contentView.layout(contentView2).top().leading().trailing().height(62)
+        contentView2.layer.cornerRadius = 16
+        contentView2.clipsToBounds = true
+        backgroundColor = .clear
+        contentView2.layout(checkboxView).centerY().width(22).leading(20)
         checkboxView.configure(isChecked: false)
         
-        contentView.layout(indicators).centerY().trailing(21)
+        contentView2.layout(indicators).centerY().trailing(21)
         
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(verticalHorizontalStack)
-        contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
+        contentView2.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
         
-        contentView.layout(overlayView).edges()
+        contentView2.layout(overlayView).edges()
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

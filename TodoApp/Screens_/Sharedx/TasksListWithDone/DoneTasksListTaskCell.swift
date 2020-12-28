@@ -35,11 +35,13 @@ class DoneTasksListTaskCell: UITableViewCell {
     
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
-        contentView.layout(checkboxView).top(2).bottom() { _, _ in .lessThanOrEqual }.leading(20)
+        // Had to create second contentView so that we have separator
+        let contentView2 = UIView()
+        contentView.layout(contentView2).top().leading().trailing().height(24)
+        contentView2.layout(checkboxView).top(2).bottom() { _, _ in .lessThanOrEqual }.leading(20)
         checkboxView.configure(isChecked: true)
-        contentView.layout(nameLabel).top().bottom().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
+        contentView2.layout(nameLabel).top().bottom().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
         nameLabel.numberOfLines = 1
-        contentView.layer.cornerRadius = 16
         backgroundColor = .clear
     }
 }

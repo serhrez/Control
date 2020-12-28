@@ -38,10 +38,11 @@ class TasksWithDoneList: UIView {
         tableView.separatorStyle = .none
         tableView.register(TasksListTaskCell.self, forCellReuseIdentifier: TasksListTaskCell.reuseIdentifier)
         tableView.register(DoneTasksListTaskCell.self, forCellReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "separator")
         tableView.delegate = self
         itemsInput.map { tasks -> [AnimSection<Model>] in
-            let section1 = tasks.filter { !$0.isDone }.flatMap { [TasksWithDoneList.Model.task($0), TasksWithDoneList.Model.space(7)] }.dropLast()
-            let section2 = tasks.filter { $0.isDone }.flatMap { [TasksWithDoneList.Model.doneTask($0), TasksWithDoneList.Model.space(7)] }.dropLast()
+            let section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+            let section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
             let combinedItems = Array(section1.isEmpty ? section2 : section1 + [.space(45)] + section2)
             return [AnimSection(items: combinedItems)]
         }
@@ -76,7 +77,7 @@ class TasksWithDoneList: UIView {
 
                 return doneCell
             case .space:
-                let cell = UITableViewCell()
+                let cell = tableView.dequeueReusableCell(withIdentifier: "separator")!
                 cell.backgroundColor = .clear
                 cell.selectionStyle = .none
                 return cell
@@ -92,11 +93,11 @@ extension TasksWithDoneList: UITableViewDelegate {
         let item = currentItems[indexPath.section].items[indexPath.row]
         switch item {
         case .task:
-            return 62
+            return 62 + 7
         case .doneTask:
-            return 24
-        case let .space(spacing):
-            return spacing
+            return 24 + 10
+        case let .space(space):
+            return space
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -123,7 +124,7 @@ extension TasksWithDoneList {
             case .task(let task), .doneTask(let task):
                 return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
             case .space:
-                return UUID().uuidString
+                return "space" // Should be only one space for collection
             }
         }
     }
