@@ -1,5 +1,5 @@
 //
-//  AllTasksVcVM.swift
+//  AllProjectsVcVM.swift
 //  TodoApp
 //
 //  Created by sergey on 11.11.2020.
@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class AllTasksVcVM {
+class AllProjectsVcVM {
     typealias TableUpdatesFunc = (_ deletions: [Int], _ insertions: [Int], _ modifications: [Int]) -> Void
     private var projects: [RlmProject] = []
     var models: [Model] {

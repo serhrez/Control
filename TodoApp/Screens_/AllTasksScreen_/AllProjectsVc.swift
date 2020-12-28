@@ -12,8 +12,8 @@ import RxSwift
 import RxCocoa
 import PopMenu
 
-class AllTasksVc: UIViewController {
-    let viewModel: AllTasksVcVM = AllTasksVcVM()
+class AllProjectsVc: UIViewController {
+    let viewModel: AllProjectsVcVM = AllProjectsVcVM()
     let tableView = UITableView()
     let tasksToolbar = AllTasksToolbar(frame: .zero)
     private lazy var menuButton: UIBarButtonItem = {
@@ -128,8 +128,8 @@ class AllTasksVc: UIViewController {
     }
 }
 
-extension AllTasksVc: AppNavigationRouterDelegate { }
-extension AllTasksVc: UITableViewDataSource {
+extension AllProjectsVc: AppNavigationRouterDelegate { }
+extension AllProjectsVc: UITableViewDataSource {
     
     func vmIndex(for indexPath: IndexPath) -> Int {
         indexPath.section
@@ -174,7 +174,7 @@ extension AllTasksVc: UITableViewDataSource {
     }
 }
 
-extension AllTasksVc: UITableViewDelegate {    
+extension AllProjectsVc: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = vmIndex(for: indexPath)
         let model = viewModel.models[index]

@@ -12,7 +12,7 @@
 		A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */; };
 		A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E322556EF7800A31BBB /* AppDelegate.swift */; };
 		A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E342556EF7800A31BBB /* SceneDelegate.swift */; };
-		A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E362556EF7800A31BBB /* AllTasksVc.swift */; };
+		A5085E372556EF7800A31BBB /* AllProjectsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E362556EF7800A31BBB /* AllProjectsVc.swift */; };
 		A5085E3C2556EF7B00A31BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5085E3B2556EF7B00A31BBB /* Assets.xcassets */; };
 		A5085E3F2556EF7B00A31BBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5085E3D2556EF7B00A31BBB /* LaunchScreen.storyboard */; };
 		A5085E4A2556EF7B00A31BBB /* TodoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E492556EF7B00A31BBB /* TodoAppTests.swift */; };
@@ -54,7 +54,7 @@
 		A533E046255C1EC400B301C7 /* CircleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E045255C1EC400B301C7 /* CircleText.swift */; };
 		A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */; };
 		A533E054255C27C400B301C7 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E053255C27C400B301C7 /* IconView.swift */; };
-		A533E06E255C438900B301C7 /* AllTasksVcVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E06D255C438900B301C7 /* AllTasksVcVM.swift */; };
+		A533E06E255C438900B301C7 /* AllProjectsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E06D255C438900B301C7 /* AllProjectsVcVm.swift */; };
 		A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E089255C4B1D00B301C7 /* PredefinedRealm.swift */; };
 		A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E093255C598100B301C7 /* ProjectDetailsVc.swift */; };
 		A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E09B255C59D100B301C7 /* OuterCircle.swift */; };
@@ -161,7 +161,7 @@
 		A5085E2F2556EF7800A31BBB /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5085E322556EF7800A31BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5085E342556EF7800A31BBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A5085E362556EF7800A31BBB /* AllTasksVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksVc.swift; sourceTree = "<group>"; };
+		A5085E362556EF7800A31BBB /* AllProjectsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProjectsVc.swift; sourceTree = "<group>"; };
 		A5085E3B2556EF7B00A31BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5085E3E2556EF7B00A31BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5085E402556EF7B00A31BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		A533E045255C1EC400B301C7 /* CircleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleText.swift; sourceTree = "<group>"; };
 		A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewCell.swift; sourceTree = "<group>"; };
 		A533E053255C27C400B301C7 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
-		A533E06D255C438900B301C7 /* AllTasksVcVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksVcVM.swift; sourceTree = "<group>"; };
+		A533E06D255C438900B301C7 /* AllProjectsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProjectsVcVm.swift; sourceTree = "<group>"; };
 		A533E089255C4B1D00B301C7 /* PredefinedRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredefinedRealm.swift; sourceTree = "<group>"; };
 		A533E093255C598100B301C7 /* ProjectDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsVc.swift; sourceTree = "<group>"; };
 		A533E09B255C59D100B301C7 /* OuterCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuterCircle.swift; sourceTree = "<group>"; };
@@ -745,8 +745,8 @@
 			isa = PBXGroup;
 			children = (
 				A5168323255B2C170076D29E /* Views */,
-				A5085E362556EF7800A31BBB /* AllTasksVc.swift */,
-				A533E06D255C438900B301C7 /* AllTasksVcVM.swift */,
+				A5085E362556EF7800A31BBB /* AllProjectsVc.swift */,
+				A533E06D255C438900B301C7 /* AllProjectsVcVm.swift */,
 			);
 			path = AllTasksScreen_;
 			sourceTree = "<group>";
@@ -1090,7 +1090,7 @@
 				A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */,
 				A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */,
 				A5FD7D302588C7B6002D7145 /* PlannedVc.swift in Sources */,
-				A533E06E255C438900B301C7 /* AllTasksVcVM.swift in Sources */,
+				A533E06E255C438900B301C7 /* AllProjectsVcVm.swift in Sources */,
 				A5F6A911258A49DD00FB50FC /* ArchiveCell.swift in Sources */,
 				A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */,
 				A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */,
@@ -1107,7 +1107,7 @@
 				A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */,
 				A56EFBA425976C5E004A2DB9 /* UINavigationController+Extensions.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
-				A5085E372556EF7800A31BBB /* AllTasksVc.swift in Sources */,
+				A5085E372556EF7800A31BBB /* AllProjectsVc.swift in Sources */,
 				A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */,
 				A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */,
 				A5796B012561E7CE00423112 /* OvalText.swift in Sources */,
