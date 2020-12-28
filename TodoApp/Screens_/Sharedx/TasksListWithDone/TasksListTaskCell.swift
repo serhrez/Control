@@ -55,16 +55,16 @@ class TasksListTaskCell: UITableViewCell {
         checkboxView.configure(priority: priority)
         nameLabel.text = text
         if let tagName = tagName {
-            verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))
+            verticalHorizontalStack.addArrangedSubview(SingleTagView(text: tagName))
+        }
+        if otherTags {
+            verticalHorizontalStack.addArrangedSubview(ThreeDotsTagView())
         }
         if let date = date {
             verticalHorizontalStack.addArrangedSubview(getDateLabel(text: DateFormatter.str(from: date)))
         }
         if hasChecklist {
             indicators.addArrangedSubview(getIndicatorImageView("list-check"))
-        }
-        if date != nil {
-            indicators.addArrangedSubview(getIndicatorImageView("calendar"))
         }
         verticalHorizontalStack.addArrangedSubview(UIView()) // works like spacer, so that view will be stretched to the left
     }
@@ -102,28 +102,6 @@ class TasksListTaskCell: UITableViewCell {
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         overlayView.setHighlighted(isHighlighted, animated: true)
-    }
-    
-    class TagView: UIView {
-        let label = UILabel(frame: .zero)
-        var text: String {
-            get { label.text ?? "" }
-            set { label.text = newValue }
-        }
-        init(text: String) {
-            super.init(frame: .zero)
-            self.text = text
-            layout(label).leading(8).trailing(8).top(2).bottom(2)
-            label.font = .systemFont(ofSize: 12, weight: .semibold)
-            backgroundColor = UIColor.hex("#00CE15").withAlphaComponent(0.1)
-            label.textColor = .hex("#00CE15")
-            layer.cornerRadius = 12
-            layer.cornerCurve = .continuous
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
     }
 
     private func getDateLabel(text: String) -> UILabel {

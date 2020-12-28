@@ -65,7 +65,6 @@
 		A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */; };
 		A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */; };
 		A54BFBE925926D1E0016BD08 /* TagPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54BFBE825926D1E0016BD08 /* TagPicker.swift */; };
-		A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D64602562983F00AC3F41 /* InboxTasksVc.swift */; };
 		A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D646E2562A25500AC3F41 /* CheckboxView.swift */; };
 		A54D6474256308DF00AC3F41 /* DoneTasksListTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D6473256308DF00AC3F41 /* DoneTasksListTaskCell.swift */; };
 		A54EFB42258FB789009CFE0F /* CreateProjectVc2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB41258FB789009CFE0F /* CreateProjectVc2.swift */; };
@@ -121,7 +120,6 @@
 		A5E492EE256D7BE4004E707B /* Selection1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E492ED256D7BE4004E707B /* Selection1View.swift */; };
 		A5EB2B552593FF360004A048 /* TasksWithDoneList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EB2B542593FF360004A048 /* TasksWithDoneList.swift */; };
 		A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */; };
-		A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */; };
 		A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A8EB258A247900FB50FC /* SingleTagView.swift */; };
 		A5F6A8F2258A29EA00FB50FC /* ArchiveVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A8F1258A29EA00FB50FC /* ArchiveVc.swift */; };
 		A5F6A8FA258A29F200FB50FC /* ArchiveVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A8F9258A29F200FB50FC /* ArchiveVcVm.swift */; };
@@ -221,7 +219,6 @@
 		A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDoneButtons.swift; sourceTree = "<group>"; };
 		A54BFBE825926D1E0016BD08 /* TagPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPicker.swift; sourceTree = "<group>"; };
-		A54D64602562983F00AC3F41 /* InboxTasksVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVc.swift; sourceTree = "<group>"; };
 		A54D646E2562A25500AC3F41 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		A54D6473256308DF00AC3F41 /* DoneTasksListTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTasksListTaskCell.swift; sourceTree = "<group>"; };
 		A54EFB41258FB789009CFE0F /* CreateProjectVc2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc2.swift; sourceTree = "<group>"; };
@@ -277,7 +274,6 @@
 		A5E492ED256D7BE4004E707B /* Selection1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection1View.swift; sourceTree = "<group>"; };
 		A5EB2B542593FF360004A048 /* TasksWithDoneList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksWithDoneList.swift; sourceTree = "<group>"; };
 		A5EF5F73255B21DC0088DE0A /* AppNavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationRouter.swift; sourceTree = "<group>"; };
-		A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTasksVcVm.swift; sourceTree = "<group>"; };
 		A5F6A8EB258A247900FB50FC /* SingleTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTagView.swift; sourceTree = "<group>"; };
 		A5F6A8F1258A29EA00FB50FC /* ArchiveVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVc.swift; sourceTree = "<group>"; };
 		A5F6A8F9258A29F200FB50FC /* ArchiveVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveVcVm.swift; sourceTree = "<group>"; };
@@ -587,15 +583,6 @@
 			path = TagPicker;
 			sourceTree = "<group>";
 		};
-		A54D645F2562982B00AC3F41 /* InboxScreen_ */ = {
-			isa = PBXGroup;
-			children = (
-				A54D64602562983F00AC3F41 /* InboxTasksVc.swift */,
-				A5F008022563D9C30023A6FB /* InboxTasksVcVm.swift */,
-			);
-			path = InboxScreen_;
-			sourceTree = "<group>";
-		};
 		A54EFB40258FB772009CFE0F /* CreateProjectScreen2_ */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,7 +766,6 @@
 				A52251BA256EF35000747E16 /* CalendarScreen_ */,
 				A5E492E0256D74CC004E707B /* SelectionVcs_ */,
 				A5DD59D42565BC34002AEF42 /* TaskDetails_ */,
-				A54D645F2562982B00AC3F41 /* InboxScreen_ */,
 				A51B6854257188560042AA85 /* TagDetailScreen_ */,
 				A56047CC255D989400C447CF /* TagsScreen_ */,
 				A5EF5F7B255B24190088DE0A /* AllTasksScreen_ */,
@@ -1092,7 +1078,6 @@
 			files = (
 				A5F6A8F2258A29EA00FB50FC /* ArchiveVc.swift in Sources */,
 				A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */,
-				A5F008032563D9C30023A6FB /* InboxTasksVcVm.swift in Sources */,
 				A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */,
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
 				A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */,
@@ -1129,7 +1114,6 @@
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */,
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
-				A54D64612562983F00AC3F41 /* InboxTasksVc.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,
 				A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */,
 				A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */,

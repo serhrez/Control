@@ -183,14 +183,8 @@ extension AllTasksVc: UITableViewDelegate {
             let addProject = CreateProjectVc2()
             router.debugPushVc(addProject)
         case let .project(project):
-            if project.name == "Inbox" {
-                let inboxVc = InboxTasksVc()
-                inboxVc.view.motionIdentifier = project.id
-                router.debugPushVc(inboxVc, .fade)
-            } else {
-                let projectDetails = ProjectDetailsVc(project: project)
-                router.debugPushVc(projectDetails)
-            }
+            let projectDetails = ProjectDetailsVc(project: project)
+            router.debugPushVc(projectDetails)
         }
     }
 }

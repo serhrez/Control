@@ -25,6 +25,7 @@ class ProjectDetailsVc: UIViewController {
         }
     }
     private var project: RlmProject
+    private var isInbox: Bool { project.name == "Inbox" }
     private var tokens: [NotificationToken] = []
     private let bag = DisposeBag()
     let trashTextField = TrashTextField()
@@ -41,12 +42,12 @@ class ProjectDetailsVc: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .hex("#F6F6F3")
         projectBindingSetup()
-        topViewSetup()
         projectStartedViewSetup()
-        projectNewTaskViewSetup()
+        topViewSetup()
         tasksWithDoneListSetup()
         toolbarViewSetup()
         setupKeyboard()
+        projectNewTaskViewSetup()
         self.view.addSubview(trashTextField)
         state = .emptyOrList
         projectPropertiesChanged() // Init state
@@ -94,7 +95,7 @@ class ProjectDetailsVc: UIViewController {
 
     }
     
-    private func changeState(oldState: PrScreenState, newState newState: PrScreenState) {
+    private func changeState(oldState: PrScreenState, newState: PrScreenState) {
         if case .emptyOrList = newState {
             state = project.tasks.isEmpty ? .empty : .list
             return
@@ -114,6 +115,10 @@ class ProjectDetailsVc: UIViewController {
         }
         // Changing state
         switch (oldState, newState) {
+        case (.list, .addTask(_)):
+            newFormViewOpacity = 1
+            tasksWithDoneListOpacity = 1
+            animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewOpacity = 1
             animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
@@ -175,6 +180,9 @@ class ProjectDetailsVc: UIViewController {
     func setupNavigationBar() {
         addGestureToNavBar() // We add gesture to nav bar in order to check if topView icon was clicked
         navigationItem.rightBarButtonItem = actionsButton
+        if isInbox {
+            title = "Inbox"
+        }
     }
     func addGestureToNavBar() {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navBarClicked))
@@ -208,6 +216,7 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - TOP VIEW
     private func topViewSetup() {
+        guard !isInbox else { return }
         view.layout(topView).leading(13).trailing(13).topSafe()
         topView.shouldLayoutSubviews = view.layoutSubviews
         topView.addShadowFromOutside()
@@ -281,8 +290,13 @@ class ProjectDetailsVc: UIViewController {
     // MARK: - TasksWithDoneList VIEW
     private let __tasksSubject = PublishSubject<[RlmTask]>()
     private func tasksWithDoneListSetup() {
-        view.layout(tasksWithDoneList).top(topView.anchor.bottom, 13).leading(13).trailing(13).bottom()
-        tasksWithDoneList.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 110, right: 0)
+        if !isInbox {
+            view.layout(tasksWithDoneList).top(topView.anchor.bottom, -10).leading(13).trailing(13).bottom()
+            view.bringSubviewToFront(topView)
+        } else {
+            view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
+        }
+        tasksWithDoneList.tableView.contentInset = UIEdgeInsets(top: isInbox ? 0 : 13 + 10, left: 0, bottom: 110, right: 0)
         __tasksSubject
             .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)

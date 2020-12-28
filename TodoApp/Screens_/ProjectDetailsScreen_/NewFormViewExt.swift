@@ -10,7 +10,7 @@ import UIKit
 import Material
 import Typist
 import PopMenu
-
+ 
 protocol NewFormViewExt: UIViewController {
     var addTaskModel: ProjectDetailsTaskCreateModel? { get }
     var didAppear: Bool { get }
