@@ -93,11 +93,13 @@ class CheckboxView: UIView {
         self.isChecked = isChecked
         changeState(withAnimation: previousIsChecked != nil)
     }
-    
+    lazy var control = OnClickControl(onClick: { [unowned self] in if $0 { self.onSelected?() } })
+
     private func setupViews() {
         layout(uncheckedViewx).edges()
         layout(selectedViewx).edges()
-        layout(SomeControl(onClick: { [unowned self] in self.onSelected?() })).edges()
+        control.pointInsideInsets = .init(top: 15, left: 10, bottom: 15, right: 10)
+        layout(control).edges()
     }
     private func changeState(withAnimation: Bool) {
         if withAnimation {
@@ -120,21 +122,8 @@ class CheckboxView: UIView {
             }
         }
     }
-
-    class SomeControl: UIControl {
-        var onClick: () -> Void
-        init(onClick: @escaping () -> Void) {
-            self.onClick = onClick
-            super.init(frame: .zero)
-            addTarget(self, action: #selector(touchUp), for: .touchUpInside)
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        @objc private func touchUp() {
-            onClick()
-        }
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        control.hitTest(point, with: event)
     }
+
 }

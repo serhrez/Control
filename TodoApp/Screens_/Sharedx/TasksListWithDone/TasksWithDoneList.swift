@@ -19,10 +19,12 @@ class TasksWithDoneList: UIView {
     private let onSelected: (RlmTask) -> Void
     private var currentItems: [AnimSection<Model>]?
     let itemsInput = PublishSubject<[RlmTask]>()
+    let gradientView = GradientView()
     
-    init(onSelected: @escaping (RlmTask) -> Void) {
+    init(onSelected: @escaping (RlmTask) -> Void, isGradientHidden: Bool = false) {
         self.onSelected = onSelected
         super.init(frame: .zero)
+        gradientView.isHidden = isGradientHidden
         setupView()
     }
     
@@ -32,6 +34,7 @@ class TasksWithDoneList: UIView {
     
     private func setupView() {
         layout(tableView).edges()
+        layout(gradientView).bottom().leading().trailing().height(216)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.alwaysBounceVertical = true
@@ -58,7 +61,7 @@ class TasksWithDoneList: UIView {
             switch model {
             case let .task(task):
                 let taskCell = tableView.dequeueReusableCell(withIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
-                taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty) {
+                taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }

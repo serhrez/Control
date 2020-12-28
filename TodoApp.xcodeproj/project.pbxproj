@@ -87,6 +87,7 @@
 		A57D967A2588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */; };
 		A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58281FD2597DCB80097178A /* NewCustomButton.swift */; };
 		A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */; };
+		A5833696259A522500F5E0E1 /* NewFormViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5833695259A522500F5E0E1 /* NewFormViewExt.swift */; };
 		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
 		A592318A25725B90008E955D /* TaskCellx2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318925725B90008E955D /* TaskCellx2.swift */; };
 		A592319025726536008E955D /* TimePickerVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318F25726536008E955D /* TimePickerVc.swift */; };
@@ -242,6 +243,7 @@
 		A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+exerciseAmbiguity.swift"; sourceTree = "<group>"; };
 		A58281FD2597DCB80097178A /* NewCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomButton.swift; sourceTree = "<group>"; };
 		A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+extensions.swift"; sourceTree = "<group>"; };
+		A5833695259A522500F5E0E1 /* NewFormViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFormViewExt.swift; sourceTree = "<group>"; };
 		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
 		A592318925725B90008E955D /* TaskCellx2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx2.swift; sourceTree = "<group>"; };
 		A592318F25726536008E955D /* TimePickerVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerVc.swift; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 				A5B67F7E2591058500EAD13D /* ProjectNewTaskForm.swift */,
 				A5B67F792590FACC00EAD13D /* ProjectStartedView.swift */,
 				A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */,
+				A5833695259A522500F5E0E1 /* NewFormViewExt.swift */,
 			);
 			path = ProjectDetailsScreen_;
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				A5B67F7F2591058500EAD13D /* ProjectNewTaskForm.swift in Sources */,
 				A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */,
 				A592318A25725B90008E955D /* TaskCellx2.swift in Sources */,
+				A5833696259A522500F5E0E1 /* NewFormViewExt.swift in Sources */,
 				A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */,
 				A5085E972556F8E500A31BBB /* Priority_.swift in Sources */,
 				A54EFB42258FB789009CFE0F /* CreateProjectVc2.swift in Sources */,

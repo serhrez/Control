@@ -48,10 +48,11 @@ class TasksListTaskCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(text: String, date: Date?, tagName: String?, hasChecklist: Bool, onSelected: @escaping () -> Void) {
+    func configure(text: String, date: Date?, tagName: String?, otherTags: Bool, priority: Priority, hasChecklist: Bool, onSelected: @escaping () -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()
         indicators.CSTremoveAllSubviews()
         checkboxView.onSelected = onSelected
+        checkboxView.configure(priority: priority)
         nameLabel.text = text
         if let tagName = tagName {
             verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))

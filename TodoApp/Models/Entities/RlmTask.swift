@@ -29,11 +29,12 @@ final class RlmTask: Object, Identifiable {
         RlmTask.Property.id.rawValue
     }
     
-    convenience init(name: String, taskDescription: String = "", isDone: Bool, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
+    convenience init(name: String, taskDescription: String = "", priority: Priority, isDone: Bool, date: RlmTaskDate? = nil, createdAt: Date = Date()) {
         self.init()
         self.name = name
         self.taskDescription = taskDescription
         self.date = date
+        self.priority = priority
         self.isDone = isDone
         self.createdAt = createdAt
     }

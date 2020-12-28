@@ -11,6 +11,8 @@ import UIKit
 
 class OnClickControl: UIControl {
     var onClick: (Bool) -> Void
+    var pointInsideInsets: UIEdgeInsets?
+
     init(onClick: @escaping (Bool) -> Void) {
         self.onClick = onClick
         super.init(frame: .zero)
@@ -27,5 +29,15 @@ class OnClickControl: UIControl {
     }
     @objc private func touchDown() {
         onClick(true)
+    }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard let customInsets = pointInsideInsets else {
+            return super.point(inside: point, with: event)
+        }
+        if layer.opacity == 0 || isHidden {
+            return false
+        }
+        return self.bounds.inset(by: customInsets.inverted()).contains(point)
     }
 }
