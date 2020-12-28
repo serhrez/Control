@@ -12,13 +12,15 @@ import Motion
 class OuterCircle: UIView {
     let wrapped: UIView
     private let circle: UIView = UIView()
-    private let color: UIColor
     
-    init(wrapped: UIView, color: UIColor) {
+    init(wrapped: UIView) {
         self.wrapped = wrapped
-        self.color = color
         super.init(frame: .zero)
         setupViews()
+    }
+    
+    func configure(color: UIColor) {
+        circle.layer.borderColor = color.cgColor
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +31,6 @@ class OuterCircle: UIView {
         layout(wrapped).edges(top: 3.5, left: 3.5, bottom: 3.5, right: 3.5)
         
         circle.layer.borderWidth = 2
-        circle.layer.borderColor = color.cgColor
         layout(circle).edges()
     }
     
@@ -37,11 +38,5 @@ class OuterCircle: UIView {
         super.draw(rect)
         
         circle.layer.cornerRadius = rect.height / 2
-    }
-}
-
-extension OuterCircle {
-    static func getCircleWithProgress(widthHeight: CGFloat = 19, percent: CGFloat, color: UIColor, animate: Bool = true) -> OuterCircle {
-        return OuterCircle(wrapped: ProgressCircleView(widthHeight: widthHeight, percent: percent, color: color, animate: animate), color: color)
     }
 }

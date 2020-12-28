@@ -70,11 +70,6 @@ class ProjectDetailsVc: UIViewController {
         didAppear = true
         self.newFormView.didAppear()
         self.view.layoutSubviews()
-        self.view.layout(tasksToolbar).bottomSafe(30)
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) {
-            self.topView.addShadowFromOutside()
-            self.view.layoutSubviews()
-        }
     }
     
     func setupKeyboard() {
@@ -192,6 +187,7 @@ class ProjectDetailsVc: UIViewController {
         view.layout(topView).leading(13).trailing(13).topSafe()
         topView.shouldLayoutSubviews = view.layoutSubviews
         newFormView.shouldLayoutSubviews = view.layoutSubviews
+        topView.addShadowFromOutside()
     }
     lazy var topView = ProjectDetailsTop(
         color: .hex("#FF9900"),
@@ -236,7 +232,7 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - Toolbar VIEW
     private func toolbarViewSetup() {
-        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
+        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(30)
         tasksToolbar.onClick = { [weak self] in
             self?.state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil))
         }

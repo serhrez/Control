@@ -37,7 +37,8 @@ class OvalText: UIView {
         label.font = .systemFont(ofSize: 16, weight: .bold)
         containerView.backgroundColor = bgColor
         layout(containerView).edges().height(height)
-        containerView.layout(label).centerY().leading(7).trailing(7)
+        containerView.layout(label).centerY().leading(7).priority(999).trailing(7).priority(999)
+        containerView.widthAnchor.constraint(greaterThanOrEqualTo: containerView.heightAnchor).isActive = true
         containerView.layer.cornerRadius = 13
         containerView.layer.cornerCurve = .continuous
     }

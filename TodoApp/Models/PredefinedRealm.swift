@@ -18,7 +18,7 @@ class PredefinedRealm {
             let tag3 = RlmTag(name: "Plan")
             let tag4 = RlmTag(name: "tag4")
 
-            let project1 = RlmProject(name: "Inbox-xp", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let project1 = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
             var task = RlmTask(name: "Make design for My Plan App", taskDescription: "Plan! - Create app for iOs and Testing app for iPadOs, MacOs send to server.", isDone: false)
             task.subtask.append(RlmSubtask(name: "Subtask1"))
             task.subtask.append(RlmSubtask(name: "Subtask2"))

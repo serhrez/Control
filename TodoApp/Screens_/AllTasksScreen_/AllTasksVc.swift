@@ -16,9 +16,23 @@ class AllTasksVc: UIViewController {
     let viewModel: AllTasksVcVM = AllTasksVcVM()
     let tableView = UITableView()
     let tasksToolbar = AllTasksToolbar(frame: .zero)
-    let menuButton = IconButton(image: UIImage(named: "menu")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-    let searchButton = IconButton(image: UIImage(named: "search")?.withTintColor(.black, renderingMode: .alwaysTemplate))
-    let actionsButton = IconButton(image: UIImage(named: "dots")?.withTintColor(.black, renderingMode: .alwaysTemplate))
+    private lazy var menuButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(menuButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
+
+    private lazy var searchButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "search"), style: .done, target: self, action: #selector(searchButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
+
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = .hex("#242424")
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,15 +80,12 @@ class AllTasksVc: UIViewController {
     }
     
     private func setupNavigationBar() {
+        applySharedNavigationBarAppearance(addBackButton: false)
+        title = "All Tasks"
         navigationItem.titleLabel.text = "All Tasks"
-
-        [menuButton, searchButton, actionsButton].forEach { $0.tintColor = .black }
-        actionsButton.addTarget(self, action: #selector(actionsButtonClicked), for: .touchUpInside)
-        searchButton.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
-        menuButton.addTarget(self, action: #selector(menuButtonClicked), for: .touchUpInside)
         
-        navigationItem.leftViews = [menuButton]
-        navigationItem.rightViews = [searchButton, actionsButton]
+        navigationItem.leftBarButtonItem = menuButton
+        navigationItem.rightBarButtonItems = [actionsButton, searchButton]
     }
     
     @objc private func searchButtonClicked() {
@@ -150,7 +161,6 @@ extension AllTasksVc: UITableViewDataSource {
         switch model {
         case .addProject:
             let addCell = tableView.dequeueReusableCell(withIdentifier: AddProjectCell.reuseIdentifier, for: indexPath) as! AddProjectCell
-            addCell.configure()
             addCell.selectionStyle = .none
             return addCell
         case let .project(project):
@@ -169,12 +179,17 @@ extension AllTasksVc: UITableViewDelegate {
         let index = vmIndex(for: indexPath)
         let model = viewModel.models[index]
         switch model {
-        case .addProject: break
+        case .addProject:
+            let addProject = CreateProjectVc2()
+            router.debugPushVc(addProject)
         case let .project(project):
             if project.name == "Inbox" {
                 let inboxVc = InboxTasksVc()
                 inboxVc.view.motionIdentifier = project.id
                 router.debugPushVc(inboxVc, .fade)
+            } else {
+                let projectDetails = ProjectDetailsVc(project: project)
+                router.debugPushVc(projectDetails)
             }
         }
     }

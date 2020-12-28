@@ -35,13 +35,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = AllTagsVc(mode: .selection(selected: [], { print($0) }))
 //        let viewController = InboxTasksVc()
 //        let viewController = ProjectDetailsVc()
-//        let viewController = AllTasksVc()
 //        let viewController = CreateProjectVc2()
-//        let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.name == "Inbox-xp" })
+//        let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.name == "Inbox" })
 //        let viewController = ProjectDetailsVc(project: project!)
 //        let viewController = TagPicker(viewSource: UIView(frame: .init(x: 200, y: 600, width: 50, height: 50)), items: ["Work", "Plan", "Important"], finished: { print($0) })
 //        let viewController = IconPickerFullVc(onSelected: { print($0) })
-        let viewController = SettingsVc()
+//        let viewController = SettingsVc()
+        let viewController = AllTasksVc()
         
         let navigationVc = UINavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc

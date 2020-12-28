@@ -13,8 +13,13 @@ final class AddProjectCell: UITableViewCell {
     static let reuseIdentifier = "AddProjectCell"
     private let overlayView = OverlaySelectionView()
     
-    func configure() {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setupViews() {

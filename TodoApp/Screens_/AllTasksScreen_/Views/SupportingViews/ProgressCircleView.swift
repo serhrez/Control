@@ -16,20 +16,18 @@ class ProgressCircleView: UIView, CAAnimationDelegate {
     }
     
     let widthHeight: CGFloat
-    let endPercent: CGFloat
-    let isAnimated: Bool
-    let color: UIColor
     
-    init(widthHeight: CGFloat = 20, percent: CGFloat, color: UIColor, animate: Bool = true) {
+    init(widthHeight: CGFloat = 20) {
         self.widthHeight = widthHeight
-        self.endPercent = percent
-        self.isAnimated = animate
-        self.color = color
         super.init(frame: .zero)
-        if !isAnimated {
-            setupViews()
-        }
+//        if !isAnimated {
+//            setupViews()
+//        }
         clipsToBounds = true
+    }
+    
+    func configure(percent: CGFloat, color: UIColor) {
+        setupViews(endPercent: percent, color: color, isAnimated: false)
     }
     
     required init?(coder: NSCoder) {
@@ -46,9 +44,9 @@ class ProgressCircleView: UIView, CAAnimationDelegate {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        if isAnimated {
-            setupViews()
-        }
+//        if isAnimated {
+//            setupViews()
+//        }
     }
     
     var animation: CAPropertyAnimation {
@@ -60,24 +58,25 @@ class ProgressCircleView: UIView, CAAnimationDelegate {
         
         return animation
     }
-    
-    func setupViews() {
+    var sliceLayer: CAShapeLayer?
+    func setupViews(endPercent: CGFloat, color: UIColor, isAnimated: Bool) {
+        
         let path = UIBezierPath(arcCenter: .init(x: intrinsicContentSize.width / 2, y: intrinsicContentSize.height / 2),
                                 radius: widthHeight / 4,
                                 startAngle: 0,
                                 endAngle: percentToRadian(endPercent),
                                 clockwise: false)
-        
-        let sliceLayer = CAShapeLayer()
-        sliceLayer.path = path.cgPath
-        sliceLayer.fillColor = nil
-        sliceLayer.strokeColor = color.cgColor
-        sliceLayer.lineWidth = widthHeight / 2
-        sliceLayer.strokeEnd = 1
+        sliceLayer?.removeFromSuperlayer()
+        sliceLayer = CAShapeLayer()
+        sliceLayer!.path = path.cgPath
+        sliceLayer!.fillColor = nil
+        sliceLayer!.strokeColor = color.cgColor
+        sliceLayer!.lineWidth = widthHeight / 2
+        sliceLayer!.strokeEnd = 1
         if isAnimated {
-            sliceLayer.add(animation, forKey: animation.keyPath)
+            sliceLayer!.add(animation, forKey: animation.keyPath)
         }
 
-        layer.addSublayer(sliceLayer)
+        layer.addSublayer(sliceLayer!)
     }
 }
