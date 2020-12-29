@@ -25,6 +25,7 @@ class SearchVc: UIViewController {
     }
     
     private func setupViews() {
+        applySharedNavigationBarAppearance()
         view.backgroundColor = .hex("#F6F6F3")
         setupSearchBar()
         setupCollectionView()
@@ -34,43 +35,43 @@ class SearchVc: UIViewController {
     private func setupKeyboard() {
         keyboard
             .on(event: .willChangeFrame) { [unowned self] options in
-                let height = options.endFrame.height
-                UIView.animate(withDuration: 0) {
-                    self.view.layout(self.collectionView).bottomSafe(height - self.view.safeAreaInsets.bottom)
-                    self.view.layoutIfNeeded()
+                let height = options.endFrame.intersection(view.bounds).height
+                UIView.animate(withDuration: 0.5) {
+                    collectionView.snp.remakeConstraints { make in
+                        make.bottom.equalToSuperview().offset(-height)
+                    }
                 }
             }
             .on(event: .willHide) { [unowned self] options in
-                view.layout(self.collectionView).bottomSafe()
+                let height = options.endFrame.intersection(view.bounds).height
+                UIView.animate(withDuration: 0.5) {
+                    collectionView.snp.remakeConstraints { make in
+                        make.bottom.equalToSuperview().offset(-height)
+                    }
+                }
             }
             .start()
     }
     
     private func setupSearchBar() {
-        let searchBar = SearchBar()
-        let img = UIImageView(image: UIImage(named: "searchsvg"))
-        img.contentMode = .scaleAspectFit
-        let imgContainer = UIView()
-        imgContainer.layout(img).center().width(18).height(18)
-        searchBar.leftViews = [imgContainer]
-        searchBar.contentEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: 10)
-        searchBar.backgroundColor = .white
-        searchBar.layer.cornerRadius = 16
-        searchBar.layer.cornerCurve = .continuous
+        let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
         searchBar.delegate = self
-        navigationItem.centerViews = [searchBar]
-        navigationItem.backButton.isHidden = true
-        let cancelButton = UIButton(type: .system)
-        cancelButton.setAttributedTitle("Cancel".at.attributed { attr in
-            attr.foreground(color: UIColor.hex("#447BFE")).font(.systemFont(ofSize: 16, weight: .bold))
-        }, for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelClicked), for: .touchUpInside)
-        navigationItem.rightViews = [cancelButton]
-        navigationItem.contentViewAlignment = .full
+        searchBar.searchTextField.backgroundColor = .hex("#ffffff")
+        
+        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClicked))
+        cancelButton.tintColor = UIColor.hex("#447BFE")
+        cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
+        navigationItem.rightBarButtonItems = [cancelButton]
     }
     
     private func setupCollectionView() {
-        view.layout(collectionView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        view.layout(collectionView).topSafe(20).leadingSafe(13).trailingSafe(13)
+        collectionView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+        }
+        collectionView.contentInset = .init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
@@ -78,7 +79,7 @@ class SearchVc: UIViewController {
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<SearchVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             let task = model.task
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })
+            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })
             return cell
         }
         viewModel.searchResult
@@ -90,18 +91,16 @@ class SearchVc: UIViewController {
     @objc func cancelClicked() {
         router.navigationController?.popViewController(animated: true)
     }
+    var didDisappear: () -> Void = { }
+    deinit { didDisappear() }
 }
+
+extension SearchVc: AppNavigationRouterDelegate { }
 extension SearchVc: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let model = viewModel.models[indexPath.section].items[indexPath.row]
-////        switch model {
-////        case .addTag:
-////            viewModel.allowAdding()
-////        case .addTagEnterName: break
-////        case let .tag(tag):
-////            print("tag selected: \(tag)")
-////            break
-////        }
+        let item = viewModel.searchResult.value[0].items[indexPath.row].task
+        let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: item))
+        router.debugPushVc(taskDetailsVc)
     }
 }
 extension SearchVc: UICollectionViewDelegateFlowLayout {
@@ -110,13 +109,15 @@ extension SearchVc: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension SearchVc: SearchBarDelegate {
-    func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        guard let text = text else { return }
-        viewModel.search(text)
+extension SearchVc: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty { return }
+        viewModel.search(searchText)
     }
-    
-    func searchBar(searchBar: SearchBar, didClear textField: UITextField, with text: String?) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    func searchBar(searchBar: SearchBar, willClear textField: UITextField, with text: String?) {
         viewModel.clear()
     }
 }

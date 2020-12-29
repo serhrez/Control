@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import Material
 import ResizingTokenField
+import SwipeCellKit
 
-class TasksListTaskCell: UITableViewCell {
+class TasksListTaskCell: SwipeTableViewCell {
     static let reuseIdentifier = "taskslisttaskcell"
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()

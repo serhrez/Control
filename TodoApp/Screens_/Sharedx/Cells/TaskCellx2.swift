@@ -50,7 +50,7 @@ class TaskCellx2: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
         
-    func configure(text: String, date: Date?, tagName: String?, priority: Priority, hasChecklist: Bool, isChecked: Bool, onSelected: @escaping (Bool) -> Void) {
+    func configure(text: String, date: Date?, tagName: String?, hasOtherTags: Bool, priority: Priority, hasChecklist: Bool, isChecked: Bool, onSelected: @escaping (Bool) -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()
         indicators.CSTremoveAllSubviews()
         checkboxView.configure(isChecked: isChecked)
@@ -58,7 +58,10 @@ class TaskCellx2: UICollectionViewCell {
         checkboxView.onSelected = onSelected
         nameLabel.text = text
         if let tagName = tagName {
-            verticalHorizontalStack.addArrangedSubview(TagView(text: tagName))
+            verticalHorizontalStack.addArrangedSubview(SingleTagView(text: tagName))
+        }
+        if hasOtherTags {
+            verticalHorizontalStack.addArrangedSubview(ThreeDotsTagView())
         }
         if let date = date {
             verticalHorizontalStack.addArrangedSubview(getDateLabel(text: DateFormatter.str(from: date)))
@@ -106,28 +109,6 @@ class TaskCellx2: UICollectionViewCell {
         }
     }
     
-    class TagView: UIView {
-        let label = UILabel(frame: .zero)
-        var text: String {
-            get { label.text ?? "" }
-            set { label.text = newValue }
-        }
-        init(text: String) {
-            super.init(frame: .zero)
-            self.text = text
-            layout(label).leading(8).trailing(8).top(2).bottom(2)
-            label.font = .systemFont(ofSize: 12, weight: .semibold)
-            backgroundColor = UIColor.hex("#00CE15").withAlphaComponent(0.1)
-            label.textColor = .hex("#00CE15")
-            layer.cornerRadius = 12
-            layer.cornerCurve = .continuous
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-    }
-
     private func getDateLabel(text: String) -> UILabel {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .semibold)
@@ -141,9 +122,11 @@ class TaskCellx2: UICollectionViewCell {
 
 extension UIStackView {
     func CSTremoveAllSubviews() {
+        UIView.performWithoutAnimation {
         arrangedSubviews.forEach {
             removeArrangedSubview($0)
             $0.removeFromSuperview()
+        }
         }
     }
 }

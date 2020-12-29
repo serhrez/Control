@@ -74,7 +74,7 @@ final class PlannedVc: UIViewController {
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count > 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
                 return cell
             }
         }
@@ -105,7 +105,7 @@ final class PlannedVc: UIViewController {
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count > 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
                 return cell
             }
         }

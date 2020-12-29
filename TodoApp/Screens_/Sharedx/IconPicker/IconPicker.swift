@@ -105,7 +105,11 @@ final class IconPicker: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    var didDisappear: () -> Void = { }
+    deinit { didDisappear() }
 }
+
+extension IconPicker: AppNavigationRouterDelegate { }
 
 extension IconPicker: UICollectionViewDelegate {
 //     func

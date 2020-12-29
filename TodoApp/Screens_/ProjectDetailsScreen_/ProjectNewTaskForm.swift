@@ -248,7 +248,7 @@ class ProjectNewTaskForm: UIView {
     
     private var __lastCreated = Date.distantPast
     func plusClicked() {
-        let lastCreatedBefore10secs = (Date() - __lastCreated).second.flatMap { $0 > 2 } ?? true
+        let lastCreatedBefore10secs = (Date() - __lastCreated).second.flatMap { $0 > 0 } ?? true
         print("lastCreated - seconds: \((Date() - __lastCreated).second) \(lastCreatedBefore10secs)")
         guard let name = nameField.text, !name.isEmpty && lastCreatedBefore10secs else { return }
         __lastCreated = Date()

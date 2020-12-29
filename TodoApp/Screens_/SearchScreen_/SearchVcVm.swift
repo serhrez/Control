@@ -13,9 +13,32 @@ import RxCocoa
 
 class SearchVcVm {
     private let bag = DisposeBag()
+    private var notificationTokens = [NotificationToken]()
     let searchResult = BehaviorRelay<[AnimSection<Model>]>(value: .init([.init(items: [])]))
+    var lastSearchedText: String?
+    init() {
+        let tasksToken = RealmProvider.main.realm.objects(RlmTask.self).observe(on: .main) { [weak self] changes in
+            switch changes {
+            case let .error(error): print(error)
+            case .initial: break
+            case .update:
+                if let lastSearchedText = self?.lastSearchedText {
+                    self?.search(lastSearchedText)
+                } else {
+                    self?.allTasksPopulate()
+                }
+            }
+        }
+        notificationTokens.append(tasksToken)
+        allTasksPopulate()
+    }
     
+    private func allTasksPopulate() {
+        let allTasks = RealmProvider.main.realm.objects(RlmTask.self)
+        searchResult.accept([.init(items: allTasks.map { Model(task: $0) })])
+    }
     func search(_ str: String) {
+        lastSearchedText = str
         let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name.lowercased().contains(str.lowercased()) }
         searchResult.accept([.init(items: tasks.map { Model(task: $0) })])
     }

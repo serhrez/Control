@@ -14,8 +14,13 @@ import Typist
 
 class CreateProjectVc2: UIViewController {
     let keyboard = Typist()
-    var icon: Icon = .text("🚒")
+    var icon: Icon = .text("🚒") {
+        didSet {
+            self.clickableIcon.iconView.configure(icon)
+        }
+    }
     var color: UIColor =  .hex("#FF9900")
+    private var didAppear: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +30,7 @@ class CreateProjectVc2: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         projectNameField.becomeFirstResponder()
+        didAppear = true
     }
     
     private func setupKeyboard() {
@@ -83,6 +89,7 @@ class CreateProjectVc2: UIViewController {
 
     
     private func setupViews() {
+        applySharedNavigationBarAppearance()
         view.backgroundColor = .hex("#F6F6F3")
         view.layout(containerView).leading().trailing()
         containerView.snp.makeConstraints { make in
@@ -95,16 +102,28 @@ class CreateProjectVc2: UIViewController {
         containerView.layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField.anchor.leading).bottom(plusButton.anchor.top, 38).trailing(36)
         view.layout(clickableIcon).top(containerView.anchor.top, -24).leading(26)
         
-        let heightConstraint = self.projectDescription.heightAnchor.constraint(equalToConstant: 40)
+        let heightConstraint = self.projectDescription.heightAnchor.constraint(equalToConstant: self.projectDescription.textField.font?.lineHeight ?? 20)
         heightConstraint.isActive = true
         projectDescription.shouldSetHeight = { [weak self] in
             heightConstraint.constant = $0
-            UIView.animate(withDuration: 0.5) {
-                self?.containerView.layoutSubviews()
-                self?.view.layoutSubviews()
-            }
+            self?.properlyLayout()
         }
 
+    }
+    
+    func properlyLayout() {
+        if didAppear {
+            UIView.animate(withDuration: 0.5) {
+                self.containerView.layoutSubviews()
+                self.view.layoutSubviews()
+            }
+        } else {
+            UIView.animate(withDuration: 0.5) {
+                self.containerView.layoutSubviews()
+                self.view.layoutSubviews()
+            }
+
+        }
     }
     
     let containerView: UIView = {
@@ -135,6 +154,7 @@ class CreateProjectVc2: UIViewController {
         let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: color, onColorSelection: { [weak self] newColor, picker in
             self?.color = newColor
             self?.colorCircle.circleColor = newColor
+            picker.shouldDismissAnimated()
         })
         
         colorPicker.shouldPurposelyAnimateViewBackgroundColor = true
@@ -179,13 +199,12 @@ class CreateProjectVc2: UIViewController {
     }()
         
     private func iconSelected() {
-        print("iconSelected")
-        //        guard let project = viewModel.project else { return }
-//        let iconPicker = IconPicker(viewSource: clickableIcon, selected: project.icon, onSelection: viewModel.setProjectIcon)
-//        present(iconPicker, animated: true, completion: nil)
+        let iconPicker = IconPickerFullVc { [weak self] (newIcon) in
+            self?.icon = .text(newIcon)
+        }
+        router.debugPushVc(iconPicker)
     }
 
-    
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)

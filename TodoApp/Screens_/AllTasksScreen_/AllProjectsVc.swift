@@ -82,14 +82,15 @@ class AllProjectsVc: UIViewController {
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance(addBackButton: false)
         title = "All Tasks"
-        navigationItem.titleLabel.text = "All Tasks"
+        navigationItem.titleLabel.text = "All Projects"
         
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItems = [actionsButton, searchButton]
     }
     
     @objc private func searchButtonClicked() {
-        
+        let searchVc = SearchVc()
+        router.debugPushVc(searchVc)
     }
     
     @objc private func menuButtonClicked() {

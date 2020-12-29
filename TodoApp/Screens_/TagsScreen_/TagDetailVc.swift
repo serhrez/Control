@@ -46,7 +46,7 @@ class TagDetailVc: UIViewController {
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<TagDetailVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
             let task = model.task
             let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            tagCell.configure(text: task.name, date: task.date?.date, tagName: nil, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.taskSelected(task, isDone: $0) })
+            tagCell.configure(text: task.name, date: task.date?.date, tagName: nil, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.taskSelected(task, isDone: $0) })
             return tagCell
         }
         viewModel.tasks

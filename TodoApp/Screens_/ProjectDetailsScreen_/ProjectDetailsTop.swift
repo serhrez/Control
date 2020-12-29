@@ -31,7 +31,7 @@ class ProjectDetailsTop: UIView {
     let onColorSelected: (_ sourceView: UIView, _ selectedColor: UIColor) -> Void
     var shouldLayoutSubviews: () -> Void = { }
     
-    init(color: UIColor, projectName: String, projectDescription: String, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void, shouldAnimate: @escaping () -> Bool) {
+    init(color: UIColor, projectName: String, projectDescription: String?, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void, shouldAnimate: @escaping () -> Bool) {
         self.icon = icon
         self.color = color
         self.onProjectNameChanged = onProjectNameChanged
@@ -41,7 +41,7 @@ class ProjectDetailsTop: UIView {
         self.shouldAnimate = shouldAnimate
         super.init(frame: .zero)
         self.projectNameField.text = projectName
-        self.projectDescription.text = projectDescription
+        self.projectDescription.text = projectDescription ?? ""
         setupViews()
     }
     
