@@ -10,19 +10,55 @@ import UIKit
 import Material
 import RxDataSources
 import RxSwift
+import SwipeCellKit
 
 class TasksWithDoneList: UIView {
-    typealias DataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<Model>>
-    lazy var tableView = UITableView()
+    typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<Model>>
+    private let collectionLayout: UICollectionViewLayout = {
+        UICollectionViewCompositionalLayout { section, environment -> NSCollectionLayoutSection? in
+            if section == 0 {
+                let interLineSpacing: CGFloat = 7
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(62 + interLineSpacing))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
+                let section = NSCollectionLayoutSection(group: group)
+                return section
+            } else {
+                let interLineSpacing: CGFloat = 10
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .absolute(24 + interLineSpacing))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+            }
+        }
+    }()
+    private lazy var tableView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
     private let onSelected: (RlmTask) -> Void
+    private let shouldDelete: ((RlmTask) -> Void)?
     private var currentItems: [AnimSection<Model>]?
     let itemsInput = PublishSubject<[RlmTask]>()
     let gradientView = GradientView()
+    var contentInsets: UIEdgeInsets = .zero {
+        didSet {
+            tableView.contentInset = contentInsets
+        }
+    }
     
-    init(onSelected: @escaping (RlmTask) -> Void, isGradientHidden: Bool = false) {
+    init(onSelected: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false) {
         self.onSelected = onSelected
+        self.shouldDelete = shouldDelete
         super.init(frame: .zero)
         gradientView.isHidden = isGradientHidden
         setupView()
@@ -38,16 +74,17 @@ class TasksWithDoneList: UIView {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.alwaysBounceVertical = true
-        tableView.separatorStyle = .none
-        tableView.register(TasksListTaskCell.self, forCellReuseIdentifier: TasksListTaskCell.reuseIdentifier)
-        tableView.register(DoneTasksListTaskCell.self, forCellReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "separator")
+        tableView.register(TasksListTaskCell.self, forCellWithReuseIdentifier: TasksListTaskCell.reuseIdentifier)
+        tableView.register(DoneTasksListTaskCell.self, forCellWithReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier)
+        tableView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "separator")
         tableView.delegate = self
         itemsInput.map { tasks -> [AnimSection<Model>] in
-            let section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+            var section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+            if !section1.isEmpty {
+                section1.append(.space)
+            }
             let section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
-            let combinedItems = Array(section1.isEmpty ? section2 : section1 + [.space(45)] + section2)
-            return [AnimSection(items: combinedItems)]
+            return [AnimSection(items: section1), AnimSection(identity: "wewqe", items: section2)]
         }
         .do(onNext: { [weak self] in
             self?.currentItems = $0
@@ -57,53 +94,94 @@ class TasksWithDoneList: UIView {
     }
 
     func makeDataSource() -> DataSource {
-        DataSource { (data, tableView, indexPath, model) -> UITableViewCell in
+        DataSource { [weak self] (data, tableView, indexPath, model) -> UICollectionViewCell in
             switch model {
             case let .task(task):
-                let taskCell = tableView.dequeueReusableCell(withIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
+                let taskCell = tableView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }
-                taskCell.selectionStyle = .none
-
+                taskCell.delegate = self
                 return taskCell
             case let .doneTask(task):
-                let doneCell = tableView.dequeueReusableCell(withIdentifier: DoneTasksListTaskCell.reuseIdentifier, for: indexPath) as! DoneTasksListTaskCell
+                let doneCell = tableView.dequeueReusableCell(withReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier, for: indexPath) as! DoneTasksListTaskCell
                 doneCell.configure(text: task.name) {
                     _ = try! RealmProvider.main.realm.write {
                         task.isDone.toggle()
                     }
                 }
-                doneCell.selectionStyle = .none
-
                 return doneCell
             case .space:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "separator")!
+                let cell = tableView.dequeueReusableCell(withReuseIdentifier: "separator", for: indexPath)
                 cell.backgroundColor = .clear
-                cell.selectionStyle = .none
                 return cell
             }
         }
     }
 }
 
-extension TasksWithDoneList: UITableViewDelegate {
+extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let currentItems = currentItems else { return UITableView.automaticDimension }
-        let item = currentItems[indexPath.section].items[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .drag
+        options.expansionStyle = .fill
+        
+        
+        options.minimumButtonWidth = 67
+        options.maximumButtonWidth = 100
+        return options
+    }
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        if orientation == .right {
+            var actions: [SwipeAction] = []
+            if self.shouldDelete != nil {
+                let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
+                deleteAction.backgroundColor = .hex("#EF4439")
+                deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+                deleteAction.hidesWhenSelected = true
+                actions.append(deleteAction)
+            }
+            
+            return actions
+        } else if orientation == .left {
+            var actions: [SwipeAction] = []
+            let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionTick)
+            deleteAction.backgroundColor = .hex("#447BFE")
+            deleteAction.image = UIImage(named: "recommendheart")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+            deleteAction.hidesWhenSelected = true
+            actions.append(deleteAction)
+            
+            return actions
+        }
+        return nil
+    }
+    
+    func handleSwipeActionDeletion(action: SwipeAction, path: IndexPath) {
+        guard let item = currentItems?[path.section].items[path.row] else { return }
         switch item {
-        case .task:
-            return 62 + 7
-        case .doneTask:
-            return 24 + 10
-        case let .space(space):
-            return space
+        case let .task(task):
+            shouldDelete?(task)
+        default: break
         }
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func handleSwipeActionTick(action: SwipeAction, path: IndexPath) {
+        guard let item = currentItems?[path.section].items[path.row] else { return }
+        switch item {
+        case let .task(task):
+            _ = try! RealmProvider.main.realm.write {
+                task.isDone.toggle()
+            }
+        default: break
+        }
+
+    }
+}
+
+extension TasksWithDoneList: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let currentItems = currentItems else { return }
         let item = currentItems[indexPath.section].items[indexPath.row] // TODO: Somewhy crashes
         switch item {
@@ -120,7 +198,7 @@ extension TasksWithDoneList {
     enum Model: IdentifiableType, Equatable {
         case task(RlmTask)
         case doneTask(RlmTask)
-        case space(CGFloat)
+        case space
         
         var identity: String {
             switch self {

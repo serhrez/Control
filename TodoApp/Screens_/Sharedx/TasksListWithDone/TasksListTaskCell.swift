@@ -11,7 +11,7 @@ import Material
 import ResizingTokenField
 import SwipeCellKit
 
-class TasksListTaskCell: SwipeTableViewCell {
+class TasksListTaskCell: SwipeCollectionViewCell {
     static let reuseIdentifier = "taskslisttaskcell"
     private let overlayView = OverlaySelectionView()
     private let checkboxView = CheckboxView()
@@ -40,8 +40,8 @@ class TasksListTaskCell: SwipeTableViewCell {
         return stack
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
     }
     
@@ -81,28 +81,26 @@ class TasksListTaskCell: SwipeTableViewCell {
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.clear.cgColor
+        contentView.layer.backgroundColor = UIColor.hex("#ffffff").cgColor
         // Had to create second contentView so we have separat
-        let contentView2 = UIView()
-        contentView2.layer.backgroundColor = UIColor.white.cgColor
-        contentView.layout(contentView2).top().leading().trailing().height(62)
-        contentView2.layer.cornerRadius = 16
-        contentView2.clipsToBounds = true
+        layer.cornerRadius = 16
+        clipsToBounds = true
         backgroundColor = .clear
-        contentView2.layout(checkboxView).centerY().width(22).leading(20)
+        contentView.layout(checkboxView).centerY().width(22).leading(20)
         checkboxView.configure(isChecked: false)
         
-        contentView2.layout(indicators).centerY().trailing(21)
+        contentView.layout(indicators).centerY().trailing(21)
         
         verticalStack.addArrangedSubview(nameLabel)
         verticalStack.addArrangedSubview(verticalHorizontalStack)
-        contentView2.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
+        contentView.layout(verticalStack).leading(checkboxView.anchor.trailing, 11).trailing(indicators.anchor.leading, 8) { _, _ in .lessThanOrEqual }.centerY()
         
-        contentView2.layout(overlayView).edges()
+        contentView.layout(overlayView).edges()
     }
-    
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        overlayView.setHighlighted(isHighlighted, animated: true)
+    override var isHighlighted: Bool {
+        didSet {
+            overlayView.setHighlighted(isHighlighted, animated: true)
+        }
     }
 
     private func getDateLabel(text: String) -> UILabel {

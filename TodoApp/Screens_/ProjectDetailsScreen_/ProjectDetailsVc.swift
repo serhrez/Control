@@ -296,7 +296,7 @@ class ProjectDetailsVc: UIViewController {
         } else {
             view.layout(tasksWithDoneList).topSafe(20).leading(13).trailing(13).bottom()
         }
-        tasksWithDoneList.tableView.contentInset = UIEdgeInsets(top: isInbox ? 0 : 13 + 10, left: 0, bottom: 110, right: 0)
+        tasksWithDoneList.contentInsets = UIEdgeInsets(top: isInbox ? 0 : 13 + 10, left: 0, bottom: 110, right: 0)
         __tasksSubject
             .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)
