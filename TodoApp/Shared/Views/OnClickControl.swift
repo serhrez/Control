@@ -16,7 +16,7 @@ class OnClickControl: UIControl {
     init(onClick: @escaping (Bool) -> Void) {
         self.onClick = onClick
         super.init(frame: .zero)
-        addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchDragExit, .touchCancel])
+        addTarget(self, action: #selector(touchUp), for: [.touchUpInside])
         addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
     }
     
@@ -25,10 +25,10 @@ class OnClickControl: UIControl {
     }
     
     @objc private func touchUp() {
-        onClick(false)
+        onClick(true)
     }
     @objc private func touchDown() {
-        onClick(true)
+        onClick(false)
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
