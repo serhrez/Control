@@ -17,8 +17,8 @@ import RxCocoa
 class ProjectDetailsVc: UIViewController {
     var didAppear: Bool = false
     private let keyboard = Typist()
-    private var _oldState: PrScreenState = .emptyOrList 
-    private var state: PrScreenState = .emptyOrList {
+    private var _oldState: PrScreenState
+    private var state: PrScreenState {
         didSet {
             changeState(oldState: _oldState, newState: state)
             _oldState = state
@@ -29,9 +29,13 @@ class ProjectDetailsVc: UIViewController {
     private var tokens: [NotificationToken] = []
     private var shouldChangeHeightByKeyboardChange = true
     private let bag = DisposeBag()
+    private let shouldPopTwo: Bool
     let trashTextField = TrashTextField()
-    init(project: RlmProject) {
+    init(project: RlmProject, state: PrScreenState, shouldPopTwo: Bool = false) {
         self.project = project
+        self._oldState = state
+        self.state = state
+        self.shouldPopTwo = shouldPopTwo
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,9 +54,12 @@ class ProjectDetailsVc: UIViewController {
         setupKeyboard()
         projectNewTaskViewSetup()
         self.view.addSubview(trashTextField)
-        state = .emptyOrList
+        let __updState = self.state
+        self.state = __updState
         projectPropertiesChanged() // Init state
-        applySharedNavigationBarAppearance()
+        applySharedNavigationBarAppearance(customOnBack: shouldPopTwo ? { [weak self] in
+            self?.navigationController?.popViewControllers(2)
+            } : nil)
         setupNavigationBar()
     }
     
@@ -112,7 +119,6 @@ class ProjectDetailsVc: UIViewController {
         var newFormViewBgOpacity: Float = 0
         var newFormViewOpacity: Float = 0
         var tasksWithDoneListOpacity: Float = 0
-        var animationCompletion: (() -> Void)?
         // Pre change state
         switch (oldState, newState) {
         case (.addTask(_), _) where !newState.isAddTask:
@@ -125,11 +131,11 @@ class ProjectDetailsVc: UIViewController {
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
             tasksWithDoneListOpacity = 1
-            self.newFormView.becomeFirstResponder()
+            _ = self.newFormView.becomeFirstResponder()
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
-            self.newFormView.becomeFirstResponder()
+            _ = self.newFormView.becomeFirstResponder()
         case let (.addTask(_), .addTask(newTask)):
             newFormView.priority = newTask.priority
             newFormView.date = (newTask.date, newTask.reminder, newTask.repeatt)
@@ -139,9 +145,12 @@ class ProjectDetailsVc: UIViewController {
             tasksWithDoneListOpacity = 1
             tasksToolBarOpacity = 1
             break
-        case (_, .empty):
+        case (_, .new):
             projectStartedViewOpacity = 1
             tasksToolBarOpacity = 1
+        case (_, .empty):
+            tasksToolBarOpacity = 1
+            break
         default: break
         }
         func apply() {
@@ -153,11 +162,9 @@ class ProjectDetailsVc: UIViewController {
         }
         if !didAppear {
             apply()
-            animationCompletion?()
         } else {
             UIView.animate(withDuration: 0.25) {
                 apply()
-                animationCompletion?()
             } completion: { _ in
                 
             }
@@ -418,7 +425,7 @@ class ProjectDetailsVc: UIViewController {
         _ = try! RealmProvider.main.realm.write {
             project.tasks.append(rlmTask)
         }
-        state = .emptyOrList
+        state = .list
     }
 
         
@@ -474,6 +481,7 @@ class ProjectDetailsVc: UIViewController {
 
 extension ProjectDetailsVc {
     enum PrScreenState {
+        case new
         case empty
         case addTask(ProjectDetailsTaskCreateModel)
         case list

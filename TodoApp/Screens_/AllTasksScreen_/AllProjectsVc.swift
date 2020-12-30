@@ -277,7 +277,7 @@ extension AllProjectsVc: UITableViewDelegate {
             let addProject = CreateProjectVc2()
             router.debugPushVc(addProject)
         case let .project(project):
-            let projectDetails = ProjectDetailsVc(project: project)
+            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList)
             router.debugPushVc(projectDetails)
         }
     }

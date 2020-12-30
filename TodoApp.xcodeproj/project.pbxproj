@@ -43,6 +43,7 @@
 		A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */; };
 		A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */; };
 		A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A524752C256F0EFD0000B258 /* OnClickControl.swift */; };
+		A529BFE7259CE4F2004D6280 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */; };
 		A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3252594AE4B00474128 /* TrashTextField.swift */; };
 		A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */; };
 		A52ED3352595169700474128 /* EmojiiList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3342595169700474128 /* EmojiiList.swift */; };
@@ -75,7 +76,6 @@
 		A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */; };
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
-		A56EFBA425976C5E004A2DB9 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */; };
 		A5722CDA25740C890098BECE /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CD925740C890098BECE /* CreateProjectVc.swift */; };
 		A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -196,6 +196,7 @@
 		A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateCell.swift; sourceTree = "<group>"; };
 		A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateHeader.swift; sourceTree = "<group>"; };
 		A524752C256F0EFD0000B258 /* OnClickControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnClickControl.swift; sourceTree = "<group>"; };
+		A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		A52ED3252594AE4B00474128 /* TrashTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashTextField.swift; sourceTree = "<group>"; };
 		A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerFullVc.swift; sourceTree = "<group>"; };
 		A52ED3342595169700474128 /* EmojiiList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiiList.swift; sourceTree = "<group>"; };
@@ -228,7 +229,6 @@
 		A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsAddTagCell.swift; sourceTree = "<group>"; };
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
-		A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		A5722CD925740C890098BECE /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
 		A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVcVm.swift; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -425,7 +425,6 @@
 				A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */,
 				A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */,
 				A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */,
-				A56EFBA325976C5E004A2DB9 /* UINavigationController+Extensions.swift */,
 				A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */,
 			);
 			path = Extensions;
@@ -638,6 +637,7 @@
 				A5DD59CD256573CF002AEF42 /* ResizingToken.swift */,
 				A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */,
 				A5B67F742590F4B400EAD13D /* UIViewController+Extensions.swift */,
+				A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */,
 				A5B67FAA259144E100EAD13D /* ModelFormatt.swift */,
 			);
 			path = Helpers;
@@ -1102,7 +1102,6 @@
 				A57634FE257EE8D9009A5041 /* AlignmentRectViews.swift in Sources */,
 				A5B67F752590F4B400EAD13D /* UIViewController+Extensions.swift in Sources */,
 				A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */,
-				A56EFBA425976C5E004A2DB9 /* UINavigationController+Extensions.swift in Sources */,
 				A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */,
 				A5085E372556EF7800A31BBB /* AllProjectsVc.swift in Sources */,
 				A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */,
@@ -1140,6 +1139,7 @@
 				A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */,
 				A5B67F7A2590FACC00EAD13D /* ProjectStartedView.swift in Sources */,
 				A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */,
+				A529BFE7259CE4F2004D6280 /* UINavigationController+Extensions.swift in Sources */,
 				A5D2801B258D65C400D23760 /* MyGrowingTextView.swift in Sources */,
 				A52251C4256EF3B300747E16 /* CalendarVcVm.swift in Sources */,
 				A5356D8D2569C3460042F604 /* DateDetailLabel.swift in Sources */,

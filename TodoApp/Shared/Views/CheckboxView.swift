@@ -34,15 +34,14 @@ class CheckboxView: UIView {
         
         return uncheckedView
     }()
-    private let checkedViewImage = UIImageView(image: UIImage(named: "checkedsvg")?.withRenderingMode(.alwaysTemplate))
-    private let checkedRectangleImage = UIImageView(image: UIImage(named: "checkedrectanglesvg")?.withRenderingMode(.alwaysTemplate))
+    private let checkedViewImage = UIImageView(image: UIImage(named: "check"))
     private lazy var checkedView: UIView = {
         let checkedView = UIView()
         checkedView.layer.cornerRadius = 6
         checkedView.layer.cornerCurve = .continuous
-        checkedView.layout(checkedRectangleImage).edges()
-        checkedView.layout(checkedViewImage).edges()
-        checkedRectangleImage.tintColor = .hex("#00CE15")
+        
+        checkedView.layout(checkedViewImage).center().width(11).height(8)
+        checkedView.backgroundColor = .hex("#00CE15")
 
         return checkedView
     }()
@@ -59,11 +58,10 @@ class CheckboxView: UIView {
     }
     var tint: UIColor {
         get {
-            checkedViewImage.tintColor
+            checkedView.tintColor
         }
         set {
-            checkedViewImage.tintColor = newValue
-            checkedRectangleImage.tintColor = newValue
+            checkedView.backgroundColor = newValue
         }
     }
 
@@ -71,10 +69,9 @@ class CheckboxView: UIView {
         self.isStyle2 = isStyle2
         super.init(frame: .zero)
         if isStyle2 {
-            self.checkedView.backgroundColor = .white//.hex("#447BFE")
-            checkedViewImage.tintColor = .blue
+            checkedView.backgroundColor = .hex("#447BFE")
         } else {
-            checkedViewImage.tintColor = .hex("#00CE15")
+            checkedView.backgroundColor = .hex("#00CE15")
         }
         setupViews()
     }
@@ -96,23 +93,13 @@ class CheckboxView: UIView {
     lazy var control = OnClickControl(onClick: { [unowned self] in if $0 { self.onSelected?() } })
 
     private func setupViews() {
-        layout(uncheckedViewx).edges()
-        layout(selectedViewx).edges()
+        layout(uncheckedViewx).edges().width(22).height(22)
+        layout(selectedViewx).edges().width(22).height(22)
         control.pointInsideInsets = .init(top: 15, left: 10, bottom: 15, right: 10)
-        layout(control).edges()
+        layout(control).edges().width(22).height(22)
     }
     private func changeState(withAnimation: Bool) {
-        if withAnimation {
-            UIView.animate(withDuration: 0.5) {
-                if self.isChecked ?? false {
-                    self.selectedViewx.layer.opacity = 1.0
-                    self.uncheckedViewx.layer.opacity = 0
-                } else {
-                    self.selectedViewx.layer.opacity = 0
-                    self.uncheckedViewx.layer.opacity = 1.0
-                }
-            }
-        } else {
+        func apply() {
             if self.isChecked ?? false {
                 self.selectedViewx.layer.opacity = 1.0
                 self.uncheckedViewx.layer.opacity = 0
@@ -120,6 +107,13 @@ class CheckboxView: UIView {
                 self.selectedViewx.layer.opacity = 0
                 self.uncheckedViewx.layer.opacity = 1.0
             }
+        }
+        if withAnimation {
+            UIView.animate(withDuration: 0.5) {
+                apply()
+            }
+        } else {
+            apply()
         }
     }
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

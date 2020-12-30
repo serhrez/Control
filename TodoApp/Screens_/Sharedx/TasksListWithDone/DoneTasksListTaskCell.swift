@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 import Material
 import AttributedLib
+import SwipeCellKit
 
-class DoneTasksListTaskCell: UICollectionViewCell {
+class DoneTasksListTaskCell: SwipeCollectionViewCell {
     static let reuseIdentifier = "donetaskslisttaskcell"
     
     private let overlayView = OverlaySelectionView()
@@ -33,11 +34,14 @@ class DoneTasksListTaskCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        // Had to create second contentView so that we have separator
-        contentView.layout(checkboxView).top(2).bottom() { _, _ in .lessThanOrEqual }.leading(20)
+        contentView.layer.backgroundColor = UIColor.hex("#DFDFDF").withAlphaComponent(0.3).cgColor
+        contentView.layout(checkboxView).centerY().leading(20)
+        layer.cornerRadius = 16
+        clipsToBounds = true
+        backgroundColor = .clear
+
         checkboxView.configure(isChecked: true)
-        contentView.layout(nameLabel).top().bottom().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
+        contentView.layout(nameLabel).centerY().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
         nameLabel.numberOfLines = 1
         backgroundColor = .clear
     }

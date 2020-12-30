@@ -121,7 +121,9 @@ class CreateProjectVc2: UIViewController {
         _ = try! RealmProvider.main.realm.write {
             RealmProvider.main.realm.add(project)
         }
-        router.navigationController.popViewController(animated: true)
+        shouldChangeHeightByKeyboardChange = false
+        let projectDetails = ProjectDetailsVc(project: project, state: .new, shouldPopTwo: true)
+        router.debugPushVc(projectDetails)
     }
     private func closeClicked() {
         router.navigationController.popViewController(animated: true)
