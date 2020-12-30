@@ -96,11 +96,8 @@ class CreateProjectVc2: UIViewController {
                 self.view.layoutSubviews()
             }
         } else {
-            UIView.animate(withDuration: 0.5) {
-                self.containerView.layoutSubviews()
-                self.view.layoutSubviews()
-            }
-
+            self.containerView.layoutSubviews()
+            self.view.layoutSubviews()
         }
     }
     

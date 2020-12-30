@@ -492,7 +492,6 @@ final class TaskDetailsVc: UIViewController {
     }
     func addTagsSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
-        view.endEditing(true)
         router.openAllTags(mode: .selection(selected: viewModel.task.flatMap { Array($0.tags) } ?? [], viewModel.addTags))
     }
 
@@ -613,7 +612,7 @@ extension TaskDetailsVc: UITextFieldDelegate {
             if taskDescription.isHidden {
                 taskNameh1.resignFirstResponder()
             } else {
-                taskDescription.becomeFirstResponder()
+                _ = taskDescription.becomeFirstResponder()
             }
         default: break
         }

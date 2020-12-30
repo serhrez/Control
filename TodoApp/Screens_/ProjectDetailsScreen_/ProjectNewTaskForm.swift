@@ -48,10 +48,8 @@ class ProjectNewTaskForm: UIView {
                 repeatDetailLabel.isHidden = true
             }
             if datee != nil || reminder != nil || repeatt != nil {
-                stackView.setCustomSpacing(37, after: tokenField)
                 calendarButton.tintColor = .hex("#447BFE")
             } else {
-                stackView.setCustomSpacing(5, after: tokenField)
                 calendarButton.tintColor = .hex("#A4A4A4")
             }
         }
@@ -99,29 +97,39 @@ class ProjectNewTaskForm: UIView {
         addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
         backgroundColor = .hex("#ffffff")
         layer.cornerRadius = 16
-        layout(checkbox).leading(26).top(22)
-        layout(plusButton).trailing(20).bottom(20)
-        layout(nameField).leading(checkbox.anchor.trailing, 13).centerY(checkbox.anchor.centerY).trailing(25)
-        layout(taskDescription).leading(25).trailing(25).top(checkbox.anchor.bottom, 17)
+        let scrollView = UIScrollView()
+        layout(scrollView).edges()
+        scrollView.layout(containerView).top().leading().trailing()
+        scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true // 54 bottom
+        let containerHeight = heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
+        containerHeight.priority = .init(749)
+        containerHeight.isActive = true
+        scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+
+        containerView.layout(checkbox).leading(26).top(22)
+        containerView.layout(nameField).leading(checkbox.anchor.trailing, 13).centerY(checkbox.anchor.centerY).trailing(25)
+        containerView.layout(taskDescription).leading(25).trailing(25).top(checkbox.anchor.bottom, 17)
 
         taskDescription.snp.makeConstraints { make in
             make.height.equalTo(taskDescriptionFont.lineHeight)
         }
         taskDescription.shouldSetHeight = { [unowned self] newHeight in
             self.taskDescription.snp.remakeConstraints { make in
-                make.height.equalTo(min(newHeight, ceil(self.taskDescriptionFont.lineHeight) * 2 + self.taskDescriptionFont.lineHeight / 5 ))
+                make.height.equalTo(newHeight)
             }
 
             self.shouldUpdateLayout()
         }
+        layout(bottomView).bottom().trailing().leading().height(54)
+        bottomView.layout(calendarButton).leading(25).centerY().width(25).height(25)
+        bottomView.layout(tagButton).leading(calendarButton.anchor.trailing, 25).centerY().width(25).height(25)
+        bottomView.layout(priorityButton).leading(tagButton.anchor.trailing, 25).centerY().width(25).height(25)
         
-        layout(calendarButton).leading(25).bottom(18).width(25).height(25)
-        layout(tagButton).leading(calendarButton.anchor.trailing, 25).bottom(18).width(25).height(25)
-        layout(priorityButton).leading(tagButton.anchor.trailing, 25).bottom(18).width(25).height(25)
+        layout(plusButton).trailing(20).bottom(20)
     }
     
     func didAppear() {
-        layout(stackView).leading(25).trailing(25).bottom(plusButton.anchor.top, 10).top(taskDescription.anchor.bottom, 10)
+        containerView.layout(stackView).leading(25).trailing(25).bottom(72).top(taskDescription.anchor.bottom, 10)
     }
     
     func getFirstResponder() -> UIView? {
@@ -140,11 +148,16 @@ class ProjectNewTaskForm: UIView {
         tags = []
         date = (nil, nil, nil)
         priority = .none
+        taskDescription.snp.remakeConstraints { make in
+            make.height.equalTo(taskDescriptionFont.lineHeight)
+        }
     }
     
     private func shouldUpdateLayout() {
         if shouldAnimate() {
             UIView.animate(withDuration: 0.5) {
+                self.stackView.layoutSubviews()
+                self.containerView.layoutSubviews()
                 self.layoutSubviews()
                 self.shouldLayoutSubviews()
             }
@@ -156,15 +169,21 @@ class ProjectNewTaskForm: UIView {
         guard !tags.isEmpty else {
             tokenField.isHidden = true
             self.tokenField.removeAllTokens()
-            tokenFieldSpacerBefore.isHidden = true
             return
         }
         self.tokenField.isHidden = false
-        self.tokenFieldSpacerBefore.isHidden = false
         let old = tokenField.tokens as? [ResizingToken]
         let newTags = tags.map { ResizingToken(title: $0) }
         tokenField.deepdiff(old: old ?? [], new: newTags)
     }
+    
+    private let bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .hex("#FFFFFF")
+        return view
+    }()
+    
+    let containerView = UIView()
     
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [tokenFieldSpacerBefore, tokenField, stackDateDetail, stackReminderRepeat])
@@ -182,9 +201,12 @@ class ProjectNewTaskForm: UIView {
         tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
         tokenField.preferredTextFieldReturnKeyType = .done
         tokenField.contentInsets = .zero
-        tokenField.heightAnchor.constraint(lessThanOrEqualToConstant: 135).isActive = true
+        tokenField.heightConstraint?.isActive = false
         tokenField.isHidden = true
         tokenField.onPlusButtonClicked = onTagPlusClicked
+        tokenField.snp.makeConstraints { make in
+            make.height.equalTo(tokenField.itemHeight)
+        }
         
         return tokenField
     }()
@@ -276,7 +298,7 @@ class ProjectNewTaskForm: UIView {
 
     private let taskDescriptionFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
     lazy var taskDescription: MyGrowingTextView = {
-        let textView = MyGrowingTextView(placeholderText: "Need to add notes?", scrollBehavior: .scrollIfTwoLines)
+        let textView = MyGrowingTextView(placeholderText: "Need to add notes?", scrollBehavior: .noScroll)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
         let attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
@@ -333,13 +355,12 @@ class ProjectNewTaskForm: UIView {
 }
 
 extension ProjectNewTaskForm: ResizingTokenFieldDelegate {
-    func resizingTokenField(_ tokenField: ResizingTokenField, willChangeHeight newHeight: CGFloat) {
-        print("will change height")
-    }
-    
     func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
-        print("did change height")
-        
+        let extraSpace = tokenField.itemHeight * 1.5
+        tokenField.snp.remakeConstraints { make in
+            make.height.equalTo(newHeight + extraSpace)
+        }
+        self.shouldUpdateLayout()
     }
     func resizingTokenFieldShouldCollapseTokens(_ tokenField: ResizingTokenField) -> Bool {
         false

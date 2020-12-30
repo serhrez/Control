@@ -64,10 +64,6 @@ class AllTagsVc: UIViewController {
                 if previousHeight == height { return }
                 previousHeight = height
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-
-//                UIView.animate(withDuration: 0.5) {
-//                    view.layoutSubviews()
-//                }
             }
             .on(event: .willHide, do: { [unowned self] (options) in
                 let height = options.endFrame.intersection(view.frame).height
@@ -75,10 +71,6 @@ class AllTagsVc: UIViewController {
                 if previousHeight == height { return }
                 previousHeight = height
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-//
-//                UIView.animate(withDuration: 0.5) {
-//                    view.layoutSubviews()
-//                }
             })
             .start()
     }
@@ -97,7 +89,6 @@ class AllTagsVc: UIViewController {
         collectionView.register(AllTagsAddTagCell.self, forCellWithReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
         collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-             
             switch model {
             case .addTag:
                 let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell

@@ -83,7 +83,7 @@ class ProjectDetailsVc: UIViewController {
                     make.bottom.equalTo(-height)
                 }
                 UIView.animate(withDuration: 0.5) {
-                    self.view.layoutSubviews()
+                    self.animateLayoutSubviews()
                 }
 //                UIView.animate(withDuration: 0.5) {
 //                    self.view.layoutSubviews()
@@ -100,7 +100,7 @@ class ProjectDetailsVc: UIViewController {
                 }
                 
                 UIView.animate(withDuration: 0.5) {
-                    self.view.layoutSubviews()
+                    self.animateLayoutSubviews()
                 }
             }
             .start()
@@ -170,6 +170,13 @@ class ProjectDetailsVc: UIViewController {
             }
         }
 //        if oldState != newState && newState ==
+    }
+    private func animateLayoutSubviews() {
+        if didAppear {
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutSubviews()
+            }
+        }
     }
     
     private func projectPropertiesChanged() {
@@ -296,10 +303,11 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {
+        
         view.layout(newFormViewBg).edges()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newFormViewBgTapped))
         newFormViewBg.addGestureRecognizer(tapGesture)
-        view.layout(newFormView).leading().trailing()
+        view.layout(newFormView).leading().trailing().topSafe(30) { _, _ in .greaterThanOrEqual }
         newFormView.shouldLayoutSubviews = view.layoutSubviews
         newFormView.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.bottom)
@@ -421,7 +429,9 @@ class ProjectDetailsVc: UIViewController {
     }
     
     func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
+        let rlmTags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in task.tags.contains(where: { tag.name == $0 }) }
         let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
+        rlmTask.tags.append(objectsIn: rlmTags)
         _ = try! RealmProvider.main.realm.write {
             project.tasks.append(rlmTask)
         }
