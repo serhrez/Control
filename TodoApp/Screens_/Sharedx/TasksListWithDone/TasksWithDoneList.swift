@@ -28,14 +28,14 @@ class TasksWithDoneList: UIView {
                 let section = NSCollectionLayoutSection(group: group)
                 return section
             } else {
-                let interLineSpacing: CGFloat = 10
+                let interLineSpacing: CGFloat = 45
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                       heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                       heightDimension: .absolute(24 + interLineSpacing))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
+                group.contentInsets = .init(top: interLineSpacing / 2, leading: 0, bottom: interLineSpacing / 2, trailing: 0)
                 let section = NSCollectionLayoutSection(group: group)
                 
                 return section
@@ -79,11 +79,11 @@ class TasksWithDoneList: UIView {
         tableView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "separator")
         tableView.delegate = self
         itemsInput.map { tasks -> [AnimSection<Model>] in
-            var section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+            let section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+            var section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
             if !section1.isEmpty {
-                section1.append(.space)
+                section2.insert(.space, at: 0)
             }
-            let section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
             return [AnimSection(items: section1), AnimSection(identity: "wewqe", items: section2)]
         }
         .do(onNext: { [weak self] in
@@ -188,7 +188,9 @@ extension TasksWithDoneList: UICollectionViewDelegate {
         case let .task(task):
             onSelected(task)
         case let .doneTask(task):
-            onSelected(task)
+            _ = try! RealmProvider.main.realm.write {
+                task.isDone.toggle()
+            }
         default: break
         }
     }

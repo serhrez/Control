@@ -75,10 +75,12 @@ class ProjectDetailsVc: UIViewController {
                 newFormView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-height)
                 }
-                
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutSubviews()
                 }
+//                UIView.animate(withDuration: 0.5) {
+//                    self.view.layoutSubviews()
+//                }
             }
             .on(event: .willHide) { [unowned self] options in
                 guard self.shouldChangeHeightByKeyboardChange else { return }
@@ -123,11 +125,11 @@ class ProjectDetailsVc: UIViewController {
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
             tasksWithDoneListOpacity = 1
-            animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
+            self.newFormView.becomeFirstResponder()
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
-            animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
+            self.newFormView.becomeFirstResponder()
         case let (.addTask(_), .addTask(newTask)):
             newFormView.priority = newTask.priority
             newFormView.date = (newTask.date, newTask.reminder, newTask.repeatt)
@@ -153,10 +155,11 @@ class ProjectDetailsVc: UIViewController {
             apply()
             animationCompletion?()
         } else {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.25) {
                 apply()
-            } completion: { _ in
                 animationCompletion?()
+            } completion: { _ in
+                
             }
         }
 //        if oldState != newState && newState ==
@@ -287,11 +290,16 @@ class ProjectDetailsVc: UIViewController {
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {
         view.layout(newFormViewBg).edges()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newFormViewBgTapped))
+        newFormViewBg.addGestureRecognizer(tapGesture)
         view.layout(newFormView).leading().trailing()
         newFormView.shouldLayoutSubviews = view.layoutSubviews
         newFormView.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.bottom)
         }
+    }
+    @objc func newFormViewBgTapped() {
+        state = .emptyOrList
     }
     private let newFormViewBg: UIView = {
         let view = UIView()
@@ -301,13 +309,12 @@ class ProjectDetailsVc: UIViewController {
     private lazy var newFormView = ProjectNewTaskForm(
         onCalendarClicked: { [unowned self] _ in
             guard var addTask = self.state.addTaskModel else { return }
-            let vc = CalendarVc(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date), onDone: {
-                addTask.date = $0
-                addTask.reminder = $1
-                addTask.repeatt = $2
-                self.state = .addTask(addTask)
-            })
-            self.router.debugPushVc(vc)
+            self.router.openDateVc(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date) { [weak self] (date, reminder, repeatt) in
+                addTask.date = date
+                addTask.reminder = reminder
+                addTask.repeatt = repeatt
+                self?.state = .addTask(addTask)
+            }
         },
         onTagClicked: { [unowned self] sourceView in
             guard var addTask = self.state.addTaskModel else { return }

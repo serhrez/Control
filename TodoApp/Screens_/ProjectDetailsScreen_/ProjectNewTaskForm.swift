@@ -246,12 +246,8 @@ class ProjectNewTaskForm: UIView {
         onPriorityClicked(priorityButton)
     }
     
-    private var __lastCreated = Date.distantPast
     func plusClicked() {
-        let lastCreatedBefore10secs = (Date() - __lastCreated).second.flatMap { $0 > 0 } ?? true
-        print("lastCreated - seconds: \((Date() - __lastCreated).second) \(lastCreatedBefore10secs)")
-        guard let name = nameField.text, !name.isEmpty && lastCreatedBefore10secs else { return }
-        __lastCreated = Date()
+        guard let name = nameField.text, !name.isEmpty else { return }
         let newTask = ProjectDetailsTaskCreateModel(
             priority: priority,
             name: name,

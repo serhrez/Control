@@ -13,9 +13,6 @@ import AttributedLib
 protocol Selection1VcItem {
     var description: String { get }
 }
-struct Testq: Selection1VcItem {
-    var description: String
-}
 
 class Selection1Vc: UIViewController {
     private let containerView = UIView()
@@ -24,7 +21,7 @@ class Selection1Vc: UIViewController {
     private var selectionViews: [Selection1View] = []
     private let onDone: (Int) -> Void
     
-    init(title: String, items: [Selection1VcItem], selectedIndex: Int , onDone: @escaping (Int) -> Void) {
+    init(title: String, items: [Selection1VcItem], selectedIndex: Int, onDone: @escaping (Int) -> Void) {
         self.items = items
         self.selectedIndex = selectedIndex
         self.onDone = onDone
@@ -41,6 +38,7 @@ class Selection1Vc: UIViewController {
         setupViews()
     }
     private func setupViews() {
+        applySharedNavigationBarAppearance()
         view.backgroundColor = .hex("#F6F6F3")
         view.layout(containerView).centerY().leadingSafe(13).trailingSafe(13)
         containerView.backgroundColor = .white
