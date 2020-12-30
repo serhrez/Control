@@ -21,6 +21,7 @@ class CreateProjectVc2: UIViewController {
     }
     var color: UIColor =  .hex("#FF9900")
     private var didAppear: Bool = false
+    private var shouldChangeHeightByKeyboardChange = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class CreateProjectVc2: UIViewController {
         var previousHeight: CGFloat?
         keyboard
             .on(event: .willChangeFrame) { [unowned self] options in
+                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(view.bounds).height
                 guard previousHeight != height else { return }
                 previousHeight = height
@@ -49,6 +51,7 @@ class CreateProjectVc2: UIViewController {
                 }
             }
             .on(event: .willHide) { [unowned self] options in
+                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(view.bounds).height
                 guard previousHeight != height else { return }
                 previousHeight = height
@@ -61,32 +64,7 @@ class CreateProjectVc2: UIViewController {
                 }
             }
             .start()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-
     }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            print("keyboardheight: \(keyboardHeight)")
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: Notification){
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            print("keyboardheight: \(keyboardHeight)")
-        }
-    }
-
     
     private func setupViews() {
         applySharedNavigationBarAppearance()
@@ -199,8 +177,10 @@ class CreateProjectVc2: UIViewController {
     }()
         
     private func iconSelected() {
+        shouldChangeHeightByKeyboardChange = false
         let iconPicker = IconPickerFullVc { [weak self] (newIcon) in
             self?.icon = .text(newIcon)
+            self?.shouldChangeHeightByKeyboardChange = true
         }
         router.debugPushVc(iconPicker)
     }

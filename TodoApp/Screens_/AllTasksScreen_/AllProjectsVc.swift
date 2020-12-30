@@ -11,11 +11,13 @@ import Material
 import RxSwift
 import RxCocoa
 import PopMenu
+import Typist
 
 class AllProjectsVc: UIViewController {
     let viewModel: AllProjectsVcVM = AllProjectsVcVM()
     let tableView = UITableView()
     let tasksToolbar = AllTasksToolbar(frame: .zero)
+    private let keyboard = Typist()
     private lazy var menuButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(menuButtonClicked))
         button.tintColor = .hex("#242424")
@@ -41,10 +43,16 @@ class AllProjectsVc: UIViewController {
     }
     
     private func setupViews() {
+//        view.addSubview(trashTextField)
         view.backgroundColor = .hex("#F6F6F3")
         setupNavigationBar()
         setupTableView()
-        
+        setupNewFormView()
+//        setupKeyboard()
+//        tasksToolbar.onClick = {
+//            self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
+//        }
+//
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
     }
     
@@ -69,10 +77,41 @@ class AllProjectsVc: UIViewController {
     }
     private let gradientView = GradientView()
 
+//    func setupKeyboard() {
+//        var previousHeight: CGFloat?
+//        keyboard
+//            .on(event: .willChangeFrame) { [unowned self] options in
+//                let height = options.endFrame.intersection(view.bounds).height
+//                guard previousHeight != height else { return }
+//                if self.addTaskModel != nil && height < 100 { return }
+//                previousHeight = height
+//                newFormView.snp.remakeConstraints { make in
+//                    make.bottom.equalTo(-height)
+//                }
+//
+//                UIView.animate(withDuration: 0.5) {
+//                    self.view.layoutSubviews()
+//                }
+//            }
+//            .on(event: .willHide) { [unowned self] options in
+//                let height = options.endFrame.intersection(view.bounds).height
+//                guard previousHeight != height else { return }
+//                if self.addTaskModel != nil && height < 100 { return }
+//                previousHeight = height
+//                newFormView.snp.remakeConstraints { make in
+//                    make.bottom.equalTo(-height)
+//                }
+//
+//                UIView.animate(withDuration: 0.5) {
+//                    self.view.layoutSubviews()
+//                }
+//            }
+//            .start()
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                
+//        self.newFormView.didAppear()
         view.layout(tasksToolbar).bottomSafe(30)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
@@ -81,8 +120,7 @@ class AllProjectsVc: UIViewController {
     
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance(addBackButton: false)
-        title = "All Tasks"
-        navigationItem.titleLabel.text = "All Projects"
+        title = "All Projects"
         
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItems = [actionsButton, searchButton]
@@ -122,12 +160,67 @@ class AllProjectsVc: UIViewController {
     func editProjects(action: PopMenuAction) {
         
     }
+    
+    // MARK: - NewFormView
+    func setupNewFormView() {
+//        view.layout(newFormView).leading().trailing()
+//        newFormView.shouldLayoutSubviews = view.layoutSubviews
+//        newFormView.snp.makeConstraints { make in
+//            make.bottom.equalTo(view.snp.bottom)
+//        }
+//        addTaskModel = nil
+    }
+//    lazy var newFormView = createNewFormView()
+//    var __addTaskModelWasNil: Bool = true
+//    var addTaskModel: ProjectDetailsTaskCreateModel? {
+//        didSet {
+//            switch (__addTaskModelWasNil, addTaskModel == nil) {
+//            case (true, false):
+//                UIView.animate(withDuration: 0.5) {
+//                    self.newFormView.layer.opacity = 1
+//                    self.tasksToolbar.layer.opacity = 0
+//                } completion: { _ in
+//                    _ = self.newFormView.becomeFirstResponder()
+//                }
+//            case (false, true):
+//                UIView.animate(withDuration: 0.5) {
+//                    self.tasksToolbar.layer.opacity = 1
+//                    self.newFormView.layer.opacity = 0
+//                } completion: { _ in
+//                    self.newFormView.resignFirstResponder()
+//                }
+//            case (false, false):
+//                newFormView.date = (addTaskModel!.date, addTaskModel!.reminder, addTaskModel!.repeatt)
+//                newFormView.priority = addTaskModel!.priority
+//                newFormView.tags = addTaskModel!.tags
+//            default: break
+//            }
+//            __addTaskModelWasNil = addTaskModel == nil
+//        }
+//    }
+//    var didAppear: Bool = false
+//    let trashTextField: TrashTextField = TrashTextField()
+//    func getFirstResponder() -> UIView? {
+//        return newFormView.getFirstResponder()
+//    }
+//    func newAddTask(addTask: ProjectDetailsTaskCreateModel) {
+//        addTaskModel = addTask
+//    }
+//    func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
+//        let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
+//        print(rlmTask)
+//        addTaskModel = nil
+//    }
 
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
     }
 }
+
+//extension AllProjectsVc: NewFormViewExt {
+//    
+//}
 
 extension AllProjectsVc: AppNavigationRouterDelegate { }
 extension AllProjectsVc: UITableViewDataSource {

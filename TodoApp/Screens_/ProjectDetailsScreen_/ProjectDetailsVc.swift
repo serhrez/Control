@@ -27,6 +27,7 @@ class ProjectDetailsVc: UIViewController {
     private var project: RlmProject
     private var isInbox: Bool { project.name == "Inbox" }
     private var tokens: [NotificationToken] = []
+    private var shouldChangeHeightByKeyboardChange = true
     private let bag = DisposeBag()
     let trashTextField = TrashTextField()
     init(project: RlmProject) {
@@ -66,6 +67,7 @@ class ProjectDetailsVc: UIViewController {
         var previousHeight: CGFloat?
         keyboard
             .on(event: .willChangeFrame) { [unowned self] options in
+                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
@@ -79,6 +81,7 @@ class ProjectDetailsVc: UIViewController {
                 }
             }
             .on(event: .willHide) { [unowned self] options in
+                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
@@ -104,22 +107,25 @@ class ProjectDetailsVc: UIViewController {
         // Changing state
         var tasksToolBarOpacity: Float = 0
         var projectStartedViewOpacity: Float = 0
+        var newFormViewBgOpacity: Float = 0
         var newFormViewOpacity: Float = 0
         var tasksWithDoneListOpacity: Float = 0
         var animationCompletion: (() -> Void)?
         // Pre change state
         switch (oldState, newState) {
-        case (.addTask(_), _):
+        case (.addTask(_), _) where !newState.isAddTask:
             newFormView.getFirstResponder()?.resignFirstResponder()
         default: break
         }
         // Changing state
         switch (oldState, newState) {
         case (.list, .addTask(_)):
+            newFormViewBgOpacity = 1
             newFormViewOpacity = 1
             tasksWithDoneListOpacity = 1
             animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
         case (_, .addTask(_)) where !oldState.isAddTask:
+            newFormViewBgOpacity = 1
             newFormViewOpacity = 1
             animationCompletion = { _ = self.newFormView.becomeFirstResponder() }
         case let (.addTask(_), .addTask(newTask)):
@@ -140,6 +146,7 @@ class ProjectDetailsVc: UIViewController {
             self.tasksToolbar.layer.opacity = tasksToolBarOpacity
             self.projectStartedView.layer.opacity = projectStartedViewOpacity
             self.newFormView.layer.opacity = newFormViewOpacity
+            self.newFormViewBg.layer.opacity = newFormViewBgOpacity
             self.tasksWithDoneList.layer.opacity = tasksWithDoneListOpacity
         }
         if !didAppear {
@@ -279,13 +286,134 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {
+        view.layout(newFormViewBg).edges()
         view.layout(newFormView).leading().trailing()
         newFormView.shouldLayoutSubviews = view.layoutSubviews
         newFormView.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.bottom)
         }
     }
-    private lazy var newFormView = createNewFormView()
+    private let newFormViewBg: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hex("#f6f6f3").withAlphaComponent(0.5)
+        return view
+    }()
+    private lazy var newFormView = ProjectNewTaskForm(
+        onCalendarClicked: { [unowned self] _ in
+            guard var addTask = self.state.addTaskModel else { return }
+            let vc = CalendarVc(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date), onDone: {
+                addTask.date = $0
+                addTask.reminder = $1
+                addTask.repeatt = $2
+                self.state = .addTask(addTask)
+            })
+            self.router.debugPushVc(vc)
+        },
+        onTagClicked: { [unowned self] sourceView in
+            guard var addTask = self.state.addTaskModel else { return }
+            let prevFirstResponder = self.getFirstResponder()
+            let allTags = Array(RealmProvider.main.realm.objects(RlmTag.self))
+                .map { $0.name }
+                .filter { !addTask.tags.contains($0) }
+            let tagPicker = TagPicker(
+                viewSource: sourceView,
+                items: allTags,
+                shouldPurposelyAnimateViewBackgroundColor: true,
+                shouldDismiss: { tagPicker in
+                    tagPicker.addChildDismiss()
+                    prevFirstResponder?.becomeFirstResponder()
+                },
+                finished: { result in
+                    switch result {
+                    case let .existed(tagName) where !addTask.tags.contains(tagName):
+                        addTask.tags.append(tagName)
+                        self.state = .addTask(addTask)
+                    case let .new(tagName) where !addTask.tags.contains(tagName):
+                        addTask.tags.append(tagName)
+                        self.state = .addTask(addTask)
+                        if !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == tagName }) {
+                            _ = try! RealmProvider.main.realm.write {
+                                RealmProvider.main.realm.add(RlmTag(name: tagName))
+                            }
+                        }
+                    default: break
+                    }
+                })
+            self.addChildPresent(tagPicker)
+            self.trashTextField.becomeFirstResponder()
+        },
+        onPriorityClicked: showPriorityPicker,
+        onTagPlusClicked: { [unowned self] in
+            guard var addTask = self.state.addTaskModel else { return }
+            let tags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in addTask.tags.contains(where: { $0 == tag.name }) }
+            self.router.openAllTags(mode: .selection(selected: Array(tags), { selected in
+                addTask.tags = ModelFormatt.tagsSorted(tags: selected).map { $0.name }
+                self.state = .addTask(addTask)
+            }))
+        },
+        shouldAnimate: { [unowned self] in self.didAppear },
+        shouldCreateTask: shouldCreateTask)
+    
+    func showPriorityPicker(sourceView: UIView) {
+        let prevFirstResponder = self.getFirstResponder()
+        let actions: [PopuptodoAction] = [
+            PopuptodoAction(title: "High Priority",
+                            image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
+                            didSelect: { [weak self] _ in
+                                guard var addTask = self?.state.addTaskModel else { return }
+                                addTask.priority = .high
+                                self?.state = .addTask(addTask)
+                            }),
+            PopuptodoAction(title: "Medium Priority",
+                            image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
+                            didSelect: { [weak self] _ in
+                                guard var addTask = self?.state.addTaskModel else { return }
+                                addTask.priority = .medium
+                                self?.state = .addTask(addTask)
+                            }),
+            PopuptodoAction(title: "Low Priority",
+                            image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
+                            didSelect: { [weak self] _ in
+                                guard var addTask = self?.state.addTaskModel else { return }
+                                addTask.priority = .low
+                                self?.state = .addTask(addTask)
+                            })
+        ]
+        actions[0].imageTintColor = .hex("#EF4439")
+        actions[1].imageTintColor = .hex("#FF9900")
+        actions[2].imageTintColor = .hex("#447BFE")
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: sourceView, actions: actions)
+        popMenu.appearance = .appAppearance
+        popMenu.isCrutchySolution1 = true
+        popMenu.view.layer.opacity = 0
+        addChildPresent(popMenu)
+        trashTextField.becomeFirstResponder()
+        UIView.animate(withDuration: 0.2) {
+            popMenu.view.layer.opacity = 1
+        }
+        popMenu.didDismiss = { [weak popMenu] _ in
+            UIView.animate(withDuration: 0.2) {
+                popMenu?.view.layer.opacity = 0
+            } completion: { _ in
+                popMenu?.addChildDismiss()
+                prevFirstResponder?.becomeFirstResponder()
+            }
+        }
+    }
+        
+    func newAddTask(addTask: ProjectDetailsTaskCreateModel) {
+        state = .addTask(addTask)
+    }
+    
+    func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
+        let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
+        _ = try! RealmProvider.main.realm.write {
+            project.tasks.append(rlmTask)
+        }
+        state = .emptyOrList
+    }
+
         
     // MARK: - TasksWithDoneList VIEW
     private let __tasksSubject = PublishSubject<[RlmTask]>()
@@ -360,19 +488,3 @@ extension ProjectDetailsVc {
 }
 
 extension ProjectDetailsVc: AppNavigationRouterDelegate { }
-
-extension ProjectDetailsVc: NewFormViewExt {
-    var addTaskModel: ProjectDetailsTaskCreateModel? { state.addTaskModel }
-    
-    func newAddTask(addTask: ProjectDetailsTaskCreateModel) {
-        state = .addTask(addTask)
-    }
-    
-    func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
-        let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
-        _ = try! RealmProvider.main.realm.write {
-            project.tasks.append(rlmTask)
-        }
-        state = .emptyOrList
-    }
-}
