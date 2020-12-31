@@ -102,12 +102,18 @@ final class TagPicker: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        containerView.transform = CGAffineTransform(scaleX: 1, y: 0).concatenating(.init(translationX: 0, y: containerView.frame.height / 2))
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.3) { [self] in
+        containerView.setAnchorPoint(.init(x: 0.5, y: 1))
+        containerView.transform = CGAffineTransform(scaleX: 1, y: 0)
+
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1
             containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: .hex("#242424"))
+        } completion: { _ in
+            
         }
+        self.containerView.setAnchorPoint(.init(x: 0.5, y: 0.5))
+        
         if shouldPurposelyAnimateViewBackgroundColor {
             UIView.animate(withDuration: 0.5) {
                 self.bgView.layer.opacity = 0.5
@@ -162,11 +168,17 @@ final class TagPicker: UIViewController {
     }()
     
     private func properlyDismiss() {
+        self.containerView.setAnchorPoint(.init(x: 0.5, y: 1))
         UIView.animate(withDuration: 0.5) {
             self.view.layer.opacity = 0
+            self.containerView.transform = .init(scaleX: 1, y: 0.1)
         } completion: { _ in
             self.shouldDismiss(self)
         }
+    }
+    
+    @discardableResult override func becomeFirstResponder() -> Bool {
+        return textFieldExternalCell.becomeFirstResponder()
     }
     
     enum Output {

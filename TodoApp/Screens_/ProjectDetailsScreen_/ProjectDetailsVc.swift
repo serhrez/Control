@@ -362,7 +362,8 @@ class ProjectDetailsVc: UIViewController {
                     }
                 })
             self.addChildPresent(tagPicker)
-            self.trashTextField.becomeFirstResponder()
+            tagPicker.becomeFirstResponder()
+//            self.trashTextField.becomeFirstResponder()
         },
         onPriorityClicked: showPriorityPicker,
         onTagPlusClicked: { [unowned self] in
