@@ -177,6 +177,7 @@ class ProjectDetailsVc: UIViewController {
     private func projectPropertiesChanged() {
         topView.color = project.color
         topView.icon = project.icon
+        tasksWithDoneList.sorting = project.sorting
     }
     
     private func projectBindingSetup() {
@@ -221,14 +222,41 @@ class ProjectDetailsVc: UIViewController {
     @objc func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if case .list = state {
-            actions += [.init(title: "Delete all done tasks", image: UIImage(named: "plus"), color: .hex("#242424"), didSelect: { _ in
-                
+            actions += [.init(title: "Complete All", image: UIImage(named: "circle-check"), color: .hex("#242424"), didSelect: { [weak self] _ in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.tasks.forEach {
+                        $0.isDone = true
+                    }
+                }
+            })]
+            actions += [.init(title: "Sort by name", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.sorting = .byName
+                }
+            })]
+            actions += [.init(title: "Sort by created", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.sorting = .byCreatedAt
+                }
+            })]
+            actions += [.init(title: "Sort by priority", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.sorting = .byPriority
+                }
+            })]
+            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+                _ = try! RealmProvider.main.realm.write {
+                    self?.project.tasks.forEach { task in
+                        guard task.isDone else { return }
+                        RealmProvider.main.realm.delete(task)
+                    }
+                }
             })]
         }
         guard !actions.isEmpty else { return }
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
-        popMenu.shouldDismissOnSelection = false
+        popMenu.shouldDismissOnSelection = true
         popMenu.appearance = .appAppearance
         present(popMenu, animated: true)
     }
@@ -450,9 +478,9 @@ class ProjectDetailsVc: UIViewController {
             guard let self = self else { return }
             switch changes {
             case let .update(projects, deletions: _, insertions: _, modifications: _):
-                self.__tasksSubject.onNext(Array(projects.sorted(byKeyPath: "createdAt")))
+                self.__tasksSubject.onNext(Array(projects))
             case let .initial(projects):
-                self.__tasksSubject.onNext(Array(projects.sorted(byKeyPath: "createdAt")))
+                self.__tasksSubject.onNext(Array(projects))
             case let .error(error):
                 print(error)
             }

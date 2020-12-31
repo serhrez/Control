@@ -25,3 +25,21 @@ extension Priority {
         }
     }
 }
+
+extension Priority: Comparable {
+    static func < (lhs: Priority, rhs: Priority) -> Bool {
+        let lhsPriority = lhs.getPriorityNumber()
+        let rhsPriority = rhs.getPriorityNumber()
+        return rhsPriority > lhsPriority
+    }
+    
+    private func getPriorityNumber() -> Int {
+        switch self {
+        case .none: return 0
+        case .low: return 1
+        case .medium: return 2
+        case .high: return 3
+        }
+    }
+    
+}

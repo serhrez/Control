@@ -14,40 +14,36 @@ import SwipeCellKit
 
 class TasksWithDoneList: UIView {
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<Model>>
-    private let collectionLayout: UICollectionViewLayout = {
-        UICollectionViewCompositionalLayout { section, environment -> NSCollectionLayoutSection? in
-            if section == 0 {
-                let interLineSpacing: CGFloat = 7
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .absolute(62 + interLineSpacing))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
-                let section = NSCollectionLayoutSection(group: group)
-                return section
-            } else {
-                let interLineSpacing: CGFloat = 7
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .fractionalHeight(1.0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .absolute(62 + interLineSpacing))
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
-                let section = NSCollectionLayoutSection(group: group)
-                
-                return section
-            }
-        }
-    }()
+    private let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        UICollectionViewFlowLayout()
+////        let interLineSpacing: CGFloat = 7
+////        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+////                                              heightDimension: .fractionalHeight(1.0))
+////        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+////        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+////                                              heightDimension: .absolute(62 + interLineSpacing))
+////        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+////        group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
+////        let section = NSCollectionLayoutSection(group: group)
+////        return UICollectionViewCompositionalLayout(section: section)
+//    }()
     private lazy var tableView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
     private let onSelected: (RlmTask) -> Void
     private let shouldDelete: ((RlmTask) -> Void)?
     private var currentItems: [AnimSection<Model>]?
+    private let itemsToDataSource = PublishSubject<[AnimSection<Model>]>()
+    private var __previousSorting: ProjectSorting = .byCreatedAt
+    var sorting: ProjectSorting = .byCreatedAt {
+        didSet {
+            if __previousSorting == sorting { return }
+            __previousSorting = sorting
+            if let currentItems = currentItems {
+                itemsToDataSource.onNext(currentItems.map { AnimSection(identity: $0.identity, items: self.sortCurrentItems($0.items, sorting: self.sorting))  })
+            }
+        }
+    }
     let itemsInput = PublishSubject<[RlmTask]>()
     let gradientView = GradientView()
     var contentInsets: UIEdgeInsets = .zero {
@@ -69,24 +65,48 @@ class TasksWithDoneList: UIView {
     }
     
     private func setupView() {
-        layout(tableView).edges()
+        layout(tableView).leading().trailing().bottom().top(-7)
         layout(gradientView).bottom().leading().trailing().height(216)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
+        collectionLayout.minimumLineSpacing = 7
         tableView.alwaysBounceVertical = true
         tableView.register(TasksListTaskCell.self, forCellWithReuseIdentifier: TasksListTaskCell.reuseIdentifier)
         tableView.register(DoneTasksListTaskCell.self, forCellWithReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier)
         tableView.delegate = self
-        itemsInput.map { tasks -> [AnimSection<Model>] in
-            let section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
-            var section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
-            return [AnimSection(items: section1), AnimSection(identity: "wewqe", items: section2)]
+        itemsToDataSource
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        itemsInput
+            .map { tasks -> [AnimSection<Model>] in
+                let section1 = tasks.filter { !$0.isDone }.map { TasksWithDoneList.Model.task($0) }
+                let section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
+                return [AnimSection(items: section1 + section2)]
+            }
+            .do(onNext: { [weak self] in
+                self?.currentItems = $0
+            })
+            .compactMap { [weak self] animSections in
+                guard let self = self else { return nil }
+                return animSections.map { AnimSection(identity: $0.identity, items: self.sortCurrentItems($0.items, sorting: self.sorting))  }
+            }
+            .bind(to: itemsToDataSource)
+            .disposed(by: bag)
+    }
+    
+    func sortCurrentItems(_ models: [Model], sorting: ProjectSorting) -> [Model] {
+        models.sorted { model1, model2 -> Bool in
+            switch (model1, model2) {
+            case (.task, .doneTask): return true
+            case (.doneTask, .task): return false
+            default: break
+            }
+            switch sorting {
+            case .byCreatedAt: return model1.task.createdAt < model2.task.createdAt
+            case .byName: return model1.task.name < model2.task.name || model1.task.createdAt < model2.task.createdAt
+            case .byPriority: return model1.task.priority < model2.task.priority || model1.task.createdAt < model2.task.createdAt
+            }
         }
-        .do(onNext: { [weak self] in
-            self?.currentItems = $0
-        })
-        .bind(to: tableView.rx.items(dataSource: dataSource))
-        .disposed(by: bag)
     }
 
     func makeDataSource() -> DataSource {
@@ -112,6 +132,12 @@ class TasksWithDoneList: UIView {
                 return doneCell
             }
         }
+    }
+}
+
+extension TasksWithDoneList: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: collectionView.bounds.width, height: 62)
     }
 }
 
@@ -196,6 +222,13 @@ extension TasksWithDoneList {
             switch self {
             case .task(let task), .doneTask(let task):
                 return task.isInvalidated ? "deleted-\(UUID().uuidString)" : task.id
+            }
+        }
+        
+        var task: RlmTask {
+            switch self {
+            case .doneTask(let task), .task(let task):
+                return task
             }
         }
     }

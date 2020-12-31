@@ -102,6 +102,7 @@
 		A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67FAA259144E100EAD13D /* ModelFormatt.swift */; };
 		A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */; };
 		A5C6BEA5259DE18400BDAA43 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */; };
+		A5C6BEAA259E10E500BDAA43 /* ProjectSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */; };
 		A5C8E89F2598B8BE00D77514 /* SettingsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */; };
 		A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */; };
 		A5C8E8A9259945F000D77514 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A8259945F000D77514 /* SettingsCell.swift */; };
@@ -256,6 +257,7 @@
 		A5B67FAA259144E100EAD13D /* ModelFormatt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFormatt.swift; sourceTree = "<group>"; };
 		A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDiffRx.swift; sourceTree = "<group>"; };
 		A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSorting.swift; sourceTree = "<group>"; };
 		A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVc.swift; sourceTree = "<group>"; };
 		A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVcCollectionView.swift; sourceTree = "<group>"; };
 		A5C8E8A8259945F000D77514 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				A5085E842556F8E500A31BBB /* Repeat_.swift */,
 				A5085E852556F8E500A31BBB /* Icon_.swift */,
 				A5085E862556F8E500A31BBB /* Priority_.swift */,
+				A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */,
 			);
 			path = Values;
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */,
 				A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */,
 				A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */,
+				A5C6BEAA259E10E500BDAA43 /* ProjectSorting.swift in Sources */,
 				A51967612584F71D0021621A /* IconPicker.swift in Sources */,
 				A5085E912556F8E500A31BBB /* RlmProject.swift in Sources */,
 				A54D6474256308DF00AC3F41 /* DoneTasksListTaskCell.swift in Sources */,

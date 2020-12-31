@@ -43,6 +43,11 @@ class TaskDetailsVcVm {
         taskSubject.onNext(())
 
         let taskToken = task.observe { [unowned self] _ in
+            if task.isInvalidated {
+                self.task = nil
+                self.tokens = []
+                return
+            }
             if task.date == nil { dateToken = nil }
             listenToDate()
             taskSubject.onNext(())

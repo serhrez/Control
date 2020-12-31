@@ -47,6 +47,17 @@ final class RlmProject: Object {
         }
     }
     
+    @objc dynamic var _sorting: String = ProjectSorting.byCreatedAt.rawValue
+    var sorting: ProjectSorting {
+        get {
+            if ProjectSorting(rawValue: _sorting) == nil { fatalError() }
+            return ProjectSorting(rawValue: _sorting) ?? .byCreatedAt
+        }
+        set {
+            _sorting = newValue.rawValue
+        }
+    }
+    
     override static func primaryKey() -> String? {
         return RlmProject.Property.id.rawValue
     }
