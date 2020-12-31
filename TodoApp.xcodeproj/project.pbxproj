@@ -101,6 +101,7 @@
 		A5B67F8425910C6600EAD13D /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F8325910C6600EAD13D /* SimpleButton.swift */; };
 		A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67FAA259144E100EAD13D /* ModelFormatt.swift */; };
 		A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */; };
+		A5C6BEA5259DE18400BDAA43 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */; };
 		A5C8E89F2598B8BE00D77514 /* SettingsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */; };
 		A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */; };
 		A5C8E8A9259945F000D77514 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A8259945F000D77514 /* SettingsCell.swift */; };
@@ -254,6 +255,7 @@
 		A5B67F8325910C6600EAD13D /* SimpleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
 		A5B67FAA259144E100EAD13D /* ModelFormatt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFormatt.swift; sourceTree = "<group>"; };
 		A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDiffRx.swift; sourceTree = "<group>"; };
+		A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A5C8E89E2598B8BE00D77514 /* SettingsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVc.swift; sourceTree = "<group>"; };
 		A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVcCollectionView.swift; sourceTree = "<group>"; };
 		A5C8E8A8259945F000D77514 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				A5B67F742590F4B400EAD13D /* UIViewController+Extensions.swift */,
 				A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */,
 				A5B67FAA259144E100EAD13D /* ModelFormatt.swift */,
+				A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,
+				A5C6BEA5259DE18400BDAA43 /* UIView+Extensions.swift in Sources */,
 				A59231B42572C0FB008E955D /* TimeSelectionxView.swift in Sources */,
 				A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */,
 				A5085EB9255704B800A31BBB /* DirPath.swift in Sources */,
