@@ -80,7 +80,6 @@ class ProjectNewTaskForm: UIView {
         self.shouldAnimate = shouldAnimate
         self.shouldCreateTask = shouldCreateTask
         super.init(frame: .zero)
-        self.priority = .medium
         setupViews()
     }
     
