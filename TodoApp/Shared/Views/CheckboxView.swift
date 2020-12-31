@@ -117,7 +117,7 @@ class CheckboxView: UIView {
         }
     }
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        control.hitTest(point, with: event)
+        onSelected != nil ? control.hitTest(point, with: event) : nil
     }
 
 }
