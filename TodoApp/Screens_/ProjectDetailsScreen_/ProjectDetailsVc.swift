@@ -30,6 +30,7 @@ class ProjectDetailsVc: UIViewController {
     private var shouldChangeHeightByKeyboardChange = true
     private let bag = DisposeBag()
     private let shouldPopTwo: Bool
+    private var doOnAppear: (() -> Void)?
     let trashTextField = TrashTextField()
     init(project: RlmProject, state: PrScreenState, shouldPopTwo: Bool = false) {
         self.project = project
@@ -68,6 +69,7 @@ class ProjectDetailsVc: UIViewController {
         didAppear = true
         self.newFormView.didAppear()
         self.view.layoutSubviews()
+        doOnAppear?()
     }
     
     func setupKeyboard() {
@@ -82,12 +84,7 @@ class ProjectDetailsVc: UIViewController {
                 newFormView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-height)
                 }
-                UIView.animate(withDuration: 0.5) {
-                    self.animateLayoutSubviews()
-                }
-//                UIView.animate(withDuration: 0.5) {
-//                    self.view.layoutSubviews()
-//                }
+                self.animateLayoutSubviews()
             }
             .on(event: .willHide) { [unowned self] options in
                 guard self.shouldChangeHeightByKeyboardChange else { return }
@@ -98,10 +95,7 @@ class ProjectDetailsVc: UIViewController {
                 newFormView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-height)
                 }
-                
-                UIView.animate(withDuration: 0.5) {
-                    self.animateLayoutSubviews()
-                }
+                self.animateLayoutSubviews()
             }
             .start()
 
@@ -127,6 +121,12 @@ class ProjectDetailsVc: UIViewController {
         }
         // Changing state
         switch (oldState, newState) {
+        case (_, .startAddTask):
+            doOnAppear = { [weak self] in
+            self?._oldState = .list
+            self?.state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil))
+            }
+            tasksWithDoneListOpacity = 1
         case (.list, .addTask(_)):
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
@@ -144,13 +144,11 @@ class ProjectDetailsVc: UIViewController {
         case (_, .list):
             tasksWithDoneListOpacity = 1
             tasksToolBarOpacity = 1
-            break
         case (_, .new):
             projectStartedViewOpacity = 1
             tasksToolBarOpacity = 1
         case (_, .empty):
             tasksToolBarOpacity = 1
-            break
         default: break
         }
         func apply() {
@@ -165,11 +163,8 @@ class ProjectDetailsVc: UIViewController {
         } else {
             UIView.animate(withDuration: 0.25) {
                 apply()
-            } completion: { _ in
-                
             }
         }
-//        if oldState != newState && newState ==
     }
     private func animateLayoutSubviews() {
         if didAppear {
@@ -303,7 +298,6 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {
-        
         view.layout(newFormViewBg).edges()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newFormViewBgTapped))
         newFormViewBg.addGestureRecognizer(tapGesture)
@@ -363,7 +357,6 @@ class ProjectDetailsVc: UIViewController {
                 })
             self.addChildPresent(tagPicker)
             tagPicker.becomeFirstResponder()
-//            self.trashTextField.becomeFirstResponder()
         },
         onPriorityClicked: showPriorityPicker,
         onTagPlusClicked: { [unowned self] in
@@ -497,6 +490,7 @@ extension ProjectDetailsVc {
         case addTask(ProjectDetailsTaskCreateModel)
         case list
         case emptyOrList
+        case startAddTask
         
         var addTaskModel: ProjectDetailsTaskCreateModel? {
             switch self {
