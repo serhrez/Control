@@ -393,6 +393,7 @@ final class TaskDetailsVc: UIViewController {
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.accessibilityIdentifier = "scrollView"
+        view.scrollIndicatorInsets = .init(top: 8, left: 0, bottom: 8, right: 0)
         return view
     }()
     
@@ -403,9 +404,13 @@ final class TaskDetailsVc: UIViewController {
         tokenField.hideLabel(animated: false)
         tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
         tokenField.preferredTextFieldReturnKeyType = .done
+        tokenField.heightConstraint?.isActive = false
         tokenField.contentInsets = .zero
-        tokenField.heightAnchor.constraint(lessThanOrEqualToConstant: 135).isActive = true
         tokenField.isHidden = true
+        
+        tokenField.snp.makeConstraints { make in
+            make.height.equalTo(tokenField.itemHeight)
+        }
     }
     
     private func setupContainerView() {
@@ -551,11 +556,11 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
         viewModel.deleteTag(with: token.title)
         return false
     }
-    func resizingTokenField(_ tokenField: ResizingTokenField, willChangeHeight newHeight: CGFloat) {
-        
-    }
     func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
-        
+        let extraSpace = tokenField.itemHeight * 1.5
+        tokenField.snp.remakeConstraints { make in
+            make.height.equalTo(newHeight + extraSpace)
+        }
     }
     func resizingTokenFieldShouldCollapseTokens(_ tokenField: ResizingTokenField) -> Bool {
         false

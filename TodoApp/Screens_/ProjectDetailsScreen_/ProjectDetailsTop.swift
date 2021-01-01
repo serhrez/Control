@@ -136,6 +136,7 @@ extension ProjectDetailsTop: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         switch textView {
         case projectDescription.textField:
+            if text == "\n" { return true }
             let currentText = textView.text ?? ""
             guard let stringRange = Range(range, in: currentText) else { return false }
             let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
