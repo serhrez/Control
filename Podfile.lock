@@ -54,7 +54,7 @@ DEPENDENCIES:
   - InfiniteLayout
   - JTAppleCalendar
   - Material (from `https://github.com/cointowitcher/Material`)
-  - NewPopMenu (from `https://github.com/cointowitcher/PopMenu`)
+  - NewPopMenu (from `LocalPods/NewPopMenu`)
   - Nimble
   - Quick
   - ReactorKit
@@ -100,7 +100,7 @@ EXTERNAL SOURCES:
   Material:
     :git: https://github.com/cointowitcher/Material
   NewPopMenu:
-    :git: https://github.com/cointowitcher/PopMenu
+    :path: LocalPods/NewPopMenu
   ResizingTokenField:
     :path: LocalPods/ResizingTokenField
   WSTagsField:
@@ -113,9 +113,6 @@ CHECKOUT OPTIONS:
   Material:
     :commit: 8418f54194b10a45c14943f72194f1a20978a2c1
     :git: https://github.com/cointowitcher/Material
-  NewPopMenu:
-    :commit: fc7be853ae03e9917558748b3bd1bcca105b99ec
-    :git: https://github.com/cointowitcher/PopMenu
   WSTagsField:
     :commit: 4b76006cfff64ed78cc4f586ee80c641f43b84e2
     :git: https://github.com/cointowitcher/WSTagsField
@@ -148,6 +145,6 @@ SPEC CHECKSUMS:
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
   WSTagsField: 334529963fad81d6c01d2023a307b89012faf46d
 
-PODFILE CHECKSUM: 434c5cb439865b9476452965773d1b37d9222167
+PODFILE CHECKSUM: 6df8b1490c22e7db723b464950641b837ae01fdd
 
 COCOAPODS: 1.10.0

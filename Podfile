@@ -6,7 +6,7 @@ target 'TodoApp' do
 
   # UI
   pod 'Material', :git => 'https://github.com/cointowitcher/Material'
-  pod 'NewPopMenu', :git => 'https://github.com/cointowitcher/PopMenu'
+  pod 'NewPopMenu', :path => 'LocalPods/NewPopMenu'
   pod 'SnapKit'
   pod 'AttributedLib', :git => 'https://github.com/cointowitcher/Attributed'
   pod 'SwipeCellKit'
