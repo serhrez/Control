@@ -108,6 +108,7 @@
 		A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */; };
 		A5C8E8A9259945F000D77514 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8A8259945F000D77514 /* SettingsCell.swift */; };
 		A5C8E8AE2599462500D77514 /* UICollectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */; };
+		A5CEDAAE259FD05500C190CC /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */; };
 		A5CF45F22574F5F0003715C8 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F12574F5F0003715C8 /* Toolbar.swift */; };
 		A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F62574F622003715C8 /* ClickableIconView.swift */; };
 		A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45FB2574F676003715C8 /* CloseButton.swift */; };
@@ -264,6 +265,7 @@
 		A5C8E8A3259944EA00D77514 /* SettingsVcCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVcCollectionView.swift; sourceTree = "<group>"; };
 		A5C8E8A8259945F000D77514 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionSeparator.swift; sourceTree = "<group>"; };
+		A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
 		A5CF45F12574F5F0003715C8 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
 		A5CF45FB2574F676003715C8 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */,
 				A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */,
 				A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */,
+				A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1135,6 +1138,7 @@
 				A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */,
 				A59231BF2572D87E008E955D /* SearchVc.swift in Sources */,
 				A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */,
+				A5CEDAAE259FD05500C190CC /* CGRect+Extensions.swift in Sources */,
 				A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */,
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */,

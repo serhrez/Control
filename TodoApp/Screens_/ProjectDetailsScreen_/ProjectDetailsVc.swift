@@ -70,9 +70,7 @@ class ProjectDetailsVc: UIViewController {
         self.newFormView.didAppear()
         self.view.layoutSubviews()
         doOnAppear?()
-        UIView.animate(withDuration: 0.5) {
-            self.showBottomMessage(type: .todosDeleted, onClicked: { })
-        }
+        self.showBottomMessage(type: .todosDeleted, onClicked: { })
     }
     
     func setupKeyboard() {
@@ -508,9 +506,12 @@ class ProjectDetailsVc: UIViewController {
     }
     
     func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
-//        let bottomMessage = BottomMessage.mm(messageType: type, onClicked: onClicked)
-//        view.addSubview(bottomMessage)
-        
+        let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
+        view.addSubview(bottomMessage)
+        let height: CGFloat = !self.tasksToolbar.isHidden ?
+            view.frame.height - tasksToolbar.frame.minY + 30 :
+            30
+        bottomMessage.show(height)
     }
     
     var didDisappear: () -> Void = { }

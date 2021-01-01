@@ -10,8 +10,8 @@ import UIKit
 import Material
 
 class BottomMessage: UIView {
-    init(backgroundColor: UIColor, imageName: String?, text: String, textColor: UIColor, onClicked: @escaping () -> Void) {
-        super.init(frame: .init(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2, width: UIScreen.main.bounds.width - 13 * 2, height: 55))
+    init(backgroundColor: UIColor, imageName: String?, text: String, textColor: UIColor, imageColor: UIColor? = nil, imageWidth: CGFloat, onClicked: @escaping () -> Void) {
+        super.init(frame: .init(x: 13, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width - 13 * 2, height: 55))
         
         self.layer.cornerRadius = 16
         self.layer.cornerCurve = .continuous
@@ -20,7 +20,10 @@ class BottomMessage: UIView {
         stack.axis = .horizontal
         stack.spacing = 10
         if let imageName = imageName {
-            stack.addArrangedSubview(UIImageView(image: UIImage(named: imageName)))
+            let imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: imageWidth)?.withRenderingMode(.alwaysTemplate))
+            imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = imageColor ?? textColor
+            stack.addArrangedSubview(imageView)
         }
         let label = UILabel()
         label.text = text
@@ -28,11 +31,35 @@ class BottomMessage: UIView {
         label.textColor = textColor
         stack.addArrangedSubview(label)
         layout(stack).center()
-        heightAnchor.constraint(equalToConstant: 55).isActive = true
-        let onClickControl = OnClickControl { isClicked in
-            if isClicked { onClicked() }
+        let onClickControl = OnClickControl { [weak self] isClicked in
+            if isClicked {
+                onClicked()
+                self?.dismiss()
+            }
         }
+        
         layout(onClickControl).edges()
+        
+    }
+    var previousHeight: CGFloat?
+    func show(_ points: CGFloat) {
+        guard previousHeight == nil else { return }
+        previousHeight = self.frame.minY
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
+            self.frame = self.frame.modify(modifyY: { $0 - points - self.frame.height })
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.dismiss()
+        }
+    }
+    var __isDismissing = false
+    func dismiss() {
+        guard let previousHeight = previousHeight,
+              !__isDismissing else { return }
+        __isDismissing = true
+        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
+            self.frame = self.frame.modify(modifyY: { _ in previousHeight })
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -41,10 +68,10 @@ class BottomMessage: UIView {
 }
 
 extension BottomMessage {
-    static func mm(messageType: MessageType, onClicked: @escaping () -> Void) -> BottomMessage {
+    static func create(messageType: MessageType, onClicked: @escaping () -> Void) -> BottomMessage {
         switch messageType {
         case .todosDeleted:
-            return BottomMessage(backgroundColor: .red, imageName: nil, text: "fwefqwg", textColor: .green, onClicked: { })
+            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Deleted, Restore?", textColor: .hex("#ffffff"), imageWidth: 17, onClicked: onClicked)
 //            self.init(backgroundColor: UIColor, imageName: String?, text: String, textColor: UIColor, onClicked: () -> Void)
         }
     }
