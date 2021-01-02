@@ -542,8 +542,8 @@ extension PopMenuViewController {
         actionView.addSubview(separatorView)
         
         NSLayoutConstraint.activate([
-            separatorView.leftAnchor.constraint(equalTo: actionView.leftAnchor),
-            separatorView.rightAnchor.constraint(equalTo: actionView.rightAnchor),
+            separatorView.leftAnchor.constraint(equalTo: actionView.leftAnchor, constant: 10),
+            separatorView.rightAnchor.constraint(equalTo: actionView.rightAnchor, constant: -10),
             separatorView.bottomAnchor.constraint(equalTo: actionView.bottomAnchor, constant: appearance.actionsSpacing / 2 + separator.height / 2),
             separatorView.heightAnchor.constraint(equalToConstant: separator.height)
         ])

@@ -122,7 +122,7 @@ class AllProjectsVc: UIViewController {
     }
     
     func openTags(action: PopMenuAction) {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: true, completion: nil)
         router.openAllTags(mode: .show)
     }
     
