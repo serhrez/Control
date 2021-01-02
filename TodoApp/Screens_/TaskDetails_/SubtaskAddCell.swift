@@ -10,7 +10,7 @@ import UIKit
 import Material
 import AttributedLib
 
-final class SubtaskAddCell: UICollectionViewCell {
+final class SubtaskAddCell: UITableViewCell {
     static let reuseIdentifier = "subtaskaddcell"
     
     private let textField: UITextField = {
@@ -25,12 +25,8 @@ final class SubtaskAddCell: UICollectionViewCell {
         return imageView
     }()
     
-    override var intrinsicContentSize: CGSize {
-        .init(width: .zero, height: 44)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     
@@ -44,6 +40,7 @@ final class SubtaskAddCell: UICollectionViewCell {
         contentView.layout(plusImage).centerY().leading().width(18).height(18)
         contentView.layout(textField).centerY().leading(31).trailing(10)
         textField.delegate = self
+        selectionStyle = .none
     }
 }
 

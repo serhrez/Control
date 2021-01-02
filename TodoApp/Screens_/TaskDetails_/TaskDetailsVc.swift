@@ -21,12 +21,6 @@ import SnapKit
 final class TaskDetailsVc: UIViewController {
     private let viewModel: TaskDetailsVcVm
     private let bag = DisposeBag()
-    private let layout: UICollectionViewLayout = {
-        return UICollectionViewCompositionalLayout {  section, layoutEnvironment in
-            var config = UICollectionLayoutListConfiguration(appearance: .plain)
-            return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
-        }
-    }()
     private let spacerBeforeSubtasksTable: UIView = {
         let view = UIView()
         view.accessibilityIdentifier = "spacerBeforeSubtasksTable"
@@ -34,8 +28,8 @@ final class TaskDetailsVc: UIViewController {
         view.isHidden = true
         return view
     }()
-    private lazy var subtasksTable: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private lazy var subtasksTable: UITableView = {
+        let collectionView = UITableView(frame: .zero)
         collectionView.isScrollEnabled = false
         return collectionView
     }()
@@ -124,19 +118,19 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupTableView() {
-        subtasksTable.register(SubtaskCell.self, forCellWithReuseIdentifier: SubtaskCell.reuseIdentifier)
-        subtasksTable.register(SubtaskAddCell.self, forCellWithReuseIdentifier: SubtaskAddCell.reuseIdentifier)
+        subtasksTable.register(SubtaskCell.self, forCellReuseIdentifier: SubtaskCell.reuseIdentifier)
+        subtasksTable.register(SubtaskAddCell.self, forCellReuseIdentifier: SubtaskAddCell.reuseIdentifier)
         subtasksTable.delegate = self
         subtasksTable.backgroundColor = .clear
         
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
             switch model {
             case .addSubtask:
-                let cell = tableView.dequeueReusableCell(withReuseIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
                 cell.subtaskCreated = self.viewModel.createSubtask
                 return cell
             case let .subtask(subtask):
-                let cell = tableView.dequeueReusableCell(withReuseIdentifier: SubtaskCell.reuseIdentifier, for: indexPath) as! SubtaskCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskCell.reuseIdentifier, for: indexPath) as! SubtaskCell
                 cell.configure(name: subtask.name, isDone: subtask.isDone)
                 cell.delegate = self
                 cell.onSelected = { self.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0) }
@@ -144,7 +138,7 @@ final class TaskDetailsVc: UIViewController {
             }
         }
         viewModel.reloadSubtaskCells = { [weak self] mods in
-            self?.subtasksTable.reloadItems(at: mods.map { IndexPath(row: $0, section: 0) })
+            self?.subtasksTable.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .automatic)
         }
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
@@ -575,12 +569,12 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
     }
 }
 
-extension TaskDetailsVc: UICollectionViewDelegate {
+extension TaskDetailsVc: UITableViewDelegate {
     
 }
 
-extension TaskDetailsVc: SwipeCollectionViewCellDelegate {
-    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+extension TaskDetailsVc: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         let model = viewModel.subtasksModels[0].items[indexPath.row]
         guard case .subtask = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
@@ -588,8 +582,7 @@ extension TaskDetailsVc: SwipeCollectionViewCellDelegate {
         deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
         return [deleteAction]
     }
-    
-    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.transitionStyle = .drag
         options.minimumButtonWidth = 87
