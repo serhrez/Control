@@ -105,15 +105,15 @@ class TasksWithDoneList: UIView {
             }
             switch sorting {
             case .byCreatedAt:
-                return model1.task.createdAt < model2.task.createdAt
+                return model1.task.createdAt > model2.task.createdAt
             case .byName:
                 return model1.task.name != model2.task.name ?
-                model1.task.name < model2.task.name :
-                model1.task.createdAt < model2.task.createdAt
+                model1.task.name > model2.task.name :
+                model1.task.createdAt > model2.task.createdAt
             case .byPriority:
                 return model1.task.priority != model2.task.priority ?
-                model1.task.priority < model2.task.priority :
-                model1.task.createdAt < model2.task.createdAt
+                model1.task.priority > model2.task.priority :
+                model1.task.createdAt > model2.task.createdAt
             }
         }
     }
