@@ -491,18 +491,18 @@ final class TaskDetailsVc: UIViewController {
     // MARK: - POPUP
     @objc private func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
-        if taskDescription.isHidden {
-            actions.append(PopuptodoAction(title: "Add description", image: UIImage(named: "plus"), didSelect: addDescriptionSelected))
-        }
         if viewModel.subtasksModels[0].items.isEmpty {
             actions.append(PopuptodoAction(title: "Add checklist", image: UIImage(named: "list-check"), didSelect: addChecklistSelected))
         }
         if tokenField.isHidden {
             actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: addTagsSelected))
         }
-        actions.append(PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected))
+        if taskDescription.isHidden {
+            actions.append(PopuptodoAction(title: "Add Description", image: UIImage(named: "taskdescription"), didSelect: addDescriptionSelected))
+        }
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: selectPrioritySelected),
+            PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected),
             PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: deleteTodoSelected),
         ])
         PopMenuAppearance.appCustomizeActions(actions: actions)
