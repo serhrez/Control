@@ -42,6 +42,10 @@ final class SubtaskAddCell: UITableViewCell {
         textField.delegate = self
         selectionStyle = .none
     }
+    
+    @discardableResult override func becomeFirstResponder() -> Bool {
+        return textField.becomeFirstResponder()
+    }
 }
 
 extension SubtaskAddCell: UITextFieldDelegate {

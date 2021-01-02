@@ -128,6 +128,7 @@ final class TaskDetailsVc: UIViewController {
             case .addSubtask:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
                 cell.subtaskCreated = self.viewModel.createSubtask
+                cell.becomeFirstResponder()
                 return cell
             case let .subtask(subtask):
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskCell.reuseIdentifier, for: indexPath) as! SubtaskCell
@@ -219,6 +220,7 @@ final class TaskDetailsVc: UIViewController {
         self.taskDescription.isHidden = false
         spacerBeforeTaskDescription.isHidden = false
         layoutAnimate()
+        taskDescription.becomeFirstResponder()
     }
     
     func updateTags() {

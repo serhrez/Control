@@ -111,7 +111,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
         growingTextFieldDelegate?.textViewDidEndEditing?(textView)
     }
     
-    override func becomeFirstResponder() -> Bool {
+    @discardableResult override func becomeFirstResponder() -> Bool {
         return textField.becomeFirstResponder()
     }
 }
