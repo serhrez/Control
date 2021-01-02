@@ -20,6 +20,15 @@ struct RealmProvider {
         return try! Realm(configuration: configuration)
     }
     
+    // MARK: - Archive realm
+    private static let archiveConfig = Realm.Configuration(
+        fileURL: try! DirPath.inLibrary(archiveConfigPath),
+        schemaVersion: 4)
+    
+    public static var archive: RealmProvider = {
+        return RealmProvider(config: archiveConfig)
+    }()
+    
     // MARK: - Projects realm
     private static let mainConfig = Realm.Configuration(
         fileURL: try! DirPath.inLibrary(mainConfigPath),
@@ -46,5 +55,6 @@ struct RealmProvider {
     }()
     
     static let mainConfigPath = "main.realm"
+    static let archiveConfigPath = "archive.realm"
     static let bundledConfigPath = "bundled.realm"
 }

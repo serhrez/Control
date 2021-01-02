@@ -56,6 +56,7 @@ class TaskDetailsVcVm {
             tagsSubject.onNext(())
         }
         let subtaskToken = task.subtask.observe { [unowned self] changes in
+            guard !(self.task?.isInvalidated ?? true) else { return }
             switch changes {
             case let .error(error):
                 print(error)

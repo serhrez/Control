@@ -10,6 +10,7 @@ import UIKit
 import Material
 
 class BottomMessage: UIView {
+    private static var previousBottomMessage: BottomMessage?
     init(backgroundColor: UIColor, imageName: String?, text: String, textColor: UIColor, imageColor: UIColor? = nil, imageWidth: CGFloat, onClicked: @escaping () -> Void) {
         super.init(frame: .init(x: 13, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width - 13 * 2, height: 55))
         
@@ -44,6 +45,8 @@ class BottomMessage: UIView {
     var previousHeight: CGFloat?
     func show(_ points: CGFloat) {
         guard previousHeight == nil else { return }
+        BottomMessage.previousBottomMessage?.dismiss()
+        BottomMessage.previousBottomMessage = self
         previousHeight = self.frame.minY
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
             self.frame = self.frame.modify(modifyY: { $0 - points - self.frame.height })

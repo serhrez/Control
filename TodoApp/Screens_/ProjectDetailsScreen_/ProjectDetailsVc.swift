@@ -70,7 +70,6 @@ class ProjectDetailsVc: UIViewController {
         self.newFormView.didAppear()
         self.view.layoutSubviews()
         doOnAppear?()
-        self.showBottomMessage(type: .todosDeleted, onClicked: { })
     }
     
     func setupKeyboard() {
@@ -492,9 +491,22 @@ class ProjectDetailsVc: UIViewController {
         onSelected: { [unowned self] task in
             self.router.openTaskDetails(task)
         }, shouldDelete: { [unowned self] task in
+            _ = try! RealmProvider.archive.realm.write {
+                let task = RealmProvider.archive.realm.create(RlmTask.self, value: task, update: .all)
+                print(task)
+                RealmProvider.archive.realm.add(task)
+            }
+            let taskId = task.id
             _ = try! RealmProvider.main.realm.write {
                 RealmProvider.main.realm.delete(task)
             }
+            self.showBottomMessage(type: .todosDeleted, onClicked: {
+                guard let archivedTask = RealmProvider.archive.realm.objects(RlmTask.self).first(where: { $0.id == taskId }) else { return }
+                _ = try! RealmProvider.main.realm.write {
+                    let task = RealmProvider.main.realm.create(RlmTask.self, value: archivedTask, update: .all)
+                    self.project.tasks.append(task)
+                }
+            })
         })
     
     // MARK: - Util funcs
@@ -510,7 +522,7 @@ class ProjectDetailsVc: UIViewController {
         view.addSubview(bottomMessage)
         let height: CGFloat = !self.tasksToolbar.isHidden ?
             view.frame.height - tasksToolbar.frame.minY + 30 :
-            30
+            self.view.safeAreaInsets.bottom + 15
         bottomMessage.show(height)
     }
     

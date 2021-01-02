@@ -40,7 +40,9 @@ class TasksWithDoneList: UIView {
             if __previousSorting == sorting { return }
             __previousSorting = sorting
             if let currentItems = currentItems {
-                itemsToDataSource.onNext(currentItems.map { AnimSection(identity: $0.identity, items: self.sortCurrentItems($0.items, sorting: self.sorting))  })
+                let sorted = currentItems.map { AnimSection(identity: $0.identity, items: self.sortCurrentItems($0.items, sorting: self.sorting)) }
+                self.currentItems = sorted
+                itemsToDataSource.onNext(sorted)
             }
         }
     }
@@ -83,28 +85,35 @@ class TasksWithDoneList: UIView {
                 let section2 = tasks.filter { $0.isDone }.map { TasksWithDoneList.Model.doneTask($0) }
                 return [AnimSection(items: section1 + section2)]
             }
-            .do(onNext: { [weak self] in
-                self?.currentItems = $0
-            })
             .compactMap { [weak self] animSections in
                 guard let self = self else { return nil }
                 return animSections.map { AnimSection(identity: $0.identity, items: self.sortCurrentItems($0.items, sorting: self.sorting))  }
             }
+            .do(onNext: { [weak self] in
+                self?.currentItems = $0
+            })
             .bind(to: itemsToDataSource)
             .disposed(by: bag)
     }
     
     func sortCurrentItems(_ models: [Model], sorting: ProjectSorting) -> [Model] {
-        models.sorted { model1, model2 -> Bool in
+        return models.sorted { model1, model2 -> Bool in
             switch (model1, model2) {
             case (.task, .doneTask): return true
             case (.doneTask, .task): return false
             default: break
             }
             switch sorting {
-            case .byCreatedAt: return model1.task.createdAt < model2.task.createdAt
-            case .byName: return model1.task.name < model2.task.name || model1.task.createdAt < model2.task.createdAt
-            case .byPriority: return model1.task.priority < model2.task.priority || model1.task.createdAt < model2.task.createdAt
+            case .byCreatedAt:
+                return model1.task.createdAt < model2.task.createdAt
+            case .byName:
+                return model1.task.name != model2.task.name ?
+                model1.task.name < model2.task.name :
+                model1.task.createdAt < model2.task.createdAt
+            case .byPriority:
+                return model1.task.priority != model2.task.priority ?
+                model1.task.priority < model2.task.priority :
+                model1.task.createdAt < model2.task.createdAt
             }
         }
     }
