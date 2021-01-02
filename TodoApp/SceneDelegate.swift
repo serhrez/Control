@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         do {
             try FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
+            try FileManager.default.removeItem(at: DirPath.inLibrary("archive.realm"))
         } catch {
             print(error.localizedDescription)
         }

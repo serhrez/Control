@@ -47,5 +47,8 @@ class SettingsVc: UIViewController {
 //        collec
 //        let collectionView = UIColle
     }
+    var didDisappear: () -> Void = { }
+    deinit { didDisappear() }
 }
 
+extension SettingsVc: AppNavigationRouterDelegate { }

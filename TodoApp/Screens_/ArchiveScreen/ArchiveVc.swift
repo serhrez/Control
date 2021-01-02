@@ -45,29 +45,24 @@ final class ArchiveVc: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.delegate = self
         flowLayout.minimumLineSpacing = 7
-        collectionView.register(ArchiveCell.self, forCellWithReuseIdentifier: ArchiveCell.reuseIdentifier)
-        let dataSource = UpdateDiffDataSource<ArchiveVcVm.Model>(collectionView: collectionView) { [unowned self] (collectionView, ip, model) -> UICollectionViewCell in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ArchiveCell.reuseIdentifier, for: ip) as! ArchiveCell
-            let task = model.task
-            let state = model.state
+        collectionView.register(TasksListTaskCell.self, forCellWithReuseIdentifier: TasksListTaskCell.reuseIdentifier)
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<ArchiveVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            print("cell for row at \(indexPath)")
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
             cell.delegate = self
-            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasChecklist: !task.subtask.isEmpty, state: state.checkboxState(isTaskDone: task.isDone), clickedWithState: { state in
-                viewModel.clickedOnCellCheckbox(item: ip.row, with: state)
-            })
+            guard let task = model.task.task else { return cell }
+            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, onSelected: { print("selected") })
+            cell.specialConfigure(isDone: task.isDone)
             return cell
         }
-        collectionView.dataSource = dataSource
-        dataSource.updateCell = { cell, ip, model in
-            let cell = cell as! ArchiveCell
-            cell.update(state: model.state.checkboxState(isTaskDone: model.task.isDone))
-        }
-        viewModel.models
-            .subscribe(dataSource.modelBinding)
+        viewModel.modelsSubject
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
     }
 
     private func setupNavigationBar() {
-        navigationItem.titleLabel.text = "Archive"
+        applySharedNavigationBarAppearance()
+        title = "Archive"
     }
     
     var didDisappear: () -> Void = { }
@@ -103,11 +98,30 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
     }
     
     func handleSwipeActionDeletion(action: SwipeAction, path: IndexPath) {
-        viewModel.updateState(item: path.item, state: .delete)
+        let archived = self.viewModel.archived[path.row]
+        let archivedCopy = RlmArchived(value: archived)
+        self.viewModel.delete(archived: archived)
+        showBottomMessage(type: .taskDeleted) { [weak self] in
+            self?.viewModel.add(archived: archivedCopy)
+        }
     }
     
     func handleSwipeActionRestore(action: SwipeAction, path: IndexPath) {
-        viewModel.updateState(item: path.item, state: .restore)
+        let archived = self.viewModel.archived[path.row]
+        guard let task = archived.task else { return }
+        let taskId = task.id
+        let projectId = archived.projectId
+        self.viewModel.restoreTask(taskId: taskId)
+        showBottomMessage(type: .taskRestored) { [weak self] in
+            self?.viewModel.unrestore(taskId: taskId, projectId: projectId)
+        }
+
+    }
+    
+    func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
+        let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
+        view.addSubview(bottomMessage)
+        bottomMessage.show(min(view.safeAreaInsets.bottom + 10, 25))
     }
 }
 extension ArchiveVc: UICollectionViewDelegateFlowLayout {
@@ -118,14 +132,4 @@ extension ArchiveVc: UICollectionViewDelegateFlowLayout {
 
 extension ArchiveVc: UICollectionViewDelegate {
     
-}
-
-extension ArchiveVcVm.State {
-    func checkboxState(isTaskDone: Bool) -> CheckboxViewArchive.State {
-        switch self {
-        case .delete: return .delete
-        case .restore: return .restore
-        case .none: return isTaskDone ? .checked : .unchecked
-        }
-    }
 }

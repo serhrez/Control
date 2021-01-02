@@ -48,6 +48,10 @@ class TasksListTaskCell: SwipeCollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func specialConfigure(isDone: Bool) {
+        checkboxView.configure(isChecked: isDone)
+    }
         
     func configure(text: String, date: Date?, tagName: String?, otherTags: Bool, priority: Priority, hasChecklist: Bool, onSelected: @escaping () -> Void) {
         verticalHorizontalStack.CSTremoveAllSubviews()

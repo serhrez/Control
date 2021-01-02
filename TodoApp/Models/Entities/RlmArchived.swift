@@ -11,13 +11,14 @@ import UIKit
 
 final class RlmArchived: Object {
     @objc dynamic var id = UUID().uuidString
-    @objc dynamic var taskId: String = ""
+    @objc dynamic var task: RlmTask?
+    @objc dynamic var projectId: String = ""
     @objc dynamic var timeDeleted: Date = .init()
-    
-    convenience init(taskId: String, timeDeleted: Date) {
+        
+    convenience init(task: RlmTask, projectId: String) {
         self.init()
-        self.taskId = taskId
-        self.timeDeleted = timeDeleted
+        self.task = task
+        self.projectId = projectId
     }
     
     override class func primaryKey() -> String? {

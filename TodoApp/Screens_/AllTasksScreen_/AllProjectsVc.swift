@@ -103,6 +103,8 @@ class AllProjectsVc: UIViewController {
     }
     
     @objc private func menuButtonClicked() {
+        let settingsVc = SettingsVc()
+        router.debugPushVc(settingsVc)
     }
     
     // MARK: - POPUP

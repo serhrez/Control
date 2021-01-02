@@ -76,6 +76,7 @@
 		A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */; };
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
+		A56BDC0D25A06B7F008CD2D9 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */; };
 		A5722CDA25740C890098BECE /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CD925740C890098BECE /* CreateProjectVc.swift */; };
 		A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -233,6 +234,7 @@
 		A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsAddTagCell.swift; sourceTree = "<group>"; };
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
+		A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A5722CD925740C890098BECE /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
 		A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVcVm.swift; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 			children = (
 				A5085EB12557046F00A31BBB /* Extensions */,
 				A5085EB8255704B800A31BBB /* DirPath.swift */,
+				A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1092,6 +1095,7 @@
 				A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */,
 				A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */,
 				A5B67F702590D8F900EAD13D /* ProjectDetailsTop.swift in Sources */,
+				A56BDC0D25A06B7F008CD2D9 /* DBHelper.swift in Sources */,
 				A5F6A8EC258A247900FB50FC /* SingleTagView.swift in Sources */,
 				A51967692584FE5D0021621A /* IconColCell.swift in Sources */,
 				A533E09C255C59D100B301C7 /* OuterCircle.swift in Sources */,
