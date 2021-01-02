@@ -149,6 +149,7 @@ final class TaskDetailsVc: UIViewController {
                     make.height.equalTo(height)
                 }
                 self.spacerBeforeSubtasksTable.isHidden = height < 5
+                self.updateTagsSpacer()
                 if wasAlreadyLoaded {
                     UIView.animate(withDuration: 0.5) {
                         self.view.layoutIfNeeded()
@@ -228,13 +229,35 @@ final class TaskDetailsVc: UIViewController {
             self.tokenField.isHidden = true
             self.tokenField.removeAllTokens()
             self.spacerBeforeTokenField.isHidden = true
+            self.spacerAfterTokenField.isHidden = true
             return
         }
         self.tokenField.isHidden = false
         self.spacerBeforeTokenField.isHidden = false
+        self.spacerAfterTokenField.isHidden = false
+        updateTagsSpacer()
         let old = tokenField.tokens as? [ResizingToken]
         let newTags = ModelFormatt.tagsSorted(tags: viewModel.task.flatMap { Array($0.tags) } ?? []).map { ResizingToken(title: $0.name) }
         tokenField.deepdiff(old: old ?? [], new: newTags)
+    }
+    
+    func updateTagsSpacer() {
+        guard !tokenField.isHidden else { return }
+        self.spacerAfterTokenField.isHidden = false
+        if !self.viewModel.subtasksModels[0].items.isEmpty {
+            self.spacerBeforeSubtasksTable.isHidden = true
+            if !dateDetailLabel.isHidden || !reminderDetailLabel.isHidden || !repeatDetailLabel.isHidden {
+                self.spacerBeforeLabels.isHidden = false
+            }
+            return
+        }
+        let date = viewModel.task?.date
+        let isHid = (date?.date != nil || date?.reminder != nil || date?.repeat != nil)
+        if isHid {
+            self.spacerBeforeLabels.isHidden = true
+            return
+        }
+        self.spacerAfterTokenField.isHidden = true
     }
     
     func updateLabels(taskDate: RlmTaskDate?) {
@@ -258,6 +281,7 @@ final class TaskDetailsVc: UIViewController {
         } else {
             repeatDetailLabel.isHidden = true
         }
+        updateTagsSpacer()
         layoutAnimate()
     }
         
@@ -320,6 +344,13 @@ final class TaskDetailsVc: UIViewController {
         let view = UIView()
         view.accessibilityIdentifier = "spacerBeforeTokenField"
         view.heightAnchor.constraint(equalToConstant: 26).isActive = true
+        view.isHidden = true
+        return view
+    }()
+    private let spacerAfterTokenField: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "spacerAfterTokenField"
+        view.heightAnchor.constraint(equalToConstant: 10).isActive = true
         view.isHidden = true
         return view
     }()
@@ -435,6 +466,7 @@ final class TaskDetailsVc: UIViewController {
         containerStack.addArrangedSubview(taskDescription)
         containerStack.addArrangedSubview(spacerBeforeTokenField)
         containerStack.addArrangedSubview(tokenField)
+        containerStack.addArrangedSubview(spacerAfterTokenField)
         containerStack.addArrangedSubview(spacerBeforeSubtasksTable)
         containerStack.addArrangedSubview(subtasksTable)
         containerStack.addArrangedSubview(spacerBeforeLabels)
