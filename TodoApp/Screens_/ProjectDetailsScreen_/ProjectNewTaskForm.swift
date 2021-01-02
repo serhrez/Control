@@ -284,14 +284,8 @@ class ProjectNewTaskForm: UIView {
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
         button.onClick = plusClicked
-        let plus = UIView()
-        plus.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        plus.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        button.layout(PlusView()).edges()
         button.layer.cornerRadius = 25
-        plus.backgroundColor = .hex("#447BFE")
-        let imageView = UIImageView(image: UIImage(named: "plus"))
-        plus.layout(imageView).width(18).height(18).center()
-        button.layout(plus).edges()
         return button
     }()
 
