@@ -110,6 +110,12 @@ class TaskDetailsVcVm {
         }
     }
     
+    func selectNonePriority() {
+        _ = try! RealmProvider.main.realm.write {
+            task?.priority = .none
+        }
+    }
+    
     func deleteItselfInRealm() {
         guard let task = self.task else { return }
         self.task = nil

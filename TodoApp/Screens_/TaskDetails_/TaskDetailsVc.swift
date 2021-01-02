@@ -21,13 +21,6 @@ import SnapKit
 final class TaskDetailsVc: UIViewController {
     private let viewModel: TaskDetailsVcVm
     private let bag = DisposeBag()
-    private let spacerBeforeSubtasksTable: UIView = {
-        let view = UIView()
-        view.accessibilityIdentifier = "spacerBeforeSubtasksTable"
-        view.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        view.isHidden = true
-        return view
-    }()
     private lazy var subtasksTable: UITableView = {
         let collectionView = UITableView(frame: .zero)
         collectionView.isScrollEnabled = false
@@ -151,12 +144,8 @@ final class TaskDetailsVc: UIViewController {
                 self.subtasksTable.snp.remakeConstraints { make in
                     make.height.equalTo(height)
                 }
-                self.spacerBeforeSubtasksTable.isHidden = height < 5
-                self.updateTagsSpacer()
                 if wasAlreadyLoaded {
-                    UIView.animate(withDuration: 0.5) {
-                        self.view.layoutIfNeeded()
-                    }
+                    self.layoutAnimate()
                 }
                 wasAlreadyLoaded = true
             })
@@ -169,7 +158,7 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupViewModelBinding() {
-        self.taskNameh1.text = viewModel.task?.name
+        self.taskNameh1.text = viewModel.task?.name ?? ""
         self.setTaskDescription(viewModel.task?.taskDescription ?? "")
         viewModel.shouldEnableTaskDescription = explicitlyEnableTaskDescription
         viewModel.taskObservable
@@ -193,6 +182,7 @@ final class TaskDetailsVc: UIViewController {
     }
     var __previousHeight: CGFloat?
     func layoutAnimate() {
+        setSpacings()
         if wasAlreadyShown {
             UIView.animate(withDuration: 0.5) {
                 self.view.layoutSubviews()
@@ -210,17 +200,14 @@ final class TaskDetailsVc: UIViewController {
         }
         guard !taskDescription.isEmpty else {
             self.taskDescription.isHidden = true
-            self.spacerBeforeTaskDescription.isHidden = true
             return
         }
         self.taskDescription.isHidden = false
-        spacerBeforeTaskDescription.isHidden = false
         self.taskDescription.text = taskDescription
     }
     
     func explicitlyEnableTaskDescription() {
         self.taskDescription.isHidden = false
-        spacerBeforeTaskDescription.isHidden = false
         layoutAnimate()
         taskDescription.becomeFirstResponder()
     }
@@ -232,41 +219,15 @@ final class TaskDetailsVc: UIViewController {
         guard !(viewModel.task?.tags.isEmpty ?? true) else {
             self.tokenField.isHidden = true
             self.tokenField.removeAllTokens()
-            self.spacerBeforeTokenField.isHidden = true
-            self.spacerAfterTokenField.isHidden = true
             return
         }
         self.tokenField.isHidden = false
-        self.spacerBeforeTokenField.isHidden = false
-        self.spacerAfterTokenField.isHidden = false
-        updateTagsSpacer()
         let old = tokenField.tokens as? [ResizingToken]
         let newTags = ModelFormatt.tagsSorted(tags: viewModel.task.flatMap { Array($0.tags) } ?? []).map { ResizingToken(title: $0.name) }
         tokenField.deepdiff(old: old ?? [], new: newTags)
     }
     
-    func updateTagsSpacer() {
-        guard !tokenField.isHidden else { return }
-        self.spacerAfterTokenField.isHidden = false
-        if !self.viewModel.subtasksModels[0].items.isEmpty {
-            self.spacerBeforeSubtasksTable.isHidden = true
-            if !dateDetailLabel.isHidden || !reminderDetailLabel.isHidden || !repeatDetailLabel.isHidden {
-                self.spacerBeforeLabels.isHidden = false
-            }
-            return
-        }
-        let date = viewModel.task?.date
-        let isHid = (date?.date != nil || date?.reminder != nil || date?.repeat != nil)
-        if isHid {
-            self.spacerBeforeLabels.isHidden = true
-            return
-        }
-        self.spacerAfterTokenField.isHidden = true
-    }
-    
     func updateLabels(taskDate: RlmTaskDate?) {
-        datesStackSeparator.isHidden = !(taskDate?.date != nil && (taskDate?.reminder != nil || taskDate?.repeat != nil))
-        spacerBeforeLabels.isHidden = !(taskDate?.date != nil || taskDate?.reminder != nil || taskDate?.repeat != nil)
         if let date = taskDate?.date {
             dateDetailLabel.isHidden = false
             dateDetailLabel.configure(with: DateFormatter.str(from: date))
@@ -285,7 +246,6 @@ final class TaskDetailsVc: UIViewController {
         } else {
             repeatDetailLabel.isHidden = true
         }
-        updateTagsSpacer()
         layoutAnimate()
     }
         
@@ -309,7 +269,7 @@ final class TaskDetailsVc: UIViewController {
         stack.axis = .horizontal
         stack.accessibilityIdentifier = "horizontal1"
         stack.spacing = 13
-        stack.alignment = .center
+        stack.alignment = .top
         return stack
     }()
     private let checkboxh1: CheckboxView = {
@@ -318,21 +278,33 @@ final class TaskDetailsVc: UIViewController {
         view.accessibilityIdentifier = "checkboxh1"
         return view
     }()
-    private lazy var taskNameh1: UITextField = {
-        let taskLabel = UITextField()
-        taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
-        taskLabel.accessibilityIdentifier = "taskNameh1"
-        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4")) }
-        taskLabel.delegate = self
-        return taskLabel
-    }()
     
-    private let spacerBeforeTaskDescription: UIView = {
+    private lazy var checkboxh1Container: UIView = {
         let view = UIView()
-        view.accessibilityIdentifier = "spaceBeforeTaskDescription"
-        view.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        view.layout(checkboxh1).leading().trailing().centerY()
+        view.snp.makeConstraints { make in
+            make.height.equalTo(taskNameh1.textField.font?.lineHeight ?? 24)
+        }
         return view
     }()
+    private lazy var taskNameh1: MyGrowingTextView = {
+        let taskLabel = MyGrowingTextView(placeholderText: "Call to John Wick?", scrollBehavior: .noScroll)
+        taskLabel.textField.font = .systemFont(ofSize: 20, weight: .medium)
+        taskLabel.accessibilityIdentifier = "taskNameh1"
+        taskLabel.placeholderAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4"))
+        taskLabel.textFieldAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#242424"))
+        taskLabel.growingTextFieldDelegate = self
+        return taskLabel
+    }()
+
+//    private lazy var taskNameh1: UITextField = {
+//        let taskLabel = UITextField()
+//        taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
+//        taskLabel.accessibilityIdentifier = "taskNameh1"
+//        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4")) }
+//        taskLabel.delegate = self
+//        return taskLabel
+//    }()
     
     private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description", scrollBehavior: .noScroll)
@@ -343,32 +315,9 @@ final class TaskDetailsVc: UIViewController {
         description.growingTextFieldDelegate = self
         return description
     }()
-        
-    private let spacerBeforeTokenField: UIView = {
-        let view = UIView()
-        view.accessibilityIdentifier = "spacerBeforeTokenField"
-        view.heightAnchor.constraint(equalToConstant: 26).isActive = true
-        view.isHidden = true
-        return view
-    }()
-    private let spacerAfterTokenField: UIView = {
-        let view = UIView()
-        view.accessibilityIdentifier = "spacerAfterTokenField"
-        view.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        view.isHidden = true
-        return view
-    }()
     
     private let tokenField: ResizingTokenField = ResizingTokenField()
-    
-    private let spacerBeforeLabels: UIView = {
-        let view = UIView()
-        view.accessibilityIdentifier = "spacerBeforeLabels"
-        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        view.isHidden = true
-        return view
-    }()
-    
+        
     private let stackDateDetail: UIStackView = {
         let stack = UIStackView(frame: .zero)
         stack.accessibilityIdentifier = "stackDateDetail"
@@ -456,24 +405,25 @@ final class TaskDetailsVc: UIViewController {
         scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
         containerStack.isUserInteractionEnabled = true
         horizontal1.isUserInteractionEnabled = true
-        horizontal1.addArrangedSubview(checkboxh1)
+        horizontal1.addArrangedSubview(checkboxh1Container)
         horizontal1.addArrangedSubview(taskNameh1)
-        horizontal1.addArrangedSubview(UIView())
         containerStack.addArrangedSubview(horizontal1)
-        containerStack.addArrangedSubview(spacerBeforeTaskDescription)
-        let taskDescriptionHeight = self.taskDescription.heightAnchor.constraint(equalToConstant: 40)
+        let taskDescriptionHeight = self.taskDescription.heightAnchor.constraint(equalToConstant: self.taskDescription.textField.font?.lineHeight ?? 20)
         taskDescriptionHeight.isActive = true
         taskDescription.shouldSetHeight = { [weak self] in
             taskDescriptionHeight.constant = $0
             self?.layoutAnimate()
         }
+        
+        let taskNameHeight = taskNameh1.heightAnchor.constraint(equalToConstant: 20)
+        taskNameHeight.isActive = true
+        taskNameh1.shouldSetHeight = { [weak self] newHeight in
+            taskNameHeight.constant = newHeight
+            self?.layoutAnimate()
+        }
         containerStack.addArrangedSubview(taskDescription)
-        containerStack.addArrangedSubview(spacerBeforeTokenField)
         containerStack.addArrangedSubview(tokenField)
-        containerStack.addArrangedSubview(spacerAfterTokenField)
-        containerStack.addArrangedSubview(spacerBeforeSubtasksTable)
         containerStack.addArrangedSubview(subtasksTable)
-        containerStack.addArrangedSubview(spacerBeforeLabels)
         stackDateDetail.addArrangedSubview(dateDetailLabel)
         stackDateDetail.addArrangedSubview(UIView()) // empty view
         
@@ -483,6 +433,16 @@ final class TaskDetailsVc: UIViewController {
         stackReminderRepeat.addArrangedSubview(UIView()) // empty view
         containerStack.addArrangedSubview(datesStackSeparator) // empty view
         containerStack.addArrangedSubview(stackReminderRepeat)
+    }
+    
+    func setSpacings() {
+        guard let task = viewModel.task else { return }
+        let spacingAfterHorizontal1 = !taskDescription.isHidden || !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
+        containerStack.setCustomSpacing(spacingAfterHorizontal1 ? 16 : 0, after: horizontal1)
+        let spacingAfterTaskDescription = !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
+        containerStack.setCustomSpacing(spacingAfterTaskDescription ? 30 : 0, after: taskDescription)
+        let spacingAfterSubtasksTable = task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
+        containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 30 : 0, after: subtasksTable)
     }
     
     private func setupNavigationBar() {
@@ -535,12 +495,12 @@ final class TaskDetailsVc: UIViewController {
             PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectHighPriority() }),
             PopuptodoAction(title: "Medium Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectMediumPriority() }),
             PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() }),
-            PopuptodoAction(title: "No Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() })
+            PopuptodoAction(title: "No Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectNonePriority() })
         ]
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
-        actions[2].imageTintColor = .hex("#A4A4A4")
+        actions[3].imageTintColor = .hex("#A4A4A4")
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: action.view, actions: actions)
         popMenu.appearance = .appAppearance
@@ -589,7 +549,7 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
         return false
     }
     func resizingTokenField(_ tokenField: ResizingTokenField, didChangeHeight newHeight: CGFloat) {
-        let extraSpace = tokenField.itemHeight * 1.5
+        let extraSpace: CGFloat = 30
         tokenField.snp.remakeConstraints { make in
             make.height.equalTo(newHeight + extraSpace)
         }
@@ -641,46 +601,32 @@ extension UIImage {
     }
 }
 
-extension TaskDetailsVc: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case taskNameh1:
-            if taskDescription.isHidden {
-                taskNameh1.resignFirstResponder()
-            } else {
-                _ = taskDescription.becomeFirstResponder()
-            }
-        default: break
-        }
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch textField {
-        case taskNameh1:
-            if let newName = taskNameh1.text,
-               !newName.isEmpty {
-                viewModel.changeName(newName)
-            }
-        default: break
-        }
-    }
-}
-
 extension TaskDetailsVc: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newSpace = text.contains { $0.isNewline }
         switch textView {
         case taskDescription.textField:
+            if newSpace { textView.resignFirstResponder() }
             break
+        case taskNameh1.textField:
+            guard newSpace else { break }
+            if self.taskDescription.isHidden {
+                self.taskNameh1.textField.resignFirstResponder()
+            } else {
+                _ = self.taskDescription.becomeFirstResponder()
+            }
         default:
             break
         }
-        let newSpace = text.contains { $0.isNewline }
-        if newSpace { textView.resignFirstResponder() }
         return !newSpace
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         switch textView {
+        case taskNameh1.textField:
+            let newName = taskNameh1.text
+            if !newName.isEmpty {
+                viewModel.changeName(textView.text)
+            }
         case taskDescription.textField:
             viewModel.changeDescription(textView.text)
             break
