@@ -99,6 +99,7 @@ final class IconPickerFullVc: UIViewController {
     private let containerView = UIView()
     private let keyboard = Typist()
     private let onSelected: (String) -> Void
+    private var isVisible = false
     
     init(onSelected: @escaping (String) -> Void) {
         self.onSelected = onSelected
@@ -126,6 +127,14 @@ final class IconPickerFullVc: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isVisible = false
+    }
     
     private func setupSearchBar() {
         let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
@@ -143,21 +152,19 @@ final class IconPickerFullVc: UIViewController {
     private func setupKeyboard() {
         keyboard
             .on(event: .willChangeFrame) { [unowned self] options in
+                guard self.isVisible else { return }
                 let height = options.endFrame.intersection(containerView.frame).height
                 UIView.animate(withDuration: 0) {
                     self.collectionView.contentInset = .init(top: 17, left: 0, bottom: height, right: 0)
                     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
-//                    self.view.layout(self.collectionView).bottomSafe(height - self.view.safeAreaInsets.bottom)
-//                    self.view.layoutIfNeeded()
                 }
             }
             .on(event: .willHide) { [unowned self] options in
+                guard self.isVisible else { return }
                 let height = options.endFrame.intersection(containerView.frame).height
                 UIView.animate(withDuration: 0) {
                     self.collectionView.contentInset = .init(top: 17, left: 0, bottom: height, right: 0)
                     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
-//                    self.view.layout(self.collectionView).bottomSafe(height - self.view.safeAreaInsets.bottom)
-//                    self.view.layoutIfNeeded()
                 }
             }
             .start()

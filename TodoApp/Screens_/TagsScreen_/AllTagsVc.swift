@@ -29,6 +29,7 @@ class AllTagsVc: UIViewController {
         
         return layout
     }()
+    private var isVisible = false
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private let keyboard = Typist()
     private let mode: Mode
@@ -48,6 +49,16 @@ class AllTagsVc: UIViewController {
         setupViews() 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isVisible = false
+    }
+    
     private func setupViews() {
         view.backgroundColor = .hex("#F6F6F3")
         setupCollectionView()
@@ -59,6 +70,7 @@ class AllTagsVc: UIViewController {
         var previousHeight: CGFloat?
         keyboard
             .on(event: .willChangeFrame) { [unowned self] (options) in
+                guard self.isVisible else { return }
                 let height = options.endFrame.intersection(view.frame).height
                 print("willChangeFrame set height: \(height)")
                 if previousHeight == height { return }
@@ -66,6 +78,7 @@ class AllTagsVc: UIViewController {
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             }
             .on(event: .willHide, do: { [unowned self] (options) in
+                guard self.isVisible else { return }
                 let height = options.endFrame.intersection(view.frame).height
                 print("willHide set height: \(height)")
                 if previousHeight == height { return }
