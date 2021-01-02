@@ -28,7 +28,8 @@ final class AllTasksToolbar: UIView {
     
     func setupViews() {
         containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = 30
+        containerView.layer.cornerRadius = 32
+        containerView.layer.cornerCurve = .continuous
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor(hex: "#dfdfdf")?.cgColor
         layout(containerView).edges().height(Self.estimatedHeight)
