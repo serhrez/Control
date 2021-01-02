@@ -128,7 +128,9 @@ final class TaskDetailsVc: UIViewController {
             case .addSubtask:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
                 cell.subtaskCreated = self.viewModel.createSubtask
-                cell.becomeFirstResponder()
+                if self.isCurrentlyShown {
+                    cell.becomeFirstResponder()
+                }
                 return cell
             case let .subtask(subtask):
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskCell.reuseIdentifier, for: indexPath) as! SubtaskCell
@@ -532,11 +534,13 @@ final class TaskDetailsVc: UIViewController {
         let actions: [PopuptodoAction] = [
             PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectHighPriority() }),
             PopuptodoAction(title: "Medium Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectMediumPriority() }),
-            PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() })
+            PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() }),
+            PopuptodoAction(title: "No Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() })
         ]
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
+        actions[2].imageTintColor = .hex("#A4A4A4")
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: action.view, actions: actions)
         popMenu.appearance = .appAppearance

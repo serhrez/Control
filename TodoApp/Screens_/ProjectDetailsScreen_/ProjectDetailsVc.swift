@@ -421,11 +421,19 @@ class ProjectDetailsVc: UIViewController {
                                 guard var addTask = self?.state.addTaskModel else { return }
                                 addTask.priority = .low
                                 self?.state = .addTask(addTask)
+                            }),
+            PopuptodoAction(title: "No Priority",
+                            image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
+                            didSelect: { [weak self] _ in
+                                guard var addTask = self?.state.addTaskModel else { return }
+                                addTask.priority = .none
+                                self?.state = .addTask(addTask)
                             })
         ]
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
+        actions[3].imageTintColor = .hex("#A4A4A4")
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: sourceView, actions: actions)
         popMenu.appearance = .appAppearance
