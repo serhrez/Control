@@ -139,7 +139,7 @@ class ProjectDetailsVc: UIViewController {
         case let (.addTask(_), .addTask(newTask)):
             newFormView.priority = newTask.priority
             newFormView.date = (newTask.date, newTask.reminder, newTask.repeatt)
-            newFormView.tags = newTask.tags
+            newFormView.tags = ModelFormatt.tagsSorted(tags: newTask.tags)
             return
         case (_, .list):
             tasksWithDoneListOpacity = 1
