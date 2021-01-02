@@ -155,8 +155,7 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.transitionStyle = .drag
-        options.expansionStyle = .fill
-        
+        options.expansionStyle = .todoCustom
         
         options.minimumButtonWidth = 67
         options.maximumButtonWidth = 100
@@ -169,8 +168,9 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
             if self.shouldDelete != nil {
                 let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
                 deleteAction.backgroundColor = .hex("#EF4439")
-                deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+                deleteAction.image = UIImage(named: "trash")?.withTintColor(.hex("#ffffff"), renderingMode: .alwaysTemplate)
                 deleteAction.hidesWhenSelected = true
+                deleteAction.transitionDelegate = ScaleTransition.default
                 actions.append(deleteAction)
             }
             
@@ -178,9 +178,10 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
         } else if orientation == .left, case .task = item {
             var actions: [SwipeAction] = []
             let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionTick)
-            deleteAction.backgroundColor = .hex("#447BFE")
-            deleteAction.image = UIImage(named: "recommendheart")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+            deleteAction.backgroundColor = .hex("#00CE15")
+            deleteAction.image = UIImage(named: "check")?.withTintColor(.hex("#ffffff"), renderingMode: .alwaysTemplate).resize(toWidth: 17)
             deleteAction.hidesWhenSelected = true
+            deleteAction.transitionDelegate = ScaleTransition.default
             actions.append(deleteAction)
             
             return actions

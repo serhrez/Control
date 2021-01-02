@@ -77,6 +77,7 @@
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
 		A56BDC0D25A06B7F008CD2D9 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */; };
+		A56BDC1225A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */; };
 		A5722CDA25740C890098BECE /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CD925740C890098BECE /* CreateProjectVc.swift */; };
 		A5722CE225740DA40098BECE /* CreateProjectVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -235,6 +236,7 @@
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
 		A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwipeExpansionStyle+Extensions.swift"; sourceTree = "<group>"; };
 		A5722CD925740C890098BECE /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
 		A5722CE125740DA40098BECE /* CreateProjectVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVcVm.swift; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */,
 				A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */,
 				A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */,
+				A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1153,6 +1156,7 @@
 				A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */,
 				A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */,
 				A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */,
+				A56BDC1225A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift in Sources */,
 				A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */,
 				A5B67F7A2590FACC00EAD13D /* ProjectStartedView.swift in Sources */,
 				A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */,
