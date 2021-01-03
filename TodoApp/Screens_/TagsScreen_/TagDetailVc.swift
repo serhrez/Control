@@ -44,10 +44,10 @@ class TagDetailVc: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.register(TaskCellx2.self, forCellWithReuseIdentifier: TaskCellx2.reuseIdentifier)
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<TagDetailVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-            guard let self = self else { return .init() }
             let task = model.task
             let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            tagCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.taskSelected(task, isDone: $0) })
+            tagCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self?.viewModel.taskSelected(task, isDone: $0)
+            })
             return tagCell
         }
         viewModel.tasks
