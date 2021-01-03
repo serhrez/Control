@@ -203,7 +203,9 @@ class ProjectNewTaskForm: UIView {
         tokenField.contentInsets = .zero
         tokenField.heightConstraint?.isActive = false
         tokenField.isHidden = true
-        tokenField.onPlusButtonClicked = onTagPlusClicked
+        tokenField.onPlusButtonClicked = { [weak self] in
+            self?.onTagPlusClicked()
+        }
         tokenField.snp.makeConstraints { make in
             make.height.equalTo(tokenField.itemHeight)
         }
@@ -284,7 +286,9 @@ class ProjectNewTaskForm: UIView {
     
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
-        button.onClick = plusClicked
+        button.onClick = { [weak self] in
+            self?.plusClicked()
+        }
         button.layout(PlusView()).edges()
         button.layer.cornerRadius = 25
         return button

@@ -27,7 +27,7 @@ class DoneTasksListTaskCell: SwipeCollectionViewCell {
     }
     
     func configure(text: String, onSelected: @escaping () -> Void) {
-        checkboxView.onSelected = onSelected
+//        checkboxView.onSelected = onSelected
         nameLabel.attributedText = text.at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!).strikeThroughStyle(.single).lineSpacing(8)
         }

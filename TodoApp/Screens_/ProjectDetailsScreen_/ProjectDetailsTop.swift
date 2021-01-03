@@ -105,7 +105,9 @@ class ProjectDetailsTop: UIView {
     
     private lazy var colorCircle: GappedCircle = {
         let circle = GappedCircle(circleColor: color, widthHeight: 22)
-        circle.onClick = self.colorSelection
+        circle.onClick = { [weak self] in
+            self?.colorSelection()
+        }
         circle.configure(isSelected: true, animated: false)
         return circle
     }()

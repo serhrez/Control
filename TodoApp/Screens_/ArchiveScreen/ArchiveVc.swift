@@ -47,7 +47,6 @@ final class ArchiveVc: UIViewController {
         flowLayout.minimumLineSpacing = 7
         collectionView.register(TasksListTaskCell.self, forCellWithReuseIdentifier: TasksListTaskCell.reuseIdentifier)
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<ArchiveVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-            guard let self = self else { return UICollectionViewCell() }
             print("cell for row at \(indexPath)")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
             cell.delegate = self
@@ -86,11 +85,15 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
     }
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
-        let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
+        let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
+            self?.handleSwipeActionRestore(action: action, path: path)
+        })
         deleteAction.backgroundColor = .hex("#EF4439")
         deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
         deleteAction.hidesWhenSelected = true
-        let restoreAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionRestore)
+        let restoreAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
+            self?.handleSwipeActionRestore(action: action, path: path)
+        })
         restoreAction.backgroundColor = .hex("#FF9900")
         restoreAction.image = UIImage(named: "arrow-back-up")?.resize(toWidth: 24)
         restoreAction.hidesWhenSelected = true

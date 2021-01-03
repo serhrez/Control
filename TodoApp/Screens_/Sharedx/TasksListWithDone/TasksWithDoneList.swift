@@ -15,18 +15,6 @@ import SwipeCellKit
 class TasksWithDoneList: UIView {
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<Model>>
     private let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        UICollectionViewFlowLayout()
-////        let interLineSpacing: CGFloat = 7
-////        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-////                                              heightDimension: .fractionalHeight(1.0))
-////        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-////        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-////                                              heightDimension: .absolute(62 + interLineSpacing))
-////        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-////        group.contentInsets = .init(top: 0, leading: 0, bottom: interLineSpacing, trailing: 0)
-////        let section = NSCollectionLayoutSection(group: group)
-////        return UICollectionViewCompositionalLayout(section: section)
-//    }()
     private lazy var tableView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
@@ -166,18 +154,21 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
         if orientation == .right {
             var actions: [SwipeAction] = []
             if self.shouldDelete != nil {
-                let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
+                let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
+                    self?.handleSwipeActionDeletion(action: action, path: path)
+                })
                 deleteAction.backgroundColor = .hex("#EF4439")
                 deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
                 deleteAction.hidesWhenSelected = true
                 deleteAction.transitionDelegate = ScaleTransition.default
                 actions.append(deleteAction)
             }
-            
             return actions
         } else if orientation == .left, case .task = item {
             var actions: [SwipeAction] = []
-            let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionTick)
+            let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
+                self?.handleSwipeActionTick(action: action, path: path)
+            })
             deleteAction.backgroundColor = .hex("#00CE15")
             deleteAction.image = UIImage(named: "check")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate).resize(toWidth: 17)
             deleteAction.hidesWhenSelected = true

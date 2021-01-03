@@ -14,7 +14,9 @@ class GappedCircle: UIView {
     let outerCircle: UIView = UIView()
     let middleCircle: UIView = UIView()
     let innerCircle: UIView = UIView()
-    lazy var onClickView = OnClickControl(onClick: onClick)
+    lazy var onClickView = OnClickControl(onClick: { [weak self] state in
+        self?.onClick(state)
+    })
     var onClick: (() -> Void) = { }
     var circleColor: UIColor {
         set {

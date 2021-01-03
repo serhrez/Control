@@ -114,7 +114,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         let priorities = datePriorities(date)
         cell.configure(with: cellState, blue: priorities.blue, orange: priorities.orange, red: priorities.red, gray: priorities.gray)
         if !wasLastUpdateViaJctSelect {
-        selectDate(date)
+            selectDate(date)
         }
         wasLastUpdateViaJctSelect = false
     }
