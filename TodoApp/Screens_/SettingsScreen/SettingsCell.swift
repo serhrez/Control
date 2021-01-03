@@ -38,22 +38,26 @@ struct SettingsCellData: Hashable {
 class SettingsCell: UICollectionViewListCell {
     let imageView = UIImageView()
     let label = UILabel()
+    let overlayView = OverlaySelectionView()
     private var data: SettingsCellData? = nil
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundConfiguration?.backgroundColor = UIColor(named: "TAAltBackground")
         setupViews()
     }
     
     func updateWithData(_ newData: SettingsCellData) {
         guard data != newData else { return }
         self.data = newData
-        setNeedsUpdateConfiguration()
+        self.setNeedsUpdateConfiguration()
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
         guard let cellData = state.cellData else { return }
         self.imageView.image = UIImage(named: cellData.imageName)?.resize(toWidth: CGFloat(cellData.imageWidth))
         label.text = cellData.text
+        overlayView.setHighlighted(state.isHighlighted)
     }
     
     override var configurationState: UICellConfigurationState {
@@ -72,5 +76,6 @@ class SettingsCell: UICollectionViewListCell {
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         layout(imageView).leading(33).centerY().width(20).height(20)
         layout(label).leading(64).centerY()
+        layout(overlayView).edges()
     }
 }
