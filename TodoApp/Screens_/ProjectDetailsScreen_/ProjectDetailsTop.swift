@@ -60,7 +60,8 @@ class ProjectDetailsTop: UIView {
         projectDescription.snp.makeConstraints { make in
             make.height.equalTo(24)
         }
-        projectDescription.shouldSetHeight = { [unowned self] newHeight in
+        projectDescription.shouldSetHeight = { [weak self] newHeight in
+            guard let self = self else { return }
             self.projectDescription.snp.remakeConstraints { make in
                 make.height.equalTo(min(newHeight, ceil(self.projectDescriptionFont.lineHeight) * 2 + self.projectDescriptionFont.lineHeight / 5 ))
             }

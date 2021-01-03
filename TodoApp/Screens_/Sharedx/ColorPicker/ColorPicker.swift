@@ -13,10 +13,11 @@ import AttributedLib
 class ColorPicker: UIViewController {
     private let colors: [UIColor] = [UIColor(named: "TAHeading")!, .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
     
-    private lazy var circles: [GappedCircle] = colors.map { [unowned self] color in
+    private lazy var circles: [GappedCircle] = colors.map { [weak self] color in
+        guard let self = self else { return GappedCircle(circleColor: .black) }
         let g = GappedCircle(circleColor: color)
         g.configure(isSelected: color == selectedColor, animated: false)
-        g.onClick = { self.colorSelected(color) }
+        g.onClick = { [weak self] in self?.colorSelected(color) }
         return g
     }
     private lazy var circlesStack: UIStackView = {
@@ -33,7 +34,8 @@ class ColorPicker: UIViewController {
         return container
     }()
     private lazy var onClickBackground = OnClickControl(
-        onClick: { [unowned self] in
+        onClick: { [weak self] in
+            guard let self = self else { return }
             if !$0 {
                 if self.shouldDismiss != nil {
                     self.shouldDismissAnimated()

@@ -59,7 +59,8 @@ final class CalendarVc: UIViewController {
         return stack
     }()
     private let scrollView = UIScrollView()
-    private lazy var clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
+    private lazy var clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
+        guard let self = self else { return }
         self.router.navigationController.popViewController(animated: true)
     }, done: done)
     lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
@@ -84,17 +85,22 @@ final class CalendarVc: UIViewController {
     }
     
     private func setupBinding() {
-        viewModel.date.subscribe(onNext: { [unowned self] date in
-            timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
+        viewModel.date.subscribe(onNext: { [weak self] date in
+            guard let self = self else { return }
+            self.timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
             if !(date.1 ?? false) {
-                if let date = date.0 { calendarView.jctselectDate(date) }
+                if let date = date.0 {
+                    self.calendarView.jctselectDate(date)
+                }
             }
         }).disposed(by: bag)
-        viewModel.reminder.subscribe(onNext: { [unowned self] reminder in
-            reminderButton.configure(selectedText: reminder?.description)
+        viewModel.reminder.subscribe(onNext: { [weak self] reminder in
+            guard let self = self else { return }
+            self.reminderButton.configure(selectedText: reminder?.description)
         }).disposed(by: bag)
-        viewModel.repeat.subscribe(onNext: { [unowned self] `repeat` in
-            repeatButton.configure(selectedText: `repeat`?.description)
+        viewModel.repeat.subscribe(onNext: { [weak self] `repeat` in
+            guard let self = self else { return }
+            self.repeatButton.configure(selectedText: `repeat`?.description)
         }).disposed(by: bag)
         viewModel.shouldGoBackAndSave = done
     }
@@ -154,15 +160,24 @@ final class CalendarVc: UIViewController {
     }
     
     func clickedReminder() {
-        navigationController?.pushViewController(Selection1Vc.reminderVc(onDone: { [unowned self] in self.viewModel.reminderSelected($0) }, selected: viewModel.reminder.value), animated: true)
+        navigationController?.pushViewController(Selection1Vc.reminderVc(onDone: { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.reminderSelected($0)
+        }, selected: viewModel.reminder.value), animated: true)
     }
     func clickedRepeat() {
-        navigationController?.pushViewController(Selection1Vc.repeatVc(onDone: { [unowned self] in self.viewModel.repeatSelected($0) }, selected: viewModel.repeat.value), animated: true)
+        navigationController?.pushViewController(Selection1Vc.repeatVc(onDone: { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.repeatSelected($0)
+        }, selected: viewModel.repeat.value), animated: true)
     }
     func clickedTime() {
         let date = viewModel.date.value.0
         let selected = date.flatMap { (hours: $0.hour, minutes: $0.minute) }
-        navigationController?.pushViewController(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [unowned self] in self.viewModel.timeSelected(hours: $0, minutes: $1) }), animated: true)
+        navigationController?.pushViewController(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.timeSelected(hours: $0, minutes: $1)
+        }), animated: true)
     }
     var didDisappear: () -> Void = { }
     deinit {

@@ -26,8 +26,9 @@ class PlannedVcVm {
     init() {
         tasks = RealmProvider.main.realm.objects(RlmTask.self)
         noCalendarModelsUpdateSubject.subscribe(onNext: updateModels).disposed(by: bag)
-        let tasksToken = tasks.observe { [unowned self] _ in
-            noCalendarModelsUpdateSubject.onNext(())
+        let tasksToken = tasks.observe { [weak self] _ in
+            guard let self = self else { return }
+            self.noCalendarModelsUpdateSubject.onNext(())
             // setupDatesSet()
         }
         calendarModelsUpdateSubject

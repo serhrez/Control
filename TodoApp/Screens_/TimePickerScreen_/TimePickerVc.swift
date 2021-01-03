@@ -38,9 +38,11 @@ class TimePickerVc: UIViewController {
         self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 24, selected: hours)
         self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 60, selected: minutes)
         super.init(nibName: nil, bundle: nil)
-        clearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
+        clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
+            guard let self = self else { return }
             self.navigationController?.popViewController(animated: true)
-        }, done: { [unowned self] in
+        }, done: { [weak self] in
+            guard let self = self else { return }
             onDone(self.selectedTime)
             self.navigationController?.popViewController(animated: true)
         })

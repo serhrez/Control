@@ -85,9 +85,10 @@ class AutoselectCheckboxViewBase: UIView {
             for view in newValue {
                 layout(view).edges()
             }
-            layout(OnClickControl(onClick: { [unowned self] touchDown in
+            layout(OnClickControl(onClick: { [weak self] touchDown in
+                guard let self = self else { return }
                 guard touchDown else { return }
-                clicked()
+                self.clicked()
             })).edges()
         }
     }

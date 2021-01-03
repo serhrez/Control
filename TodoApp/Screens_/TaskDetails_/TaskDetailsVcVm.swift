@@ -42,32 +42,35 @@ class TaskDetailsVcVm {
         subtasksUpdate.subscribe().disposed(by: bag)
         taskSubject.onNext(())
 
-        let taskToken = task.observe { [unowned self] _ in
+        let taskToken = task.observe { [weak self] _ in
+            guard let self = self else { return }
             if task.isInvalidated {
                 self.task = nil
                 self.tokens = []
                 return
             }
-            if task.date == nil { dateToken = nil }
-            listenToDate()
-            taskSubject.onNext(())
+            if task.date == nil { self.dateToken = nil }
+            self.listenToDate()
+            self.taskSubject.onNext(())
         }
-        let tagsToken = task.tags.observe { [unowned self] _ in            
-            tagsSubject.onNext(())
+        let tagsToken = task.tags.observe { [weak self] _ in
+            guard let self = self else { return }
+            self.tagsSubject.onNext(())
         }
-        let subtaskToken = task.subtask.observe { [unowned self] changes in
+        let subtaskToken = task.subtask.observe { [weak self] changes in
+            guard let self = self else { return }
             guard !(self.task?.isInvalidated ?? true) else { return }
             switch changes {
             case let .error(error):
                 print(error)
             case .initial:
-                subtasksUpdateSubject.onNext(())
+                self.subtasksUpdateSubject.onNext(())
             case let .update(_, deletions: _, insertions: _, modifications: mods):
                 if !task.subtask.isEmpty {
-                    explicitAddSubtaskEnabled = true
+                    self.explicitAddSubtaskEnabled = true
                 }
-                subtasksUpdateSubject.onNext(())
-                reloadSubtaskCells(mods)
+                self.subtasksUpdateSubject.onNext(())
+                self.reloadSubtaskCells(mods)
             }
         }
         listenToDate()
@@ -127,7 +130,8 @@ class TaskDetailsVcVm {
     }
     func listenToDate() {
         guard dateToken == nil else { return }
-        dateToken = task?.date?.observe { [unowned self] _ in
+        dateToken = task?.date?.observe { [weak self] _ in
+            guard let self = self else { return }
             self.taskSubject.onNext(())
         }
     }

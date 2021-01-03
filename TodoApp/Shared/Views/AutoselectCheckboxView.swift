@@ -29,7 +29,8 @@ class AutoselectCheckboxView: UIView {
         return checkedView
     }()
     private lazy var onClickControl: OnClickControl = {
-        let onClickControl = OnClickControl(onClick: { [unowned self] touchDown in
+        let onClickControl = OnClickControl(onClick: { [weak self] touchDown in
+            guard let self = self else { return }
             guard touchDown else { return }
             self.isChecked.toggle()
             self.changeState(withAnimation: true)

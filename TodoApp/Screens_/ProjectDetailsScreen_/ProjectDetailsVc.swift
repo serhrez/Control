@@ -76,24 +76,26 @@ class ProjectDetailsVc: UIViewController {
     func setupKeyboard() {
         var previousHeight: CGFloat?
         keyboard
-            .on(event: .willChangeFrame) { [unowned self] options in
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
                 guard self.shouldChangeHeightByKeyboardChange else { return }
-                let height = options.endFrame.intersection(view.bounds).height
+                let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
                 previousHeight = height
-                newFormView.snp.remakeConstraints { make in
+                self.newFormView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-height)
                 }
                 self.animateLayoutSubviews()
             }
-            .on(event: .willHide) { [unowned self] options in
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
                 guard self.shouldChangeHeightByKeyboardChange else { return }
-                let height = options.endFrame.intersection(view.bounds).height
+                let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
                 previousHeight = height
-                newFormView.snp.remakeConstraints { make in
+                self.newFormView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-height)
                 }
                 self.animateLayoutSubviews()
@@ -292,7 +294,7 @@ class ProjectDetailsVc: UIViewController {
                 }
             })
         },
-        shouldAnimate: { [unowned self] in self.didAppear })
+        shouldAnimate: { [weak self] in self?.didAppear ?? false })
     private func colorSelection(_ sourceView: UIView, _ selectedColor: UIColor) {
         let colorPicker = ColorPicker(
             viewSource: sourceView,
@@ -345,7 +347,8 @@ class ProjectDetailsVc: UIViewController {
         return view
     }()
     private lazy var newFormView = ProjectNewTaskForm(
-        onCalendarClicked: { [unowned self] _ in
+        onCalendarClicked: { [weak self] _ in
+            guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             self.router.openDateVc(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date) { [weak self] (date, reminder, repeatt) in
                 addTask.date = date
@@ -354,7 +357,8 @@ class ProjectDetailsVc: UIViewController {
                 self?.state = .addTask(addTask)
             }
         },
-        onTagClicked: { [unowned self] sourceView in
+        onTagClicked: { [weak self] sourceView in
+            guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             let prevFirstResponder = self.getFirstResponder()
             let allTags = Array(RealmProvider.main.realm.objects(RlmTag.self))
@@ -388,7 +392,8 @@ class ProjectDetailsVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: showPriorityPicker,
-        onTagPlusClicked: { [unowned self] in
+        onTagPlusClicked: { [weak self] in
+            guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             let tags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in addTask.tags.contains(where: { $0 == tag.name }) }
             self.router.openAllTags(mode: .selection(selected: Array(tags), { selected in
@@ -396,7 +401,7 @@ class ProjectDetailsVc: UIViewController {
                 self.state = .addTask(addTask)
             }))
         },
-        shouldAnimate: { [unowned self] in self.didAppear },
+        shouldAnimate: { [weak self] in self?.didAppear ?? false },
         shouldCreateTask: shouldCreateTask)
     
     func showPriorityPicker(sourceView: UIView) {
@@ -497,9 +502,11 @@ class ProjectDetailsVc: UIViewController {
         tokens.append(token)
     }
     private lazy var tasksWithDoneList = TasksWithDoneList(
-        onSelected: { [unowned self] task in
+        onSelected: { [weak self] task in
+            guard let self = self else { return }
             self.router.openTaskDetails(task)
-        }, shouldDelete: { [unowned self] task in
+        }, shouldDelete: { [weak self] task in
+            guard let self = self else { return }
             let taskId = task.id
             _ = try! DBHelper.archive(taskId: taskId, projectId: self.project.id)
             self.showBottomMessage(type: .taskDeleted, onClicked: {

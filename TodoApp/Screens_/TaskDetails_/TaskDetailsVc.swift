@@ -83,18 +83,20 @@ final class TaskDetailsVc: UIViewController {
         var previousHeight: CGFloat?
         keyboard
             //.toolbar(scrollView: collectionView)
-            .on(event: .willChangeFrame) { [unowned self] options in
-                let height = options.endFrame.intersection(scrollView.convert(scrollView.bounds, to: nil)).height
-                testx = options.endFrame
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
+                let height = options.endFrame.intersection(self.scrollView.convert(self.scrollView.bounds, to: nil)).height
+                self.testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
                 UIView.animate(withDuration: 0.5) {
                     self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                 }
             }
-            .on(event: .willHide) { [unowned self] options in
-                let height = options.endFrame.intersection(scrollView.convert(scrollView.bounds, to: nil)).height
-                testx = options.endFrame
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
+                let height = options.endFrame.intersection(self.scrollView.convert(self.scrollView.bounds, to: nil)).height
+                self.testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
                 UIView.animate(withDuration: 0.5) {
@@ -106,7 +108,8 @@ final class TaskDetailsVc: UIViewController {
     
     private func setupBindings() {
         checkboxh1.onSelected = viewModel.toggleDone
-        tokenField.onPlusButtonClicked = { [unowned self] in
+        tokenField.onPlusButtonClicked = { [weak self] in
+            guard let self = self else { return }
             self.addTagsSelected(action: PopuptodoAction())
         }
     }
@@ -117,7 +120,8 @@ final class TaskDetailsVc: UIViewController {
         subtasksTable.delegate = self
         subtasksTable.backgroundColor = .clear
         
-        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [unowned self] (data, tableView, indexPath, model) -> UITableViewCell in
+        let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [weak self] (data, tableView, indexPath, model) -> UITableViewCell in
+            guard let self = self else { return .init() }
             switch model {
             case .addSubtask:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
@@ -139,7 +143,8 @@ final class TaskDetailsVc: UIViewController {
         }
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
-            .do(onNext: { [unowned self] _ in
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 let itemsCount = self.viewModel.subtasksModels[0].items.count
                 let height = CGFloat(itemsCount * SubtaskCell.height)// + (itemsCount > 0 ? 44 : 0))
                 self.subtasksTable.snp.remakeConstraints { make in

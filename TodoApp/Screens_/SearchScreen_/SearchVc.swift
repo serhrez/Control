@@ -34,18 +34,20 @@ class SearchVc: UIViewController {
     
     private func setupKeyboard() {
         keyboard
-            .on(event: .willChangeFrame) { [unowned self] options in
-                let height = options.endFrame.intersection(view.bounds).height
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
+                let height = options.endFrame.intersection(self.view.bounds).height
                 UIView.animate(withDuration: 0.5) {
-                    collectionView.snp.remakeConstraints { make in
+                    self.collectionView.snp.remakeConstraints { make in
                         make.bottom.equalToSuperview().offset(-height)
                     }
                 }
             }
-            .on(event: .willHide) { [unowned self] options in
-                let height = options.endFrame.intersection(view.bounds).height
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
+                let height = options.endFrame.intersection(self.view.bounds).height
                 UIView.animate(withDuration: 0.5) {
-                    collectionView.snp.remakeConstraints { make in
+                    self.collectionView.snp.remakeConstraints { make in
                         make.bottom.equalToSuperview().offset(-height)
                     }
                 }
@@ -76,7 +78,8 @@ class SearchVc: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         collectionView.register(TaskCellx2.self, forCellWithReuseIdentifier: TaskCellx2.reuseIdentifier)
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<SearchVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<SearchVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            guard let self = self else { return .init() }
             let task = model.task
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
             cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })

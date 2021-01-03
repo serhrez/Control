@@ -88,7 +88,12 @@ class CheckboxView: UIView {
         self.isChecked = isChecked
         changeState(withAnimation: previousIsChecked != nil)
     }
-    lazy var control = OnClickControl(onClick: { [unowned self] in if $0 { self.onSelected?() } })
+    lazy var control = OnClickControl(onClick: { [weak self] in
+        guard let self = self else { return }
+        if $0 {
+            self.onSelected?()
+        }
+    })
 
     override func setNeedsDisplay() {
         super.setNeedsDisplay()

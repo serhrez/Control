@@ -69,17 +69,19 @@ class AllTagsVc: UIViewController {
     func setupKeyboard() {
         var previousHeight: CGFloat?
         keyboard
-            .on(event: .willChangeFrame) { [unowned self] (options) in
+            .on(event: .willChangeFrame) { [weak self] (options) in
+                guard let self = self else { return }
                 guard self.isVisible else { return }
-                let height = options.endFrame.intersection(view.frame).height
+                let height = options.endFrame.intersection(self.view.frame).height
                 print("willChangeFrame set height: \(height)")
                 if previousHeight == height { return }
                 previousHeight = height
                 self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             }
-            .on(event: .willHide, do: { [unowned self] (options) in
+            .on(event: .willHide, do: { [weak self] (options) in
+                guard let self = self else { return }
                 guard self.isVisible else { return }
-                let height = options.endFrame.intersection(view.frame).height
+                let height = options.endFrame.intersection(self.view.frame).height
                 print("willHide set height: \(height)")
                 if previousHeight == height { return }
                 previousHeight = height
@@ -101,7 +103,8 @@ class AllTagsVc: UIViewController {
         }
         collectionView.register(AllTagsAddTagCell.self, forCellWithReuseIdentifier: AllTagsAddTagCell.reuseIdentifier)
         collectionView.register(AllTagsEnterNameCell.self, forCellWithReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier)
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<AllTagsVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            guard let self = self else { return .init() }
             switch model {
             case .addTag:
                 let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsAddTagCell.reuseIdentifier, for: indexPath) as! AllTagsAddTagCell
@@ -116,7 +119,10 @@ class AllTagsVc: UIViewController {
                     return tagCell
                 case .selection:
                     let tagCell = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsSelectionTagCell.reuseIdentifier, for: indexPath) as! AllTagsSelectionTagCell
-                    tagCell.configure(name: tag.name, isSelected: viewModel.selectionSet.contains(tag), onSelected: { [unowned self] in self.viewModel.changeTagInSelectionSet(tag: tag, shouldBeInSet: $0) })
+                    tagCell.configure(name: tag.name, isSelected: self.viewModel.selectionSet.contains(tag), onSelected: { [weak self] in
+                        guard let self = self else { return }
+                        self.viewModel.changeTagInSelectionSet(tag: tag, shouldBeInSet: $0)
+                    })
                     tagCell.motionIdentifier = tag.id
                     tagCell.delegate = self
                     return tagCell

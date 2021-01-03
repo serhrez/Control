@@ -151,17 +151,19 @@ final class IconPickerFullVc: UIViewController {
     
     private func setupKeyboard() {
         keyboard
-            .on(event: .willChangeFrame) { [unowned self] options in
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
                 guard self.isVisible else { return }
-                let height = options.endFrame.intersection(containerView.frame).height
+                let height = options.endFrame.intersection(self.containerView.frame).height
                 UIView.animate(withDuration: 0) {
                     self.collectionView.contentInset = .init(top: 17, left: 0, bottom: height, right: 0)
                     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset
                 }
             }
-            .on(event: .willHide) { [unowned self] options in
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
                 guard self.isVisible else { return }
-                let height = options.endFrame.intersection(containerView.frame).height
+                let height = options.endFrame.intersection(self.containerView.frame).height
                 UIView.animate(withDuration: 0) {
                     self.collectionView.contentInset = .init(top: 17, left: 0, bottom: height, right: 0)
                     self.collectionView.scrollIndicatorInsets = self.collectionView.contentInset

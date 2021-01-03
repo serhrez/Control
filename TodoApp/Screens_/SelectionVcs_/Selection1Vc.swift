@@ -45,7 +45,8 @@ class Selection1Vc: UIViewController {
         containerView.layer.cornerRadius = 16
         for i in items.enumerated() {
             let view = Selection1View(text: i.element.description, isSelected: i.offset == selectedIndex, isStyle2: i.offset == 0)
-            view.onSelected = { [unowned self] in
+            view.onSelected = { [weak self] in
+                guard let self = self else { return }
                 self.selectItem(i.offset)
             }
             selectionViews.append(view)
@@ -65,9 +66,11 @@ class Selection1Vc: UIViewController {
         selectionViews[selectedIndex].setIsChecked(true)
     }
     
-    lazy var clearDoneButtons: ClearDoneButtons = ClearDoneButtons(clear: { [unowned self] in
+    lazy var clearDoneButtons: ClearDoneButtons = ClearDoneButtons(clear: { [weak self] in
+        guard let self = self else { return }
         self.navigationController?.popViewController(animated: true)
-    }, done: { [unowned self] in
+    }, done: { [weak self] in
+        guard let self = self else { return }
         self.onDone(self.selectedIndex)
         self.navigationController?.popViewController(animated: true)
     })

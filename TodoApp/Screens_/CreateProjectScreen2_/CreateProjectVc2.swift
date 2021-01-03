@@ -37,27 +37,29 @@ class CreateProjectVc2: UIViewController {
     private func setupKeyboard() {
         var previousHeight: CGFloat?
         keyboard
-            .on(event: .willChangeFrame) { [unowned self] options in
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
                 guard self.shouldChangeHeightByKeyboardChange else { return }
-                let height = options.endFrame.intersection(view.bounds).height
+                let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height: \(height)")
-                containerView.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(max(height, view.safeAreaInsets.bottom)))
+                self.containerView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
                 }
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutSubviews()
                 }
             }
-            .on(event: .willHide) { [unowned self] options in
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
                 guard self.shouldChangeHeightByKeyboardChange else { return }
-                let height = options.endFrame.intersection(view.bounds).height
+                let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height from willHide: \(height)")
-                containerView.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(max(height, view.safeAreaInsets.bottom)))
+                self.containerView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
                 }
                 UIView.animate(withDuration: 0.5) {
                     self.view.layoutSubviews()

@@ -46,7 +46,8 @@ final class ArchiveVc: UIViewController {
         collectionView.delegate = self
         flowLayout.minimumLineSpacing = 7
         collectionView.register(TasksListTaskCell.self, forCellWithReuseIdentifier: TasksListTaskCell.reuseIdentifier)
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<ArchiveVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<ArchiveVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
+            guard let self = self else { return UICollectionViewCell() }
             print("cell for row at \(indexPath)")
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
             cell.delegate = self

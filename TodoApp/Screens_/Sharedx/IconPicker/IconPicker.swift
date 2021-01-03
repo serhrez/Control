@@ -42,7 +42,8 @@ final class IconPicker: UIViewController {
         return container
     }()
     private lazy var onClickBackground = OnClickControl(
-        onClick: { [unowned self] in
+        onClick: { [weak self] in
+            guard let self = self else { return }
             if !$0 {
                 self.dismiss(animated: true, completion: nil)
             }

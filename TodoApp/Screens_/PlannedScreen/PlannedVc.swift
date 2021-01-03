@@ -70,19 +70,21 @@ final class PlannedVc: UIViewController {
         noCalendarViewCollectionView.register(PlannedTaskCell.self, forCellWithReuseIdentifier: PlannedTaskCell.reuseIdentifier)
         noCalendarViewCollectionView.register(PlannedVcHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlannedVcHeader.identifier)
 
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<PlannedVcVm.AnimDateSection<PlannedVcVm.Model>> { [unowned self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<PlannedVcVm.AnimDateSection<PlannedVcVm.Model>> { [weak self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
+            guard let self = self else { return .init() }
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { self.viewModel.setIsDone($0, to: task) })
                 return cell
             }
         }
-        dataSource.configureSupplementaryView = { [unowned self] dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+        dataSource.configureSupplementaryView = { [weak self] dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+            guard let self = self else { return .init() }
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PlannedVcHeader.identifier, for: indexPath) as! PlannedVcHeader
-                let date = viewModel.noCalendarModelsUpdate.value[indexPath.section].date
+                let date = self.viewModel.noCalendarModelsUpdate.value[indexPath.section].date
                 headerView.configure(date: date)
                 return headerView
             default: fatalError()
@@ -101,11 +103,12 @@ final class PlannedVc: UIViewController {
         calendarViewCollectionView.delegate = self
         calendarViewCollectionView.register(PlannedTaskCell.self, forCellWithReuseIdentifier: PlannedTaskCell.reuseIdentifier)
 
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<PlannedVcVm.Model>> { [unowned self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<PlannedVcVm.Model>> { [weak self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
+            guard let self = self else { return .init() }
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { self.viewModel.setIsDone($0, to: task) })
                 return cell
             }
         }
@@ -146,9 +149,10 @@ final class PlannedVc: UIViewController {
         imageView2.contentMode = .scaleAspectFit
         imageView2.tintColor = .hex("#000000")
         var hasTransitioned = true
-        let switchButton = CustomButtonx2(highlight: { [unowned self] button, isSelected in
-            let image1OnSelected: Float = selectedMode1 ? 1 : 0
-            let image2OnSelected: Float = selectedMode1 ? 0 : 1
+        let switchButton = CustomButtonx2(highlight: { [weak self] button, isSelected in
+            guard let self = self else { return }
+            let image1OnSelected: Float = self.selectedMode1 ? 1 : 0
+            let image2OnSelected: Float = self.selectedMode1 ? 0 : 1
             imageView.layer.opacity = isSelected ? image1OnSelected : 1 - image1OnSelected
             imageView2.layer.opacity = isSelected ? image2OnSelected : 1 - image2OnSelected
         }, onSelected: { [weak self] in
@@ -231,8 +235,9 @@ fileprivate class CustomButtonx2: UIView {
         super.init(frame: .zero)
         layout(control).edges()
         var isAnimationCompleted: Bool = true
-        control.shouldHighlight = { [unowned self] isHighlighted in
-            guard isAnimationCompleted && shouldAllowSelection() else { return }
+        control.shouldHighlight = { [weak self] isHighlighted in
+            guard let self = self else { return }
+            guard isAnimationCompleted && self.shouldAllowSelection() else { return }
             isAnimationCompleted = false
             UIView.animate(withDuration: 0.5, animations: {
                 highlight(self, isHighlighted)

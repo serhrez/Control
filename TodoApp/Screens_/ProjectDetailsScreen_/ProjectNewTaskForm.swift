@@ -112,7 +112,8 @@ class ProjectNewTaskForm: UIView {
         taskDescription.snp.makeConstraints { make in
             make.height.equalTo(taskDescriptionFont.lineHeight)
         }
-        taskDescription.shouldSetHeight = { [unowned self] newHeight in
+        taskDescription.shouldSetHeight = { [weak self] newHeight in
+            guard let self = self else { return }
             self.taskDescription.snp.remakeConstraints { make in
                 make.height.equalTo(newHeight)
             }

@@ -25,7 +25,7 @@ class TagDetailVcVm {
             guard let self = self else { return }
             switch changes {
             case let .initial(results), let .update(results, deletions: _, insertions: _, modifications: _):
-                let tasks = Array(results).filter { [unowned self] in $0.tags.contains(self.tag) }
+                let tasks = Array(results).filter { $0.tags.contains(self.tag) }
                 let modelTasks = self.reorderedElements(tasks).map { Model(task: $0) }
                 let section = AnimSection(items: modelTasks)
                 self.tasks.accept([section])
@@ -47,7 +47,7 @@ class TagDetailVcVm {
     }
     
     func getOtherTagThanItself(for task: RlmTask) -> RlmTag? {
-        task.tags.filter { [unowned self] in $0 != self.tag }.first
+        task.tags.filter { $0 != self.tag }.first
     }
     
     func taskSelected(_ task: RlmTask, isDone: Bool) {

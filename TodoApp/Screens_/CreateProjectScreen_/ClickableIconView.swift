@@ -12,7 +12,12 @@ import Material
 class ClickableIconView: UIView {
     let iconView = IconView()
     var onClick: () -> Void
-    private lazy var onClickControl = OnClickControl(onClick: { [unowned self] in if !$0 { self.onClick() }  })
+    private lazy var onClickControl = OnClickControl(onClick: { [weak self] in
+        guard let self = self else { return }
+        if !$0 {
+            self.onClick()
+        }
+    })
     init(onClick: @escaping () -> Void) {
         self.onClick = onClick
         super.init(frame: .zero)
