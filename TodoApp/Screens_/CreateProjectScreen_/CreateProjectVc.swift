@@ -92,14 +92,16 @@ class CreateProjectVc: UIViewController {
     }
     
     func properlyLayout() {
-        if didAppear {
-            UIView.animate(withDuration: 0.5) {
-                self.containerView.layoutSubviews()
-                self.view.layoutSubviews()
-            }
-        } else {
+        func apply() {
             self.containerView.layoutSubviews()
             self.view.layoutSubviews()
+        }
+        if didAppear {
+            UIView.animate(withDuration: 0.5) {
+                apply()
+            }
+        } else {
+            apply()
         }
     }
     
@@ -146,16 +148,22 @@ class CreateProjectVc: UIViewController {
 
     private lazy var colorCircle: GappedCircle = {
         let circle = GappedCircle(circleColor: color, widthHeight: 22)
-        circle.onClick = self.colorSelection
+        circle.onClick = { [weak self] in
+            self?.colorSelection()
+        }
         circle.configure(isSelected: true, animated: false)
         return circle
     }()
 
-    private lazy var closeButton = CloseButton(onClicked: closeClicked)
+    private lazy var closeButton = CloseButton(onClicked: { [weak self] in
+        self?.closeClicked()
+    })
     
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
-        button.onClick = plusClicked
+        button.onClick = { [weak self] in
+            self?.plusClicked()
+        }
         let plus = UIView()
         plus.widthAnchor.constraint(equalToConstant: 50).isActive = true
         plus.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -197,7 +205,9 @@ class CreateProjectVc: UIViewController {
         return textField
     }()
     private lazy var clickableIcon: ClickableIconView = {
-        let iconView = ClickableIconView(onClick: iconSelected)
+        let iconView = ClickableIconView(onClick: { [weak self] in
+            self?.iconSelected()
+        })
         iconView.iconView.iconFontSize = 48
         iconView.iconView.configure(icon)
         iconView.widthAnchor.constraint(equalToConstant: 48).isActive = true
