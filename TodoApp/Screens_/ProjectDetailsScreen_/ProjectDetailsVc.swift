@@ -268,7 +268,9 @@ class ProjectDetailsVc: UIViewController {
     private func topViewSetup() {
         guard !isInbox else { return }
         view.layout(topView).leading(13).trailing(13).topSafe()
-        topView.shouldLayoutSubviews = view.layoutSubviews
+        topView.shouldLayoutSubviews = { [weak self] in
+            self?.view.layoutSubviews()
+        }
         topView.addShadowFromOutside()
     }
     lazy var topView = ProjectDetailsTop(
@@ -286,7 +288,9 @@ class ProjectDetailsVc: UIViewController {
                 self?.project.notes = newDescription
             }
         },
-        colorSelection: colorSelection,
+        colorSelection: { [weak self] sourceView, selectedColor in
+            self?.colorSelection(sourceView, selectedColor)
+        },
         iconSelected: { [weak self] in
             self?.router.openIconPicker(onDone: { selected in
                 _ = try! RealmProvider.main.realm.write {
@@ -294,7 +298,9 @@ class ProjectDetailsVc: UIViewController {
                 }
             })
         },
-        shouldAnimate: { [weak self] in self?.didAppear ?? false })
+        shouldAnimate: { [weak self] in
+            return self?.didAppear ?? false
+        })
     private func colorSelection(_ sourceView: UIView, _ selectedColor: UIColor) {
         let colorPicker = ColorPicker(
             viewSource: sourceView,
@@ -333,7 +339,9 @@ class ProjectDetailsVc: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newFormViewBgTapped))
         newFormViewBg.addGestureRecognizer(tapGesture)
         view.layout(newFormView).leading().trailing().topSafe(30) { _, _ in .greaterThanOrEqual }
-        newFormView.shouldLayoutSubviews = view.layoutSubviews
+        newFormView.shouldLayoutSubviews = { [weak self] in
+            self?.view.layoutSubviews()
+        }
         newFormView.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.bottom)
         }
@@ -391,7 +399,9 @@ class ProjectDetailsVc: UIViewController {
             self.addChildPresent(tagPicker)
             tagPicker.becomeFirstResponder()
         },
-        onPriorityClicked: showPriorityPicker,
+        onPriorityClicked: { [weak self] sourceView in
+            self?.showPriorityPicker(sourceView: sourceView)
+        },
         onTagPlusClicked: { [weak self] in
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
@@ -402,7 +412,9 @@ class ProjectDetailsVc: UIViewController {
             }))
         },
         shouldAnimate: { [weak self] in self?.didAppear ?? false },
-        shouldCreateTask: shouldCreateTask)
+        shouldCreateTask: { [weak self] taskModel in
+            self?.shouldCreateTask(task: taskModel)
+        })
     
     func showPriorityPicker(sourceView: UIView) {
         let prevFirstResponder = self.getFirstResponder()
