@@ -46,6 +46,8 @@ class DefaultTokenCell: ResizingTokenFieldTokenCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 12).isActive = true
+        titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: 12).isActive = true
     }
     
     // MARK: - Configuration
