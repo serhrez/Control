@@ -19,6 +19,7 @@ class TasksWithDoneList: UIView {
     private lazy var dataSource: DataSource = makeDataSource()
     private let bag = DisposeBag()
     private let onSelected: (RlmTask) -> Void
+    private let onChangeIsDone: (RlmTask) -> Void
     private let shouldDelete: ((RlmTask) -> Void)?
     private var currentItems: [AnimSection<Model>]?
     private let itemsToDataSource = PublishSubject<[AnimSection<Model>]>()
@@ -42,9 +43,10 @@ class TasksWithDoneList: UIView {
         }
     }
     
-    init(onSelected: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false) {
+    init(onSelected: @escaping (RlmTask) -> Void, onChangeIsDone: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false) {
         self.onSelected = onSelected
         self.shouldDelete = shouldDelete
+        self.onChangeIsDone = onChangeIsDone
         super.init(frame: .zero)
         gradientView.isHidden = isGradientHidden
         setupView()
@@ -191,9 +193,7 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
         guard let item = currentItems?[path.section].items[path.row] else { return }
         switch item {
         case let .task(task), let .doneTask(task):
-            _ = try! RealmProvider.main.realm.write {
-                task.isDone.toggle()
-            }
+            onChangeIsDone(task)
         }
 
     }
@@ -207,9 +207,7 @@ extension TasksWithDoneList: UICollectionViewDelegate {
         case let .task(task):
             onSelected(task)
         case let .doneTask(task):
-            _ = try! RealmProvider.main.realm.write {
-                task.isDone.toggle()
-            }
+            onChangeIsDone(task)
         }
     }
 }

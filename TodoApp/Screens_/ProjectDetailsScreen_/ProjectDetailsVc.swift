@@ -517,6 +517,10 @@ class ProjectDetailsVc: UIViewController {
         onSelected: { [weak self] task in
             guard let self = self else { return }
             self.router.openTaskDetails(task)
+        }, onChangeIsDone: { task in
+            _ = try! RealmProvider.main.realm.write {
+                task.isDone.toggle()
+            }
         }, shouldDelete: { [weak self] task in
             guard let self = self else { return }
             let taskId = task.id
