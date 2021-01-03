@@ -60,7 +60,7 @@ class SearchVc: UIViewController {
         searchBar.delegate = self
         searchBar.searchTextField.backgroundColor = UIColor(named: "TAAltBackground")!
         
-        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
+        let leftNavBarButton = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClicked))
         cancelButton.tintColor = UIColor.hex("#447BFE")
@@ -79,10 +79,9 @@ class SearchVc: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.register(TaskCellx2.self, forCellWithReuseIdentifier: TaskCellx2.reuseIdentifier)
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<SearchVcVm.Model>> { [weak self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-            guard let self = self else { return .init() }
             let task = model.task
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCellx2.reuseIdentifier, for: indexPath) as! TaskCellx2
-            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self.viewModel.onTaskDone(task, isDone: $0) })
+            cell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, hasOtherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty, isChecked: task.isDone, onSelected: { self?.viewModel.onTaskDone(task, isDone: $0) })
             return cell
         }
         viewModel.searchResult
@@ -95,7 +94,10 @@ class SearchVc: UIViewController {
         router.navigationController?.popViewController(animated: true)
     }
     var didDisappear: () -> Void = { }
-    deinit { didDisappear() }
+    deinit {
+        print("SearchVc deinit")
+        didDisappear()
+    }
 }
 
 extension SearchVc: AppNavigationRouterDelegate { }
