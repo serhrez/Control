@@ -92,7 +92,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     }
     
     /// Background color for highlighted state.
-    public var overlayColor: Color = .white
+    public var overlayColor: Color = UIColor(named: "TAAltBackground")!
 
     // MARK: - Subviews
     

@@ -32,7 +32,7 @@ class AllTagsTagCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
         tasksCountView.bgColor = .hex("#00CE15")

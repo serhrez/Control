@@ -31,16 +31,16 @@ final class AddProjectCell: UITableViewCell {
         let centerView = UIView()
         let label = UILabel()
         
-        addImage.tintColor = UIColor(hex: "#a4a4a4")
+        addImage.tintColor = UIColor(named: "TASubElement")!
         
         label.text = "Add Project"
-        label.textColor = UIColor(hex: "#a4a4a4")
+        label.textColor = UIColor(named: "TASubElement")!
 
         layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()
         centerView.layout(label).trailing().top().bottom().leading(addImage.anchor.trailing)
         layout(overlayView).edges()
-        overlayView.selectedBackgroundColor = .hex("#A4A4A4")
+        overlayView.selectedBackgroundColor = UIColor(named: "TASubElement")!
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

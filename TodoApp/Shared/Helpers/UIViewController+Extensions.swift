@@ -27,7 +27,7 @@ extension UIViewController: UIGestureRecognizerDelegate {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.hex("#242424"),
+            .foregroundColor: UIColor(named: "TAHeading")!,
             .font: UIFont.systemFont(ofSize: 22, weight: .bold)
         ]
 
@@ -40,7 +40,7 @@ extension UIViewController: UIGestureRecognizerDelegate {
                     self.navigationController?.popViewController(animated: true)
                 }
             }), menu: nil)
-            barButtonItem.tintColor = .hex("#242424")
+            barButtonItem.tintColor = UIColor(named: "TAHeading")!
             
             navigationController?.interactivePopGestureRecognizer?.delegate = self
             navigationItem.leftBarButtonItem = barButtonItem

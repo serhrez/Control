@@ -27,7 +27,7 @@ class UICollectionFractionalWidthSeparator: UICollectionReusableView {
     static let reuseId = "separatorid"
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         let separator = UIView()
         layout(separator).leading(25).trailing(25).top().bottom()
         

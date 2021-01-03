@@ -50,7 +50,7 @@ class ProjectNewTaskForm: UIView {
             if datee != nil || reminder != nil || repeatt != nil {
                 calendarButton.tintColor = .hex("#447BFE")
             } else {
-                calendarButton.tintColor = .hex("#A4A4A4")
+                calendarButton.tintColor = UIColor(named: "TASubElement")!
             }
         }
     }
@@ -58,13 +58,13 @@ class ProjectNewTaskForm: UIView {
     var tags: [String] = [] {
         didSet {
             updateTokenField()
-            tagButton.tintColor = !tags.isEmpty ? .hex("#00CE15") : .hex("#A4A4A4")
+            tagButton.tintColor = !tags.isEmpty ? .hex("#00CE15") : UIColor(named: "TASubElement")!
         }
     }
     var priority: Priority = .none {
         didSet {
             checkbox.configure(priority: priority)
-            priorityButton.tintColor = priority != .none ? priority.color : .hex("#A4A4A4")
+            priorityButton.tintColor = priority != .none ? priority.color : UIColor(named: "TASubElement")!
         }
     }
     init(onCalendarClicked: @escaping (UIView) -> Void,
@@ -94,7 +94,7 @@ class ProjectNewTaskForm: UIView {
     }
     func setupViews() {
         addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
-        backgroundColor = .hex("#ffffff")
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         let scrollView = UIScrollView()
         layout(scrollView).edges()
@@ -178,7 +178,7 @@ class ProjectNewTaskForm: UIView {
     
     private let bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = .hex("#FFFFFF")
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         return view
     }()
     
@@ -225,9 +225,9 @@ class ProjectNewTaskForm: UIView {
 
         textField.delegate = self
         textField.font = .systemFont(ofSize: 20, weight: .medium)
-        textField.textColor = .hex("#242424")
+        textField.textColor = UIColor(named: "TAHeading")!
         let attributes = Attributes().font(UIFont.systemFont(ofSize: 20, weight: .medium))
-        textField.attributedPlaceholder = "Call to John Wick?".at.attributed(with: attributes.foreground(color: .hex("#a4a4a4")))
+        textField.attributedPlaceholder = "Call to John Wick?".at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         return textField
     }()
     lazy var calendarButton: ImageButton = {
@@ -235,7 +235,7 @@ class ProjectNewTaskForm: UIView {
         simpleButton.imageName = "calendar-plus"
         simpleButton.imageWidth = 16
         simpleButton.configureImage()
-        simpleButton.tintColor = .hex("#a4a4a4")
+        simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(calendarClicked), for: .touchUpInside)
         return simpleButton
     }()
@@ -247,7 +247,7 @@ class ProjectNewTaskForm: UIView {
         simpleButton.imageName = "tag"
         simpleButton.imageWidth = 17.38
         simpleButton.configureImage()
-        simpleButton.tintColor = .hex("#a4a4a4")
+        simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(tagClicked), for: .touchUpInside)
         return simpleButton
     }()
@@ -259,7 +259,7 @@ class ProjectNewTaskForm: UIView {
         simpleButton.imageName = "flag"
         simpleButton.imageWidth = 14
         simpleButton.configureImage()
-        simpleButton.tintColor = .hex("#a4a4a4")
+        simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(priorityClicked), for: .touchUpInside)
         return simpleButton
     }()
@@ -294,7 +294,7 @@ class ProjectNewTaskForm: UIView {
         let textView = MyGrowingTextView(placeholderText: "Need to add notes?", scrollBehavior: .noScroll)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
-        let attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
+        let attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
         textView.placeholderAttrs = attributes
         textView.textFieldAttrs = attributes
 

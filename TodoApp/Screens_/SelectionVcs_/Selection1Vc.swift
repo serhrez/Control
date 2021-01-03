@@ -39,9 +39,9 @@ class Selection1Vc: UIViewController {
     }
     private func setupViews() {
         applySharedNavigationBarAppearance()
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         view.layout(containerView).centerY().leadingSafe(13).trailingSafe(13)
-        containerView.backgroundColor = .white
+        containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
         for i in items.enumerated() {
             let view = Selection1View(text: i.element.description, isSelected: i.offset == selectedIndex, isStyle2: i.offset == 0)

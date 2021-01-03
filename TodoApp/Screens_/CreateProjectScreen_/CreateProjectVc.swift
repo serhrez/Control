@@ -77,7 +77,7 @@ class CreateProjectVc: UIViewController {
     private let bag = DisposeBag()
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -90,7 +90,7 @@ class CreateProjectVc: UIViewController {
         return iconView
     }()
     private lazy var colorCircle: GappedCircle = {
-        let circle = GappedCircle(circleColor: self.viewModel.project?.color ?? .hex("#ffffff"), widthHeight: 22)
+        let circle = GappedCircle(circleColor: self.viewModel.project?.color ?? UIColor(named: "TAAltBackground")!, widthHeight: 22)
         circle.onClick = self.colorSelection
         circle.configure(isSelected: true, animated: false)
         return circle
@@ -98,16 +98,16 @@ class CreateProjectVc: UIViewController {
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)
-        textField.textColor = .hex("#242424")
+        textField.textColor = UIColor(named: "TAHeading")!
         textField.delegate = self
         textField.attributedPlaceholder = "New Project".at.attributed { attr in
-            attr.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 28, weight: .bold))
+            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
         return textField
     }()
     private lazy var growingTextView: GrowingTextView = {
         func attrs(_ attr: Attributes) -> Attributes {
-            attr.lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 20, weight: .regular)).firstLineHeadIndent(0).headIndent(0)
+            attr.lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 20, weight: .regular)).firstLineHeadIndent(0).headIndent(0)
         }
         let description = GrowingTextView()
         description.attributedPlaceholder = "Notes".at.attributed(attrs)
@@ -137,7 +137,7 @@ class CreateProjectVc: UIViewController {
     }()
     private let toolbarContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         return view
     }()
     private lazy var toolbar = Toolbar(
@@ -162,7 +162,7 @@ class CreateProjectVc: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         navigationItem.backButton.isHidden = true
         view.layout(container).top(119).bottomSafe(30).leading().trailing()
         container.layout(closeButton).top(12).trailing(12)
@@ -373,7 +373,7 @@ class CreateProjectVc: UIViewController {
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
-        actions[3].imageTintColor = .hex("#A4A4A4")
+        actions[3].imageTintColor = UIColor(named: "TASubElement")!
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: toolbar.tagView, actions: actions)
         popMenu.appearance = .appAppearance

@@ -36,7 +36,7 @@ class SettingsVc: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .hex("#f6f6f3")
+        view.backgroundColor = UIColor(named: "TABackground")
         applySharedNavigationBarAppearance()
         title = "Settings"
         

@@ -11,7 +11,7 @@ import Material
 import AttributedLib
 
 class ColorPicker: UIViewController {
-    private let colors: [UIColor] = [.hex("#242424"), .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
+    private let colors: [UIColor] = [UIColor(named: "TAHeading")!, .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
     
     private lazy var circles: [GappedCircle] = colors.map { [unowned self] color in
         let g = GappedCircle(circleColor: color)
@@ -26,7 +26,7 @@ class ColorPicker: UIViewController {
     }()
     private lazy var whiteContainer: UIView = {
         let container = UIView()
-        container.backgroundColor = .white
+        container.backgroundColor = UIColor(named: "TAAltBackground")!
         container.layer.cornerRadius = 16
         container.layer.cornerCurve = .continuous
         container.layout(circlesStack).edges(top: 20, left: 20, bottom: 20, right: 20)
@@ -71,7 +71,7 @@ class ColorPicker: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hex("#F6F6F3").withAlphaComponent(0.8)
+        view.backgroundColor = UIColor(named: "TABackground")!.withAlphaComponent(0.8)
         setupViews()
         if shouldPurposelyAnimateViewBackgroundColor {
             view.layer.opacity = 0

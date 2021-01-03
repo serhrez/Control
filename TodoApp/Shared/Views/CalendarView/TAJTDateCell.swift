@@ -35,7 +35,7 @@ class TAJTDateCell: JTACDayCell {
     func configure(with cellState: CellState, blue: Bool, orange: Bool, red: Bool, gray: Bool) {
         label.text = cellState.text
         if cellState.isSelected {
-            label.textColor = .white
+            label.textColor = UIColor(named: "TAAltBackground")!
         } else
         if cellState.dateBelongsTo == DateOwner.thisMonth {
             label.textColor = UIColor(red: 0.142, green: 0.142, blue: 0.142, alpha: 1)
@@ -46,10 +46,10 @@ class TAJTDateCell: JTACDayCell {
         previousIndicatorsStack?.removeFromSuperview()
         var indicatorColors: [UIColor] = []
         if gray {
-            indicatorColors.append(.hex("#A4A4A4"))
+            indicatorColors.append(UIColor(named: "TASubElement")!)
         }
         if blue {
-            indicatorColors.append(cellState.isSelected ? .white : UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1))
+            indicatorColors.append(cellState.isSelected ? UIColor(named: "TAAltBackground")! : UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1))
         }
         if orange {
             indicatorColors.append(UIColor(red: 1, green: 0.6, blue: 0, alpha: 1))

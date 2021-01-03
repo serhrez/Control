@@ -80,12 +80,12 @@ class TasksListTaskCell: SwipeCollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.heightAnchor.constraint(equalToConstant: 11).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 11).isActive = true
-        imageView.tintColor = .hex("#A4A4A4")
+        imageView.tintColor = UIColor(named: "TASubElement")!
         return imageView
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.hex("#ffffff").cgColor
+        contentView.layer.backgroundColor = UIColor(named: "TAAltBackground")!.cgColor
         // Had to create second contentView so we have separat
         layer.cornerRadius = 16
         clipsToBounds = true
@@ -110,7 +110,7 @@ class TasksListTaskCell: SwipeCollectionViewCell {
     private func getDateLabel(text: String) -> UILabel {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .hex("#A4A4A4")
+        label.textColor = UIColor(named: "TASubElement")!
         label.text = text
         
         return label

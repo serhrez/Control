@@ -50,7 +50,7 @@ class ProjectDetailsTop: UIView {
     }
     
     func setupViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
         layout(colorCircle).leading(28).top(33)
@@ -83,10 +83,10 @@ class ProjectDetailsTop: UIView {
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)
-        textField.textColor = .hex("#242424")
+        textField.textColor = UIColor(named: "TAHeading")!
         textField.delegate = self
         textField.attributedPlaceholder = "New Project".at.attributed { attr in
-            attr.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 28, weight: .bold))
+            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
         return textField
     }()
@@ -95,7 +95,7 @@ class ProjectDetailsTop: UIView {
     lazy var projectDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
         description.onEnter = { [weak description] in description?.textField.resignFirstResponder() }
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(projectDescriptionFont)
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(projectDescriptionFont)
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self

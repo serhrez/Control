@@ -81,12 +81,12 @@ class TaskCellx2: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.heightAnchor.constraint(equalToConstant: 11).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 11).isActive = true
-        imageView.tintColor = .hex("#A4A4A4")
+        imageView.tintColor = UIColor(named: "TASubElement")!
         return imageView
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.white.cgColor
+        contentView.layer.backgroundColor = UIColor(named: "TAAltBackground")!.cgColor
         contentView.layer.cornerRadius = 16
         contentView.clipsToBounds = true
 
@@ -112,7 +112,7 @@ class TaskCellx2: UICollectionViewCell {
     private func getDateLabel(text: String) -> UILabel {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .hex("#A4A4A4")
+        label.textColor = UIColor(named: "TASubElement")!
         label.text = text
         
         return label

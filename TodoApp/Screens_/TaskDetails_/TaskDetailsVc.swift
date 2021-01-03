@@ -24,11 +24,12 @@ final class TaskDetailsVc: UIViewController {
     private lazy var subtasksTable: UITableView = {
         let collectionView = UITableView(frame: .zero)
         collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     private lazy var actionsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
-        button.tintColor = .hex("#242424")
+        button.tintColor = UIColor(named: "TAHeading")!
         return button
     }()
     private let keyboard = Typist()
@@ -69,7 +70,7 @@ final class TaskDetailsVc: UIViewController {
     
     private func setupViews() {
         setupTokenField()
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
         
         setupContainerView()
@@ -252,7 +253,7 @@ final class TaskDetailsVc: UIViewController {
     let containerView: UIView = {
         let view = UIView()
         view.accessibilityIdentifier = "containerView"
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -291,8 +292,8 @@ final class TaskDetailsVc: UIViewController {
         let taskLabel = MyGrowingTextView(placeholderText: "Call to John Wick?", scrollBehavior: .noScroll)
         taskLabel.textField.font = .systemFont(ofSize: 20, weight: .medium)
         taskLabel.accessibilityIdentifier = "taskNameh1"
-        taskLabel.placeholderAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4"))
-        taskLabel.textFieldAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#242424"))
+        taskLabel.placeholderAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TASubElement")!)
+        taskLabel.textFieldAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TAHeading")!)
         taskLabel.growingTextFieldDelegate = self
         return taskLabel
     }()
@@ -301,7 +302,7 @@ final class TaskDetailsVc: UIViewController {
 //        let taskLabel = UITextField()
 //        taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
 //        taskLabel.accessibilityIdentifier = "taskNameh1"
-//        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: .hex("#A4A4A4")) }
+//        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TASubElement")!) }
 //        taskLabel.delegate = self
 //        return taskLabel
 //    }()
@@ -309,7 +310,7 @@ final class TaskDetailsVc: UIViewController {
     private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description", scrollBehavior: .noScroll)
         description.accessibilityIdentifier = "taskDescription"
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 16, weight: .regular))
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
@@ -500,7 +501,7 @@ final class TaskDetailsVc: UIViewController {
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
-        actions[3].imageTintColor = .hex("#A4A4A4")
+        actions[3].imageTintColor = UIColor(named: "TASubElement")!
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: action.view, actions: actions)
         popMenu.appearance = .appAppearance
@@ -577,7 +578,7 @@ extension TaskDetailsVc: SwipeTableViewCellDelegate {
         guard case .subtask = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
         return [deleteAction]
     }
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {

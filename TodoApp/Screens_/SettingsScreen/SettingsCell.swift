@@ -68,7 +68,7 @@ class SettingsCell: UICollectionViewListCell {
     
     private func setupViews() {
         imageView.contentMode = .center
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         layout(imageView).leading(33).centerY().width(20).height(20)
         layout(label).leading(64).centerY()

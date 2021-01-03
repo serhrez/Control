@@ -33,7 +33,7 @@ final class ArchiveVc: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         view.layout(collectionView).leading(13).trailing(13).topSafe(30).bottom()
         setupCalendarCollectionView()
         setupNavigationBar()
@@ -87,7 +87,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
         guard orientation == .right else { return nil }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")?.withTintColor(.white, renderingMode: .alwaysTemplate)
+        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
         deleteAction.hidesWhenSelected = true
         let restoreAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionRestore)
         restoreAction.backgroundColor = .hex("#FF9900")

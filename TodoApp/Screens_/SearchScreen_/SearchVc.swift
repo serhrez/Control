@@ -26,7 +26,7 @@ class SearchVc: UIViewController {
     
     private func setupViews() {
         applySharedNavigationBarAppearance()
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         setupSearchBar()
         setupCollectionView()
         setupKeyboard()
@@ -56,7 +56,7 @@ class SearchVc: UIViewController {
     private func setupSearchBar() {
         let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
         searchBar.delegate = self
-        searchBar.searchTextField.backgroundColor = .hex("#ffffff")
+        searchBar.searchTextField.backgroundColor = UIColor(named: "TAAltBackground")!
         
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton

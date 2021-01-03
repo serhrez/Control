@@ -21,7 +21,7 @@ extension CreateProjectVc {
             tagView = ClickableImage(imageName: "tag", onClick: onTagClicked)
             flagView = ClickableImage(imageName: "flag", onClick: onPriorityClicked)
             super.init(frame: .zero)
-            backgroundColor = .white
+            backgroundColor = UIColor(named: "TAAltBackground")!
             let views: [UIView] = [
                 UIView(),
                 calendarPlusView,
@@ -44,13 +44,13 @@ extension CreateProjectVc {
                 super.init(frame: .zero)
                 let img = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
                 let imgView = UIImageView(image: img)
-                imgView.tintColor = .hex("#A4A4A4")
+                imgView.tintColor = UIColor(named: "TASubElement")!
                 imgView.contentMode = .scaleAspectFit
                 imgView.widthAnchor.constraint(equalToConstant: 18).isActive = true
                 imgView.heightAnchor.constraint(equalToConstant: 18).isActive = true
 
                 let onClickView = OnClickControl(onClick: {
-                    imgView.tintColor = $0 ? UIColor.hex("#447bfe") : .hex("#A4A4A4")
+                    imgView.tintColor = $0 ? UIColor.hex("#447bfe") : UIColor(named: "TASubElement")!
                     if !$0 { onClick() }
                 })
                 layout(imgView).center()

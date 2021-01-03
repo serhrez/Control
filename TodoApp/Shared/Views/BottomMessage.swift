@@ -74,9 +74,9 @@ extension BottomMessage {
     static func create(messageType: MessageType, onClicked: @escaping () -> Void) -> BottomMessage {
         switch messageType {
         case .taskDeleted:
-            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Deleted, Restore?", textColor: .hex("#ffffff"), imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Deleted, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         case .taskRestored:
-            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Do is Restored, Delete?", textColor: .hex("#ffffff"), imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Do is Restored, Delete?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         }
     }
     

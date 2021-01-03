@@ -40,7 +40,7 @@ class CircleText: UIView {
         backgroundColor = .clear
         let containerView = UIView()
         label = UILabel()
-        label.textColor = .white
+        label.textColor = UIColor(named: "TAAltBackground")!
         label.textAlignment = .center
         
         containerView.layout(label).center()

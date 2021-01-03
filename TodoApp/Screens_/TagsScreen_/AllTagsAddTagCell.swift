@@ -35,11 +35,11 @@ class AllTagsAddTagCell: UICollectionViewCell {
         let centerView = UIView()
         let label = UILabel()
         
-        addImage.tintColor = UIColor(hex: "#a4a4a4")
+        addImage.tintColor = UIColor(named: "TASubElement")!
         
         label.text = "Add Tag"
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = UIColor(hex: "#a4a4a4")
+        label.textColor = UIColor(named: "TASubElement")!
 
         contentView.layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()

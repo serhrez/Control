@@ -25,9 +25,9 @@ final class TaskCell: UICollectionViewCell {
         let textField = DeleteDetectingTextField()
         textField.layoutEdgeInsets = .zero
         textField.attributedPlaceholder = "New To-Do...".at.attributed { attr in
-            attr.font(UIFont.systemFont(ofSize: 20, weight: .regular)).foreground(color: .hex("#A4A4A4"))
+            attr.font(UIFont.systemFont(ofSize: 20, weight: .regular)).foreground(color: UIColor(named: "TASubElement")!)
         }
-        textField.textColor = .hex("#242424")
+        textField.textColor = UIColor(named: "TAHeading")!
         textField.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         textField.delegate = self
         return textField
@@ -36,7 +36,7 @@ final class TaskCell: UICollectionViewCell {
         let label = ALUILabel()
         label.alignmentRectInsetsValues = .init(top: -2, left: 0, bottom: 0, right: 0)
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .hex("#A4A4A4")
+        label.textColor = UIColor(named: "TASubElement")!
         label.text = Int.random(in: 1...2) == 1 ? "30 December 14:35" : ""
         return label
     }()

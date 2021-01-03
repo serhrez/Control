@@ -4,8 +4,6 @@
 <dict>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

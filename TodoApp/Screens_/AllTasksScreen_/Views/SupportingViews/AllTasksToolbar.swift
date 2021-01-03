@@ -27,16 +27,16 @@ final class AllTasksToolbar: UIView {
     }
     
     func setupViews() {
-        containerView.backgroundColor = .white
+        containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 32
         containerView.layer.cornerCurve = .continuous
         containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor(hex: "#dfdfdf")?.cgColor
+        containerView.layer.borderColor = UIColor(named: "TASpecial1")!.cgColor
         layout(containerView).edges().height(Self.estimatedHeight)
         
         let label = UILabel()
         label.text = "Call to John Wick"
-        label.textColor = UIColor(hex: "#a4a4a4")
+        label.textColor = UIColor(named: "TASubElement")!
         label.font = .systemFont(ofSize: 16)
         containerView.layout(label).leading(30).trailing(30).top(20).bottom(20)
         

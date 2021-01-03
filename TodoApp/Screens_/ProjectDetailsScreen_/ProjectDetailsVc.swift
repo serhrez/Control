@@ -46,7 +46,7 @@ class ProjectDetailsVc: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         projectBindingSetup()
         projectStartedViewSetup()
         topViewSetup()
@@ -215,36 +215,36 @@ class ProjectDetailsVc: UIViewController {
     }
     private lazy var actionsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
-        button.tintColor = .hex("#242424")
+        button.tintColor = UIColor(named: "TAHeading")!
         return button
     }()
     
     @objc func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if case .list = state {
-            actions += [.init(title: "Complete All", image: UIImage(named: "circle-check"), color: .hex("#242424"), didSelect: { [weak self] _ in
+            actions += [.init(title: "Complete All", image: UIImage(named: "circle-check"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
                 _ = try! RealmProvider.main.realm.write {
                     self?.project.tasks.forEach {
                         $0.isDone = true
                     }
                 }
             })]
-            actions += [.init(title: "Sort by name", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+            actions += [.init(title: "Sort by name", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
                 _ = try! RealmProvider.main.realm.write {
                     self?.project.sorting = .byName
                 }
             })]
-            actions += [.init(title: "Sort by created", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+            actions += [.init(title: "Sort by created", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
                 _ = try! RealmProvider.main.realm.write {
                     self?.project.sorting = .byCreatedAt
                 }
             })]
-            actions += [.init(title: "Sort by priority", image: UIImage(named: "switch-vertical"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+            actions += [.init(title: "Sort by priority", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
                 _ = try! RealmProvider.main.realm.write {
                     self?.project.sorting = .byPriority
                 }
             })]
-            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: .hex("#242424"), didSelect: { [weak self] (_) in
+            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
                 _ = try! RealmProvider.main.realm.write {
                     self?.project.tasks.forEach { task in
                         guard task.isDone else { return }
@@ -340,7 +340,7 @@ class ProjectDetailsVc: UIViewController {
     }
     private let newFormViewBg: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.hex("#f6f6f3").withAlphaComponent(0.5)
+        view.backgroundColor = UIColor(named: "TABackground")!.withAlphaComponent(0.5)
         return view
     }()
     private lazy var newFormView = ProjectNewTaskForm(
@@ -433,7 +433,7 @@ class ProjectDetailsVc: UIViewController {
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
-        actions[3].imageTintColor = .hex("#A4A4A4")
+        actions[3].imageTintColor = UIColor(named: "TASubElement")!
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: sourceView, actions: actions)
         popMenu.appearance = .appAppearance

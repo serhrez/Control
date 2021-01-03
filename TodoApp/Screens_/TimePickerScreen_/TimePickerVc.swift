@@ -17,7 +17,7 @@ class TimePickerVc: UIViewController {
     }
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -52,7 +52,7 @@ class TimePickerVc: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         view.layout(containerView).leadingSafe(13).trailingSafe(13).centerY()
         containerView.layout(incontainerCenter).top(53).centerX().width(containerView.anchor.width).multiply(0.63)
         incontainerCenter.layout(timeSelectionHoursView).leading().top().bottom()

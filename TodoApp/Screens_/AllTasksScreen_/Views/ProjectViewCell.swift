@@ -42,7 +42,7 @@ final class ProjectViewCell: UITableViewCell {
     private lazy var outerCircle = OuterCircle(wrapped: progressCircle)
 
     func setupViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
         let iconViewContainer = UIView()

@@ -28,19 +28,19 @@ class AllProjectsVc: UIViewController {
     private let keyboard = Typist()
     private lazy var menuButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "menu"), style: .done, target: self, action: #selector(menuButtonClicked))
-        button.tintColor = .hex("#242424")
+        button.tintColor = UIColor(named: "TAHeading")!
         return button
     }()
 
     private lazy var searchButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "search"), style: .done, target: self, action: #selector(searchButtonClicked))
-        button.tintColor = .hex("#242424")
+        button.tintColor = UIColor(named: "TAHeading")!
         return button
     }()
 
     private lazy var actionsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
-        button.tintColor = .hex("#242424")
+        button.tintColor = UIColor(named: "TAHeading")!
         return button
     }()
 
@@ -51,7 +51,7 @@ class AllProjectsVc: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
         setupTableView()
 //        tasksToolbar.onClick = {

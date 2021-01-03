@@ -25,7 +25,7 @@ class ProjectStartedView: UIView {
     let largeTitle: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 32, weight: .bold)
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
         label.text = "Well done, you started a new project!"
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
@@ -46,14 +46,14 @@ class ProjectStartedView: UIView {
     let smallTitleLeading: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
         label.text = "Tap the"
         return label
     }()
     let smallTitleTrailing: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
         label.text = "button to write it down!"
         return label
     }()
@@ -64,7 +64,7 @@ class ProjectStartedView: UIView {
         view.backgroundColor = .hex("#447BFE")
         view.layer.cornerRadius = 7
         let plusPath = UIImageView(image: UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate))
-        plusPath.tintColor = .hex("#FFFFFF")
+        plusPath.tintColor = UIColor(named: "TAAltBackground")!
         view.layout(plusPath).edges(top: 3, left: 3, bottom: 3, right: 3)
         return view
     }()

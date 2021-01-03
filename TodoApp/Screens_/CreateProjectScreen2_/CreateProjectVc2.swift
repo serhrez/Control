@@ -68,7 +68,7 @@ class CreateProjectVc2: UIViewController {
     
     private func setupViews() {
         applySharedNavigationBarAppearance()
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         view.layout(containerView).leading().trailing()
         containerView.snp.makeConstraints { make in
             make.bottom.equalTo(view.snp.bottomMargin)
@@ -103,7 +103,7 @@ class CreateProjectVc2: UIViewController {
     
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -168,7 +168,7 @@ class CreateProjectVc2: UIViewController {
     lazy var projectDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
         description.onEnter = { }
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 20, weight: .regular))
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 20, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
@@ -187,10 +187,10 @@ class CreateProjectVc2: UIViewController {
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)
-        textField.textColor = .hex("#242424")
+        textField.textColor = UIColor(named: "TAHeading")!
         textField.delegate = self
         textField.attributedPlaceholder = "New Project".at.attributed { attr in
-            attr.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 28, weight: .bold))
+            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
         return textField
     }()

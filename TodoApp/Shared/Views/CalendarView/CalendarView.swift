@@ -31,7 +31,7 @@ final class CalendarView: UIView {
     }
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layout(jct).edges().width(taLayout.overallWidth).height(taLayout.overallHeight)
         // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
         jct.register(TAJTDateCell.self, forCellWithReuseIdentifier: TAJTDateCell.idq)

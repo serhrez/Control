@@ -52,7 +52,7 @@ class PlannedTaskCell: UICollectionViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 10, weight: .bold)
-        label.textColor = .hex("#a4a4a4")
+        label.textColor = UIColor(named: "TASubElement")!
         label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         label.setContentHuggingPriority(.init(1), for: .horizontal)
 
@@ -97,12 +97,12 @@ class PlannedTaskCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.heightAnchor.constraint(equalToConstant: 11).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 11).isActive = true
-        imageView.tintColor = .hex("#A4A4A4")
+        imageView.tintColor = UIColor(named: "TASubElement")!
         return imageView
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.white.cgColor
+        contentView.layer.backgroundColor = UIColor(named: "TAAltBackground")!.cgColor
         layer.cornerRadius = 16
         clipsToBounds = true
 

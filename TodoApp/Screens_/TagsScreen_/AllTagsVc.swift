@@ -60,7 +60,7 @@ class AllTagsVc: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         setupCollectionView()
         setupNavigationBar()
         setupKeyboard()
@@ -184,7 +184,7 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
         deleteAction.image = UIImage(named: "trash")?.withRenderingMode(.alwaysTemplate)
-        deleteAction.textColor = .white
+        deleteAction.textColor = UIColor(named: "TAAltBackground")!
         return [deleteAction]
     }
 }

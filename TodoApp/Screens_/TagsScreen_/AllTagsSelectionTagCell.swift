@@ -47,7 +47,7 @@ class AllTagsSelectionTagCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)

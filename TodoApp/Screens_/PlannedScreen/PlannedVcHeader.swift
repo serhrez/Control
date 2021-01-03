@@ -15,13 +15,13 @@ class PlannedVcHeader: UICollectionReusableView {
     private let bigNumber: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 46, weight: .bold)
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
         return label
     }()
     private let smallText: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = .hex("#a4a4a4")
+        label.textColor = UIColor(named: "TASubElement")!
         return label
     }()
     

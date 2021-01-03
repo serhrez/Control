@@ -16,7 +16,7 @@ class DateDetailLabel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        backgroundColor = UIColor.hex("#A4A4A4").withAlphaComponent(0.1)
+        backgroundColor = UIColor(named: "TASubElement")!.withAlphaComponent(0.1)
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
         label.font = .systemFont(ofSize: 15, weight: .semibold)

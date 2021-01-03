@@ -31,7 +31,7 @@ final class PlannedVc: UIViewController {
     }()
     private lazy var calendarViewContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .hex("#ffffff")
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
         view.layout(calendarView).top(6).bottom(10).leading(calendarInset).trailing(calendarInset)
@@ -49,7 +49,7 @@ final class PlannedVc: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).top().bottom()
         view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe(30)
         view.layout(calendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).top(calendarViewContainer.anchor.bottom, 7).bottom()
@@ -193,8 +193,8 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
     private let gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
         gradient.colors = [
-          UIColor(red: 0.965, green: 0.965, blue: 0.953, alpha: 0).cgColor,
-          UIColor(red: 0.965, green: 0.965, blue: 0.953, alpha: 1).cgColor
+            UIColor(named: "TABackground")!.withAlphaComponent(0).cgColor,
+            UIColor(named: "TABackground")!.withAlphaComponent(1).cgColor
         ]
         gradient.locations = [0, 1]
         gradient.startPoint = CGPoint(x: 0.5, y: 0)

@@ -17,7 +17,7 @@ final class CalendarVc: UIViewController {
     private let viewModel: CalendarVcVm
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -100,7 +100,7 @@ final class CalendarVc: UIViewController {
     }
 
     private func setupViews() {
-        view.backgroundColor = .hex("#F6F6F3")
+        view.backgroundColor = UIColor(named: "TABackground")
         navigationItem.titleLabel.text = "Calendar"
         navigationItem.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         view.layout(containerView).leading(13).trailing(13).topSafe(30) { _, _ in .greaterThanOrEqual }.bottomSafe(30) { _, _ in .lessThanOrEqual }
@@ -142,7 +142,7 @@ final class CalendarVc: UIViewController {
     private lazy var clearButton: NewCustomButton = {
         let button = NewCustomButton()
         button.stateBackgroundColor = .init(highlighted: UIColor.hex("#DFDFDF"), normal: UIColor.hex("#DFDFDF").withAlphaComponent(0.4))
-        button.setAttributedTitle("Clear".at.attributed { $0.foreground(color: .hex("#A4A4A4")).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
+        button.setAttributedTitle("Clear".at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(clickedClear), for: .touchUpInside)
         
@@ -237,7 +237,7 @@ extension CalendarVc {
                 button.setTitleColor(.hex("#447BFE"), for: .normal)
             } else {
                 button.setTitle("None", for: .normal)
-                button.setTitleColor(.hex("#A4A4A4"), for: .normal)
+                button.setTitleColor(UIColor(named: "TASubElement")!, for: .normal)
             }
         }
         override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

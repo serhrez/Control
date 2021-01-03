@@ -38,7 +38,7 @@ class IconPickerEmojiHeader: UICollectionReusableView {
         super.init(frame: frame)
         layout(label).centerY().leading(11).trailing(11)
         label.font = .systemFont(ofSize: 20, weight: .medium)
-        label.textColor = .hex("#242424")
+        label.textColor = UIColor(named: "TAHeading")!
     }
     
     required init?(coder: NSCoder) {
@@ -115,8 +115,8 @@ final class IconPickerFullVc: UIViewController {
         applySharedNavigationBarAppearance()
         setupSearchBar()
         setupKeyboard()
-        view.backgroundColor = .hex("#F6F6F3")
-        containerView.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TABackground")
+        containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
         collectionView.contentInset = .init(top: 17, left: 0, bottom: 0, right: 0)
         collectionView.register(IconPickerEmojiCell.self, forCellWithReuseIdentifier: IconPickerEmojiCell.reuseIdentifier)
@@ -139,7 +139,7 @@ final class IconPickerFullVc: UIViewController {
     private func setupSearchBar() {
         let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
         searchBar.delegate = self
-        searchBar.searchTextField.backgroundColor = .hex("#ffffff")
+        searchBar.searchTextField.backgroundColor = UIColor(named: "TAAltBackground")!
         
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton

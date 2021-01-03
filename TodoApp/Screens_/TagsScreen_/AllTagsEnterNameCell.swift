@@ -35,11 +35,11 @@ class AllTagsEnterNameCell: UICollectionViewCell {
     }
 
     func setupViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
         nameField.attributedPlaceholder = "New Tag".at.attributed { attr in
-            attr.foreground(color: .hex("#A4A4A4"))
+            attr.foreground(color: UIColor(named: "TASubElement")!)
                 .font(.systemFont(ofSize: 16, weight: .semibold))
         }
         nameField.textColor = .black

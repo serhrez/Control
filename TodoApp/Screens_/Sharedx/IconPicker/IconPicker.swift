@@ -30,7 +30,7 @@ final class IconPicker: UIViewController {
     }()
     private lazy var whiteContainer: UIView = {
         let container = UIView()
-        container.backgroundColor = .white
+        container.backgroundColor = UIColor(named: "TAAltBackground")!
         container.layer.cornerRadius = 16
         container.layer.cornerCurve = .continuous
         let containerSize = getCollectionSize(rows: 4, columns: 3)
@@ -67,7 +67,7 @@ final class IconPicker: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hex("#F6F6F3").withAlphaComponent(0.8)
+        view.backgroundColor = UIColor(named: "TABackground")!.withAlphaComponent(0.8)
         setupViews()
         setupCollectionView()
     }

@@ -40,7 +40,7 @@ class GappedCircle: UIView {
     private func setupViews() {
         widthAnchor.constraint(equalToConstant: totalWidthHeight).isActive = true
         heightAnchor.constraint(equalToConstant: totalWidthHeight).isActive = true
-        middleCircle.backgroundColor = .white
+        middleCircle.backgroundColor = UIColor(named: "TAAltBackground")!
         middleCircle.layer.opacity = 0
         layout(outerCircle).edges()
         layout(middleCircle).center()

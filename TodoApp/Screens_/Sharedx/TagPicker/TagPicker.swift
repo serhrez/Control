@@ -63,7 +63,7 @@ final class TagPicker: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBgView))
         bgView.addGestureRecognizer(tapGesture)
         view.backgroundColor = .clear
-        bgView.backgroundColor = .hex("#F6F6F3")
+        bgView.backgroundColor = UIColor(named: "TABackground")
         bgView.layer.opacity = 0
         view.layout(bgView).edges()
         collectionView.register(TagPickerCell.self, forCellWithReuseIdentifier: "\(TagPickerCell.self)")
@@ -108,7 +108,7 @@ final class TagPicker: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1
-            containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: .hex("#242424"))
+            containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TAHeading")!)
         } completion: { _ in
             
         }
@@ -155,14 +155,14 @@ final class TagPicker: UIViewController {
     lazy var textFieldExternalCell: UITextField = {
         let textField = UITextField()
         let attributes = Attributes().font(.systemFont(ofSize: 18, weight: .semibold))
-        textField.attributedPlaceholder = "Add New Tag".at.attributed(with: attributes.foreground(color: .hex("#A4A4A4")))
+        textField.attributedPlaceholder = "Add New Tag".at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         textField.delegate = self
         textField.font = .systemFont(ofSize: 18, weight: .semibold)
         return textField
     }()
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
@@ -212,7 +212,7 @@ extension TagPicker {
         let label: UILabel = {
             let label = UILabel()
             label.font = .systemFont(ofSize: 18, weight: .semibold)
-            label.textColor = .hex("#242424")
+            label.textColor = UIColor(named: "TAHeading")!
             return label
         }()
         private let bgView: UIView = {

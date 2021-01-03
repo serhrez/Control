@@ -26,7 +26,7 @@ final class PlusView: UIView {
         layout(containerView).edges().width(50).height(50)
         
         let plus = UIImageView(image: UIImage(named: "check"))
-        plus.tintColor = .white
+        plus.tintColor = UIColor(named: "TAAltBackground")!
         plus.contentMode = .scaleAspectFit
         containerView.layout(plus).center().width(17).height(13)
     }
