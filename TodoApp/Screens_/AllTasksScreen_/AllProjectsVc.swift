@@ -110,9 +110,15 @@ class AllProjectsVc: UIViewController {
     // MARK: - POPUP
     @objc private func actionsButtonClicked() {
         let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "Open Tags", image: UIImage(named: "tag"), didSelect: openTags),
-            PopuptodoAction(title: "Sort by name", image: UIImage(named: "switch"), didSelect: sortChange),
-            PopuptodoAction(title: "Edit Projects", image: UIImage(named: "adjustments"), didSelect: editProjects)
+            PopuptodoAction(title: "Open Tags", image: UIImage(named: "tag"), didSelect: { [weak self] action in
+                self?.openTags(action: action)
+            }),
+            PopuptodoAction(title: "Sort by name", image: UIImage(named: "switch"), didSelect: { [weak self] action in
+                self?.sortChange(action: action)
+            }),
+            PopuptodoAction(title: "Edit Projects", image: UIImage(named: "adjustments"), didSelect: { [weak self] action in
+                self?.editProjects(action: action)
+            })
         ]
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
