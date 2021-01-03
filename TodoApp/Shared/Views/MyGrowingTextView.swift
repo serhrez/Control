@@ -12,7 +12,7 @@ import AttributedLib
 
 class MyGrowingTextView: UIView, UITextViewDelegate {
     let textField = UITextView()
-    var growingTextFieldDelegate: UITextViewDelegate?
+    weak var growingTextFieldDelegate: UITextViewDelegate?
     let placeholderLabel = UILabel()
     private let placeholderText: String
     var onEnter: (() -> Void)?
