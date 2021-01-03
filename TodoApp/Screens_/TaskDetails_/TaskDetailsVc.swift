@@ -107,7 +107,9 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupBindings() {
-        checkboxh1.onSelected = viewModel.toggleDone
+        checkboxh1.onSelected = { [weak self] in
+            self?.viewModel.toggleDone()
+        }
         tokenField.onPlusButtonClicked = { [weak self] in
             guard let self = self else { return }
             self.addTagsSelected(action: PopuptodoAction())
@@ -125,7 +127,9 @@ final class TaskDetailsVc: UIViewController {
             switch model {
             case .addSubtask:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
-                cell.subtaskCreated = self.viewModel.createSubtask
+                cell.subtaskCreated = { name in
+                    self.viewModel.createSubtask(with: name)
+                }
                 if self.isCurrentlyShown {
                     cell.becomeFirstResponder()
                 }
@@ -134,7 +138,9 @@ final class TaskDetailsVc: UIViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskCell.reuseIdentifier, for: indexPath) as! SubtaskCell
                 cell.configure(name: subtask.name, isDone: subtask.isDone)
                 cell.delegate = self
-                cell.onSelected = { self.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0) }
+                cell.onSelected = {
+                    self.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0)
+                }
                 return cell
             }
         }
@@ -166,7 +172,9 @@ final class TaskDetailsVc: UIViewController {
     private func setupViewModelBinding() {
         self.taskNameh1.text = viewModel.task?.name ?? ""
         self.setTaskDescription(viewModel.task?.taskDescription ?? "")
-        viewModel.shouldEnableTaskDescription = explicitlyEnableTaskDescription
+        viewModel.shouldEnableTaskDescription = { [weak self] in
+            self?.explicitlyEnableTaskDescription()
+        }
         viewModel.taskObservable
             .subscribe(onNext: { [weak self] task in
                 guard let self = self else { return }
@@ -355,7 +363,6 @@ final class TaskDetailsVc: UIViewController {
         stack.spacing = 6
         stack.layoutMargins = .init(top: 6, left: 0, bottom: 0, right: 0)
         stack.accessibilityIdentifier = "stackReminderRepeat"
-        //stack.distribution = .fill
         return stack
     }()
         
