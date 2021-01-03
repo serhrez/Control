@@ -19,20 +19,18 @@ class CheckboxView: UIView {
 
         return uncheckedView
     }()
-    
+    private let __uncheckedView = UIView()
     private lazy var uncheckedView2: UIView = {
-        let uncheckedView = UIView()
-        uncheckedView.borderColor = .hex("#447BFE")
-        uncheckedView.layer.borderWidth = 2
-        uncheckedView.layer.cornerRadius = 6
-        uncheckedView.layer.cornerCurve = .continuous
+        __uncheckedView.layer.borderWidth = 2
+        __uncheckedView.layer.cornerRadius = 6
+        __uncheckedView.layer.cornerCurve = .continuous
         
         let viewInside = UIView()
         viewInside.layer.cornerRadius = 2
-        viewInside.layer.backgroundColor = UIColor.hex("#447BFE").cgColor
-        uncheckedView.layout(viewInside).edges(top: 4, left: 4, bottom: 4, right: 4)
+        viewInside.backgroundColor = UIColor.hex("#447BFE")
+        __uncheckedView.layout(viewInside).edges(top: 4, left: 4, bottom: 4, right: 4)
         
-        return uncheckedView
+        return __uncheckedView
     }()
     private let checkedViewImage = UIImageView(image: UIImage(named: "check"))
     private lazy var checkedView: UIView = {
@@ -92,6 +90,11 @@ class CheckboxView: UIView {
     }
     lazy var control = OnClickControl(onClick: { [unowned self] in if $0 { self.onSelected?() } })
 
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        __uncheckedView.layer.borderColor = UIColor.hex("#447BFE").cgColor
+    }
+    
     private func setupViews() {
         layout(uncheckedViewx).edges().width(22).height(22)
         layout(selectedViewx).edges().width(22).height(22)

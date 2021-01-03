@@ -85,7 +85,7 @@ class TasksListTaskCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor(named: "TAAltBackground")!.cgColor
+        contentView.backgroundColor = UIColor(named: "TAAltBackground")!
         // Had to create second contentView so we have separat
         layer.cornerRadius = 16
         clipsToBounds = true

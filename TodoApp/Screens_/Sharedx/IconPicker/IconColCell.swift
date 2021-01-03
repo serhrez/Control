@@ -14,7 +14,7 @@ class IconColCell: UICollectionViewCell {
     private let iconView = IconView()
     private let backgroundColorView: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = UIColor.hex("#447bfe").cgColor
+        view.backgroundColor = UIColor.hex("#447bfe")
         view.layer.cornerCurve = .continuous
         view.layer.cornerRadius = 8
         view.layer.opacity = 0

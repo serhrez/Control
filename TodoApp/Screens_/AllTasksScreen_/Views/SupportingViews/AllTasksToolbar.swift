@@ -31,7 +31,6 @@ final class AllTasksToolbar: UIView {
         containerView.layer.cornerRadius = 32
         containerView.layer.cornerCurve = .continuous
         containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor(named: "TASpecial1")!.cgColor
         layout(containerView).edges().height(Self.estimatedHeight)
         
         let label = UILabel()
@@ -42,5 +41,9 @@ final class AllTasksToolbar: UIView {
         
         let plusView = PlusView()
         containerView.layout(plusView).trailing(7).top(7).bottom(7)
+    }
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        containerView.layer.borderColor = UIColor(named: "TASpecial1")!.cgColor
     }
 }

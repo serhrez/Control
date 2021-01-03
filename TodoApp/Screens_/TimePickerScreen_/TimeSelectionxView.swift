@@ -30,7 +30,6 @@ class TimeSelectionxView: UIView {
     
     private func setupViews() {
         layout(collectionView).edges().height(192).width(72)
-        gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor(named: "TAAltBackground")!.cgColor]
         gradient.locations = [0, 0.33, 0.4, 0.6, 0.67, 1]
         gradient.mask = collectionView.layer
         gradient.frame = .init(x: 0, y: 0, width: 72, height: 192)
@@ -47,6 +46,11 @@ class TimeSelectionxView: UIView {
         layout.minimumLineSpacing = -9
         layout.scrollDirection = .vertical
         collectionView.collectionViewLayout = layout
+    }
+    
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor(named: "TAAltBackground")!.cgColor]
     }
     
     override func didMoveToSuperview() {

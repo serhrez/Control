@@ -192,14 +192,9 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
  class GradientView: UIView {
     private let gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        gradient.colors = [
-            UIColor(named: "TABackground")!.withAlphaComponent(0).cgColor,
-            UIColor(named: "TABackground")!.withAlphaComponent(1).cgColor
-        ]
         gradient.locations = [0, 1]
         gradient.startPoint = CGPoint(x: 0.5, y: 0)
         gradient.endPoint = CGPoint(x: 0.5, y: 1)
-//        gradient.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
         return gradient
     }()
 
@@ -216,6 +211,15 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
+    }
+    
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        // Supporting black mode
+        gradientLayer.colors = [
+            UIColor(named: "TABackground")!.withAlphaComponent(0).cgColor,
+            UIColor(named: "TABackground")!.withAlphaComponent(1).cgColor
+        ]
     }
 }
 

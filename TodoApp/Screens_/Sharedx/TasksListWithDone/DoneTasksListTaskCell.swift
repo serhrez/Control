@@ -34,7 +34,7 @@ class DoneTasksListTaskCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor.hex("#DFDFDF").withAlphaComponent(0.3).cgColor
+        contentView.backgroundColor = UIColor.hex("#DFDFDF").withAlphaComponent(0.3)
         contentView.layout(checkboxView).centerY().leading(20)
         layer.cornerRadius = 16
         clipsToBounds = true

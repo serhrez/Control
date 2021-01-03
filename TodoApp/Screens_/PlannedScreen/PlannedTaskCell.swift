@@ -102,7 +102,7 @@ class PlannedTaskCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        contentView.layer.backgroundColor = UIColor(named: "TAAltBackground")!.cgColor
+        contentView.backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
 
