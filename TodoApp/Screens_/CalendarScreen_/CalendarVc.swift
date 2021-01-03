@@ -21,7 +21,7 @@ final class CalendarVc: UIViewController {
         view.layer.cornerRadius = 16
         return view
     }()
-    private lazy var calendarView = CalendarView(alreadySelectedDate: .init(), selectDate: { [weak self] date in
+    private lazy var calendarView = CalendarView(alreadySelectedDate: viewModel.date.value.0 ?? .init(), selectDate: { [weak self] date in
         self?.viewModel.selectDayFromJct(date)
     }, datePriorities: { [weak self] date in
         guard let self = self else { return (false, false, false, false) }

@@ -51,7 +51,7 @@ final class CalendarView: UIView {
     func jctselectDate(_ date: Date) {
         wasLastUpdateViaJctSelect = true
         jct.selectDates([date])
-        jct.scrollToDate(date)
+        jct.scrollToDate(date, animateScroll: false)
     }
 
 }
