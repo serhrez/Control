@@ -2,126 +2,157 @@
 //  CreateProjectVc.swift
 //  TodoApp
 //
-//  Created by sergey on 29.11.2020.
+//  Created by sergey on 20.12.2020.
 //
 
 import Foundation
 import UIKit
 import Material
-import RxSwift
+import SnapKit
 import AttributedLib
-import GrowingTextView
 import Typist
-import RxDataSources
-import SwiftDate
-import PopMenu
-import ResizingTokenField
-
-class CustomLayout: UICollectionViewLayout {
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        guard let collectionView = collectionView, collectionView.numberOfSections > 0 else { return nil }
-        return (0..<collectionView.numberOfItems(inSection: 0)).compactMap { layoutAttributesForItem(at: .init(row: $0, section: 0)) }
-    }
-
-    var heights: [IndexPath: CGFloat] = [:]
-
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let collectionView = collectionView else { return nil }
-        let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let y: CGFloat = heights[IndexPath(item: indexPath.item - 1, section: 0)] ?? 0
-        attrs.frame = .init(x: 0, y: y, width: collectionView.frame.width, height: 30)
-        heights[indexPath] = attrs.frame.maxY
-
-        return attrs
-    }
-
-    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let collectionView = collectionView else { return nil }
-        let indexPath = itemIndexPath
-        let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        let y: CGFloat = heights[IndexPath(item: indexPath.item - 1, section: 0)] ?? 0
-        attrs.frame = .init(x: 0, y: y, width: collectionView.frame.width, height: 30)
-        heights[indexPath] = attrs.frame.maxY
-
-        return attrs
-    }
-
-    override var collectionViewContentSize: CGSize {
-        guard let collectionView = collectionView, collectionView.numberOfSections > 0 else { return .init(width: 0, height: 0) }
-        return .init(width: collectionView.frame.width, height: heights[IndexPath(item: collectionView.numberOfItems(inSection: 0) - 1, section: 0)] ?? 0)
-    }
-}
 
 class CreateProjectVc: UIViewController {
-    let privateTokenField = ResizingTokenField()
+    let keyboard = Typist()
+    var icon: Icon = .text("🚒") {
+        didSet {
+            self.clickableIcon.iconView.configure(icon)
+        }
+    }
+    var color: UIColor =  .hex("#FF9900")
+    private var didAppear: Bool = false
+    private var shouldChangeHeightByKeyboardChange = true
 
-    private let viewModel: CreateProjectVcVm
-    private var flowLayout: UICollectionViewLayout = {
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-//        var item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
-//        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-//        let section = NSCollectionLayoutSection(group: group)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//        let list = UICollectionViewCompositionalLayout
-//        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-//        config.showsSeparators = false
-//
-//        let layout = UICollectionViewCompositionalLayout.list(using: config)
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
-        return layout
-    }()// CustomLayout()
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-    private let bag = DisposeBag()
-    private let container: UIView = {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        setupKeyboard()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        projectNameField.becomeFirstResponder()
+        didAppear = true
+    }
+    
+    private func setupKeyboard() {
+        var previousHeight: CGFloat?
+        keyboard
+            .on(event: .willChangeFrame) { [weak self] options in
+                guard let self = self else { return }
+                guard self.shouldChangeHeightByKeyboardChange else { return }
+                let height = options.endFrame.intersection(self.view.bounds).height
+                guard previousHeight != height else { return }
+                previousHeight = height
+                print("new height: \(height)")
+                self.containerView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
+                }
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutSubviews()
+                }
+            }
+            .on(event: .willHide) { [weak self] options in
+                guard let self = self else { return }
+                guard self.shouldChangeHeightByKeyboardChange else { return }
+                let height = options.endFrame.intersection(self.view.bounds).height
+                guard previousHeight != height else { return }
+                previousHeight = height
+                print("new height from willHide: \(height)")
+                self.containerView.snp.remakeConstraints { make in
+                    make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
+                }
+                UIView.animate(withDuration: 0.5) {
+                    self.view.layoutSubviews()
+                }
+            }
+            .start()
+    }
+    
+    private func setupViews() {
+        applySharedNavigationBarAppearance()
+        view.backgroundColor = UIColor(named: "TABackground")
+        view.layout(containerView).leading().trailing()
+        containerView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.snp.bottomMargin)
+        }
+        containerView.layout(plusButton).bottom(20).trailing(20)
+        containerView.layout(closeButton).top(12).trailing(12)
+        containerView.layout(colorCircle).top(42).leading(26)
+        containerView.layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(36)
+        containerView.layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField.anchor.leading).bottom(plusButton.anchor.top, 38).trailing(36)
+        view.layout(clickableIcon).top(containerView.anchor.top, -24).leading(26)
+        
+        let heightConstraint = self.projectDescription.heightAnchor.constraint(equalToConstant: self.projectDescription.textField.font?.lineHeight ?? 20)
+        heightConstraint.isActive = true
+        projectDescription.shouldSetHeight = { [weak self] in
+            heightConstraint.constant = $0
+            self?.properlyLayout()
+        }
+
+    }
+    
+    func properlyLayout() {
+        if didAppear {
+            UIView.animate(withDuration: 0.5) {
+                self.containerView.layoutSubviews()
+                self.view.layoutSubviews()
+            }
+        } else {
+            self.containerView.layoutSubviews()
+            self.view.layoutSubviews()
+        }
+    }
+    
+    let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         return view
     }()
-    private lazy var closeButton = CloseButton(onClicked: closeClicked)
-    private lazy var clickableIcon: ClickableIconView = {
-        let iconView = ClickableIconView(onClick: iconSelected)
-        iconView.iconView.iconFontSize = 48
-        iconView.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        iconView.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        return iconView
-    }()
+    
+    private func plusClicked() {
+        let allProject = RealmProvider.main.realm.objects(RlmProject.self)
+        guard let projectName = projectNameField.text,
+              !projectName.isEmpty,
+              !allProject.contains(where: { $0.name == projectName }) else { return }
+        let description = projectDescription.text
+        let project = RlmProject(name: projectName, icon: icon, notes: description, color: color, date: Date())
+        _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.realm.add(project)
+        }
+        shouldChangeHeightByKeyboardChange = false
+        let projectDetails = ProjectDetailsVc(project: project, state: .new, shouldPopTwo: true)
+        router.debugPushVc(projectDetails)
+    }
+    private func closeClicked() {
+        router.navigationController.popViewController(animated: true)
+    }
+    
+    private func colorSelection() {
+        
+        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: color, onColorSelection: { [weak self] newColor, picker in
+            self?.color = newColor
+            self?.colorCircle.circleColor = newColor
+            picker.shouldDismissAnimated()
+        })
+        
+        colorPicker.shouldPurposelyAnimateViewBackgroundColor = true
+        addChildPresent(colorPicker)
+        
+        colorPicker.shouldDismiss = { [weak colorPicker] in
+            colorPicker?.addChildDismiss()
+        }
+    }
+
     private lazy var colorCircle: GappedCircle = {
-        let circle = GappedCircle(circleColor: self.viewModel.project?.color ?? UIColor(named: "TAAltBackground")!, widthHeight: 22)
+        let circle = GappedCircle(circleColor: color, widthHeight: 22)
         circle.onClick = self.colorSelection
         circle.configure(isSelected: true, animated: false)
         return circle
     }()
-    private lazy var projectNameField: UITextField = {
-        let textField = UITextField()
-        textField.font = .systemFont(ofSize: 28, weight: .bold)
-        textField.textColor = UIColor(named: "TAHeading")!
-        textField.delegate = self
-        textField.attributedPlaceholder = "New Project".at.attributed { attr in
-            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
-        }
-        return textField
-    }()
-    private lazy var growingTextView: GrowingTextView = {
-        func attrs(_ attr: Attributes) -> Attributes {
-            attr.lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 20, weight: .regular)).firstLineHeadIndent(0).headIndent(0)
-        }
-        let description = GrowingTextView()
-        description.attributedPlaceholder = "Notes".at.attributed(attrs)
-        description.delegate = self
-        description.maxLength = 70
-        description.attributedText = " ".at.attributed(attrs)
-        description.text = ""
-        description.isScrollEnabled = true
-        description.maxHeight = 120
-        description.textContainerInset = .zero
-        description.contentInset = .zero
-        description.textContainer.lineFragmentPadding = 0
-        return description
-    }()
+
+    private lazy var closeButton = CloseButton(onClicked: closeClicked)
+    
     private lazy var plusButton: CustomButton = {
         let button = CustomButton()
         button.onClick = plusClicked
@@ -135,326 +166,89 @@ class CreateProjectVc: UIViewController {
         button.layout(plus).edges()
         return button
     }()
-    private let toolbarContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "TAAltBackground")!
-        return view
+    
+    lazy var projectDescription: MyGrowingTextView = {
+        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
+        description.onEnter = { }
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 20, weight: .regular))
+        description.placeholderAttrs = attributes
+        description.textFieldAttrs = attributes
+        description.growingTextFieldDelegate = self
+        return description
     }()
-    private lazy var toolbar = Toolbar(
-        onDateClicked: onDateOpenClicked,
-        onTagClicked: onTagOpenClicked,
-        onPriorityClicked: onPriorityOpenClicked)
-    private let keyboard = Typist()
-
-    init(viewModel: CreateProjectVcVm) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        setupKeyboard()
-        viewModel.projectPropertiesChanged = { [unowned self] project in
-            self.colorCircle.circleColor = project.color
-            self.clickableIcon.iconView.configure(project.icon)
-        }
-        viewModel.project.flatMap { viewModel.projectPropertiesChanged($0) }
-    }
-    
-    func setupViews() {
-        view.backgroundColor = UIColor(named: "TABackground")
-        navigationItem.backButton.isHidden = true
-        view.layout(container).top(119).bottomSafe(30).leading().trailing()
-        container.layout(closeButton).top(12).trailing(12)
-        clickableIcon.iconView.configure(.text("🚒"))
-        view.layout(clickableIcon).top(container.anchor.top, -24).leading(26)
-        container.layout(colorCircle).top(42).leading(26)
-        container.layout(projectNameField).leading(61).top(37).trailing(12 + 24)
-        container.layout(growingTextView).leading(61).top(projectNameField.anchor.bottom, 5).trailing(12 + 24)
         
-        container.layout(collectionView).top(growingTextView.anchor.bottom, 25).leading(colorCircle.anchor.leading).trailing(closeButton.anchor.leading)//.bottom(Toolbar.height)
-        collectionView.snp.makeConstraints { make in
-            make.bottom.equalTo(Toolbar.height)
-        }
-        container.layout(toolbarContainer).trailing().leading().bottom()
-        toolbarContainer.snp.makeConstraints { make in
-            make.height.equalTo(Toolbar.height)
-        }
-        toolbarContainer.layout(toolbar).trailing().leading().top()
-        container.layout(plusButton).trailing(20)
-        plusButton.snp.makeConstraints { make in
-            make.bottom.equalTo(-70)
-        }
-        setupTableView()
-        collectionView.layout(privateTokenField).top().leading().trailing()
-    }
-    
-    private func setupTableView() {
-        collectionView.register(TaskCell.self, forCellWithReuseIdentifier: TaskCell.reuseIdentifier)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.contentOffset = .zero
-//        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-//        flowLayout.itemSize = UICollectionViewFlowLayout.automaticSize
-        collectionView.contentInset = .zero
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<CreateProjectVcVm.Model>> { [unowned self] (data, collectionView, indexPath, model) -> UICollectionViewCell in
-            print("cell for row at \(indexPath)")
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCell.reuseIdentifier, for: indexPath) as! TaskCell
-            let task = model.task
-            switch model.mode {
-            case .addTask:
-                cell.configureAsNew(tagAllowed: model.isTagsAllowed)
-                cell.onCreatedTask = { viewModel.taskCreated(task) }
-                cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
-                cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
-            case .task:
-                cell.configure(text: task.name, date: task.date?.date, priority: task.priority, isSelected: task.isDone, tags: Array(task.tags), tagAllowed: model.isTagsAllowed)
-                cell.onDeleteTag = { self.viewModel.tagDeleted(with: $0, from: task) }
-                cell.addToken = { self.viewModel.tagAdded(with: $0, to: task) }
-                cell.onTaskNameChanged = { self.viewModel.taskNameChanged(task: task, name: $0) }
-                cell.onSelected = { self.viewModel.changeIsDone(task: task, isDone: $0) }
-                cell.onDeleteTask = { self.viewModel.shouldDelete(task) }
-            }
-            cell.onFocused = { viewModel.onFocusChanged(to: $0 ? task : nil, isFromTags: $1)  }
-            cell.shouldUpdateLayout = updateLayout
-            return cell
-        }
-        dataSource.animationConfiguration = .init(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade)
-        viewModel.shouldUpdateCells = { [unowned self] rows in
-            let ips = rows.map { IndexPath(row: $0, section: 0) }
-            for ip in ips {
-                guard let cell = collectionView.cellForItem(at: ip) as? TaskCell else { break }
-                let task = viewModel.tasksModel[0].items[ip.item].task
-                cell.update(date: task.date?.date, priority: task.priority)
-            }
-            updateLayout()
-        }
-////            let cell = self?.collectionView.cellForRow(at: IndexPath(row: mods.first!, section: 0))
-////            cell?.isHidden = true
-////            self?.collectionView.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .none)
-//        }
-        viewModel.bringFocusToTagsAtIndex = { [unowned self] rowIndex in
-            let visibleCells = self.collectionView.indexPathsForVisibleItems.map { $0.row }
-            guard let startVisible = visibleCells.first,
-                  let endVisible = visibleCells.last else { return }
-            if !visibleCells.contains(rowIndex) {
-                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: rowIndex < startVisible ? .top : .bottom, animated: false)
-            }
-            print("viewModel.bringFocusToTagsAtIndex \(rowIndex)")
-            let cell = collectionView.cellForItem(at: IndexPath(row: rowIndex, section: 0)) as! TaskCell
-            UIView.performWithoutAnimation {
-                cell.bringFocusToTokenField()
-            }
-        }
-        viewModel.bringFocusToTextField = { [unowned self] rowIndex in
-            print("viewModel.bringFocusToTextField \(rowIndex)")
-            let visibleCells = collectionView.indexPathsForVisibleItems
-            if rowIndex == collectionView.numberOfItems(inSection: 0) - 1 {
-                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: .bottom, animated: false)
-            } else if !visibleCells.contains(IndexPath(row: rowIndex, section: 0)) && visibleCells.contains(IndexPath(row: rowIndex + 2, section: 0)) {
-                collectionView.scrollToItem(at: IndexPath(row: rowIndex, section: 0), at: .top, animated: false)
-            }
-            guard let cell = collectionView.cellForItem(at: IndexPath(row: rowIndex, section: 0)) as? TaskCell else { print("BRING FOCUS HERE ALERT viewModel.bringFocusToTextField"); return }
-            cell.bringFocusToTextField()
-        }
-        viewModel.tasksUpdate
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-    }
-    private func setupKeyboard() {
-        let heightChangeSubject = PublishSubject<CGFloat>()
-        keyboard
-            //.toolbar(scrollView: collectionView)
-            .on(event: .willChangeFrame) { [unowned self] options in
-                heightChangeSubject.on(.next((options.endFrame.intersection(container.frame).height)))
-                let height = options.endFrame.intersection(container.frame).height
-//                print("height changed to2 \(height)")
-//                toolbarContainer.snp.remakeConstraints { make in
-//                    make.height.equalTo(Toolbar.height + height)
-//                }
-//                plusButton.snp.remakeConstraints { make in
-//                    make.bottom.equalTo(-(70 + height))
-//                }
-//                UIView.animate(withDuration: 0.5) {
-//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-//                }
-
-            }
-            .on(event: .willHide) { [unowned self] options in
-                heightChangeSubject.on(.next(options.endFrame.intersection(container.frame).height))
-                let height = options.endFrame.intersection(container.frame).height
-//                print("height changed to2 \(height)")
-//                toolbarContainer.snp.remakeConstraints { make in
-//                    make.height.equalTo(Toolbar.height + height)
-//                }
-//                plusButton.snp.remakeConstraints { make in
-//                    make.bottom.equalTo(-(70 + height))
-//                }
-//                UIView.animate(withDuration: 0.5) {
-//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-//                }
-
-            }
-            .start()
-        
-        Observable.merge(heightChangeSubject
-                            .debounce(.milliseconds(50), scheduler: MainScheduler.instance),
-                         heightChangeSubject
-                             .filter { $0 != 0 })
-            .distinctUntilChanged()
-            .subscribe(onNext: { [unowned self] height in
-                print("height changed to2 \(height)")
-                toolbarContainer.snp.remakeConstraints { make in
-                    make.height.equalTo(Toolbar.height + height)
-                }
-                plusButton.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(70 + height))
-                }
-                collectionView.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-(height + Toolbar.height))
-                }
-//                UIView.animate(withDuration: 0.5) {
-//                    self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-//                    view.layoutSubviews()
-//                }
-            })
-            .disposed(by: bag)
-    }
-    
-    private func plusClicked() {
-        viewModel.shouldCreateProject()
-        router.navigationController.popViewController(animated: true)
-    }
-    
-    private func closeClicked() {
-        viewModel.shouldCloseProject()
-        router.navigationController.popViewController(animated: true)
-    }
     private func iconSelected() {
-        guard let project = viewModel.project else { return }
-        print("iconSelected")
-        let iconPicker = IconPicker(viewSource: clickableIcon, selected: project.icon, onSelection: viewModel.setProjectIcon)
-        present(iconPicker, animated: true, completion: nil)
-    }
-    
-    private func colorSelection() {
-        let selectedColor = viewModel.project?.color ?? .hex("#123456") // use any random color
-        let colorPicker = ColorPicker(viewSource: colorCircle, selectedColor: selectedColor, onColorSelection: { [weak self] color, picker in
-            self?.viewModel.setProjectColor(color: color)
-            picker.shouldDismissAnimated()
-        })
-        present(colorPicker, animated: true, completion: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func onDateOpenClicked() {
-        let task = viewModel.taskToAddComponents
-        view.endEditing(true)
-        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (date, reminder, repeat) in
-            self?.viewModel.setDate(to: task, date: (date, reminder, `repeat`))
+        shouldChangeHeightByKeyboardChange = false
+        let iconPicker = IconPickerFullVc { [weak self] (newIcon) in
+            self?.icon = .text(newIcon)
+            self?.shouldChangeHeightByKeyboardChange = true
         }
+        router.debugPushVc(iconPicker)
     }
-    private func onTagOpenClicked() {
-        viewModel.setTagAllowed(to: viewModel.taskToAddComponents)
-    }
-    private func onPriorityOpenClicked() {
-        let task = viewModel.taskToAddComponents
-        let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .high) }),
-            PopuptodoAction(title: "Medium Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .medium) }),
-            PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .low) }),
-            PopuptodoAction(title: "No Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectPriority(to: task, priority: .none) })
-        ]
-        actions[0].imageTintColor = .hex("#EF4439")
-        actions[1].imageTintColor = .hex("#FF9900")
-        actions[2].imageTintColor = .hex("#447BFE")
-        actions[3].imageTintColor = UIColor(named: "TASubElement")!
-        PopMenuAppearance.appCustomizeActions(actions: actions)
-        let popMenu = PopMenuViewController(sourceView: toolbar.tagView, actions: actions)
-        popMenu.appearance = .appAppearance
-        popMenu.isCrutchySolution1 = true
-        addChild(popMenu)
-        popMenu.view.layer.opacity = 0
-        view.layout(popMenu.view).top().left().right().bottom()
-        UIView.animate(withDuration: 0.2) {
-            popMenu.view.layer.opacity = 1
+
+    private lazy var projectNameField: UITextField = {
+        let textField = UITextField()
+        textField.font = .systemFont(ofSize: 28, weight: .bold)
+        textField.textColor = UIColor(named: "TAHeading")!
+        textField.delegate = self
+        textField.attributedPlaceholder = "New Project".at.attributed { attr in
+            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
-        popMenu.didDismiss = { _ in
-            UIView.animate(withDuration: 0.2) {
-                popMenu.view.layer.opacity = 0
-            } completion: { _ in
-                popMenu.willMove(toParent: nil)
-                popMenu.view.removeFromSuperview()
-                popMenu.removeFromParent()
-            }
-        }
-    }
-    
-    private func updateLayout() {
-        self.flowLayout.invalidateLayout()
-//        guard !collectionView.indexPathsForVisibleItems.isEmpty else { return }
-//        collectionView.performBatchUpdates({
-//            self.flowLayout.invalidateLayout()
-//        }, completion: nil)
-    }
+        return textField
+    }()
+    private lazy var clickableIcon: ClickableIconView = {
+        let iconView = ClickableIconView(onClick: iconSelected)
+        iconView.iconView.iconFontSize = 48
+        iconView.iconView.configure(icon)
+        iconView.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        return iconView
+    }()
+
     
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
     }
-    var estimatedHeights: [IndexPath: CGFloat] = [:]
-}
-extension CreateProjectVc: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size: CGSize = .init(width: collectionView.frame.width, height: estimatedHeights[indexPath] ?? 0.1)
-        estimatedHeights[indexPath] = size.height
-        return size
-    }
-    
-}
-extension CreateProjectVc: UICollectionViewDelegate {
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        estimatedHeights[indexPath] = cell.frame.height
-//    }
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return estimatedHeights[indexPath] ?? .zero
-//    }
 }
 
 extension CreateProjectVc: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        switch textField {
+        case projectNameField:
+            let currentText = textField.text ?? ""
+            guard let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+
+            return updatedText.count < Configgg.maximumProjectNameLength
+        default: break
+        }
+        return true
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case projectNameField:
-            projectNameField.resignFirstResponder()
-            if growingTextView.text.isEmpty { growingTextView.becomeFirstResponder() }
-            return true
-        default:
-            return true
+            projectDescription.textField.becomeFirstResponder()
+        default: break
         }
+        return true
     }
 }
 
 extension CreateProjectVc: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let newSpace = text.contains { $0.isNewline }
-        if newSpace { textView.resignFirstResponder() }
-        return !newSpace
+        switch textView {
+        case projectDescription.textField :
+            let currentText = textView.text ?? ""
+            guard let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+
+            return updatedText.count < Configgg.maximumDescriptionLength
+        default: break
+        }
+        return true
     }
     
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        switch textView {
-        case growingTextView:
-            growingTextView.resignFirstResponder()
-            return true
-        default:
-            return true
-        }
-    }
 }
 
 extension CreateProjectVc: AppNavigationRouterDelegate { }

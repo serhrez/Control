@@ -192,7 +192,7 @@ extension AllProjectsVc: UITableViewDelegate {
         let model = viewModel.models[index]
         switch model {
         case .addProject:
-            let addProject = CreateProjectVc2()
+            let addProject = CreateProjectVc()
             router.debugPushVc(addProject)
         case let .project(project):
             let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList)
