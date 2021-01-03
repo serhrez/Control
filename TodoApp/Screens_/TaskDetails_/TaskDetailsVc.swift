@@ -123,14 +123,13 @@ final class TaskDetailsVc: UIViewController {
         subtasksTable.backgroundColor = .clear
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [weak self] (data, tableView, indexPath, model) -> UITableViewCell in
-            guard let self = self else { return .init() }
             switch model {
             case .addSubtask:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SubtaskAddCell.reuseIdentifier, for: indexPath) as! SubtaskAddCell
                 cell.subtaskCreated = { name in
-                    self.viewModel.createSubtask(with: name)
+                    self?.viewModel.createSubtask(with: name)
                 }
-                if self.isCurrentlyShown {
+                if self?.isCurrentlyShown ?? false {
                     cell.becomeFirstResponder()
                 }
                 return cell
@@ -139,7 +138,7 @@ final class TaskDetailsVc: UIViewController {
                 cell.configure(name: subtask.name, isDone: subtask.isDone)
                 cell.delegate = self
                 cell.onSelected = {
-                    self.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0)
+                    self?.viewModel.toggleDoneSubtask(subtask: subtask, isDone: $0)
                 }
                 return cell
             }
@@ -310,15 +309,6 @@ final class TaskDetailsVc: UIViewController {
         taskLabel.growingTextFieldDelegate = self
         return taskLabel
     }()
-
-//    private lazy var taskNameh1: UITextField = {
-//        let taskLabel = UITextField()
-//        taskLabel.font = .systemFont(ofSize: 20, weight: .medium)
-//        taskLabel.accessibilityIdentifier = "taskNameh1"
-//        taskLabel.attributedPlaceholder = "Call to John Wick?".at.attributed { $0.font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TASubElement")!) }
-//        taskLabel.delegate = self
-//        return taskLabel
-//    }()
     
     private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description", scrollBehavior: .noScroll)
@@ -463,24 +453,35 @@ final class TaskDetailsVc: UIViewController {
         navigationItem.rightBarButtonItem = actionsButton
     }
     
-    
     var popMenuVc: PopMenuViewController?
     // MARK: - POPUP
     @objc private func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if viewModel.subtasksModels[0].items.isEmpty {
-            actions.append(PopuptodoAction(title: "Add checklist", image: UIImage(named: "list-check"), didSelect: addChecklistSelected))
+            actions.append(PopuptodoAction(title: "Add checklist", image: UIImage(named: "list-check"), didSelect: { [weak self] action in
+                self?.addChecklistSelected(action: action)
+            }))
         }
         if tokenField.isHidden {
-            actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: addTagsSelected))
+            actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: { [weak self] action in
+                self?.addTagsSelected(action: action)
+            }))
         }
         if taskDescription.isHidden {
-            actions.append(PopuptodoAction(title: "Add Description", image: UIImage(named: "taskdescription"), didSelect: addDescriptionSelected))
+            actions.append(PopuptodoAction(title: "Add Description", image: UIImage(named: "taskdescription"), didSelect: { [weak self] action in
+                self?.addDescriptionSelected(action: action)
+            }))
         }
         actions.append(contentsOf: [
-            PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: selectPrioritySelected),
-            PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: addCalendarSelected),
-            PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: deleteTodoSelected),
+            PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
+                self?.selectPrioritySelected(action: action)
+            }),
+            PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
+                self?.addCalendarSelected(action: action)
+            }),
+            PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: { [weak self] action in
+                self?.deleteTodoSelected(action: action)
+            }),
         ])
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
@@ -500,7 +501,9 @@ final class TaskDetailsVc: UIViewController {
     }
     func addTagsSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
-        router.openAllTags(mode: .selection(selected: viewModel.task.flatMap { Array($0.tags) } ?? [], viewModel.addTags))
+        router.openAllTags(mode: .selection(selected: viewModel.task.flatMap { Array($0.tags) } ?? [], { [weak self] tags in
+            self?.viewModel.addTags(tags)
+        }))
     }
 
     func selectPrioritySelected(action: PopMenuAction) {
@@ -523,14 +526,8 @@ final class TaskDetailsVc: UIViewController {
     func addCalendarSelected(action: PopMenuAction) {
         guard let task = viewModel.task else { return }
         dismiss(animated: true, completion: nil)
-        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { (newDate, newReminder, newRepeat) in
-            _ = try! RealmProvider.main.realm.write {
-                if newDate == nil && newReminder == nil && newRepeat == nil {
-                    task.date = nil
-                } else {
-                    task.date = RlmTaskDate(date: newDate, reminder: newReminder, repeat: newRepeat)
-                }
-            }
+        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (newDate, newReminder, newRepeat) in
+            self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
         }
     }
     func deleteTodoSelected(action: PopMenuAction) {
@@ -551,6 +548,7 @@ final class TaskDetailsVc: UIViewController {
     var didDisappear: () -> Void = { }
     deinit {
         didDisappear()
+        print("didDisappear")
     }
 }
 

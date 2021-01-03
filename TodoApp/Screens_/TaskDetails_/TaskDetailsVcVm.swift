@@ -179,6 +179,16 @@ class TaskDetailsVcVm {
             task?.name = newName
         }
     }
+    
+    func newDate(date: Date?, reminder: Reminder?, repeatt: Repeat?) {
+        _ = try! RealmProvider.main.realm.write {
+            if date == nil && reminder == nil && repeatt == nil {
+                self.task?.date = nil
+            } else {
+                self.task?.date = RlmTaskDate(date: date, reminder: reminder, repeat: repeatt)
+            }
+        }
+    }
 }
 
 extension TaskDetailsVcVm {
