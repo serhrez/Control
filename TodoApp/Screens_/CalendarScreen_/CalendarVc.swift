@@ -21,10 +21,12 @@ final class CalendarVc: UIViewController {
         view.layer.cornerRadius = 16
         return view
     }()
-    private lazy var calendarView: CalendarView = {
-        let view = CalendarView(alreadySelectedDate: .init(), selectDate: viewModel.selectDayFromJct, datePriorities: viewModel.datePriorities)
-        return view
-    }()
+    private lazy var calendarView = CalendarView(alreadySelectedDate: .init(), selectDate: { [weak self] date in
+        self?.viewModel.selectDayFromJct(date)
+    }, datePriorities: { [weak self] date in
+        guard let self = self else { return (false, false, false, false) }
+        return self.viewModel.datePriorities(date)
+    })
     private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .hex("#DFDFDF")
@@ -37,21 +39,22 @@ final class CalendarVc: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
-    lazy var todayButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "yeldoublecircle", text: "Today", onClick: viewModel.clickedToday)
-
-        return button
-    }()
+    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "yeldoublecircle", text: "Today", onClick: { [weak self] in
+        self?.viewModel.clickedToday()
+    })
     lazy var tomorrowButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "calendar-plussvg", text: "Tomorrow", onClick: viewModel.clickedTomorrow)
+        let button = CalendarButton1(image: "calendar-plussvg", text: "Tomorrow", onClick: { [weak self] in
+            self?.viewModel.clickedTomorrow()
+        })
         button.imageView2.tintColor = .hex("#447BFE")
         return button
     }()
-    lazy var nextMondayButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "brightness-up", text: "Next Monday", onClick: viewModel.clickedNextMonday)
-        return button
-    }()
-    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", onClick: viewModel.clickedEvening)
+    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", onClick: { [weak self] in
+        self?.viewModel.clickedNextMonday()
+    })
+    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", onClick: { [weak self] in
+        self?.viewModel.clickedEvening()
+    })
     private lazy var buttonsStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [todayButton, tomorrowButton, nextMondayButton, eveningButton])
         stack.distribution = .fillEqually
@@ -62,10 +65,18 @@ final class CalendarVc: UIViewController {
     private lazy var clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
         guard let self = self else { return }
         self.router.navigationController.popViewController(animated: true)
-    }, done: done)
-    lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: clickedTime)
-    lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: clickedReminder)
-    lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: clickedRepeat)
+    }, done: { [weak self] in
+        self?.done()
+    })
+    lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: { [weak self] in
+        self?.clickedTime()
+    })
+    lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: { [weak self] in
+        self?.clickedReminder()
+    })
+    lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: { [weak self] in
+        self?.clickedRepeat()
+    })
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
     init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
         self.viewModel = viewModel
@@ -102,7 +113,9 @@ final class CalendarVc: UIViewController {
             guard let self = self else { return }
             self.repeatButton.configure(selectedText: `repeat`?.description)
         }).disposed(by: bag)
-        viewModel.shouldGoBackAndSave = done
+        viewModel.shouldGoBackAndSave = { [weak self] in
+            self?.done()
+        }
     }
 
     private func setupViews() {
@@ -205,10 +218,6 @@ extension CalendarVc {
             layout(label).top(imageView2.anchor.bottom, 9).centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
                 .bottom()
             addTarget(self, action: #selector(onClickFunc), for: .touchUpInside)
-//            self.onClick = { isSelected in
-//                self.layer.opacity = isSelected ? 0.7 : 1
-//                if isSelected { onClick() }
-//            }
         }
         
         @objc func onClickFunc() { onClick() }
@@ -260,16 +269,4 @@ extension CalendarVc {
             return superHit ?? button.hitTest(point, with: event)
         }
     }
-}
-
-extension UIImage {
-  class func imageWithColor(color: UIColor) -> UIImage {
-    let rect: CGRect = CGRect(x: 0, y: 0, width: 1, height: 1)
-    UIGraphicsBeginImageContextWithOptions(CGSize(width: 1, height: 1), false, 0)
-    color.setFill()
-    UIRectFill(rect)
-    let image: UIImage? = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return image!
-  }
 }
