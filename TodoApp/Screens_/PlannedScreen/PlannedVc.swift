@@ -26,7 +26,9 @@ final class PlannedVc: UIViewController {
                 self?.calendarViewCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
             }
             self?.viewModel.selectDayFromJct(date)
-        }, datePriorities: viewModel.datePriorities)
+        }, datePriorities: { [weak self] date in
+            return self?.viewModel.datePriorities(date) ?? (false, false, false, false)
+        })
         return view
     }()
     private lazy var calendarViewContainer: UIView = {
@@ -71,11 +73,12 @@ final class PlannedVc: UIViewController {
         noCalendarViewCollectionView.register(PlannedVcHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlannedVcHeader.identifier)
 
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<PlannedVcVm.AnimDateSection<PlannedVcVm.Model>> { [weak self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
-            guard let self = self else { return .init() }
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { self.viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: {
+                                self?.viewModel.setIsDone($0, to: task)
+                })
                 return cell
             }
         }
@@ -104,11 +107,12 @@ final class PlannedVc: UIViewController {
         calendarViewCollectionView.register(PlannedTaskCell.self, forCellWithReuseIdentifier: PlannedTaskCell.reuseIdentifier)
 
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<PlannedVcVm.Model>> { [weak self] (dataSource, collectionView, indexPath, model) -> UICollectionViewCell in
-            guard let self = self else { return .init() }
             switch model {
             case let .task(task):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PlannedTaskCell.reuseIdentifier, for: indexPath) as! PlannedTaskCell
-                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: { self.viewModel.setIsDone($0, to: task) })
+                cell.configure(text: task.name, date: task.date!.date!, priority: task.priority, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, isSelected: task.isDone, hasChecklist: !task.subtask.isEmpty, onSelected: {
+                            self?.viewModel.setIsDone($0, to: task)
+                })
                 return cell
             }
         }
