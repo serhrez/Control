@@ -70,6 +70,7 @@ class ProjectDetailsVc: UIViewController {
         self.newFormView.didAppear()
         self.view.layoutSubviews()
         doOnAppear?()
+        doOnAppear = nil
     }
     
     func setupKeyboard() {
@@ -123,8 +124,8 @@ class ProjectDetailsVc: UIViewController {
         switch (oldState, newState) {
         case (_, .startAddTask):
             doOnAppear = { [weak self] in
-            self?._oldState = .list
-            self?.state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil))
+                self?._oldState = .list
+                self?.state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil))
             }
             tasksWithDoneListOpacity = 1
         case (.list, .addTask(_)):
