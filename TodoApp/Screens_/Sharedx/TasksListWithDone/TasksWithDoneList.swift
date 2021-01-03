@@ -113,19 +113,15 @@ class TasksWithDoneList: UIView {
             switch model {
             case let .task(task):
                 let taskCell = tableView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
-                taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty) {
-                    _ = try! RealmProvider.main.realm.write {
-                        task.isDone.toggle()
-                    }
+                taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty) { [weak self] in
+                    self?.onChangeIsDone(task)
                 }
                 taskCell.delegate = self
                 return taskCell
             case let .doneTask(task):
                 let doneCell = tableView.dequeueReusableCell(withReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier, for: indexPath) as! DoneTasksListTaskCell
-                doneCell.configure(text: task.name) {
-                    _ = try! RealmProvider.main.realm.write {
-                        task.isDone.toggle()
-                    }
+                doneCell.configure(text: task.name) { [weak self] in
+                    self?.onChangeIsDone(task)
                 }
                 doneCell.delegate = self
                 return doneCell
@@ -158,6 +154,10 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
             if self.shouldDelete != nil {
                 let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
                     self?.handleSwipeActionDeletion(action: action, path: path)
+                    // TODO: Memory leak. There are memory leak that happens brecause we do not call action.fullfill. But the code below may have unpredicted behavior
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak action] in
+//                        action?.fulfill(with: .reset)
+//                    }
                 })
                 deleteAction.backgroundColor = .hex("#EF4439")
                 deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
@@ -170,6 +170,10 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
             var actions: [SwipeAction] = []
             let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
                 self?.handleSwipeActionTick(action: action, path: path)
+                // TODO: Memory leak. There are memory leak that happens brecause we do not call action.fullfill. But the code below may have unpredicted behavior
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak action] in
+//                    action?.fulfill(with: .reset)
+//                }
             })
             deleteAction.backgroundColor = .hex("#00CE15")
             deleteAction.image = UIImage(named: "check")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate).resize(toWidth: 17)
