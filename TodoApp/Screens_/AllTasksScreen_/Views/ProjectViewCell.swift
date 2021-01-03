@@ -50,7 +50,8 @@ final class ProjectViewCell: UITableViewCell {
         layout(iconViewContainer).leading(23).centerY().width(28)
         
         nameLabel.font = .boldSystemFont(ofSize: 18)
-        layout(nameLabel).leading(63).centerY(iconView.anchor.centerY)
+        addSubview(outerCircle)
+        layout(nameLabel).leading(63).centerY(iconView.anchor.centerY).trailing(outerCircle.anchor.leading, 7) { _, _ in .lessThanOrEqual }
         
         layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).height(26)
         
