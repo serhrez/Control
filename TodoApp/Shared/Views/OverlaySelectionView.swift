@@ -24,7 +24,7 @@ class OverlaySelectionView: UIView {
             self.backgroundColor = selectedBackgroundColor
         } else {
             if animated {
-                animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut, animations: {
+                animator = UIViewPropertyAnimator(duration: 0.25, curve: .easeInOut, animations: {
                     self.backgroundColor = .clear
                 })
                 animator?.startAnimation()
