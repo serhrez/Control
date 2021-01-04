@@ -12,7 +12,6 @@ import PopMenu
 import ResizingTokenField
 import AttributedLib
 import RxSwift
-import RealmSwift
 import RxDataSources
 import SwipeCellKit
 import Typist
@@ -169,8 +168,8 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupViewModelBinding() {
-        self.taskNameh1.text = viewModel.task?.name ?? ""
-        self.setTaskDescription(viewModel.task?.taskDescription ?? "")
+        self.taskNameh1.text = viewModel.task.name
+        self.setTaskDescription(viewModel.task.taskDescription)
         viewModel.shouldEnableTaskDescription = { [weak self] in
             self?.explicitlyEnableTaskDescription()
         }
@@ -229,14 +228,14 @@ final class TaskDetailsVc: UIViewController {
         defer {
             layoutAnimate()
         }
-        guard !(viewModel.task?.tags.isEmpty ?? true) else {
+        guard !(viewModel.task.tags.isEmpty) else {
             self.tokenField.isHidden = true
             self.tokenField.removeAllTokens()
             return
         }
         self.tokenField.isHidden = false
         let old = tokenField.tokens as? [ResizingToken]
-        let newTags = ModelFormatt.tagsSorted(tags: viewModel.task.flatMap { Array($0.tags) } ?? []).map { ResizingToken(title: $0.name) }
+        let newTags = ModelFormatt.tagsSorted(tags: Array(viewModel.task.tags)).map { ResizingToken(title: $0.name) }
         tokenField.deepdiff(old: old ?? [], new: newTags)
     }
     
@@ -439,7 +438,7 @@ final class TaskDetailsVc: UIViewController {
     }
     
     func setSpacings() {
-        guard let task = viewModel.task else { return }
+        let task = viewModel.task
         let spacingAfterHorizontal1 = !taskDescription.isHidden || !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
         containerStack.setCustomSpacing(spacingAfterHorizontal1 ? 16 : 0, after: horizontal1)
         let spacingAfterTaskDescription = !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
@@ -501,7 +500,7 @@ final class TaskDetailsVc: UIViewController {
     }
     func addTagsSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
-        router.openAllTags(mode: .selection(selected: viewModel.task.flatMap { Array($0.tags) } ?? [], { [weak self] tags in
+        router.openAllTags(mode: .selection(selected: Array(viewModel.task.tags), { [weak self] tags in
             self?.viewModel.addTags(tags)
         }))
     }
@@ -524,7 +523,7 @@ final class TaskDetailsVc: UIViewController {
         popMenuVc?.present(popMenu, animated: true)
     }
     func addCalendarSelected(action: PopMenuAction) {
-        guard let task = viewModel.task else { return }
+        let task = viewModel.task
         dismiss(animated: true, completion: nil)
         router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (newDate, newReminder, newRepeat) in
             self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)

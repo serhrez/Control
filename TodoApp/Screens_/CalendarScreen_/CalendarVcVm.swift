@@ -9,7 +9,6 @@ import Foundation
 import SwiftDate
 import RxSwift
 import RxCocoa
-import RealmSwift
 
 class CalendarVcVm {
     
