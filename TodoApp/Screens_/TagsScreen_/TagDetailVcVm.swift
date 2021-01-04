@@ -14,7 +14,7 @@ import RxCocoa
 class TagDetailVcVm {
     private var tokens: [NotificationToken] = []
     let tasks = BehaviorRelay<[AnimSection<Model>]>(value: [])
-    let tag: RlmTag
+    @SafeObject var tag: RlmTag
     init(tag: RlmTag) {
         self.tag = tag
         updateTasksForTag()
@@ -54,7 +54,6 @@ class TagDetailVcVm {
         _ = try! RealmProvider.main.realm.write {
             task.isDone = isDone
         }
-//        reorderElements()
     }
 }
 

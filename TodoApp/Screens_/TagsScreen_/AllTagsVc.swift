@@ -13,7 +13,6 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 import Typist
-import RealmSwift
 
 class AllTagsVc: UIViewController {
     private let bag = DisposeBag()
