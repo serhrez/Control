@@ -42,3 +42,23 @@ class DBHelper {
         }
     }
 }
+
+extension DBHelper {
+    static func safeArchive(taskId: String, projectId: String, archiveRealmProvider: RealmProvider = .archive, sourceRealmProvider: RealmProvider = .main) {
+        do {
+            try archive(taskId: taskId, projectId: projectId, archiveRealmProvider: archiveRealmProvider, sourceRealmProvider: sourceRealmProvider)
+        } catch {
+            print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
+            fatalError()
+        }
+    }
+    
+    static func safeUnarchive(taskId: String, from sourceProvider: RealmProvider = .archive, to destinationProvider: RealmProvider = .main) {
+        do {
+            try unarchive(taskId: taskId, from: sourceProvider, to: destinationProvider)
+        } catch {
+            print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
+            fatalError()
+        }
+    }
+}

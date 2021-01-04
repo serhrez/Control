@@ -35,23 +35,23 @@ class ArchiveVcVm {
     }
     
     func add(archived: RlmArchived) {
-        _ = try! RealmProvider.archive.realm.write {
+        RealmProvider.archive.safeWrite {
             RealmProvider.archive.realm.add(archived)
         }
     }
     
     func delete(archived: RlmArchived) {
-        _ = try! RealmProvider.archive.realm.write {
+        RealmProvider.archive.safeWrite {
             RealmProvider.archive.realm.delete(archived)
         }
     }
     
     func unrestore(taskId: String, projectId: String) {
-        _ = try! DBHelper.archive(taskId: taskId, projectId: projectId)
+        DBHelper.safeArchive(taskId: taskId, projectId: projectId)
     }
     
     func restoreTask(taskId: String) {
-        _ = try! DBHelper.unarchive(taskId: taskId)
+        DBHelper.safeUnarchive(taskId: taskId)
     }
 }
 

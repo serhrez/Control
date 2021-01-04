@@ -73,7 +73,7 @@ class AllTagsVcVm {
     func addTag(name: String) {
         guard !name.isEmpty else { return }
         guard !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == name }) else { return }
-        try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             RealmProvider.main.realm.add(RlmTag(name: name))
         }
         isInAdding = false
@@ -86,7 +86,7 @@ class AllTagsVcVm {
     
     func deleteTag(_ tag: RlmTag) {
         self.selectionSet.remove(tag)
-        try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             RealmProvider.main.realm.delete(tag)
         }
     }

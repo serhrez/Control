@@ -72,7 +72,7 @@ class PlannedVcVm {
     }
     
     func setIsDone(_ isDone: Bool, to task: RlmTask) {
-        _ = try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             task.isDone = isDone
         }
     }

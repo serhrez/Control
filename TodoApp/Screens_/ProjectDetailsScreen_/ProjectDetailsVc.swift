@@ -227,29 +227,29 @@ class ProjectDetailsVc: UIViewController {
         var actions: [PopuptodoAction] = []
         if case .list = state {
             actions += [.init(title: "Complete All", image: UIImage(named: "circle-check"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.tasks.forEach {
                         $0.isDone = true
                     }
                 }
             })]
             actions += [.init(title: "Sort by name", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.sorting = .byName
                 }
             })]
             actions += [.init(title: "Sort by created", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.sorting = .byCreatedAt
                 }
             })]
             actions += [.init(title: "Sort by priority", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.sorting = .byPriority
                 }
             })]
             actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.tasks.forEach { task in
                         guard task.isDone else { return }
                         RealmProvider.main.realm.delete(task)
@@ -280,12 +280,12 @@ class ProjectDetailsVc: UIViewController {
         projectDescription: project.notes,
         icon: .text("🚒"),
         onProjectNameChanged: { [weak self] newName in
-            _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.safeWrite {
                 self?.project.name = newName
             }
         },
         onProjectDescriptionChanged: { [weak self] newDescription in
-            _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.safeWrite {
                 self?.project.notes = newDescription
             }
         },
@@ -294,7 +294,7 @@ class ProjectDetailsVc: UIViewController {
         },
         iconSelected: { [weak self] in
             self?.router.openIconPicker(onDone: { selected in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.icon = Icon.text(selected)
                 }
             })
@@ -307,7 +307,7 @@ class ProjectDetailsVc: UIViewController {
             viewSource: sourceView,
             selectedColor: selectedColor,
             onColorSelection: { [weak self] color, picker in
-                _ = try! RealmProvider.main.realm.write {
+                RealmProvider.main.safeWrite {
                     self?.project.color = color
                 }
                 picker.shouldDismissAnimated()
@@ -390,7 +390,7 @@ class ProjectDetailsVc: UIViewController {
                         addTask.tags.append(tagName)
                         self.state = .addTask(addTask)
                         if !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == tagName }) {
-                            _ = try! RealmProvider.main.realm.write {
+                            RealmProvider.main.safeWrite {
                                 RealmProvider.main.realm.add(RlmTag(name: tagName))
                             }
                         }
@@ -481,7 +481,7 @@ class ProjectDetailsVc: UIViewController {
         let rlmTags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in task.tags.contains(where: { tag.name == $0 }) }
         let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
         rlmTask.tags.append(objectsIn: rlmTags)
-        _ = try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             project.tasks.append(rlmTask)
         }
         state = .list
@@ -520,15 +520,15 @@ class ProjectDetailsVc: UIViewController {
             guard let self = self else { return }
             self.router.openTaskDetails(task)
         }, onChangeIsDone: { task in
-            _ = try! RealmProvider.main.realm.write {
+            RealmProvider.main.safeWrite {
                 task.isDone.toggle()
             }
         }, shouldDelete: { [weak self] task in
             guard let self = self else { return }
             let taskId = task.id
-            _ = try! DBHelper.archive(taskId: taskId, projectId: self.project.id)
+            DBHelper.safeArchive(taskId: taskId, projectId: self.project.id)
             self.showBottomMessage(type: .taskDeleted, onClicked: {
-                _ = try! DBHelper.unarchive(taskId: taskId)
+                DBHelper.safeUnarchive(taskId: taskId)
             })
         })
     

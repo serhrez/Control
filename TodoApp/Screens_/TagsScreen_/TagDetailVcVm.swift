@@ -51,7 +51,7 @@ class TagDetailVcVm {
     }
     
     func taskSelected(_ task: RlmTask, isDone: Bool) {
-        _ = try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             task.isDone = isDone
         }
     }

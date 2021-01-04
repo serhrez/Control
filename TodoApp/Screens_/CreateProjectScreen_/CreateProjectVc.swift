@@ -119,7 +119,7 @@ class CreateProjectVc: UIViewController {
               !allProject.contains(where: { $0.name == projectName }) else { return }
         let description = projectDescription.text
         let project = RlmProject(name: projectName, icon: icon, notes: description, color: color, date: Date())
-        _ = try! RealmProvider.main.realm.write {
+        RealmProvider.main.safeWrite {
             RealmProvider.main.realm.add(project)
         }
         shouldChangeHeightByKeyboardChange = false

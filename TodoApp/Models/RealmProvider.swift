@@ -58,3 +58,16 @@ struct RealmProvider {
     static let archiveConfigPath = "archive.realm"
     static let bundledConfigPath = "bundled.realm"
 }
+
+extension RealmProvider {
+    func safeWrite<Result>(closure: () throws -> Result) {
+        do {
+            try realm.write {
+                try closure()
+            }
+        } catch {
+            print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
+            fatalError()
+        }
+    }
+}
