@@ -86,6 +86,7 @@
 		A57D967A2588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */; };
 		A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58281FD2597DCB80097178A /* NewCustomButton.swift */; };
 		A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */; };
+		A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583626A25A37E95009FF3E0 /* SafeObject.swift */; };
 		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
 		A592318A25725B90008E955D /* TaskCellx2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318925725B90008E955D /* TaskCellx2.swift */; };
 		A592319025726536008E955D /* TimePickerVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318F25726536008E955D /* TimePickerVc.swift */; };
@@ -242,6 +243,7 @@
 		A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+exerciseAmbiguity.swift"; sourceTree = "<group>"; };
 		A58281FD2597DCB80097178A /* NewCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomButton.swift; sourceTree = "<group>"; };
 		A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+extensions.swift"; sourceTree = "<group>"; };
+		A583626A25A37E95009FF3E0 /* SafeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeObject.swift; sourceTree = "<group>"; };
 		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
 		A592318925725B90008E955D /* TaskCellx2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx2.swift; sourceTree = "<group>"; };
 		A592318F25726536008E955D /* TimePickerVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerVc.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 		A5085EB02557046600A31BBB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A583626925A37E82009FF3E0 /* PropertyWrappers */,
 				A5085EB12557046F00A31BBB /* Extensions */,
 				A5085EB8255704B800A31BBB /* DirPath.swift */,
 				A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */,
@@ -641,6 +644,14 @@
 				A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A583626925A37E82009FF3E0 /* PropertyWrappers */ = {
+			isa = PBXGroup;
+			children = (
+				A583626A25A37E95009FF3E0 /* SafeObject.swift */,
+			);
+			path = PropertyWrappers;
 			sourceTree = "<group>";
 		};
 		A592318425718DFB008E955D /* Sharedx */ = {
@@ -1131,6 +1142,7 @@
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
+				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
 				A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */,
 				A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */,
@@ -1407,7 +1419,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CX99V85TCK;
 				INFOPLIST_FILE = TodoAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1430,7 +1442,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CX99V85TCK;
 				INFOPLIST_FILE = TodoAppTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

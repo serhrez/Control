@@ -24,7 +24,7 @@ class ProjectDetailsVc: UIViewController {
             _oldState = state
         }
     }
-    private var project: RlmProject
+    @SafeObject private var project: RlmProject
     private var isInbox: Bool { project.name == "Inbox" }
     private var tokens: [NotificationToken] = []
     private var shouldChangeHeightByKeyboardChange = true
@@ -184,6 +184,7 @@ class ProjectDetailsVc: UIViewController {
     }
     
     private func projectBindingSetup() {
+        guard project.realm != nil else { return }
         let token = project.observe(on: .main) { [weak self] change in
             switch change {
             case .change(_, _):
@@ -500,6 +501,7 @@ class ProjectDetailsVc: UIViewController {
         __tasksSubject
             .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)
+        guard project.realm != nil else { return }
         let token = project.tasks.observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
