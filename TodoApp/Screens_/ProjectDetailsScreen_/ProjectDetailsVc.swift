@@ -60,7 +60,7 @@ class ProjectDetailsVc: UIViewController {
         projectPropertiesChanged() // Init state
         applySharedNavigationBarAppearance(customOnBack: shouldPopTwo ? { [weak self] in
             self?.navigationController?.popViewControllers(2)
-            } : nil)
+            } : nil, popGesture: !shouldPopTwo)
         setupNavigationBar()
     }
     
