@@ -29,8 +29,16 @@ final public class PopMenuPresentAnimationController: NSObject, UIViewController
         
         let containerView = transitionContext.containerView
         let view = menuViewController.view!
-        view.frame = containerView.frame
         containerView.addSubview(view)
+        
+        menuViewController.containerView.layoutIfNeeded()
+        let contentFrame = menuViewController.contentFrame
+        menuViewController.contentLeftConstraint.constant = contentFrame.origin.x
+        menuViewController.contentTopConstraint.constant = contentFrame.origin.y
+        menuViewController.contentWidthConstraint.constant = contentFrame.size.width
+        menuViewController.contentHeightConstraint.constant = contentFrame.size.height
+        
+        menuViewController.containerView.layoutIfNeeded()
         
         prepareAnimation(menuViewController)
         
@@ -38,37 +46,21 @@ final public class PopMenuPresentAnimationController: NSObject, UIViewController
         let animations = {
             self.animate(menuViewController)
         }
-        
-        UIView.animate(withDuration: animationDuration, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: animations) { _ in
+        UIView.animate(withDuration: animationDuration, delay: 0, animations: animations) { _ in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
-    
     /// States before animation.
+    var initialPosition: CGPoint = .zero
     fileprivate func prepareAnimation(_ viewController: PopMenuViewController) {
         viewController.containerView.alpha = 0
         viewController.backgroundView.alpha = 0
-        
-        if let sourceFrame = sourceFrame {
-            viewController.contentLeftConstraint.constant = sourceFrame.origin.x
-            viewController.contentTopConstraint.constant = sourceFrame.origin.y
-            viewController.contentWidthConstraint.constant = sourceFrame.size.width
-            viewController.contentHeightConstraint.constant = sourceFrame.size.height
-        }
     }
     
     /// Run the animation.
     fileprivate func animate(_ viewController: PopMenuViewController) {
         viewController.containerView.alpha = 1
         viewController.backgroundView.alpha = 1
-        
-        let contentFrame = viewController.contentFrame
-        viewController.contentLeftConstraint.constant = contentFrame.origin.x
-        viewController.contentTopConstraint.constant = contentFrame.origin.y
-        viewController.contentWidthConstraint.constant = contentFrame.size.width
-        viewController.contentHeightConstraint.constant = contentFrame.size.height
-        
-        viewController.containerView.layoutIfNeeded()
     }
     
 }
