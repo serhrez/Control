@@ -20,7 +20,7 @@ extension PopMenuAppearance {
         appearance.popMenuActionHeight = 47
         appearance.actionsSpacing = 10
         appearance.popMenuColor.actionColor = .tint(.black)
-        appearance.popMenuColor.selectionColor = .tint(UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1))
+        appearance.popMenuColor.selectionColor = .tint(UIColor(named: "TASubElement")!)
         appearance.popMenuBackgroundStyle = .dimmed(color: UIColor(red: 0.965, green: 0.965, blue: 0.953, alpha: 1), opacity: 0.5)
         appearance.popMenuPadding = .init(top: 12, left: 10, bottom: 12, right: 10)
         appearance.popMenuActionCountForScrollable = 12

@@ -267,7 +267,7 @@ fileprivate class CustomButtonx2: UIView {
         
         private var animator = UIViewPropertyAnimator()
         
-        var highlightedColor = UIColor.blue
+        var highlightedColor = UIColor(named: "TASubElement")!
         var onClick: () -> Void = { }
         var shouldHighlight: (Bool) -> Void = { _ in }
                 

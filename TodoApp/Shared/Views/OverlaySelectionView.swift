@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 class OverlaySelectionView: UIView {
-    var selectedBackgroundColor = UIColor.blue
+    var selectedBackgroundColor = UIColor(named: "TASubElement")!
     private var animator: UIViewPropertyAnimator?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        layer.opacity = 0.15
+        layer.opacity = 0.18
     }
     
     func setHighlighted(_ highlighted: Bool, animated: Bool = true) {

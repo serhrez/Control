@@ -112,12 +112,6 @@ class AllProjectsVc: UIViewController {
         let actions: [PopuptodoAction] = [
             PopuptodoAction(title: "Open Tags", image: UIImage(named: "tag"), didSelect: { [weak self] action in
                 self?.openTags(action: action)
-            }),
-            PopuptodoAction(title: "Sort by name", image: UIImage(named: "switch"), didSelect: { [weak self] action in
-                self?.sortChange(action: action)
-            }),
-            PopuptodoAction(title: "Edit Projects", image: UIImage(named: "adjustments"), didSelect: { [weak self] action in
-                self?.editProjects(action: action)
             })
         ]
         PopMenuAppearance.appCustomizeActions(actions: actions)
@@ -130,14 +124,6 @@ class AllProjectsVc: UIViewController {
     func openTags(action: PopMenuAction) {
         dismiss(animated: true, completion: nil)
         router.openAllTags(mode: .show)
-    }
-    
-    func sortChange(action: PopMenuAction) {
-        
-    }
-    
-    func editProjects(action: PopMenuAction) {
-        
     }
     
     var didDisappear: () -> Void = { }

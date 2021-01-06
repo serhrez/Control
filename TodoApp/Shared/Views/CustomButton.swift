@@ -45,7 +45,7 @@ fileprivate extension CustomButton {
         
         private var animator = UIViewPropertyAnimator()
         
-        var highlightedColor = UIColor.blue
+        var highlightedColor = UIColor(named: "TASubElement")!
         var onClick: () -> Void = { }
                 
         override init(frame: CGRect) {
@@ -60,7 +60,7 @@ fileprivate extension CustomButton {
         func setupViews() {
             addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
             addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchDragExit, .touchCancel])
-            layer.opacity = 0.15
+            layer.opacity = 0.18
         }
         
         @objc private func touchDown() {
