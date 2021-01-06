@@ -10,7 +10,7 @@ import UIKit
 import Material
 
 class SettingsVc: UIViewController {
-
+    var popTransition = SlidePopTransition()
     lazy var mainCollectionView = SettingsVcCollectionView(
         items: [
             .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 12, onClick: { [weak self] in
@@ -37,18 +37,50 @@ class SettingsVc: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "TABackground")
-        applySharedNavigationBarAppearance()
+        applySharedNavigationBarAppearance(popGesture: false)
         title = "Settings"
         
         view.layout(mainCollectionView).topSafe(15).leading(13).trailing(13).bottomSafe()
         mainCollectionView.collectionView.isScrollEnabled = false
         view.layout(secondaryCollectionView).bottomSafe(15).leading(13).trailing(13).height(133)
         secondaryCollectionView.collectionView.isScrollEnabled = false
-//        collec
-//        let collectionView = UIColle
+        setupPopTransition()
     }
+    
+    // MARK: - Pop transition
+    func setupPopTransition() {
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(didPan))
+        edgeGesture.edges = .right
+        view.addGestureRecognizer(edgeGesture)
+    }
+    
+    @objc func didPan(gesture: UIScreenEdgePanGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            popTransition.isInteractive = true
+            navigationController?.popViewController(animated: true)
+        case .ended, .cancelled:
+            popTransition.isInteractive = false
+        default: break
+        }
+        popTransition.handlePan(gesture)
+    }
+    
     var didDisappear: () -> Void = { }
     deinit { didDisappear() }
 }
 
 extension SettingsVc: AppNavigationRouterDelegate { }
+
+extension SettingsVc: TATransitionProvider {
+    func pushTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return SlidePushTransition()
+    }
+    
+    func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popTransition
+    }
+    func interactionController(for animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return popTransition.isInteractive ? popTransition : nil
+    }
+}

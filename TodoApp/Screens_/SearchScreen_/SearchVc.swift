@@ -25,7 +25,7 @@ class SearchVc: UIViewController {
     }
     
     private func setupViews() {
-        applySharedNavigationBarAppearance()
+        applySharedNavigationBarAppearance(popGesture: false)
         view.backgroundColor = UIColor(named: "TABackground")
         setupSearchBar()
         setupCollectionView()
@@ -124,5 +124,17 @@ extension SearchVc: UISearchBarDelegate {
     }
     func searchBar(searchBar: SearchBar, willClear textField: UITextField, with text: String?) {
         viewModel.clear()
+    }
+}
+
+extension SearchVc: TATransitionProvider {
+    func pushTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return FadePushTransition()
+    }
+    func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return FadePushTransition()
+    }
+    func interactionController(for animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return nil
     }
 }

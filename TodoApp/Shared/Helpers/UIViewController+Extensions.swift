@@ -23,7 +23,7 @@ extension UIViewController {
 }
 
 extension UIViewController: UIGestureRecognizerDelegate {
-    func applySharedNavigationBarAppearance(customOnBack: (() -> Void)? = nil, addBackButton: Bool = true) {
+    func applySharedNavigationBarAppearance(customOnBack: (() -> Void)? = nil, addBackButton: Bool = true, popGesture: Bool = true) {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [
@@ -41,8 +41,9 @@ extension UIViewController: UIGestureRecognizerDelegate {
                 }
             }), menu: nil)
             barButtonItem.tintColor = UIColor(named: "TAHeading")!
-            
-            navigationController?.interactivePopGestureRecognizer?.delegate = self
+            if popGesture {
+                navigationController?.interactivePopGestureRecognizer?.delegate = self
+            }
             navigationItem.leftBarButtonItem = barButtonItem
         }
     }

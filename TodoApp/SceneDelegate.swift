@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let viewController = SettingsVc()
         let viewController = AllProjectsVc()
 
-        let navigationVc = UINavigationController(rootViewController: viewController)
+        let navigationVc = TANavigationController(rootViewController: viewController)
         AppNavigationRouter.shared.navigationController = navigationVc
 
         window.rootViewController = navigationVc

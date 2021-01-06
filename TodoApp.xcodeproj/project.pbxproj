@@ -76,6 +76,10 @@
 		A56047E0255D9C1100C447CF /* AllTagsAddTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */; };
 		A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */; };
 		A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */; };
+		A5619AA025A51A1A0037EAE7 /* TANavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619A9F25A51A1A0037EAE7 /* TANavigationController.swift */; };
+		A5619AA925A51BE00037EAE7 /* TATransitionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AA825A51BE00037EAE7 /* TATransitionProvider.swift */; };
+		A5619AAE25A51D9D0037EAE7 /* FadePushTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AAD25A51D9D0037EAE7 /* FadePushTransition.swift */; };
+		A5619AB725A520B30037EAE7 /* SlideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AB625A520B30037EAE7 /* SlideTransition.swift */; };
 		A56BDC0D25A06B7F008CD2D9 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */; };
 		A56BDC1225A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -233,6 +237,10 @@
 		A56047DF255D9C1100C447CF /* AllTagsAddTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsAddTagCell.swift; sourceTree = "<group>"; };
 		A56047E7255DD19C00C447CF /* AllTagsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVcVm.swift; sourceTree = "<group>"; };
 		A56047EC255DD98000C447CF /* AllTagsEnterNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsEnterNameCell.swift; sourceTree = "<group>"; };
+		A5619A9F25A51A1A0037EAE7 /* TANavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TANavigationController.swift; sourceTree = "<group>"; };
+		A5619AA825A51BE00037EAE7 /* TATransitionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TATransitionProvider.swift; sourceTree = "<group>"; };
+		A5619AAD25A51D9D0037EAE7 /* FadePushTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadePushTransition.swift; sourceTree = "<group>"; };
+		A5619AB625A520B30037EAE7 /* SlideTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransition.swift; sourceTree = "<group>"; };
 		A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwipeExpansionStyle+Extensions.swift"; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -623,6 +631,25 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		A5619A9E25A51A060037EAE7 /* Navigation_ */ = {
+			isa = PBXGroup;
+			children = (
+				A5619AA425A51A2F0037EAE7 /* NavigationTransitions */,
+				A5619A9F25A51A1A0037EAE7 /* TANavigationController.swift */,
+				A5619AA825A51BE00037EAE7 /* TATransitionProvider.swift */,
+			);
+			path = Navigation_;
+			sourceTree = "<group>";
+		};
+		A5619AA425A51A2F0037EAE7 /* NavigationTransitions */ = {
+			isa = PBXGroup;
+			children = (
+				A5619AAD25A51D9D0037EAE7 /* FadePushTransition.swift */,
+				A5619AB625A520B30037EAE7 /* SlideTransition.swift */,
+			);
+			path = NavigationTransitions;
+			sourceTree = "<group>";
+		};
 		A5722D0E25742CB80098BECE /* ColorPicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,6 +791,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A5619A9E25A51A060037EAE7 /* Navigation_ */,
 				A5C8E89D2598B8AC00D77514 /* SettingsScreen */,
 				A533E092255C596400B301C7 /* ProjectDetailsScreen_ */,
 				A54EFB40258FB772009CFE0F /* CreateProjectScreen_ */,
@@ -1089,6 +1117,7 @@
 				A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */,
 				A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */,
 				A516832F255B33520076D29E /* PlusView.swift in Sources */,
+				A5619AAE25A51D9D0037EAE7 /* FadePushTransition.swift in Sources */,
 				A5C8E8A4259944EA00D77514 /* SettingsVcCollectionView.swift in Sources */,
 				A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */,
 				A5B67F702590D8F900EAD13D /* ProjectDetailsTop.swift in Sources */,
@@ -1141,6 +1170,7 @@
 				A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */,
 				A5085E922556F8E500A31BBB /* RlmTaskDate.swift in Sources */,
 				A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */,
+				A5619AA025A51A1A0037EAE7 /* TANavigationController.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
 				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
@@ -1150,6 +1180,7 @@
 				A533E08A255C4B1D00B301C7 /* PredefinedRealm.swift in Sources */,
 				A5E4921B256D2FC0004E707B /* AllTagsSelectionTagCell.swift in Sources */,
 				A56BDC1225A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift in Sources */,
+				A5619AB725A520B30037EAE7 /* SlideTransition.swift in Sources */,
 				A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */,
 				A5B67F7A2590FACC00EAD13D /* ProjectStartedView.swift in Sources */,
 				A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */,
@@ -1203,6 +1234,7 @@
 				A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */,
 				A5085EB9255704B800A31BBB /* DirPath.swift in Sources */,
 				A5F6A91C258A4BC400FB50FC /* TasksListTaskCell.swift in Sources */,
+				A5619AA925A51BE00037EAE7 /* TATransitionProvider.swift in Sources */,
 				A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
