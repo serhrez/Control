@@ -66,6 +66,7 @@ class SearchVc: UIViewController {
         cancelButton.tintColor = UIColor.hex("#447BFE")
         cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
         navigationItem.rightBarButtonItems = [cancelButton]
+        searchBar.becomeFirstResponder()
     }
     
     private func setupCollectionView() {

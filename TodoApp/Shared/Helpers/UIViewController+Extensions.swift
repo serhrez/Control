@@ -41,10 +41,14 @@ extension UIViewController: UIGestureRecognizerDelegate {
                 }
             }), menu: nil)
             barButtonItem.tintColor = UIColor(named: "TAHeading")!
-            if popGesture {
-                navigationController?.interactivePopGestureRecognizer?.delegate = self
-            }
             navigationItem.leftBarButtonItem = barButtonItem
         }
+        navigationController?.interactivePopGestureRecognizer?.delegate = addBackButton && popGesture ? self : NilDelegate()
+    }
+}
+
+fileprivate class NilDelegate: NSObject, UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        false
     }
 }
