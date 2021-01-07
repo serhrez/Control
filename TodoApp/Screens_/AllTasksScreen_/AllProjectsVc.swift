@@ -19,7 +19,7 @@ class AllProjectsVc: UIViewController {
     lazy var tasksToolbar: AllTasksToolbar = {
         let view = AllTasksToolbar(frame: .zero)
         view.onClick = { [weak self] in
-            let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.name == "Inbox" })!
+            let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.id == Constants.inboxId })!
             let projectDetails = ProjectDetailsVc(project: project, state: .startAddTask)
             self?.router.debugPushVc(projectDetails)
         }
@@ -167,12 +167,16 @@ extension AllProjectsVc: UITableViewDataSource {
             let addCell = tableView.dequeueReusableCell(withIdentifier: AddProjectCell.reuseIdentifier, for: indexPath) as! AddProjectCell
             addCell.selectionStyle = .none
             return addCell
-        case let .project(project):
+        case let .project(project), let .inboxProject(project):
             let projectCell = tableView.dequeueReusableCell(withIdentifier: ProjectViewCell.reuseIdentifier, for: indexPath) as! ProjectViewCell
             let progress = viewModel.getProgress(for: project)
-            projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color)
+            projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color, iconFontSize: project.id == Constants.inboxId ? 22 : nil)
             projectCell.selectionStyle = .none
-            projectCell.motionIdentifier = project.id
+            return projectCell
+        case let .planned(project), let .priority(project), let .today(project):
+            let projectCell = tableView.dequeueReusableCell(withIdentifier: ProjectViewCell.reuseIdentifier, for: indexPath) as! ProjectViewCell
+            projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(project.progress), tasksCount: project.tasksCount, color: project.color, iconFontSize: project.iconFontSize)
+            projectCell.selectionStyle = .none
             return projectCell
         }
     }
@@ -189,6 +193,19 @@ extension AllProjectsVc: UITableViewDelegate {
         case let .project(project):
             let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList)
             router.debugPushVc(projectDetails)
+        case let .inboxProject(project):
+            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList, isInbox: true)
+            router.debugPushVc(projectDetails)
+        case let .planned(model):
+            let plannedVc = PlannedVc()
+            router.debugPushVc(plannedVc)
+            break
+        case let .priority(model):
+            let predefined = PredefinedProjectVc(.priority)
+            router.debugPushVc(predefined)
+        case let .today(model):
+            let predefined = PredefinedProjectVc(.today)
+            router.debugPushVc(predefined)
         }
     }
 }

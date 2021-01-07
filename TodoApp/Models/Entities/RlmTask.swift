@@ -18,6 +18,7 @@ final class RlmTask: Object, Identifiable {
     @objc dynamic var name = ""
     @objc dynamic var taskDescription = ""
     @objc dynamic var createdAt = Date()
+    let project = LinkingObjects(fromType: RlmProject.self, property: "tasks")
     
     @objc dynamic private var _priority = ""
     var priority: Priority {

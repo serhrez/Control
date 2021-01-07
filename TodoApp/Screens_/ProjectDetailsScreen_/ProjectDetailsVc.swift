@@ -25,15 +25,16 @@ class ProjectDetailsVc: UIViewController {
         }
     }
     @SafeObject private var project: RlmProject
-    private var isInbox: Bool { project.name == "Inbox" }
+    private var isInbox: Bool
     private var tokens: [NotificationToken] = []
     private var shouldChangeHeightByKeyboardChange = true
     private let bag = DisposeBag()
     private let shouldPopTwo: Bool
     private var doOnAppear: (() -> Void)?
     let trashTextField = TrashTextField()
-    init(project: RlmProject, state: PrScreenState, shouldPopTwo: Bool = false) {
+    init(project: RlmProject, state: PrScreenState, isInbox: Bool = false, shouldPopTwo: Bool = false) {
         self.project = project
+        self.isInbox = isInbox
         self._oldState = state
         self.state = state
         self.shouldPopTwo = shouldPopTwo

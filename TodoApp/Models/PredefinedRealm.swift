@@ -19,6 +19,7 @@ class PredefinedRealm {
             let tag4 = RlmTag(name: "tag4")
 
             let project1 = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            project1.id = Constants.inboxId
             var task = RlmTask(name: "Make design for My Plan App", taskDescription: "Plan! - Create app for iOs and Testing app for iPadOs, MacOs send to server.", priority: .medium, isDone: false)
             task.subtask.append(RlmSubtask(name: "Subtask1"))
             task.subtask.append(RlmSubtask(name: "Subtask2"))
@@ -150,19 +151,6 @@ class PredefinedRealm {
             realm.add(project1)
             realm.add(project2)
             realm.add(project3)
-            let project4 = RlmProject(name: "Inbox2", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            let project5 = RlmProject(name: "Inbox3", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            let project6 = RlmProject(name: "Inbox4", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            let project7 = RlmProject(name: "Inbox5", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            let project8 = RlmProject(name: "Inbox6", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            let project9 = RlmProject(name: "Inbox7", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            realm.add(project4)
-            realm.add(project5)
-            realm.add(project6)
-            realm.add(project7)
-            realm.add(project8)
-            realm.add(project9)
-
 
             let tags5to11 = Array(5...9).map { RlmTag(name: "tag\($0)")}
             realm.add(tags5to11)

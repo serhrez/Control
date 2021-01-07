@@ -20,7 +20,7 @@ class AppNavigationRouter {
     public static let shared = AppNavigationRouter()
     private init() { }
     
-    private func pushVc(_ vc: UIViewController & AppNavigationRouterDelegate, _ transitionType: MotionTransitionAnimationType, animated: Bool = true) {
+    private func pushVc(_ vc: UIViewController, _ transitionType: MotionTransitionAnimationType, animated: Bool = true) {
 //        let previousTransitionType = navigationController.motionNavigationTransitionType
 //        navigationController.motionNavigationTransitionType = transitionType
 //        vc.didDisappear = { [weak self] in
@@ -29,7 +29,7 @@ class AppNavigationRouter {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func debugPushVc(_ vc: UIViewController & AppNavigationRouterDelegate, _ transitionType: MotionTransitionAnimationType = .none) {
+    func debugPushVc(_ vc: UIViewController, _ transitionType: MotionTransitionAnimationType = .none) {
         pushVc(vc, transitionType)
     }
     

@@ -24,7 +24,10 @@ final class ProjectViewCell: UITableViewCell {
         setupViews()
     }
     
-    func configure(icon: Icon, name: String, progress: CGFloat, tasksCount: Int, color: UIColor) {
+    func configure(icon: Icon, name: String, progress: CGFloat, tasksCount: Int, color: UIColor, iconFontSize: CGFloat? = nil) {
+        if let iconFontSize = iconFontSize {
+            iconView.iconFontSize = iconFontSize
+        }
         iconView.configure(icon)
         nameLabel.text = name
         tasksCountView.bgColor = color

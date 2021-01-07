@@ -34,7 +34,7 @@ class IconView: UIView {
             var image = UIImage(named: assetImage)
             
             if let tint = tintHex {
-                image = image?.withTintColor(.hex(tint))
+                image = image?.resize(toWidth: iconFontSize)?.withTintColor(.hex(tint))
             }
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit

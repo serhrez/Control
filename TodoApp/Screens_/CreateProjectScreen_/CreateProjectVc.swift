@@ -230,7 +230,7 @@ extension CreateProjectVc: UITextFieldDelegate {
             guard let stringRange = Range(range, in: currentText) else { return false }
             let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
 
-            return updatedText.count < Configgg.maximumProjectNameLength
+            return updatedText.count < Constants.maximumProjectNameLength
         default: break
         }
         return true
@@ -253,7 +253,7 @@ extension CreateProjectVc: UITextViewDelegate {
             guard let stringRange = Range(range, in: currentText) else { return false }
             let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
 
-            return updatedText.count < Configgg.maximumDescriptionLength
+            return updatedText.count < Constants.maximumDescriptionLength
         default: break
         }
         return true
