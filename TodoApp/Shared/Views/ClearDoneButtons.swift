@@ -26,7 +26,7 @@ class ClearDoneButtons: UIView {
         clearButton.opacityState = .init(highlighted: 0.5, normal: 1)
         
         let separator = UIView()
-        separator.backgroundColor = .hex("#DFDFDF")
+        separator.backgroundColor = UIColor(named: "TABorder")!
         separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
         separator.heightAnchor.constraint(equalToConstant: 40).isActive = true
         

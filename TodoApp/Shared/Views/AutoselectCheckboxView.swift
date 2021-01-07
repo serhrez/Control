@@ -12,7 +12,7 @@ import Material
 class AutoselectCheckboxView: UIView {
     private let uncheckedView: UIView = {
         let uncheckedView = UIView()
-        uncheckedView.borderColor = .hex("#DFDFDF")
+        uncheckedView.borderColor = UIColor(named: "TABorder")!
         uncheckedView.layer.borderWidth = 2
         uncheckedView.layer.cornerRadius = 6
         uncheckedView.layer.cornerCurve = .continuous
@@ -57,12 +57,7 @@ class AutoselectCheckboxView: UIView {
     }
     
     func configure(priority: Priority) {
-        switch priority {
-        case .high: uncheckedView.borderColor = .hex("#EF4439")
-        case .medium: uncheckedView.borderColor = .hex("#FF9900")
-        case .low: uncheckedView.borderColor = .hex("#447BFE")
-        case .none: uncheckedView.borderColor = .hex("#DFDFDF")
-        }
+        uncheckedView.borderColor = priority.color
     }
     
     private func setupViews() {

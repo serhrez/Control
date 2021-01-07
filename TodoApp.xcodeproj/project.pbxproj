@@ -66,6 +66,7 @@
 		A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */; };
 		A53E13CC256FC9E400ABF4F0 /* ClearDoneButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */; };
 		A54BFBE925926D1E0016BD08 /* TagPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54BFBE825926D1E0016BD08 /* TagPicker.swift */; };
+		A54CAE9925A6889E0013277C /* SpecialColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54CAE9825A6889E0013277C /* SpecialColors.swift */; };
 		A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D646E2562A25500AC3F41 /* CheckboxView.swift */; };
 		A54D6474256308DF00AC3F41 /* DoneTasksListTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D6473256308DF00AC3F41 /* DoneTasksListTaskCell.swift */; };
 		A54EFB42258FB789009CFE0F /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB41258FB789009CFE0F /* CreateProjectVc.swift */; };
@@ -227,6 +228,7 @@
 		A5356DB12569D6C40042F604 /* DateFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extensions.swift"; sourceTree = "<group>"; };
 		A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDoneButtons.swift; sourceTree = "<group>"; };
 		A54BFBE825926D1E0016BD08 /* TagPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPicker.swift; sourceTree = "<group>"; };
+		A54CAE9825A6889E0013277C /* SpecialColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialColors.swift; sourceTree = "<group>"; };
 		A54D646E2562A25500AC3F41 /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
 		A54D6473256308DF00AC3F41 /* DoneTasksListTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTasksListTaskCell.swift; sourceTree = "<group>"; };
 		A54EFB41258FB789009CFE0F /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				A5085E3D2556EF7B00A31BBB /* LaunchScreen.storyboard */,
 				A5085E3B2556EF7B00A31BBB /* Assets.xcassets */,
 				A54EFB49258FED36009CFE0F /* Configgg.swift */,
+				A54CAE9825A6889E0013277C /* SpecialColors.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1174,6 +1177,7 @@
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
 				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
+				A54CAE9925A6889E0013277C /* SpecialColors.swift in Sources */,
 				A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */,
 				A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */,
 				A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */,

@@ -42,7 +42,7 @@ class AllTagsEnterNameCell: UICollectionViewCell {
             attr.foreground(color: UIColor(named: "TASubElement")!)
                 .font(.systemFont(ofSize: 16, weight: .semibold))
         }
-        nameField.textColor = .black
+        nameField.textColor = UIColor(named: "TAHeading")
         nameField.font = .systemFont(ofSize: 16, weight: .semibold)
         contentView.layout(nameField).centerY().leading(20).trailing(20)
         nameField.delegate = self

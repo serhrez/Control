@@ -14,7 +14,7 @@ class UICollectionSeparator: UICollectionReusableView {
     static let reuseId = "separatorid"
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .hex("#DFDFDF")
+        backgroundColor = UIColor(named: "TABorder")!
     }
     
     required init?(coder: NSCoder) {
@@ -31,7 +31,7 @@ class UICollectionFractionalWidthSeparator: UICollectionReusableView {
         let separator = UIView()
         layout(separator).leading(25).trailing(25).top().bottom()
         
-        separator.backgroundColor = .hex("#DFDFDF")
+        separator.backgroundColor = UIColor(named: "TABorder")!
     }
     
     required init?(coder: NSCoder) {

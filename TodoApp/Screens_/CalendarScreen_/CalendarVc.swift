@@ -29,13 +29,13 @@ final class CalendarVc: UIViewController {
     })
     private let separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .hex("#DFDFDF")
+        view.backgroundColor = UIColor(named: "TABorder")!
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
     private let separatorView2: UIView = {
         let view = UIView()
-        view.backgroundColor = .hex("#DFDFDF")
+        view.backgroundColor = UIColor(named: "TABorder")!
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
@@ -160,7 +160,7 @@ final class CalendarVc: UIViewController {
     
     private lazy var clearButton: NewCustomButton = {
         let button = NewCustomButton()
-        button.stateBackgroundColor = .init(highlighted: UIColor.hex("#DFDFDF"), normal: UIColor.hex("#DFDFDF").withAlphaComponent(0.4))
+        button.stateBackgroundColor = .init(highlighted: UIColor(named: "TABorder")!, normal: UIColor(named: "TABorder")!.withAlphaComponent(0.4))
         button.setAttributedTitle("Clear".at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(clickedClear), for: .touchUpInside)

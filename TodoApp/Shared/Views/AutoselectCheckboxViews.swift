@@ -13,7 +13,7 @@ import Material
 class CheckboxViewArchive: AutoselectCheckboxViewBase {
     private let uncheckedView: UIView = {
         let uncheckedView = UIView()
-        uncheckedView.borderColor = .hex("#DFDFDF")
+        uncheckedView.borderColor = UIColor(named: "TABorder")!
         uncheckedView.layer.borderWidth = 2
         uncheckedView.layer.cornerRadius = 6
         uncheckedView.layer.cornerCurve = .continuous

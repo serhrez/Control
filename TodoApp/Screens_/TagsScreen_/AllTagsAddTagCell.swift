@@ -11,7 +11,10 @@ import Material
 
 class AllTagsAddTagCell: UICollectionViewCell {
     static let reuseIdentifier = "alltagsaddtagcell"
-    
+    private let addImage = UIImageView(image: Material.Icon.cm.add)
+    private let centerView = UIView()
+    private let label = UILabel()
+
     private let overlayView = OverlaySelectionView()
     override var intrinsicContentSize: CGSize {
         .init(width: .zero, height: 55)
@@ -27,24 +30,23 @@ class AllTagsAddTagCell: UICollectionViewCell {
     }
         
     func setupViews() {
-        backgroundColor = UIColor(hex: "#dfdfdf")?.withAlphaComponent(0.4)
         layer.cornerRadius = 16
         clipsToBounds = true
         
-        let addImage = UIImageView(image: Material.Icon.cm.add)
-        let centerView = UIView()
-        let label = UILabel()
-        
-        addImage.tintColor = UIColor(named: "TASubElement")!
-        
         label.text = "Add Tag"
         label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = UIColor(named: "TASubElement")!
 
         contentView.layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()
         centerView.layout(label).trailing().top().bottom().leading(addImage.anchor.trailing, 5)
         contentView.layout(overlayView).edges()
+    }
+    
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        backgroundColor = SpecialColors.addSomethingBg
+        addImage.tintColor = SpecialColors.addSomethingText
+        label.textColor = SpecialColors.addSomethingText
     }
     
     override var isHighlighted: Bool {

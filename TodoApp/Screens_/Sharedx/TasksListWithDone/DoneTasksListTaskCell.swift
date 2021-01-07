@@ -34,7 +34,6 @@ class DoneTasksListTaskCell: SwipeCollectionViewCell {
     }
     
     func setupViews() {
-        contentView.backgroundColor = UIColor.hex("#DFDFDF").withAlphaComponent(0.3)
         contentView.layout(checkboxView).centerY().leading(20)
         layer.cornerRadius = 16
         clipsToBounds = true
@@ -44,5 +43,10 @@ class DoneTasksListTaskCell: SwipeCollectionViewCell {
         contentView.layout(nameLabel).centerY().leading(checkboxView.anchor.trailing, 11).trailing(20) { _, _ in .lessThanOrEqual }.centerY()
         nameLabel.numberOfLines = 1
         backgroundColor = .clear
+    }
+    
+    override func setNeedsDisplay() {
+        super.setNeedsDisplay()
+        contentView.backgroundColor = UIColor(named: "TABorder")!.withAlphaComponent(isWhiteTheme ? 0.3 : 1)
     }
 }

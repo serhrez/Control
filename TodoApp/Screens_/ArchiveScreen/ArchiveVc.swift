@@ -125,7 +125,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
     func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
         let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
         view.addSubview(bottomMessage)
-        bottomMessage.show(min(view.safeAreaInsets.bottom + 10, 25))
+        bottomMessage.show(min(view.safeAreaInsets.bottom + 20, 35))
     }
 }
 extension ArchiveVc: UICollectionViewDelegateFlowLayout {

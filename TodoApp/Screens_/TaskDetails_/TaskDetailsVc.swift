@@ -119,7 +119,6 @@ final class TaskDetailsVc: UIViewController {
         subtasksTable.register(SubtaskCell.self, forCellReuseIdentifier: SubtaskCell.reuseIdentifier)
         subtasksTable.register(SubtaskAddCell.self, forCellReuseIdentifier: SubtaskAddCell.reuseIdentifier)
         subtasksTable.delegate = self
-        subtasksTable.backgroundColor = .clear
         
         let dataSource = RxTableViewSectionedAnimatedDataSource<AnimSection<TaskDetailsVcVm.Model>> { [weak self] (data, tableView, indexPath, model) -> UITableViewCell in
             switch model {

@@ -27,4 +27,6 @@ extension UIView {
         layer.position = position
         layer.anchorPoint = point
     }
+    
+    var isWhiteTheme: Bool { self.traitCollection.userInterfaceStyle == .light }
 }

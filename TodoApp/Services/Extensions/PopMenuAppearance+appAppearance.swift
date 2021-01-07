@@ -16,12 +16,12 @@ extension PopMenuAppearance {
         appearance.popMenuColor.actionColor = .tint(.black)
         appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(named: "TAAltBackground")!)
         appearance.popMenuFont = .systemFont(ofSize: 17, weight: .semibold)
-        appearance.popMenuItemSeparator = .fill(UIColor(red: 0.875, green: 0.875, blue: 0.875, alpha: 1), height: 1)
+        appearance.popMenuItemSeparator = .fill(UIColor(named: "TABorder")!, height: 1)
         appearance.popMenuActionHeight = 47
         appearance.actionsSpacing = 10
-        appearance.popMenuColor.actionColor = .tint(.black)
+        appearance.popMenuColor.actionColor = .tint(UIColor(named: "TAHeading")!)
         appearance.popMenuColor.selectionColor = .tint(UIColor(named: "TASubElement")!)
-        appearance.popMenuBackgroundStyle = .dimmed(color: UIColor(red: 0.965, green: 0.965, blue: 0.953, alpha: 1), opacity: 0.5)
+        appearance.popMenuBackgroundStyle = .dimmed(color: UIColor(named: "TABackground")!, opacity: 0.5)
         appearance.popMenuPadding = .init(top: 12, left: 10, bottom: 12, right: 10)
         appearance.popMenuActionCountForScrollable = 12
         

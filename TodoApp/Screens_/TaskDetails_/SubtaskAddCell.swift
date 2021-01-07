@@ -39,8 +39,10 @@ final class SubtaskAddCell: UITableViewCell {
     func setupViews() {
         contentView.layout(plusImage).centerY().leading().width(18).height(18)
         contentView.layout(textField).centerY().leading(31).trailing(10)
+        contentView.backgroundColor = .clear
         textField.delegate = self
         selectionStyle = .none
+        backgroundColor = .clear
     }
     
     @discardableResult override func becomeFirstResponder() -> Bool {

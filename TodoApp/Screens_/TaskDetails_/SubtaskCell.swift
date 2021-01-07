@@ -38,6 +38,8 @@ final class SubtaskCell: SwipeTableViewCell {
     func setupViews() {
         contentView.layout(checkboxView).centerY().leading()
         contentView.layout(nameLabel).centerY().leading(32).trailing(32)
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
         nameLabel.font = .systemFont(ofSize: 16, weight: .regular)
         selectionStyle = .none
     }

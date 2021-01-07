@@ -21,7 +21,7 @@ extension Priority {
         case .high: return .hex("#EF4439")
         case .medium: return .hex("#FF9900")
         case .low: return .hex("#447BFE")
-        case .none: return .hex("#DFDFDF")
+        case .none: return UIColor(named: "TABorder")!
         }
     }
 }
