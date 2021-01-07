@@ -39,15 +39,27 @@ final class PlannedVc: UIViewController {
         view.layout(calendarView).top(6).bottom(10).leading(calendarInset).trailing(calendarInset)
         return view
     }()
-
+    private var didAppear = false
 
     private let viewModel: PlannedVcVm = .init()
     private let bag = DisposeBag()
-    private var selectedMode1 = false
+    private var selectedMode1 = true {
+        didSet {
+            rightBarButton.image = barButtonImage
+            transitionToAnotherMode(animate: didAppear)
+        }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        didAppear = true
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        selectedMode1 = !(!selectedMode1)
+        calendarView.jctselectDate(.init())
+        viewModel.selectDayFromJct(.init())
     }
     
     private func setupViews() {
@@ -126,8 +138,8 @@ final class PlannedVc: UIViewController {
             .disposed(by: bag)
     }
 
-    func transitionToAnotherMode(onTransitioned: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.5) {
+    func transitionToAnotherMode(animate: Bool = true) {
+        func apply() {
             if self.selectedMode1 {
                 self.noCalendarViewCollectionView.reloadData()
             } else {
@@ -136,53 +148,46 @@ final class PlannedVc: UIViewController {
             self.noCalendarViewCollectionView.layer.opacity = self.selectedMode1 ? 1 : 0
             self.calendarViewCollectionView.layer.opacity = self.selectedMode1 ? 0 : 1
             self.calendarViewContainer.layer.opacity = self.selectedMode1 ? 0 : 1
-        } completion: { _ in
-            onTransitioned()
         }
-
+        if animate {
+            UIView.animate(withDuration: 0.5) {
+                apply()
+            }
+        } else {
+            apply()
+        }
     }
 
     private func setupNavigationBar() {
-        navigationItem.titleLabel.text = "Planned"
-        
-        // Setup CustomDate
-        let imageView = UIImageView(image: UIImage(named: "layout-columns"))
-        let imageView2 = UIImageView(image: UIImage(named: "list-check")?.withRenderingMode(.alwaysTemplate))
-        imageView2.layer.opacity = 0
-        imageView.contentMode = .scaleAspectFit
-        imageView2.contentMode = .scaleAspectFit
-        imageView2.tintColor = .hex("#000000")
-        var hasTransitioned = true
-        let switchButton = CustomButtonx2(highlight: { [weak self] button, isSelected in
-            guard let self = self else { return }
-            let image1OnSelected: Float = self.selectedMode1 ? 1 : 0
-            let image2OnSelected: Float = self.selectedMode1 ? 0 : 1
-            imageView.layer.opacity = isSelected ? image1OnSelected : 1 - image1OnSelected
-            imageView2.layer.opacity = isSelected ? image2OnSelected : 1 - image2OnSelected
-        }, onSelected: { [weak self] in
-            guard hasTransitioned else { return }
-            hasTransitioned = false
-            self?.selectedMode1.toggle()
-            self?.transitionToAnotherMode(onTransitioned: { hasTransitioned = true })
-        })
-        switchButton.shouldAllowSelection = { hasTransitioned }
-        switchButton.layout(imageView).center().width(24).height(24)
-        switchButton.layout(imageView2).center().width(24).height(24)
-        navigationItem.rightViews = [switchButton]
+        applySharedNavigationBarAppearance()
+        title = "Planned"
+        rightBarButton.tintColor = UIColor(named: "TAHeading")
+        navigationItem.rightBarButtonItems = [rightBarButton]
+    }
+    lazy var rightBarButton = UIBarButtonItem(image: barButtonImage, style: .plain, target: self, action: #selector(clickedx))
+    var barButtonImage: UIImage? {
+        selectedMode1 ? UIImage(named: "layout-columns") : UIImage(named: "list-check")
+    }
+
+    @objc func clickedx() {
+        selectedMode1.toggle()
     }
     
     private let gradientView = GradientView()
 }
 
 extension PlannedVc: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let task: RlmTask
         switch collectionView {
         case noCalendarViewCollectionView:
-            return CGSize(width: collectionView.bounds.width, height: 93)
+            task = viewModel.noCalendarModelsUpdate.value[indexPath.section].items[indexPath.item].task
         case calendarViewCollectionView:
-            return CGSize(width: 0, height: 0)
+            task = viewModel.calendarModelsUpdate.value[indexPath.section].items[indexPath.item].task
         default: fatalError()
         }
+        let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: task))
+        router.debugPushVc(taskDetailsVc)
     }
 }
 
@@ -196,103 +201,14 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
         default: fatalError()
         }
     }
-}
- class GradientView: UIView {
-    private let gradientLayer: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.locations = [0, 1]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 1)
-        return gradient
-    }()
-
-    init() {
-        super.init(frame: .zero)
-        layer.addSublayer(gradientLayer)
-        isUserInteractionEnabled = false
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-        
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = bounds
-    }
-    
-    override func setNeedsDisplay() {
-        super.setNeedsDisplay()
-        // Supporting black mode
-        gradientLayer.colors = [
-            UIColor(named: "TABackground")!.withAlphaComponent(0).cgColor,
-            UIColor(named: "TABackground")!.withAlphaComponent(1).cgColor
-        ]
-    }
-}
-
-fileprivate class CustomButtonx2: UIView {
-    
-    var shouldAllowSelection: () -> Bool = { true }
-    private let control = CustomButtonControl()
-    init(highlight: @escaping (CustomButtonx2, Bool) -> Void, onSelected: @escaping () -> Void) {
-        super.init(frame: .zero)
-        layout(control).edges()
-        var isAnimationCompleted: Bool = true
-        control.shouldHighlight = { [weak self] isHighlighted in
-            guard let self = self else { return }
-            guard isAnimationCompleted && self.shouldAllowSelection() else { return }
-            isAnimationCompleted = false
-            UIView.animate(withDuration: 0.5, animations: {
-                highlight(self, isHighlighted)
-            }, completion: { _ in
-                isAnimationCompleted = true
-            })
-        }
-        control.onClick = {
-            onSelected()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        switch collectionView {
+        case noCalendarViewCollectionView:
+            return CGSize(width: collectionView.bounds.width, height: 93)
+        case calendarViewCollectionView:
+            return CGSize(width: 0, height: 0)
+        default: fatalError()
         }
     }
-    
-    override func addSubview(_ view: UIView) {
-        super.addSubview(view)
-        bringSubviewToFront(control)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    class CustomButtonControl: UIControl {
-        
-        private var animator = UIViewPropertyAnimator()
-        
-        var highlightedColor = UIColor(named: "TASubElement")!
-        var onClick: () -> Void = { }
-        var shouldHighlight: (Bool) -> Void = { _ in }
-                
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupViews()
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        func setupViews() {
-            addTarget(self, action: #selector(touchDown), for: [.touchDown, .touchDragEnter])
-            addTarget(self, action: #selector(touchUp), for: [.touchUpInside, .touchDragExit, .touchCancel])
-        }
-        
-        @objc private func touchDown() {
-            shouldHighlight(true)
-        }
-        
-        @objc private func touchUp() {
-            onClick()
-            shouldHighlight(false)
-        }
-    }
-
 }

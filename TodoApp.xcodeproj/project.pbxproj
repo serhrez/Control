@@ -72,6 +72,7 @@
 		A54EFB42258FB789009CFE0F /* CreateProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB41258FB789009CFE0F /* CreateProjectVc.swift */; };
 		A54EFB4A258FED36009CFE0F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB49258FED36009CFE0F /* Constants.swift */; };
 		A55F65E825A73E5200BB46DD /* PredefinedProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55F65E725A73E5200BB46DD /* PredefinedProjectVc.swift */; };
+		A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55F65EF25A7ADC100BB46DD /* GradientView.swift */; };
 		A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */; };
 		A56047D1255D98F100C447CF /* AllTagsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047D0255D98F100C447CF /* AllTagsVc.swift */; };
 		A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */; };
@@ -235,6 +236,7 @@
 		A54EFB41258FB789009CFE0F /* CreateProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectVc.swift; sourceTree = "<group>"; };
 		A54EFB49258FED36009CFE0F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A55F65E725A73E5200BB46DD /* PredefinedProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredefinedProjectVc.swift; sourceTree = "<group>"; };
+		A55F65EF25A7ADC100BB46DD /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PopMenuAppearance+appAppearance.swift"; sourceTree = "<group>"; };
 		A56047D0255D98F100C447CF /* AllTagsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsVc.swift; sourceTree = "<group>"; };
 		A56047D7255D9BD400C447CF /* AllTagsTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsTagCell.swift; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				A519675F2584F65F0021621A /* IconPicker */,
 				A5722D0E25742CB80098BECE /* ColorPicker */,
 				A592318525718E04008E955D /* Cells */,
+				A55F65EF25A7ADC100BB46DD /* GradientView.swift */,
 			);
 			path = Sharedx;
 			sourceTree = "<group>";
@@ -1243,6 +1246,7 @@
 				A5F6A904258A313F00FB50FC /* RlmArchived.swift in Sources */,
 				A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
+				A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */,
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,
 				A5C6BEA5259DE18400BDAA43 /* UIView+Extensions.swift in Sources */,
