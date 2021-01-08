@@ -38,7 +38,8 @@ class TagDetailVc: UIViewController {
     }
     
     private func setupCollectionView() {
-        view.layout(collectionView).topSafe(20).bottomSafe().leadingSafe(13).trailingSafe(13)
+        view.layout(collectionView).topSafe().bottom().leadingSafe(13).trailingSafe(13)
+        collectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true

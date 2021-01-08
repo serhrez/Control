@@ -32,6 +32,8 @@ class BottomMessage: UIView {
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = textColor
         label.numberOfLines = 1
+        label.minimumScaleFactor = 0.8
+        label.adjustsFontSizeToFitWidth = true
         stack.addArrangedSubview(label)
         layout(stack).center().leading(20) { _, _ in .greaterThanOrEqual }.trailing(20) { _, _ in .lessThanOrEqual }
         let onClickControl = OnClickControl { [weak self] isClicked in

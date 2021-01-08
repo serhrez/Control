@@ -36,6 +36,8 @@ final class PlannedVc: UIViewController {
         view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
+        view.addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
+
         view.layout(calendarView).top(6).bottom(10).leading(calendarInset).trailing(calendarInset)
         return view
     }()
@@ -64,9 +66,12 @@ final class PlannedVc: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).top().bottom()
-        view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe(30)
-        view.layout(calendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).top(calendarViewContainer.anchor.bottom, 7).bottom()
+        view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).topSafe().bottom()
+        noCalendarViewCollectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
+        view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe()
+        view.layout(calendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).top(calendarViewContainer.anchor.bottom, -7).bottom()
+        view.bringSubviewToFront(calendarViewContainer)
+        calendarViewCollectionView.contentInset = .init(top: 7 * 2, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
         setupNoCalendarCollectionView()
         noCalendarViewCollectionView.alpha = 0
         setupCalendarCollectionView()

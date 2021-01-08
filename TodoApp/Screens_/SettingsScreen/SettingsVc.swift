@@ -52,7 +52,7 @@ class SettingsVc: UIViewController {
         applySharedNavigationBarAppearance(popGesture: false)
         title = "Settings"
         
-        view.layout(mainCollectionView).topSafe(15).leading(13).trailing(13).bottomSafe()
+        view.layout(mainCollectionView).topSafe().leading(13).trailing(13).bottomSafe()
         mainCollectionView.collectionView.isScrollEnabled = false
         view.layout(secondaryCollectionView).bottomSafe(15).leading(13).trailing(13).height(133)
         secondaryCollectionView.collectionView.isScrollEnabled = false

@@ -37,7 +37,7 @@ class GradientView: UIView {
         // Supporting black mode
         gradientLayer.colors = [
             UIColor(named: "TABackground")!.withAlphaComponent(0).cgColor,
-            UIColor(named: "TABackground")!.withAlphaComponent(1).cgColor
+            UIColor(named: "TABackground")!.withAlphaComponent(0.7).cgColor
         ]
     }
 }

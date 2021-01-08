@@ -122,7 +122,7 @@ final class IconPickerFullVc: UIViewController {
         collectionView.register(IconPickerEmojiCell.self, forCellWithReuseIdentifier: IconPickerEmojiCell.reuseIdentifier)
         collectionView.register(IconPickerEmojiHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: IconPickerEmojiHeader.reuseIdentifier)
         collectionView.backgroundColor = .clear
-        view.layout(containerView).topSafe(15).leading(13).trailing(13).bottom()
+        view.layout(containerView).topSafe().leading(13).trailing(13).bottom()
         containerView.layout(collectionView).top().leading(17).trailing(17).bottom()
         collectionView.dataSource = self
         collectionView.delegate = self

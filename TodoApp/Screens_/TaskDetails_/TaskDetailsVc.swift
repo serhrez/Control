@@ -393,8 +393,8 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupContainerView() {
-        view.layout(containerView).leading(13).trailing(13).topSafe(30)
-            .bottomSafe(30) { _, _ -> LayoutRelation in
+        view.layout(containerView).leading(13).trailing(13).topSafe()
+            .bottomSafe(Constants.vcMinBottomPadding) { _, _ -> LayoutRelation in
             return .lessThanOrEqual
         }
         containerView.layout(scrollView).edges()
@@ -474,7 +474,7 @@ final class TaskDetailsVc: UIViewController {
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
                 self?.selectPrioritySelected(action: action)
             }),
-            PopuptodoAction(title: "Add Calendar", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
+            PopuptodoAction(title: "Add Date", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
                 self?.addCalendarSelected(action: action)
             }),
             PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: { [weak self] action in

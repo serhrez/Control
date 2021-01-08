@@ -327,7 +327,7 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - Toolbar VIEW
     private func toolbarViewSetup() {
-        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(30)
+        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(Constants.vcMinBottomPadding)
         tasksToolbar.onClick = { [weak self] in
             self?.state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil))
         }
@@ -498,12 +498,12 @@ class ProjectDetailsVc: UIViewController {
     private let __tasksSubject = PublishSubject<[RlmTask]>()
     private func tasksWithDoneListSetup() {
         if !isInbox {
-            view.layout(tasksWithDoneList).top(topView.anchor.bottom, -10).leading(13).trailing(13).bottom()
+            view.layout(tasksWithDoneList).top(topView.anchor.bottom).leading(13).trailing(13).bottom()
             view.bringSubviewToFront(topView)
         } else {
-            view.layout(tasksWithDoneList).topSafe(20).leading(13).trailing(13).bottom()
+            view.layout(tasksWithDoneList).topSafe(0).leading(13).trailing(13).bottom()
         }
-        tasksWithDoneList.contentInsets = UIEdgeInsets(top: isInbox ? 0 : 13 + 10, left: 0, bottom: 110, right: 0)
+        tasksWithDoneList.contentInsets = UIEdgeInsets(top: isInbox ? 0 : 13 + 7, left: 0, bottom: 110, right: 0)
         __tasksSubject
             .bind(to: tasksWithDoneList.itemsInput)
             .disposed(by: bag)
@@ -536,7 +536,7 @@ class ProjectDetailsVc: UIViewController {
             self.showBottomMessage(type: .taskDeleted, onClicked: {
                 DBHelper.safeUnarchive(taskId: taskId)
             })
-        })
+        }, shouldLayoutSevenPointsHigher: !isInbox)
     
     // MARK: - Util funcs
     func getFirstResponder() -> UIView? {

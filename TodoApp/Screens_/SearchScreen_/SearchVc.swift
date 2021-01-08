@@ -70,7 +70,7 @@ class SearchVc: UIViewController {
     }
     
     private func setupCollectionView() {
-        view.layout(collectionView).topSafe(20).leadingSafe(13).trailingSafe(13)
+        view.layout(collectionView).topSafe(5).leadingSafe(13).trailingSafe(13)
         collectionView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
         }

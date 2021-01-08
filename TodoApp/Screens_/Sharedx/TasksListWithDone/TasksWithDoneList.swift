@@ -14,6 +14,7 @@ import SwipeCellKit
 
 class TasksWithDoneList: UIView {
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<Model>>
+    private let shouldLayoutSevenPointsHigher: Bool
     private let collectionLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     private lazy var tableView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
     private lazy var dataSource: DataSource = makeDataSource()
@@ -43,10 +44,11 @@ class TasksWithDoneList: UIView {
         }
     }
     
-    init(onSelected: @escaping (RlmTask) -> Void, onChangeIsDone: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false) {
+    init(onSelected: @escaping (RlmTask) -> Void, onChangeIsDone: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false, shouldLayoutSevenPointsHigher: Bool = false) {
         self.onSelected = onSelected
         self.shouldDelete = shouldDelete
         self.onChangeIsDone = onChangeIsDone
+        self.shouldLayoutSevenPointsHigher = shouldLayoutSevenPointsHigher
         super.init(frame: .zero)
         gradientView.isHidden = isGradientHidden
         setupView()
@@ -57,7 +59,7 @@ class TasksWithDoneList: UIView {
     }
     
     private func setupView() {
-        layout(tableView).leading().trailing().bottom().top(-7)
+        layout(tableView).leading().trailing().bottom().top(shouldLayoutSevenPointsHigher ? -7 : 0)
         layout(gradientView).bottom().leading().trailing().height(216)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear

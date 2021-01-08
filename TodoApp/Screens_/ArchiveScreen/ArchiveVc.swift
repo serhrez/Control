@@ -34,7 +34,7 @@ final class ArchiveVc: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        view.layout(collectionView).leading(13).trailing(13).topSafe(30).bottom()
+        view.layout(collectionView).leading(13).trailing(13).topSafe().bottom()
         setupCalendarCollectionView()
         setupNavigationBar()
     }

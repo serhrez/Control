@@ -61,7 +61,7 @@ class AllProjectsVc: UIViewController {
     }
     
     func setupTableView() {
-        view.layout(tableView).topSafe(20).bottom().leadingSafe(13).trailingSafe(13)
+        view.layout(tableView).topSafe().bottom().leadingSafe(13).trailingSafe(13)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension

@@ -49,7 +49,7 @@ final class CalendarVc: UIViewController {
         button.imageView2.tintColor = .hex("#447BFE")
         return button
     }()
-    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", onClick: { [weak self] in
+    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", isOneLine: false, onClick: { [weak self] in
         self?.viewModel.clickedNextMonday()
     })
     lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", onClick: { [weak self] in
@@ -122,7 +122,7 @@ final class CalendarVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         navigationItem.titleLabel.text = "Calendar"
         navigationItem.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
-        view.layout(containerView).leading(13).trailing(13).topSafe(30) { _, _ in .greaterThanOrEqual }.bottomSafe(30) { _, _ in .lessThanOrEqual }
+        view.layout(containerView).leading(13).trailing(13).topSafe() { _, _ in .greaterThanOrEqual }.bottomSafe(Constants.vcMinBottomPadding) { _, _ in .lessThanOrEqual }
         let centerYAnchor = containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let centerXAnchor = containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         centerYAnchor.priority = .init(1)
@@ -205,7 +205,7 @@ extension CalendarVc {
     class CalendarButton1: UIButton {
         let imageView2 = UIImageView(frame: .zero)
         private let onClick: () -> Void
-        init(image imageName: String, text: String, onClick: @escaping () -> Void) {
+        init(image imageName: String, text: String, isOneLine: Bool = true, onClick: @escaping () -> Void) {
             self.onClick = onClick
             super.init(frame: .zero)
             imageView2.image = UIImage(named: imageName)
@@ -213,7 +213,9 @@ extension CalendarVc {
             let label = UILabel()
             label.text = text
             label.font = .systemFont(ofSize: 16, weight: .semibold)
-            label.numberOfLines = 0
+            label.minimumScaleFactor = 0.2
+            label.adjustsFontSizeToFitWidth = true
+            label.numberOfLines = isOneLine ? 1 : 2
             label.textAlignment = .center
             layout(label).top(imageView2.anchor.bottom, 9).centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
                 .bottom()

@@ -51,7 +51,7 @@ class PredefinedProjectVc: UIViewController {
             title = "Today"
         }
         applySharedNavigationBarAppearance()
-        view.layout(tasksWithDoneList).topSafe(20).leading(13).trailing(13).bottom()
+        view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
         setupTasksWithDoneListBinding()
     }
     
