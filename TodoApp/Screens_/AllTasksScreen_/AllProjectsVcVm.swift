@@ -82,7 +82,7 @@ class AllProjectsVcVM {
         } else {
             progress = Double(tasks.filter { $0.isDone }.count) / Double(count)
         }
-        return .planned(.init(icon: .assetImage(name: "calendar", tintHex: "#447bfe"), iconFontSize: 19, name: "Planned", progress: progress, tasksCount: count, color: .hex("#447bfe")))
+        return .planned(.init(icon: .assetImage(name: "calendar", tintHex: "#447bfe"), iconFontSize: 21, name: "Planned", progress: progress, tasksCount: count, color: .hex("#447bfe")))
     }
     
     func progressForPlannedWithCount() -> (Double, Int) {
