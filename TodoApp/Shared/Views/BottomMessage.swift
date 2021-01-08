@@ -22,6 +22,7 @@ class BottomMessage: UIView {
         stack.spacing = 10
         if let imageName = imageName {
             let imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: imageWidth)?.withRenderingMode(.alwaysTemplate))
+            imageView.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = imageColor ?? textColor
             stack.addArrangedSubview(imageView)
@@ -30,8 +31,9 @@ class BottomMessage: UIView {
         label.text = text
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = textColor
+        label.numberOfLines = 1
         stack.addArrangedSubview(label)
-        layout(stack).center()
+        layout(stack).center().leading(20) { _, _ in .greaterThanOrEqual }.trailing(20) { _, _ in .lessThanOrEqual }
         let onClickControl = OnClickControl { [weak self] isClicked in
             if isClicked {
                 onClicked()
@@ -74,14 +76,14 @@ extension BottomMessage {
     static func create(messageType: MessageType, onClicked: @escaping () -> Void) -> BottomMessage {
         switch messageType {
         case .taskDeleted:
-            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Deleted, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
-        case .taskRestored:
-            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Do is Restored, Delete?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+        case .allTasksDeleted:
+            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Dos Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         }
     }
     
     enum MessageType {
         case taskDeleted
-        case taskRestored
+        case allTasksDeleted
     }
 }

@@ -249,11 +249,16 @@ class ProjectDetailsVc: UIViewController {
                     self?.project.sorting = .byPriority
                 }
             })]
-            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
-                RealmProvider.main.safeWrite {
-                    self?.project.tasks.forEach { task in
-                        guard task.isDone else { return }
-                        RealmProvider.main.realm.delete(task)
+            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
+                let allTasksId = self?.project.tasks.filter { $0.isDone }.map { $0.id } ?? []
+                guard !allTasksId.isEmpty else { return }
+                let projectId = self?.project.id ?? ""
+                allTasksId.forEach { taskId in
+                    DBHelper.safeArchive(taskId: taskId, projectId: projectId)
+                }
+                self?.showBottomMessage(type: .allTasksDeleted) {
+                    allTasksId.forEach { taskId in
+                        DBHelper.safeUnarchive(taskId: taskId)
                     }
                 }
             })]

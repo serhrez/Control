@@ -25,9 +25,10 @@ class PredefinedProjectVc: UIViewController {
     }, shouldDelete: { [weak self] task in
         guard let self = self,
               let project = task.project.first else { return }
-        DBHelper.safeArchive(taskId: task.id, projectId: project.id)
+        let taskId = task.id
+        DBHelper.safeArchive(taskId: taskId, projectId: project.id)
         self.showBottomMessage(type: .taskDeleted) {
-            DBHelper.safeUnarchive(taskId: task.id)
+            DBHelper.safeUnarchive(taskId: taskId)
         }
     }, isGradientHidden: false)
     

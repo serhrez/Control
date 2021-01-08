@@ -105,9 +105,6 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
         let archived = self.viewModel.archived[path.row]
         let archivedCopy = RlmArchived(value: archived)
         self.viewModel.delete(archived: archived)
-        showBottomMessage(type: .taskDeleted) { [weak self] in
-            self?.viewModel.add(archived: archivedCopy)
-        }
     }
     
     func handleSwipeActionRestore(action: SwipeAction, path: IndexPath) {
@@ -116,16 +113,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
         let taskId = task.id
         let projectId = archived.projectId
         self.viewModel.restoreTask(taskId: taskId)
-        showBottomMessage(type: .taskRestored) { [weak self] in
-            self?.viewModel.unrestore(taskId: taskId, projectId: projectId)
-        }
 
-    }
-    
-    func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
-        let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
-        view.addSubview(bottomMessage)
-        bottomMessage.show(min(view.safeAreaInsets.bottom + 20, 35))
     }
 }
 extension ArchiveVc: UICollectionViewDelegateFlowLayout {
