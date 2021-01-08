@@ -38,9 +38,9 @@ class TAJTDateCell: JTACDayCell {
             label.textColor = UIColor(named: "TAAltBackground")!
         } else
         if cellState.dateBelongsTo == DateOwner.thisMonth {
-            label.textColor = UIColor(red: 0.142, green: 0.142, blue: 0.142, alpha: 1)
+            label.textColor = UIColor(named: "TAHeading")
         } else {
-            label.textColor = UIColor(red: 0.644, green: 0.644, blue: 0.644, alpha: 1)
+            label.textColor = UIColor(named: "TASubElement")
         }
         selectedView.isHidden = !cellState.isSelected
         previousIndicatorsStack?.removeFromSuperview()
@@ -49,13 +49,13 @@ class TAJTDateCell: JTACDayCell {
             indicatorColors.append(UIColor(named: "TASubElement")!)
         }
         if blue {
-            indicatorColors.append(cellState.isSelected ? UIColor(named: "TAAltBackground")! : UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1))
+            indicatorColors.append(cellState.isSelected ? UIColor(named: "TAAltBackground")! : UIColor(hex: "#447BFE")!)
         }
         if orange {
-            indicatorColors.append(UIColor(red: 1, green: 0.6, blue: 0, alpha: 1))
+            indicatorColors.append(UIColor(hex: "#FF9900")!)
         }
         if red {
-            indicatorColors.append(UIColor(red: 0.938, green: 0.266, blue: 0.223, alpha: 1))
+            indicatorColors.append(UIColor(hex: "#EF4439")!)
         }
         previousIndicatorsStack = getIndicatorsStack(colors: indicatorColors)
         layout(previousIndicatorsStack!).centerX().top(label.anchor.bottom, 4)

@@ -72,9 +72,9 @@ class TAJTDateHeader: JTACMonthReusableView {
         self.onPrev = onPrev
         self.onNext = onNext
         titleLabel.attributedText = month.at.attributed { attr in
-            attr.foreground(color: UIColor(red: 0.142, green: 0.142, blue: 0.142, alpha: 1)).font(.systemFont(ofSize: 18, weight: .semibold))
+            attr.foreground(color: UIColor(named: "TAHeading")!).font(.systemFont(ofSize: 18, weight: .semibold))
         } + " \(year)".at.attributed { attr in
-            attr.foreground(color: UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1)).font(.systemFont(ofSize: 18, weight: .semibold))
+            attr.foreground(color: .hex("#447BFE")).font(.systemFont(ofSize: 18, weight: .semibold))
         }
         print("month: \(month) year: \(year)")
     }
