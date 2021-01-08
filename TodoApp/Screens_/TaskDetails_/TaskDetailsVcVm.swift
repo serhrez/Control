@@ -31,7 +31,6 @@ class TaskDetailsVcVm {
         return [AnimSection(items: models)]
     }
     private var explicitAddSubtaskEnabled = false
-    var reloadSubtaskCells: (_ modifications: [Int]) -> Void = { _ in }
     var shouldEnableTaskDescription: () -> Void = { }
 
     
@@ -69,7 +68,6 @@ class TaskDetailsVcVm {
                     self.explicitAddSubtaskEnabled = true
                 }
                 self.subtasksUpdateSubject.onNext(())
-                self.reloadSubtaskCells(mods)
             }
         }
         listenToDate()

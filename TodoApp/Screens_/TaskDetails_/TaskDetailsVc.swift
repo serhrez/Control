@@ -128,6 +128,7 @@ final class TaskDetailsVc: UIViewController {
                     self?.viewModel.createSubtask(with: name)
                 }
                 if self?.isCurrentlyShown ?? false {
+                    
                     cell.becomeFirstResponder()
                 }
                 return cell
@@ -140,9 +141,6 @@ final class TaskDetailsVc: UIViewController {
                 }
                 return cell
             }
-        }
-        viewModel.reloadSubtaskCells = { [weak self] mods in
-            self?.subtasksTable.reloadRows(at: mods.map { IndexPath(row: $0, section: 0) }, with: .automatic)
         }
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
@@ -193,10 +191,12 @@ final class TaskDetailsVc: UIViewController {
     }
     var __previousHeight: CGFloat?
     func layoutAnimate() {
+        print("layout subviews")
         setSpacings()
         if wasAlreadyShown {
             UIView.animate(withDuration: 0.5) {
                 self.view.layoutSubviews()
+                self.scrollView.layoutSubviews()
                 self.containerStack.layoutSubviews()
             }
         }
