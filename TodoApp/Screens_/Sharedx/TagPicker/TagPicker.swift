@@ -108,7 +108,7 @@ final class TagPicker: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1
-            containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TAHeading")!)
+            containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TABackground")!)
         } completion: { _ in
             
         }
@@ -217,7 +217,7 @@ extension TagPicker {
         }()
         private let bgView: UIView = {
             let view = UIView()
-            view.backgroundColor = .hex("#447BFE")
+            view.backgroundColor = UIColor(named: "TASubElement")
             view.layer.opacity = 0
             view.layer.cornerRadius = 8
             return view

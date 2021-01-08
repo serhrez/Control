@@ -26,11 +26,23 @@ class SettingsVc: UIViewController {
         items: [
             .init(text: "Recommend to Friends", imageName: "recommendheart", imageWidth: 16.35, onClick: { [weak self] in
                 guard let self = self else { return }
-                
+                let textToShare = "Check out this Todo-app"
+
+                if let myWebsite = URL(string: "http://itunes.apple.com/app/idXXXXXXXXX") {//Enter link to your app here
+                    let objectsToShare = [textToShare, myWebsite] as [Any]
+                    let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                    
+                    //Excluded Activities
+                    activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+                    //
+                    
+                    self.present(activityVC, animated: true, completion: nil)
+                }
             }),
             .init(text: "Feedback & Suggestions", imageName: "feedback", imageWidth: 18, onClick: { [weak self] in
                 guard let self = self else { return }
-                
+                guard let url = URL(string: "https://twitter.com") else { return }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             })
         ])
 
