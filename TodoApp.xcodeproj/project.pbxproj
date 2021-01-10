@@ -112,6 +112,7 @@
 		A5B8231C25A8B98000259849 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5B8231B25A8B98000259849 /* LaunchScreen.xib */; };
 		A5B8232725A8BA4D00259849 /* LaunchScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B8232625A8BA4D00259849 /* LaunchScreenManager.swift */; };
 		A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */; };
+		A5C3E55325ABB419007ECBCA /* CascadeDeleting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E55225ABB419007ECBCA /* CascadeDeleting.swift */; };
 		A5C6BEA5259DE18400BDAA43 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */; };
 		A5C6BEAA259E10E500BDAA43 /* ProjectSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */; };
 		A5C6BEAF259E2A0600BDAA43 /* BottomMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEAE259E2A0600BDAA43 /* BottomMessage.swift */; };
@@ -279,6 +280,7 @@
 		A5B8231B25A8B98000259849 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		A5B8232625A8BA4D00259849 /* LaunchScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenManager.swift; sourceTree = "<group>"; };
 		A5C0105B258CFD13001E0FED /* UpdateDiffRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDiffRx.swift; sourceTree = "<group>"; };
+		A5C3E55225ABB419007ECBCA /* CascadeDeleting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CascadeDeleting.swift; sourceTree = "<group>"; };
 		A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSorting.swift; sourceTree = "<group>"; };
 		A5C6BEAE259E2A0600BDAA43 /* BottomMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMessage.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				A5085E732556F8E500A31BBB /* RealmProvider.swift */,
 				A5085E752556F8E500A31BBB /* bundled.realm */,
 				A5085E7C2556F8E500A31BBB /* Entities */,
+				A5C3E55225ABB419007ECBCA /* CascadeDeleting.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1247,6 +1250,7 @@
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
 				A54EFB4A258FED36009CFE0F /* Constants.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
+				A5C3E55325ABB419007ECBCA /* CascadeDeleting.swift in Sources */,
 				A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */,
 				A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */,
 				A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */,

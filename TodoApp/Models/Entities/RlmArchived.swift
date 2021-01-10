@@ -29,6 +29,12 @@ final class RlmArchived: Object {
 
 extension RlmArchived {
     enum Property: String {
-        case id, taskId, timeDeleted
+        case id, task, projectId, timeDeleted
+    }
+}
+
+extension RlmArchived: CascadeDeleting {
+    func hardCascadeDeleteProperties() -> [String] {
+        [Property.task.rawValue]
     }
 }

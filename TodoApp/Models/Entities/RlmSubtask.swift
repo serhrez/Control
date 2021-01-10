@@ -32,4 +32,3 @@ extension RlmSubtask {
         case id, name, createdAt, isDone
     }
 }
-

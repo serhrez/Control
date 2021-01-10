@@ -43,6 +43,12 @@ final class RlmTask: Object, Identifiable {
 
 extension RlmTask {
     enum Property: String {
-        case id, tag, date, isDone, taskDescription, createdAt
+        case id, tags, date, subtask, isDone, taskDescription, createdAt
+    }
+}
+
+extension RlmTask: CascadeDeleting {
+    func hardCascadeDeleteProperties() -> [String] {
+        [Property.tags.rawValue, Property.date.rawValue, Property.subtask.rawValue]
     }
 }

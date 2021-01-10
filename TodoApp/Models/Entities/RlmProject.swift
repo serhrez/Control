@@ -74,6 +74,12 @@ final class RlmProject: Object {
 
 extension RlmProject {
     enum Property: String {
-        case id, name, notes, createdAt, _icon, _color
+        case id, name, notes, tasks, createdAt, _icon, _color
+    }
+}
+
+extension RlmProject: CascadeDeleting {
+    func hardCascadeDeleteProperties() -> [String] {
+        [Property.tasks.rawValue]
     }
 }
