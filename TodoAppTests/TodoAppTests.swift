@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import TodoApp
+import RealmSwift
 
 class TodoAppTests: XCTestCase {
 
@@ -30,14 +31,12 @@ class TodoAppTests: XCTestCase {
         let data2 = try! encoder.encode(icon2)
         print(String(data: data2, encoding: .utf8)!)
         let unwrappedIcon2 = try! JSONDecoder().decode(Icon.self, from: data2)
-        print("icon2: \(icon2) unwrappedIcon2: \(unwrappedIcon2)")
         XCTAssert(icon2 == unwrappedIcon2)
 
         let icon3 = Icon.assetImage(name: "menu", tintHex: nil)
         let data3 = try! encoder.encode(icon3)
         print(String(data: data3, encoding: .utf8)!)
         let unwrappedIcon3 = try! JSONDecoder().decode(Icon.self, from: data3)
-        print("icon3: \(icon3) unwrappedIcon3: \(unwrappedIcon3)")
 
         XCTAssert(icon3 == unwrappedIcon3)
         
@@ -46,6 +45,36 @@ class TodoAppTests: XCTestCase {
         print(String(data: data4, encoding: .utf8)!)
         let unwrappedIcon4 = try! JSONDecoder().decode(Icon.self, from: data4)
         XCTAssert(icon4 == unwrappedIcon4)
+    }
+    
+    func testRealmCascadeDeleting() {
+        let realm = try! Realm(configuration: .init(inMemoryIdentifier: "realminmemory"))
+        let project = RlmProject(name: "Project")
+        let task = RlmTask(name: "Task", priority: .high, isDone: false)
+        let tag = RlmTag(name: "Tag")
+        let subtask = RlmSubtask(name: "Subtask")
+        let taskDate = RlmTaskDate(date: .init(), reminder: .onDay, repeat: .everyWeekday)
+        project.tasks.append(task)
+        task.tags.append(tag)
+        task.subtask.append(subtask)
+        task.date = taskDate
+        XCTAssert(realm.isEmpty)
+        try! realm.write {
+            realm.add(project)
+        }
+        XCTAssertNotNil(realm.objects(RlmProject.self).filter { $0.name == "Project" }.first!)
+        XCTAssertNotNil(realm.objects(RlmTask.self).filter { $0.name == "Task" }.first!)
+        XCTAssertNotNil(realm.objects(RlmTag.self).filter { $0.name == "Tag" }.first!)
+        XCTAssertNotNil(realm.objects(RlmSubtask.self).filter { $0.name == "Subtask" }.first!)
+        XCTAssertNotNil(realm.objects(RlmTaskDate.self).filter { $0.reminder == .onDay }.first!)
+        try! realm.write {
+            realm.cascadeDelete(project)
+        }
+        XCTAssert(!realm.isEmpty)
+        try! realm.write {
+            realm.delete(tag)
+        }
+        XCTAssert(realm.isEmpty)
     }
 
 //    func testPerformanceExample() throws {
