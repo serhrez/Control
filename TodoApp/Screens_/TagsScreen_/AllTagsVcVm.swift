@@ -87,7 +87,7 @@ class AllTagsVcVm {
     func deleteTag(_ tag: RlmTag) {
         self.selectionSet.remove(tag)
         RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.delete(tag)
+            RealmProvider.main.realm.cascadeDelete(tag)
         }
     }
         

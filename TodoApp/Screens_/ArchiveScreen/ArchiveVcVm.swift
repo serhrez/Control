@@ -42,7 +42,7 @@ class ArchiveVcVm {
     
     func delete(archived: RlmArchived) {
         RealmProvider.archive.safeWrite {
-            RealmProvider.archive.realm.delete(archived)
+            RealmProvider.archive.realm.cascadeDelete(archived)
         }
     }
     

@@ -49,6 +49,6 @@ extension RlmTask {
 
 extension RlmTask: CascadeDeleting {
     func hardCascadeDeleteProperties() -> [String] {
-        [Property.tags.rawValue, Property.date.rawValue, Property.subtask.rawValue]
+        [Property.date.rawValue, Property.subtask.rawValue]
     }
 }

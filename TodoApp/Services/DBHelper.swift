@@ -25,7 +25,7 @@ class DBHelper {
             archiveRealmProvider.realm.add(archived)
         }
         try sourceRealmProvider.realm.write {
-            sourceRealmProvider.realm.delete(task)
+            sourceRealmProvider.realm.cascadeDelete(task)
         }
     }
     
@@ -38,7 +38,7 @@ class DBHelper {
             project.tasks.append(task)
         }
         try sourceProvider.realm.write {
-            sourceProvider.realm.delete(archivedTask)
+            sourceProvider.realm.cascadeDelete(archivedTask)
         }
     }
 }

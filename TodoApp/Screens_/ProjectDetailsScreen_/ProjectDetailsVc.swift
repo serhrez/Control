@@ -302,7 +302,7 @@ class ProjectDetailsVc: UIViewController {
     func deleteProject() {
         tokens = []
         RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.delete(self.project)
+            RealmProvider.main.realm.cascadeDelete(self.project)
         }
         navigationController?.popViewController(animated: true)
     }

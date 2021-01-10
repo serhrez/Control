@@ -122,7 +122,7 @@ class TaskDetailsVcVm {
             DBHelper.safeArchive(taskId: task.id, projectId: projectId)
         }
         RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.delete(task)
+            RealmProvider.main.realm.cascadeDelete(task)
         }
     }
     func listenToDate() {
@@ -161,7 +161,7 @@ class TaskDetailsVcVm {
     
     func deleteSubtask(subtask: RlmSubtask) {
         RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.delete(subtask)
+            RealmProvider.main.realm.cascadeDelete(subtask)
         }
     }
     
