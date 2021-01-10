@@ -155,7 +155,7 @@ class ProjectNewTaskForm: UIView {
     
     private func shouldUpdateLayout() {
         if shouldAnimate() {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.stackView.layoutSubviews()
                 self.containerView.layoutSubviews()
                 self.layoutSubviews()

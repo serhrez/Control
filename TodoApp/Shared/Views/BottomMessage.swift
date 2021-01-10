@@ -52,7 +52,7 @@ class BottomMessage: UIView {
         BottomMessage.previousBottomMessage?.dismiss()
         BottomMessage.previousBottomMessage = self
         previousHeight = self.frame.minY
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
             self.frame = self.frame.modify(modifyY: { $0 - points - self.frame.height })
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
@@ -64,7 +64,7 @@ class BottomMessage: UIView {
         guard let previousHeight = previousHeight,
               !__isDismissing else { return }
         __isDismissing = true
-        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0.1, usingSpringWithDamping: 0.65, initialSpringVelocity: 0) {
             self.frame = self.frame.modify(modifyY: { _ in previousHeight })
         }
     }

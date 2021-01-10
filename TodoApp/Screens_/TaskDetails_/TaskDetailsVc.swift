@@ -88,7 +88,7 @@ final class TaskDetailsVc: UIViewController {
                 self.testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                 }
             }
@@ -98,7 +98,7 @@ final class TaskDetailsVc: UIViewController {
                 self.testx = options.endFrame
                 if previousHeight == height { return }
                 previousHeight = height
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
                 }
             }
@@ -194,7 +194,7 @@ final class TaskDetailsVc: UIViewController {
         print("layout subviews")
         setSpacings()
         if wasAlreadyShown {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.view.layoutSubviews()
                 self.scrollView.layoutSubviews()
                 self.containerStack.layoutSubviews()

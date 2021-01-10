@@ -34,7 +34,7 @@ class LaunchScreenManager {
         guard let view = view,
               let iconView = view.viewWithTag(2) else { return }
         
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration) {
             view.alpha = 0
             iconView.transform = .init(scaleX: 4, y: 4)
         } completion: { _ in

@@ -116,7 +116,7 @@ class CheckboxView: UIView {
             }
         }
         if withAnimation {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
         } else {

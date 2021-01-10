@@ -172,7 +172,7 @@ class ProjectDetailsVc: UIViewController {
     }
     private func animateLayoutSubviews() {
         if didAppear {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.view.layoutSubviews()
             }
         }

@@ -155,7 +155,7 @@ final class PlannedVc: UIViewController {
             self.calendarViewContainer.layer.opacity = self.selectedMode1 ? 0 : 1
         }
         if animate {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
         } else {

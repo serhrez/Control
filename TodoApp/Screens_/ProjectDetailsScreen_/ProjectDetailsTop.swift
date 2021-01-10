@@ -66,7 +66,7 @@ class ProjectDetailsTop: UIView {
                 make.height.equalTo(min(newHeight, ceil(self.projectDescriptionFont.lineHeight) * 2 + self.projectDescriptionFont.lineHeight / 5 ))
             }
             if self.shouldAnimate() {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.layoutSubviews()
                     self.shouldLayoutSubviews()
                 }

@@ -37,7 +37,7 @@ class SearchVc: UIViewController {
             .on(event: .willChangeFrame) { [weak self] options in
                 guard let self = self else { return }
                 let height = options.endFrame.intersection(self.view.bounds).height
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.collectionView.snp.remakeConstraints { make in
                         make.bottom.equalToSuperview().offset(-height)
                     }
@@ -46,7 +46,7 @@ class SearchVc: UIViewController {
             .on(event: .willHide) { [weak self] options in
                 guard let self = self else { return }
                 let height = options.endFrame.intersection(self.view.bounds).height
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.collectionView.snp.remakeConstraints { make in
                         make.bottom.equalToSuperview().offset(-height)
                     }
@@ -96,7 +96,6 @@ class SearchVc: UIViewController {
     }
     var didDisappear: () -> Void = { }
     deinit {
-        print("SearchVc deinit")
         didDisappear()
     }
 }

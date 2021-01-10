@@ -103,19 +103,18 @@ final class TagPicker: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         containerView.setAnchorPoint(.init(x: 0.5, y: 1))
-        containerView.transform = CGAffineTransform(scaleX: 1, y: 0)
+        containerView.transform = CGAffineTransform(scaleX: 1, y: 0.05)
 
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0) { [self] in
+        UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0) { [self] in
             containerView.transform = .identity
             containerView.layer.opacity = 1
             containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TABackground")!)
         } completion: { _ in
-            
+            self.containerView.setAnchorPoint(.init(x: 0.5, y: 0.5))
         }
-        self.containerView.setAnchorPoint(.init(x: 0.5, y: 0.5))
         
         if shouldPurposelyAnimateViewBackgroundColor {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.bgView.layer.opacity = 0.5
             }
         }
@@ -169,7 +168,7 @@ final class TagPicker: UIViewController {
     
     private func properlyDismiss() {
         self.containerView.setAnchorPoint(.init(x: 0.5, y: 1))
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration) {
             self.view.layer.opacity = 0
             self.containerView.transform = .init(scaleX: 1, y: 0.1)
         } completion: { _ in
@@ -233,7 +232,7 @@ extension TagPicker {
         
         override var isHighlighted: Bool {
             didSet {
-                UIView.animate(withDuration: 0.25) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.bgView.layer.opacity = self.isHighlighted ? 0.1 : 0
                 }
             }

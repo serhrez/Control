@@ -43,7 +43,7 @@ class IconColCell: UICollectionViewCell {
     }
     
     func configure(isSelected: Bool) {
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration) {
             self.backgroundColorView.layer.opacity = isSelected ? 1 : 0
         }
     }

@@ -98,7 +98,7 @@ class AutoselectCheckboxViewBase: UIView {
     
     fileprivate func changeState(withAnimation: Bool) {
         if withAnimation {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.setupState()
             }
         } else {

@@ -62,7 +62,7 @@ class ColorPicker: UIViewController {
     func shouldDismissAnimated() {
         guard !isShouldDismissInternal else { return }
         isShouldDismissInternal = true
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: Constants.animationDefaultDuration) {
             self.view.layer.opacity = 0
             self.whiteContainer.setAnchorPoint(.init(x: 0, y: 0.5))
             self.whiteContainer.transform = .init(scaleX: 0.1, y: 1)
@@ -85,10 +85,10 @@ class ColorPicker: UIViewController {
         self.whiteContainer.setAnchorPoint(.init(x: 0, y: 0.5))
         self.whiteContainer.transform = .init(scaleX: 0.1, y: 1)
         if shouldPurposelyAnimateViewBackgroundColor {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.view.layer.opacity = 1
             }
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseInOut) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseInOut) {
                 self.whiteContainer.transform = .identity
             } completion: { _ in
                 

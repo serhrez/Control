@@ -47,7 +47,7 @@ class CreateProjectVc: UIViewController {
                 self.containerView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
                 }
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.view.layoutSubviews()
                 }
             }
@@ -61,7 +61,7 @@ class CreateProjectVc: UIViewController {
                 self.containerView.snp.remakeConstraints { make in
                     make.bottom.equalTo(-(max(height, self.view.safeAreaInsets.bottom)))
                 }
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.view.layoutSubviews()
                 }
             }
@@ -97,7 +97,7 @@ class CreateProjectVc: UIViewController {
             self.view.layoutSubviews()
         }
         if didAppear {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
         } else {

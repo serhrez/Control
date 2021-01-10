@@ -11,6 +11,9 @@ enum Constants {
     // MARK: UI
     static let navigationTitleFontSize: CGFloat = UIScreen.main.bounds.height > 750 ? 22 : 18
     static let vcMinBottomPadding: CGFloat = max(30, safeAreaInsets.bottom)
+    // Animation timings
+    static let animationDefaultDuration: TimeInterval = 0.35
+    
     // MARK: Model restrictions
     static let maximumProjectNameLength = 50
     static let maximumDescriptionLength = 140
