@@ -90,6 +90,7 @@
 		A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */; };
 		A5796B012561E7CE00423112 /* OvalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796B002561E7CE00423112 /* OvalText.swift */; };
 		A57B962C25AB58AB008E899C /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57B962B25AB58AB008E899C /* DebugView.swift */; };
+		A57B963125AB5DDD008E899C /* AnimationsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57B963025AB5DDD008E899C /* AnimationsFactory.swift */; };
 		A57D967A2588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */; };
 		A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58281FD2597DCB80097178A /* NewCustomButton.swift */; };
 		A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */; };
@@ -256,6 +257,7 @@
 		A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableSectionModel.swift; sourceTree = "<group>"; };
 		A5796B002561E7CE00423112 /* OvalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalText.swift; sourceTree = "<group>"; };
 		A57B962B25AB58AB008E899C /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
+		A57B963025AB5DDD008E899C /* AnimationsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationsFactory.swift; sourceTree = "<group>"; };
 		A57D96792588F5DF0062C0FB /* UIView+exerciseAmbiguity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+exerciseAmbiguity.swift"; sourceTree = "<group>"; };
 		A58281FD2597DCB80097178A /* NewCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomButton.swift; sourceTree = "<group>"; };
 		A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+extensions.swift"; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */,
 				A5B67FAA259144E100EAD13D /* ModelFormatt.swift */,
 				A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */,
+				A57B963025AB5DDD008E899C /* AnimationsFactory.swift */,
 				A57B962B25AB58AB008E899C /* DebugView.swift */,
 			);
 			path = Helpers;
@@ -1207,6 +1210,7 @@
 				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
 				A54CAE9925A6889E0013277C /* SpecialColors.swift in Sources */,
+				A57B963125AB5DDD008E899C /* AnimationsFactory.swift in Sources */,
 				A56047E8255DD19C00C447CF /* AllTagsVcVm.swift in Sources */,
 				A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */,
 				A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */,

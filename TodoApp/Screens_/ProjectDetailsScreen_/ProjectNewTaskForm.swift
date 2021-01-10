@@ -271,7 +271,10 @@ class ProjectNewTaskForm: UIView {
     }
     
     func plusClicked() {
-        guard let name = nameField.text, !name.isEmpty else { return }
+        guard let name = nameField.text, !name.isEmpty else {
+            AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
+            return
+        }
         let newTask = ProjectDetailsTaskCreateModel(
             priority: priority,
             name: name,

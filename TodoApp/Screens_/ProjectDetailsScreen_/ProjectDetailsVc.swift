@@ -262,13 +262,49 @@ class ProjectDetailsVc: UIViewController {
                     }
                 }
             })]
+            if project.id != Constants.inboxId {
+                actions += [.init(title: "Delete Project", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] handler in
+                    self?.deleteProjectClicked()
+                })]
+            }
         }
         guard !actions.isEmpty else { return }
         PopMenuAppearance.appCustomizeActions(actions: actions)
         let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
         popMenu.shouldDismissOnSelection = true
         popMenu.appearance = .appAppearance
-        present(popMenu, animated: true)
+        present(popMenu, animated: true, completion: {
+            print("didComplete")
+        })
+    }
+    
+    func deleteProjectClicked() {
+        print("clicked")
+        let alertVc = UIAlertController(title: "Delete '\(project.name)'", message: "Are you sure?", preferredStyle: .alert)
+        alertVc.addAction(.init(title: "Delete all", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.deleteProject()
+        }))
+        alertVc.addAction(.init(title: "Delete and Archive", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.project.tasks.forEach {
+                DBHelper.safeArchive(taskId: $0.id, projectId: self.project.id)
+            }
+            self.deleteProject()
+        }))
+        alertVc.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
+        }))
+        self.presentedViewController?.dismiss(animated: true, completion: { [weak self] in
+            self?.present(alertVc, animated: true, completion: nil)
+        })
+    }
+    
+    func deleteProject() {
+        tokens = []
+        RealmProvider.main.safeWrite {
+            RealmProvider.main.realm.delete(self.project)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - TOP VIEW

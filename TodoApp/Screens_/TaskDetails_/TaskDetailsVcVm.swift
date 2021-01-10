@@ -118,6 +118,9 @@ class TaskDetailsVcVm {
     func deleteItselfInRealm() {
         tokens.removeAll()
         dateToken = nil
+        if let projectId = task.project.first?.id {
+            DBHelper.safeArchive(taskId: task.id, projectId: projectId)
+        }
         RealmProvider.main.safeWrite {
             RealmProvider.main.realm.delete(task)
         }

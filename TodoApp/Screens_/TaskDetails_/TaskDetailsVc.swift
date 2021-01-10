@@ -529,9 +529,10 @@ final class TaskDetailsVc: UIViewController {
         }
     }
     func deleteTodoSelected(action: PopMenuAction) {
-        dismiss(animated: true, completion: nil)
-        router.navigationController.popViewController(animated: true)
-        viewModel.deleteItselfInRealm()
+        dismiss(animated: true, completion: { [weak self] in
+            self?.router.navigationController.popViewController(animated: true)
+            self?.viewModel.deleteItselfInRealm()
+        })
     }
     
     func handleSwipeActionDeletion(action: SwipeAction, indexPath: IndexPath) {
