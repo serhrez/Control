@@ -39,8 +39,16 @@ class SearchVcVm {
     }
     func search(_ str: String) {
         lastSearchedText = str
-        let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name.lowercased().contains(str.lowercased()) }
-        searchResult.accept([.init(items: tasks.map { Model(task: $0) })])
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            let tasksIds = Array(RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name.lowercased().contains(str.lowercased()) }.map { $0.id })
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                if self.lastSearchedText == str {
+                    let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { tasksIds.contains($0.id) }
+                    self.searchResult.accept([.init(items: tasks.map { Model(task: $0) })])
+                }
+            }
+        }
     }
     
     func onTaskDone(_ task: RlmTask, isDone: Bool) {
