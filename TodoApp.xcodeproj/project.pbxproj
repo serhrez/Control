@@ -29,6 +29,7 @@
 		A5085E972556F8E500A31BBB /* Priority_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E862556F8E500A31BBB /* Priority_.swift */; };
 		A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */; };
 		A5085EB9255704B800A31BBB /* DirPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB8255704B800A31BBB /* DirPath.swift */; };
+		A510A10525ACC2D100E74E1E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A510A10425ACC2D100E74E1E /* StoreKit.framework */; };
 		A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168324255B2C290076D29E /* AllTasksToolbar.swift */; };
 		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
 		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
@@ -197,6 +198,7 @@
 		A5085E862556F8E500A31BBB /* Priority_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority_.swift; sourceTree = "<group>"; };
 		A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Persistable.swift"; sourceTree = "<group>"; };
 		A5085EB8255704B800A31BBB /* DirPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirPath.swift; sourceTree = "<group>"; };
+		A510A10425ACC2D100E74E1E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A5168324255B2C290076D29E /* AllTasksToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksToolbar.swift; sourceTree = "<group>"; };
 		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D40608580B1C460ACDC82440 /* Pods_TodoApp.framework in Frameworks */,
+				A510A10525ACC2D100E74E1E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,6 +889,7 @@
 		D1DE4A1F22F4F5FAC9A17ED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A510A10425ACC2D100E74E1E /* StoreKit.framework */,
 				C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */,
 				C521F921ACA686489458B3E4 /* Pods_TodoApp_TodoAppUITests.framework */,
 				B672A62E88757FAA619ADC27 /* Pods_TodoApp_TodoAppTests.framework */,
