@@ -194,8 +194,10 @@ extension AllProjectsVc: UITableViewDelegate {
             let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList)
             router.debugPushVc(projectDetails)
         case let .inboxProject(project):
-            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList, isInbox: true)
-            router.debugPushVc(projectDetails)
+            let inp = PremiumFeaturesVc()
+            self.navigationController?.pushViewController(inp, animated: true)
+//            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList, isInbox: true)
+//            router.debugPushVc(projectDetails)
         case let .planned(model):
             let plannedVc = PlannedVc()
             router.debugPushVc(plannedVc)

@@ -30,6 +30,9 @@
 		A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */; };
 		A5085EB9255704B800A31BBB /* DirPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB8255704B800A31BBB /* DirPath.swift */; };
 		A510A10525ACC2D100E74E1E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A510A10425ACC2D100E74E1E /* StoreKit.framework */; };
+		A510A12A25ACD01000E74E1E /* PremiumFeaturesVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510A12925ACD01000E74E1E /* PremiumFeaturesVc.swift */; };
+		A510A19025ACDA0300E74E1E /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510A18F25ACDA0300E74E1E /* InAppManager.swift */; };
+		A510A19625ACDBD100E74E1E /* InAppProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510A19525ACDBD100E74E1E /* InAppProduct.swift */; };
 		A5168325255B2C290076D29E /* AllTasksToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168324255B2C290076D29E /* AllTasksToolbar.swift */; };
 		A516832F255B33520076D29E /* PlusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516832E255B33520076D29E /* PlusView.swift */; };
 		A5168358255B43760076D29E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5168357255B43760076D29E /* CustomButton.swift */; };
@@ -37,6 +40,8 @@
 		A51967612584F71D0021621A /* IconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967602584F71D0021621A /* IconPicker.swift */; };
 		A51967692584FE5D0021621A /* IconColCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967682584FE5D0021621A /* IconColCell.swift */; };
 		A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B6855257188A50042AA85 /* TagDetailVc.swift */; };
+		A520C80025ADC11300CE9AA0 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */; };
+		A520C80525ADC55D00CE9AA0 /* InAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A520C80425ADC55D00CE9AA0 /* InAppError.swift */; };
 		A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251AD256EED7D00747E16 /* CalendarView.swift */; };
 		A52251BC256EF38C00747E16 /* CalendarVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251BB256EF38C00747E16 /* CalendarVc.swift */; };
 		A52251C4256EF3B300747E16 /* CalendarVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251C3256EF3B300747E16 /* CalendarVcVm.swift */; };
@@ -199,6 +204,9 @@
 		A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Persistable.swift"; sourceTree = "<group>"; };
 		A5085EB8255704B800A31BBB /* DirPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirPath.swift; sourceTree = "<group>"; };
 		A510A10425ACC2D100E74E1E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A510A12925ACD01000E74E1E /* PremiumFeaturesVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumFeaturesVc.swift; sourceTree = "<group>"; };
+		A510A18F25ACDA0300E74E1E /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
+		A510A19525ACDBD100E74E1E /* InAppProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppProduct.swift; sourceTree = "<group>"; };
 		A5168324255B2C290076D29E /* AllTasksToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksToolbar.swift; sourceTree = "<group>"; };
 		A516832E255B33520076D29E /* PlusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusView.swift; sourceTree = "<group>"; };
 		A5168357255B43760076D29E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -206,6 +214,8 @@
 		A51967602584F71D0021621A /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
 		A51967682584FE5D0021621A /* IconColCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColCell.swift; sourceTree = "<group>"; };
 		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
+		A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		A520C80425ADC55D00CE9AA0 /* InAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppError.swift; sourceTree = "<group>"; };
 		A52251AD256EED7D00747E16 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		A52251BB256EF38C00747E16 /* CalendarVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVc.swift; sourceTree = "<group>"; };
 		A52251C3256EF3B300747E16 /* CalendarVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVcVm.swift; sourceTree = "<group>"; };
@@ -450,7 +460,9 @@
 				A583626925A37E82009FF3E0 /* PropertyWrappers */,
 				A5085EB12557046F00A31BBB /* Extensions */,
 				A5085EB8255704B800A31BBB /* DirPath.swift */,
+				A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */,
 				A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */,
+				A510A19425ACDBA400E74E1E /* InApps */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -484,6 +496,24 @@
 				A54CAE9825A6889E0013277C /* SpecialColors.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		A510A12825ACD00000E74E1E /* PremiumFeatures_ */ = {
+			isa = PBXGroup;
+			children = (
+				A510A12925ACD01000E74E1E /* PremiumFeaturesVc.swift */,
+			);
+			path = PremiumFeatures_;
+			sourceTree = "<group>";
+		};
+		A510A19425ACDBA400E74E1E /* InApps */ = {
+			isa = PBXGroup;
+			children = (
+				A510A18F25ACDA0300E74E1E /* InAppManager.swift */,
+				A520C80425ADC55D00CE9AA0 /* InAppError.swift */,
+				A510A19525ACDBD100E74E1E /* InAppProduct.swift */,
+			);
+			path = InApps;
 			sourceTree = "<group>";
 		};
 		A5168323255B2C170076D29E /* Views */ = {
@@ -830,6 +860,7 @@
 		A5EF5F7C255B242D0088DE0A /* Screens_ */ = {
 			isa = PBXGroup;
 			children = (
+				A510A12825ACD00000E74E1E /* PremiumFeatures_ */,
 				A55F65E625A73DF700BB46DD /* PredefinedProject_ */,
 				A5619A9E25A51A060037EAE7 /* Navigation_ */,
 				A5C8E89D2598B8AC00D77514 /* SettingsScreen */,
@@ -1169,6 +1200,7 @@
 				A56047D8255D9BD400C447CF /* AllTagsTagCell.swift in Sources */,
 				A56047ED255DD98000C447CF /* AllTagsEnterNameCell.swift in Sources */,
 				A55F65E825A73E5200BB46DD /* PredefinedProjectVc.swift in Sources */,
+				A510A12A25ACD01000E74E1E /* PremiumFeaturesVc.swift in Sources */,
 				A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */,
 				A5FD7D302588C7B6002D7145 /* PlannedVc.swift in Sources */,
 				A533E06E255C438900B301C7 /* AllProjectsVcVm.swift in Sources */,
@@ -1177,6 +1209,7 @@
 				A5085E8F2556F8E500A31BBB /* Reminder_.swift in Sources */,
 				A592319025726536008E955D /* TimePickerVc.swift in Sources */,
 				A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */,
+				A510A19625ACDBD100E74E1E /* InAppProduct.swift in Sources */,
 				A5C0105C258CFD13001E0FED /* UpdateDiffRx.swift in Sources */,
 				A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */,
 				A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */,
@@ -1192,6 +1225,7 @@
 				A5796B012561E7CE00423112 /* OvalText.swift in Sources */,
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */,
+				A520C80025ADC11300CE9AA0 /* UserDefaultsWrapper.swift in Sources */,
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,
 				A5B67FAB259144E100EAD13D /* ModelFormatt.swift in Sources */,
@@ -1205,6 +1239,7 @@
 				A5085E902556F8E500A31BBB /* RlmSubtask.swift in Sources */,
 				A5E49220256D441B004E707B /* InsetUITextView.swift in Sources */,
 				A5085E942556F8E500A31BBB /* RlmTag.swift in Sources */,
+				A510A19025ACDA0300E74E1E /* InAppManager.swift in Sources */,
 				A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */,
 				A59231BF2572D87E008E955D /* SearchVc.swift in Sources */,
 				A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */,
@@ -1215,6 +1250,7 @@
 				A5619AA025A51A1A0037EAE7 /* TANavigationController.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
 				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
+				A520C80525ADC55D00CE9AA0 /* InAppError.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,
 				A54CAE9925A6889E0013277C /* SpecialColors.swift in Sources */,
 				A57B963125AB5DDD008E899C /* AnimationsFactory.swift in Sources */,

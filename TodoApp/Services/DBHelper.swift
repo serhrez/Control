@@ -12,7 +12,7 @@ class DBHelper {
     
     // MARK: - Get
     static func getInboxProject(provider: RealmProvider = .main) -> RlmProject {
-        return provider.realm.objects(RlmProject.self).first(where: { $0.name == "Inbox" })!
+        return provider.realm.objects(RlmProject.self).first(where: { $0.id == Constants.inboxId })!
     }
     
     
