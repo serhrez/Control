@@ -121,9 +121,6 @@ class TaskDetailsVcVm {
         if let projectId = task.project.first?.id {
             DBHelper.safeArchive(taskId: task.id, projectId: projectId)
         }
-        RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.cascadeDelete(task)
-        }
     }
     func listenToDate() {
         guard dateToken == nil && task.realm != nil else { return }

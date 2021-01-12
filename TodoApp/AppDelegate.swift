@@ -6,8 +6,6 @@
 //
 
 import UIKit
-||||||| parent of 2c9a98f... notifications properly set up and wired up
-import SwiftyStoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
