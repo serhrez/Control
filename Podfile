@@ -16,6 +16,7 @@ target 'TodoApp' do
   pod 'GrowingTextView'
   pod 'JTAppleCalendar'
   pod 'InfiniteLayout'
+  pod 'SwiftyStoreKit'
 
   # Not UI
   pod 'RealmSwift'
