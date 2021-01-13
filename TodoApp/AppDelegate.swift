@@ -6,12 +6,15 @@
 //
 
 import UIKit
+||||||| parent of 2c9a98f... notifications properly set up and wired up
+import SwiftyStoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        application.applicationIconBadgeNumber = 0
         return true
     }
     

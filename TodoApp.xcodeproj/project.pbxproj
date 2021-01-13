@@ -56,6 +56,7 @@
 		A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315CFD256678A8000D8FCD /* InsetLabel.swift */; };
 		A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D082566C700000D8FCD /* SubtaskCell.swift */; };
 		A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */; };
+		A53225DE25AE12290098EB35 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53225DD25AE12290098EB35 /* Notifications.swift */; };
 		A533E041255BFD4500B301C7 /* ProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E040255BFD4500B301C7 /* ProgressCircleView.swift */; };
 		A533E046255C1EC400B301C7 /* CircleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E045255C1EC400B301C7 /* CircleText.swift */; };
 		A533E04C255C1F6500B301C7 /* ProjectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */; };
@@ -230,6 +231,7 @@
 		A5315CFD256678A8000D8FCD /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		A5315D082566C700000D8FCD /* SubtaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskCell.swift; sourceTree = "<group>"; };
 		A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskAddCell.swift; sourceTree = "<group>"; };
+		A53225DD25AE12290098EB35 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		A533E040255BFD4500B301C7 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
 		A533E045255C1EC400B301C7 /* CircleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleText.swift; sourceTree = "<group>"; };
 		A533E04B255C1F6500B301C7 /* ProjectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewCell.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */,
 				A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */,
 				A510A19425ACDBA400E74E1E /* InApps */,
+				A53225DD25AE12290098EB35 /* Notifications.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1249,6 +1252,7 @@
 				A5356DB22569D6C40042F604 /* DateFormatter+Extensions.swift in Sources */,
 				A5619AA025A51A1A0037EAE7 /* TANavigationController.swift in Sources */,
 				A5085E882556F8E500A31BBB /* RealmProvider.swift in Sources */,
+				A53225DE25AE12290098EB35 /* Notifications.swift in Sources */,
 				A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */,
 				A520C80525ADC55D00CE9AA0 /* InAppError.swift in Sources */,
 				A5E492E2256D78EB004E707B /* Selection1Vc.swift in Sources */,

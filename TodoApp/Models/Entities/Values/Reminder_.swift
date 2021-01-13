@@ -9,23 +9,23 @@
 import Foundation
 
 enum Reminder: String, CustomStringConvertible {
-    case onDay
-    case oneDayEarlier
-    case twoDaysEarlier
-    case threeDaysEarlier
+    case oneDayEarly
+    case fiveMinutesEarly
+    case tenMinutesEarly
+    case thirtyMinutesEarly
     
-    static let all: [Reminder] = [.onDay, .oneDayEarlier, .twoDaysEarlier, .threeDaysEarlier]
+    static let all: [Reminder] = [.oneDayEarly, .fiveMinutesEarly, .tenMinutesEarly, .thirtyMinutesEarly]
     
     var description: String {
         switch self {
-            case .onDay:
-                return "On the day"
-            case .oneDayEarlier:
-                return "1 day early"
-            case .twoDaysEarlier:
-                return "2 day early"
-            case .threeDaysEarlier:
-                return "3 day early"
+            case .oneDayEarly:
+                return "One day earlier"
+            case .fiveMinutesEarly:
+                return "5 minutes early"
+            case .tenMinutesEarly:
+                return "10 minutes early"
+            case .thirtyMinutesEarly:
+                return "30 minutes early"
         }
     }
 }

@@ -522,11 +522,42 @@ final class TaskDetailsVc: UIViewController {
         popMenuVc?.present(popMenu, animated: true)
     }
     func addCalendarSelected(action: PopMenuAction) {
-        let task = viewModel.task
+        let taskDate = viewModel.task.date?.freeze()
         dismiss(animated: true, completion: nil)
-        router.openDateVc(reminder: task.date?.reminder, repeat: task.date?.repeat, date: task.date?.date) { [weak self] (newDate, newReminder, newRepeat) in
-            self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
+        Notifications.shared.requestAuthorization { [weak self] authorization in
+            DispatchQueue.main.async {
+                switch authorization {
+                case .authorized:
+                    self?.router.openDateVc(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date) { [weak self] (newDate, newReminder, newRepeat) in
+                        self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
+                    }
+                case .denied:
+                    print("Denied")
+                case .deniedPreviously:
+                    self?.showAlertToOpenSettings()
+                }
+            }
         }
+    }
+    
+    private func showAlertToOpenSettings() {
+        let alertController = UIAlertController(title: "Notifications are disabled", message: "You disabled notification for this app, so we cannot set up notifications", preferredStyle: .alert)
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
+            let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ -> Void in
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("Settings opened: \(success)") // Prints true
+                })
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+            alertController.addAction(settingsAction)
+        } else {
+            let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+        }
+
+        present(alertController, animated: true, completion: nil)
     }
     func deleteTodoSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: { [weak self] in
