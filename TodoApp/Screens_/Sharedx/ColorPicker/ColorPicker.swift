@@ -88,7 +88,7 @@ class ColorPicker: UIViewController {
             UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 self.view.layer.opacity = 1
             }
-            UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseInOut) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseIn) {
                 self.whiteContainer.transform = .identity
             } completion: { _ in
                 
