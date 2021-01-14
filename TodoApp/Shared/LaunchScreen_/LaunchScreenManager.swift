@@ -18,7 +18,7 @@ class LaunchScreenManager {
 
     // MARK: - Lifecycle
 
-    init(animationDurationBase: Double) {
+    init(animationDurationBase: Double = Constants.animationDefaultDuration) {
         self.animationDurationBase = animationDurationBase
     }
     func animateAfterLaunch(_ parentViewPassedIn: UIView) {
@@ -33,6 +33,7 @@ class LaunchScreenManager {
     func animateDisappearing() {
         guard let view = view,
               let iconView = view.viewWithTag(2) else { return }
+        view.alpha = 1
         UIView.animate(withDuration: animationDurationBase, delay: animationDurationBase / 2) {
             view.alpha = 0
             iconView.transform = .init(scaleX: 4, y: 4)

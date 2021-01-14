@@ -15,8 +15,14 @@ class UserDefaultsWrapper {
         get { defaults.bool(forKey: .premiumKey) }
         set { defaults.setValue(newValue, forKey: .premiumKey) }
     }
+    
+    var didOnboard: Bool {
+        get { defaults.bool(forKey: .onboardKey) }
+        set { defaults.setValue(newValue, forKey: .onboardKey) }
+    }
 }
 
 fileprivate extension String {
     static let premiumKey = "isPremiumPurchased"
+    static let onboardKey = "didOnboard"
 }

@@ -50,6 +50,13 @@ class AllProjectsVc: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupSettingsPushVc()
+        let onboardingVc = OnboardingVc.getOnboardingNavigation { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+            UserDefaultsWrapper.shared.didOnboard = true
+        }
+        onboardingVc.modalPresentationStyle = .overFullScreen
+        
+        present(onboardingVc, animated: false, completion: nil)
         // Do any additional setup after loading the view.
     }
     
