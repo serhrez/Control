@@ -21,8 +21,8 @@ extension TANavigationController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {
-            let provider = toVC as? TATransitionProvider
-            let transitioning = provider?.pushTransitioning(from: fromVC)
+            let provider = fromVC as? TATransitionProvider
+            let transitioning = provider?.pushTransitioning(to: toVC)
             lastProvider = provider
             return transitioning
         }

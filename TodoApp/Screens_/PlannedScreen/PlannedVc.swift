@@ -137,7 +137,7 @@ final class PlannedVc: UIViewController {
         viewModel.calendarModelsUpdate
             .do(onNext: {
                 if $0.isEmpty { return }
-                print($0[0].items.reduce(into: "", { $0 += $1.task.name + ";" }))
+//                print($0[0].items.reduce(into: "", { $0 += $1.task.name + ";" }))
             })
             .bind(to: calendarViewCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)

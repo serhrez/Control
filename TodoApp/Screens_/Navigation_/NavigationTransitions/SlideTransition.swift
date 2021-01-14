@@ -8,25 +8,44 @@
 import Foundation
 import UIKit
 
-class SlidePushTransition: NSObject, UIViewControllerAnimatedTransitioning {
-    var duration: TimeInterval
+class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
+    var transitionDuration: TimeInterval
+    var isInteractive: Bool = false
     
     init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 2)) {
-        self.duration = duration
+        self.transitionDuration = duration
+        super.init()
+        self.completionSpeed = CGFloat(duration * 0.7)
     }
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        duration
+        transitionDuration
     }
+    
+    func handlePan(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        let percent = abs(gesture.translation(in: gesture.view).x / gesture.view!.bounds.width)
+        switch gesture.state {
+        case .changed:
+            update(percent)
+        case .ended, .cancelled:
+            if percent > 0.5 && gesture.state != .cancelled {
+                finish()
+            } else {
+                cancel()
+            }
+        default: break
+        }
+    }
+
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let toView = transitionContext.view(forKey: .to)!
         transitionContext.containerView.addSubview(toView)
         let initialFrame = toView.frame
             toView.frame = toView.frame.modify(modifyX: { _ in -toView.bounds.width })
-        UIView.animate(withDuration: duration) {
+        UIView.animate(withDuration: transitionDuration, delay: 0.0, options: .curveLinear) {
             toView.frame = initialFrame
         } completion: { _ in
-            transitionContext.completeTransition(true)
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
 

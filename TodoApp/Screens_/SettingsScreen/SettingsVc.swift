@@ -15,7 +15,8 @@ class SettingsVc: UIViewController {
         items: [
             .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 12, onClick: { [weak self] in
                 guard let self = self else { return }
-                
+                let premiumFeaturesVc = PremiumFeaturesVc()
+                self.router.debugPushVc(premiumFeaturesVc)
             }),
             .init(text: "Archive", imageName: "archive", imageWidth: 20, onClick: { [weak self] in
                 guard let self = self else { return }
@@ -34,7 +35,6 @@ class SettingsVc: UIViewController {
                     
                     //Excluded Activities
                     activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
-                    //
                     
                     self.present(activityVC, animated: true, completion: nil)
                 }
@@ -85,8 +85,8 @@ class SettingsVc: UIViewController {
 extension SettingsVc: AppNavigationRouterDelegate { }
 
 extension SettingsVc: TATransitionProvider {
-    func pushTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return SlidePushTransition()
+    func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
     }
     
     func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {

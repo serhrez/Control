@@ -16,6 +16,8 @@ import Typist
 class AllProjectsVc: UIViewController {
     let viewModel: AllProjectsVcVM = AllProjectsVcVM()
     let tableView = UITableView()
+    var pushTransition = SlidePushTransition()
+
     lazy var tasksToolbar: AllTasksToolbar = {
         let view = AllTasksToolbar(frame: .zero)
         view.onClick = { [weak self] in
@@ -47,6 +49,7 @@ class AllProjectsVc: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupSettingsPushVc()
         // Do any additional setup after loading the view.
     }
     
@@ -58,6 +61,24 @@ class AllProjectsVc: UIViewController {
 //            self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
 //        }
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
+    }
+    
+    private func setupSettingsPushVc() {
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(didPan))
+        edgeGesture.edges = .left
+        view.addGestureRecognizer(edgeGesture)
+    }
+    
+    @objc func didPan(gesture: UIScreenEdgePanGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            pushTransition.isInteractive = true
+            navigationController?.pushViewController(SettingsVc(), animated: true)
+        case .ended, .cancelled:
+            pushTransition.isInteractive = false
+        default: break
+        }
+        pushTransition.handlePan(gesture)
     }
     
     func setupTableView() {
@@ -209,5 +230,27 @@ extension AllProjectsVc: UITableViewDelegate {
             let predefined = PredefinedProjectVc(.today)
             router.debugPushVc(predefined)
         }
+    }
+}
+
+extension AllProjectsVc: TATransitionProvider {
+    func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if vc is SettingsVc {
+            print("vc is SettingsVc")
+            return pushTransition
+        }
+        if vc is SearchVc {
+            return FadePushTransition()
+        }
+        print("vc is nil")
+
+        return nil
+    }
+    
+    func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
+    }
+    func interactionController(for animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return pushTransition.isInteractive ? pushTransition : nil
     }
 }

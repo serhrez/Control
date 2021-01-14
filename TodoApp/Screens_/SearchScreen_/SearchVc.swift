@@ -128,8 +128,8 @@ extension SearchVc: UISearchBarDelegate {
 }
 
 extension SearchVc: TATransitionProvider {
-    func pushTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return FadePushTransition()
+    func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
     }
     func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return FadePushTransition()

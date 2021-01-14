@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol TATransitionProvider {
-    func pushTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning?
+    func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning?
     func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning?
     func interactionController(for animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning?
 }

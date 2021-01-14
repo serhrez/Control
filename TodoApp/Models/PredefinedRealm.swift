@@ -147,22 +147,22 @@ class PredefinedRealm {
             task.date = .init(date: datereferencex, reminder: .oneDayEarly, repeat: nil)
             project3.tasks.append(task)
             
-            var tasks: [RlmTask] = []
-            for i in 1...1200 {
-                let task = RlmTask(name: "Task:\(i)", priority: Int.random(in: 1...3) == 1 ? .high : .medium, isDone: Int.random(in: 1...2) == 1 ? true : false)
-                var date: Date = Date()
-                switch Int.random(in: 1...3) {
-                case 1:
-                    date = date.dateAt(.nextMonth)
-                case 2:
-                    date = date.dateAt(.nearestHour(hour: 22))
-                default:
-                    date = date.dateAt(.nextWeek)
-                }
-                task.date = .init(date: date, reminder: .fiveMinutesEarly, repeat: .monthly)
-                tasks.append(task)
-            }
-            project3.tasks.append(objectsIn: tasks)
+//            var tasks: [RlmTask] = []
+//            for i in 1...1200 {
+//                let task = RlmTask(name: "Task:\(i)", priority: Int.random(in: 1...3) == 1 ? .high : .medium, isDone: Int.random(in: 1...2) == 1 ? true : false)
+//                var date: Date = Date()
+//                switch Int.random(in: 1...3) {
+//                case 1:
+//                    date = date.dateAt(.nextMonth)
+//                case 2:
+//                    date = date.dateAt(.nearestHour(hour: 22))
+//                default:
+//                    date = date.dateAt(.nextWeek)
+//                }
+//                task.date = .init(date: date, reminder: .fiveMinutesEarly, repeat: .monthly)
+//                tasks.append(task)
+//            }
+//            project3.tasks.append(objectsIn: tasks)
             
             realm.add(project1)
             realm.add(project2)
