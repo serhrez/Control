@@ -10,12 +10,15 @@ import UIKit
 
 class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     var transitionDuration: TimeInterval
-    var isInteractive: Bool = false
+    var isInteractive: Bool = false {
+        didSet {
+            self.completionSpeed = CGFloat(isInteractive ? transitionDuration * 0.7 : transitionDuration)
+        }
+    }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 2)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.7)) {
         self.transitionDuration = duration
         super.init()
-        self.completionSpeed = CGFloat(duration * 0.7)
     }
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         transitionDuration
@@ -53,9 +56,13 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
 
 class SlidePopTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning {
     var transitionDuration: TimeInterval
-    var isInteractive: Bool = false
+    var isInteractive: Bool = false {
+        didSet {
+            self.completionSpeed = CGFloat(isInteractive ? transitionDuration * 0.7 : transitionDuration)
+        }
+    }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 2)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.7)) {
         self.transitionDuration = duration
         super.init()
         self.completionSpeed = CGFloat(duration * 0.7)

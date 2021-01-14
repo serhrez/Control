@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class LaunchScreenManager {
-    static let instance = LaunchScreenManager(animationDurationBase: 1.3)
+    static let instance = LaunchScreenManager(animationDurationBase: Constants.animationDefaultDuration)
     var view: UIView?
     var parentView: UIView?
 
@@ -33,8 +33,7 @@ class LaunchScreenManager {
     func animateDisappearing() {
         guard let view = view,
               let iconView = view.viewWithTag(2) else { return }
-        
-        UIView.animate(withDuration: Constants.animationDefaultDuration) {
+        UIView.animate(withDuration: animationDurationBase, delay: animationDurationBase / 2) {
             view.alpha = 0
             iconView.transform = .init(scaleX: 4, y: 4)
         } completion: { _ in
