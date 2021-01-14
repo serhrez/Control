@@ -372,8 +372,12 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectStarted VIEW
     private func projectStartedViewSetup() {
-        view.layout(projectStartedView).centerX().centerY().priority(749).leading(47).trailing(47).top(topView.anchor.bottom, 20) { _, _ in .greaterThanOrEqual }
-        view.bringSubviewToFront(topView)
+        if !isInbox {
+            view.layout(projectStartedView).centerX().centerY().priority(749).leading(47).trailing(47).top(topView.anchor.bottom, 20) { _, _ in .greaterThanOrEqual }
+            view.bringSubviewToFront(topView)
+        } else {
+            view.layout(projectStartedView).centerX().centerY().leading(47).trailing(47)
+        }
     }
     private lazy var projectStartedView = ProjectStartedView()
     

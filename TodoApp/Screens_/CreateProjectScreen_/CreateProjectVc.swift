@@ -85,7 +85,7 @@ class CreateProjectVc: UIViewController {
         let heightConstraint = self.projectDescription.heightAnchor.constraint(equalToConstant: self.projectDescription.textField.font?.lineHeight ?? 20)
         heightConstraint.isActive = true
         projectDescription.shouldSetHeight = { [weak self] in
-            heightConstraint.constant = $0
+            heightConstraint.constant = min($0, ((ceil(self?.projectDescription.textField.font?.lineHeight ?? 22)) * 4))
             self?.properlyLayout()
         }
 
