@@ -36,10 +36,10 @@ class CalendarVcVm {
     
     func clickedToday() {
         date.accept((Date().dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
-        shouldGoBackAndSave()
     }
     func clickedTomorrow() {
-        date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        let datePoint = date.value.0 ?? Date()
+        date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: datePoint.hour, min: datePoint.minute, secs: datePoint.second), false))
         shouldGoBackAndSave()
     }
     func clickedNextMonday() {
@@ -47,15 +47,14 @@ class CalendarVcVm {
         if Date().isInside(date: nextWeekday, granularity: .weekOfMonth) {
             nextWeekday = nextWeekday.nextWeekday(.tuesday).nextWeekday(.monday)
         }
-
-        date.accept((nextWeekday.dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        let datePoint = date.value.0 ?? Date()
+        date.accept((nextWeekday.dateBySet(hour: datePoint.hour, min: datePoint.minute, secs: datePoint.second), false))
         shouldGoBackAndSave()
     }
     func clickedEvening() {
         if date.value.0.flatMap({ $0.hour < 18 }) ?? true {
             date.accept(((date.value.0 ?? Date()).dateBySet(hour: 19, min: date.value.0?.minute, secs: 0), false))
         }
-        shouldGoBackAndSave()
     }
     
     func reminderSelected(_ reminder: Reminder?) {
