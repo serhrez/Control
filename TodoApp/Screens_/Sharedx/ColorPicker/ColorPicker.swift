@@ -11,7 +11,7 @@ import Material
 import AttributedLib
 
 class ColorPicker: UIViewController {
-    private let colors: [UIColor] = [UIColor(named: "TAHeading")!, .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
+    private let colors: [UIColor] = [.hex("#242424"), .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
     
     private lazy var circles: [GappedCircle] = colors.map { [weak self] color in
         guard let self = self else { return GappedCircle(circleColor: .black) }
