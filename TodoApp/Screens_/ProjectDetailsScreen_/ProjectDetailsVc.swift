@@ -49,8 +49,8 @@ class ProjectDetailsVc: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "TABackground")
         projectBindingSetup()
-        projectStartedViewSetup()
         topViewSetup()
+        projectStartedViewSetup()
         tasksWithDoneListSetup()
         toolbarViewSetup()
         setupKeyboard()
@@ -372,7 +372,8 @@ class ProjectDetailsVc: UIViewController {
     
     // MARK: - ProjectStarted VIEW
     private func projectStartedViewSetup() {
-        view.layout(projectStartedView).center().leading(47).trailing(47)
+        view.layout(projectStartedView).centerX().centerY().priority(749).leading(47).trailing(47).top(topView.anchor.bottom, 20) { _, _ in .greaterThanOrEqual }
+        view.bringSubviewToFront(topView)
     }
     private lazy var projectStartedView = ProjectStartedView()
     

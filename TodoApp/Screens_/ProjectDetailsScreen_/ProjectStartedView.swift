@@ -17,8 +17,10 @@ class ProjectStartedView: UIView {
     }
     
     private func setupView() {
-        let imageView = UIImageView(image: UIImage(named: "startedmessypath"))
-        layout(imageView).leading(27).trailing(27).top()
+        let imageView = UIImageView(image: UIImage(named: "startedmessypath")?.withRenderingMode(.alwaysTemplate))
+        imageView.tintColor = UIColor(named: "TAHeading")
+        imageView.contentMode = .scaleAspectFit
+        layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.1436)
         layout(largeTitle).leading().trailing().top(imageView.anchor.bottom, 25.35)
         layout(smallTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom()
     }

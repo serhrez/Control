@@ -236,13 +236,11 @@ extension AllProjectsVc: UITableViewDelegate {
 extension AllProjectsVc: TATransitionProvider {
     func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if vc is SettingsVc {
-            print("vc is SettingsVc")
             return pushTransition
         }
         if vc is SearchVc {
             return FadePushTransition()
         }
-        print("vc is nil")
 
         return nil
     }
