@@ -116,7 +116,10 @@ class CreateProjectVc: UIViewController {
         let allProject = RealmProvider.main.realm.objects(RlmProject.self)
         guard let projectName = projectNameField.text,
               !projectName.isEmpty,
-              !allProject.contains(where: { $0.name == projectName }) else { return }
+              !allProject.contains(where: { $0.name == projectName }) else {
+            AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
+            return
+        }
         let description = projectDescription.text
         let project = RlmProject(name: projectName, icon: icon, notes: description, color: color, date: Date())
         RealmProvider.main.safeWrite {
