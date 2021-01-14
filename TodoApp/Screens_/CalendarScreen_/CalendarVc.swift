@@ -213,7 +213,7 @@ extension CalendarVc {
             let label = UILabel()
             label.text = text
             label.font = .systemFont(ofSize: 16, weight: .semibold)
-            label.minimumScaleFactor = 0.2
+            label.minimumScaleFactor = 0.95
             label.adjustsFontSizeToFitWidth = true
             label.numberOfLines = isOneLine ? 1 : 2
             label.textAlignment = .center
