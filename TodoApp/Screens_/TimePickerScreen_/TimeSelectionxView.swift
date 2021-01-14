@@ -50,7 +50,12 @@ class TimeSelectionxView: UIView {
     
     override func setNeedsDisplay() {
         super.setNeedsDisplay()
-        gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.hex("#C8C8C8").cgColor, UIColor(named: "TAAltBackground")!.cgColor]
+        gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor,
+                           UIColor.hex("#C8C8C8").cgColor,
+                           UIColor(named: "TAHeading")!.cgColor,
+                           UIColor(named: "TAHeading")!.cgColor,
+                           UIColor.hex("#C8C8C8").cgColor,
+                           UIColor(named: "TAAltBackground")!.cgColor]
     }
     
     override func didMoveToSuperview() {
