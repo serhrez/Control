@@ -523,18 +523,26 @@ final class TaskDetailsVc: UIViewController {
     }
     func addCalendarSelected(action: PopMenuAction) {
         let taskDate = viewModel.task.date?.freeze()
-        dismiss(animated: true, completion: nil)
-        Notifications.shared.requestAuthorization { [weak self] authorization in
-            DispatchQueue.main.async {
-                switch authorization {
-                case .authorized:
-                    self?.router.openDateVc(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date) { [weak self] (newDate, newReminder, newRepeat) in
-                        self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
+        guard UserDefaultsWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+            let premiumVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
+            dismiss(animated: true) { [weak self] in
+                self?.router.debugPushVc(premiumVc)
+            }
+            return
+        }
+        dismiss(animated: true) { [weak self] in
+            Notifications.shared.requestAuthorization { authorization in
+                DispatchQueue.main.async {
+                    switch authorization {
+                    case .authorized:
+                        self?.router.openDateVc(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date) { [weak self] (newDate, newReminder, newRepeat) in
+                            self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
+                        }
+                    case .denied:
+                        print("Denied")
+                    case .deniedPreviously:
+                        self?.showAlertToOpenSettings()
                     }
-                case .denied:
-                    print("Denied")
-                case .deniedPreviously:
-                    self?.showAlertToOpenSettings()
                 }
             }
         }
@@ -561,6 +569,9 @@ final class TaskDetailsVc: UIViewController {
     }
     func deleteTodoSelected(action: PopMenuAction) {
         dismiss(animated: true, completion: { [weak self] in
+            guard let task = self?.viewModel.task,
+                  let projectId = task.project.first?.id,
+                  task.realm != nil else { return }
             self?.router.navigationController.popViewController(animated: true)
             self?.viewModel.deleteItselfInRealm()
         })

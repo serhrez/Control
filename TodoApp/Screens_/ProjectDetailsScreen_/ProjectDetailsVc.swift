@@ -406,12 +406,30 @@ class ProjectDetailsVc: UIViewController {
         onCalendarClicked: { [weak self] _ in
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
-            self.router.openDateVc(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date) { [weak self] (date, reminder, repeatt) in
-                addTask.date = date
-                addTask.reminder = reminder
-                addTask.repeatt = repeatt
-                self?.state = .addTask(addTask)
+            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+                let premiumVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
+                self.router.debugPushVc(premiumVc)
+                return
             }
+            self.dismiss(animated: true, completion: { [weak self] in
+                Notifications.shared.requestAuthorization { authorization in
+                    DispatchQueue.main.async {
+                        switch authorization {
+                        case .authorized:
+                            self?.router.openDateVc(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date) { [weak self] (date, reminder, repeatt) in
+                                addTask.date = date
+                                addTask.reminder = reminder
+                                addTask.repeatt = repeatt
+                                self?.state = .addTask(addTask)
+                            }
+                        case .denied:
+                            print("Denied")
+                        case .deniedPreviously:
+                            self?.showAlertToOpenSettings()
+                        }
+                    }
+                }
+            })
         },
         onTagClicked: { [weak self] sourceView in
             guard let self = self else { return }
@@ -454,9 +472,9 @@ class ProjectDetailsVc: UIViewController {
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             let tags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in addTask.tags.contains(where: { $0 == tag.name }) }
-            self.router.openAllTags(mode: .selection(selected: Array(tags), { selected in
+            self.router.openAllTags(mode: .selection(selected: Array(tags), { [weak self] selected in
                 addTask.tags = ModelFormatt.tagsSorted(tags: selected).map { $0.name }
-                self.state = .addTask(addTask)
+                self?.state = .addTask(addTask)
             }))
         },
         shouldAnimate: { [weak self] in self?.didAppear ?? false },
@@ -519,6 +537,26 @@ class ProjectDetailsVc: UIViewController {
             }
         }
     }
+    
+    private func showAlertToOpenSettings() {
+        let alertController = UIAlertController(title: "Notifications are disabled", message: "You disabled notification for this app, so we cannot set up notifications", preferredStyle: .alert)
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
+            let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ -> Void in
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("Settings opened: \(success)") // Prints true
+                })
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+            alertController.addAction(settingsAction)
+        } else {
+            let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            alertController.addAction(cancelAction)
+        }
+
+        present(alertController, animated: true, completion: nil)
+    }
         
     func newAddTask(addTask: ProjectDetailsTaskCreateModel) {
         state = .addTask(addTask)
@@ -526,7 +564,7 @@ class ProjectDetailsVc: UIViewController {
     
     func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
         guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).count <= Constants.maximumTasksCount else {
-            let premiumFeaturesVc = PremiumFeaturesVc()
+            let premiumFeaturesVc = PremiumFeaturesVc(notification: .tasksLimit)
             navigationController?.pushViewController(premiumFeaturesVc, animated: true)
             return
         }

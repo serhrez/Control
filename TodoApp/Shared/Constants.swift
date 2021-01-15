@@ -22,6 +22,8 @@ enum Constants {
     static let inboxId = "Inbox-inbox" // Should never be changed if migration has not been done
     // MARK: Premium
     static let maximumTasksCount = 40
+    static let archiveWithoutPremium = false
+    static let maximumDatesToTask = 4
 }
 
 fileprivate var safeAreaInsets: UIEdgeInsets {

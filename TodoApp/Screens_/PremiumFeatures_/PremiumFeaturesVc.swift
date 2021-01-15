@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Material
 import AttributedLib
+import SwiftyDrop
 
 class PremiumFeaturesVc: UIViewController {
 
@@ -73,6 +74,16 @@ class PremiumFeaturesVc: UIViewController {
         button.titleLabel?.textAlignment = .center
         return button
     }()
+    private let notification: LimitNotification?
+    
+    init(notification: LimitNotification? = nil) {
+        self.notification = notification
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +92,9 @@ class PremiumFeaturesVc: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         containerView.flashScrollIndicators()
+        if let notification = notification {
+            Drop.down(notification.text, state: .info, duration: 2, action: .none)
+        }
     }
     
     private func setupViews() {
@@ -159,6 +173,23 @@ extension PremiumFeaturesVc {
         override func layoutSubviews() {
             super.layoutSubviews()
             isScrollEnabled = contentSize.height - 10 > frame.height
+        }
+    }
+    
+    enum LimitNotification {
+        case tasksLimit
+        case archiveLimit
+        case dateToTaskLimit
+        
+        var text: String {
+            switch self {
+            case .tasksLimit:
+                return "You can have up to \(Constants.maximumTasksCount) tasks"
+            case .archiveLimit:
+                return "You can't open archive in free version"
+            case .dateToTaskLimit:
+                return "You can't have more than \(Constants.maximumDatesToTask) reminders"
+            }
         }
     }
 }

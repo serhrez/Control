@@ -180,7 +180,9 @@ class TaskDetailsVcVm {
         }
         RealmProvider.main.safeWrite {
             if date == nil && reminder == nil && repeatt == nil {
-                self.task.date = nil
+                if let date = self.task.date {
+                    RealmProvider.main.realm.delete(date)
+                }
             } else {
                 self.task.date = RlmTaskDate(date: date, reminder: reminder, repeat: repeatt)
             }

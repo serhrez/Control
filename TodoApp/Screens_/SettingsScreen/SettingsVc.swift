@@ -20,6 +20,11 @@ class SettingsVc: UIViewController {
             }),
             .init(text: "Archive", imageName: "archive", imageWidth: 20, onClick: { [weak self] in
                 guard let self = self else { return }
+                guard UserDefaultsWrapper.shared.isPremium || Constants.archiveWithoutPremium else {
+                    let premiumVc = PremiumFeaturesVc(notification: .archiveLimit)
+                    self.router.debugPushVc(premiumVc)
+                    return
+                }
                 self.router.openArchive()
             })
         ])
