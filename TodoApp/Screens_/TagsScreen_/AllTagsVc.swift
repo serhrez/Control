@@ -202,8 +202,7 @@ extension AllTagsVc: UICollectionViewDelegate {
             case .show:
                 let tasksNotEmpty = !RealmProvider.main.realm.objects(RlmTask.self).filter { $0.tags.contains(tag) }.isEmpty
                 if tasksNotEmpty {
-                    let tagDetailVc = TagDetailVc(viewModel: .init(tag: tag))
-                    router.debugPushVc(tagDetailVc)
+                    router.openTagDetails(tag: tag)
                 }
             }
             break

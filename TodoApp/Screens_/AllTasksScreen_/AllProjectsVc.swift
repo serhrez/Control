@@ -22,8 +22,7 @@ class AllProjectsVc: UIViewController {
         let view = AllTasksToolbar(frame: .zero)
         view.onClick = { [weak self] in
             let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.id == Constants.inboxId })!
-            let projectDetails = ProjectDetailsVc(project: project, state: .startAddTask)
-            self?.router.debugPushVc(projectDetails)
+            self?.router.openProjectDetails(project: project, state: .startAddTask)
         }
         return view
     }()
@@ -128,13 +127,11 @@ class AllProjectsVc: UIViewController {
     }
     
     @objc private func searchButtonClicked() {
-        let searchVc = SearchVc()
-        router.debugPushVc(searchVc)
+        router.openSearch()
     }
     
     @objc private func menuButtonClicked() {
-        let settingsVc = SettingsVc()
-        router.debugPushVc(settingsVc)
+        router.openSettings()
     }
     
     // MARK: - POPUP
@@ -212,24 +209,17 @@ extension AllProjectsVc: UITableViewDelegate {
         let model = viewModel.models[index]
         switch model {
         case .addProject:
-            let addProject = CreateProjectVc()
-            router.debugPushVc(addProject)
+            router.openAddProject()
         case let .project(project):
-            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList)
-            router.debugPushVc(projectDetails)
+            router.openProjectDetails(project: project, state: .emptyOrList)
         case let .inboxProject(project):
-            let projectDetails = ProjectDetailsVc(project: project, state: .emptyOrList, isInbox: true)
-            router.debugPushVc(projectDetails)
-        case let .planned(model):
-            let plannedVc = PlannedVc()
-            router.debugPushVc(plannedVc)
-            break
-        case let .priority(model):
-            let predefined = PredefinedProjectVc(.priority)
-            router.debugPushVc(predefined)
-        case let .today(model):
-            let predefined = PredefinedProjectVc(.today)
-            router.debugPushVc(predefined)
+            router.openProjectDetails(project: project, state: .emptyOrList, isInbox: true)
+        case .planned(_):
+            router.openPlanned()
+        case .priority(_):
+            router.openPredefinedProject(mode: .priority)
+        case .today(_):
+            router.openPredefinedProject(mode: .today)
         }
     }
 }

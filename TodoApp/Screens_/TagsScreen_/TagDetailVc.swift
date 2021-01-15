@@ -67,7 +67,6 @@ extension TagDetailVc: UICollectionViewDelegateFlowLayout {
 extension TagDetailVc: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = viewModel.tasks.value[0].items[indexPath.row]
-        let taskDetails = TaskDetailsVc(viewModel: .init(task: item.task))
-        router.debugPushVc(taskDetails)
+        router.openTaskDetails(item.task)
     }
 }

@@ -126,8 +126,7 @@ class CreateProjectVc: UIViewController {
             RealmProvider.main.realm.add(project)
         }
         shouldChangeHeightByKeyboardChange = false
-        let projectDetails = ProjectDetailsVc(project: project, state: .new, shouldPopTwo: true)
-        router.debugPushVc(projectDetails)
+        router.openProjectDetails(project: project, state: .new, shouldPopTwo: true)
     }
     private func closeClicked() {
         router.navigationController.popViewController(animated: true)
@@ -190,11 +189,10 @@ class CreateProjectVc: UIViewController {
         
     private func iconSelected() {
         shouldChangeHeightByKeyboardChange = false
-        let iconPicker = IconPickerFullVc { [weak self] (newIcon) in
+        router.openIconPicker { [weak self] newIcon in
             self?.icon = .text(newIcon)
             self?.shouldChangeHeightByKeyboardChange = true
         }
-        router.debugPushVc(iconPicker)
     }
 
     private lazy var projectNameField: UITextField = {

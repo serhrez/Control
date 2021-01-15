@@ -191,8 +191,7 @@ extension PlannedVc: UICollectionViewDelegate {
             task = viewModel.calendarModelsUpdate.value[indexPath.section].items[indexPath.item].task
         default: fatalError()
         }
-        let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: task))
-        router.debugPushVc(taskDetailsVc)
+        router.openTaskDetails(task)
     }
 }
 

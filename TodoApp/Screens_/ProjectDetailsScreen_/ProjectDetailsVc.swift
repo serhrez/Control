@@ -407,8 +407,7 @@ class ProjectDetailsVc: UIViewController {
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
-                let premiumVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
-                self.router.debugPushVc(premiumVc)
+                self.router.openPremiumFeatures(notification: .dateToTaskLimit)
                 return
             }
             self.dismiss(animated: true, completion: { [weak self] in

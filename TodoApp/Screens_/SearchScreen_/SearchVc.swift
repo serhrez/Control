@@ -98,9 +98,8 @@ class SearchVc: UIViewController {
 
 extension SearchVc: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = viewModel.searchResult.value[0].items[indexPath.row].task
-        let taskDetailsVc = TaskDetailsVc(viewModel: .init(task: item))
-        router.debugPushVc(taskDetailsVc)
+        let task = viewModel.searchResult.value[0].items[indexPath.row].task
+        router.openTaskDetails(task)
     }
 }
 extension SearchVc: UICollectionViewDelegateFlowLayout {
