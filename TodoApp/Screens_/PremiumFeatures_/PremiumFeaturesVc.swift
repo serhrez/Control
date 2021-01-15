@@ -13,7 +13,7 @@ import AttributedLib
 class PremiumFeaturesVc: UIViewController {
 
     let containerView: UIScrollView = {
-        let view = UIScrollView()
+        let view = SmartScroll()
         view.contentLayoutGuide.widthAnchor.constraint(equalTo: view.frameLayoutGuide.widthAnchor).isActive = true
         view.backgroundColor = UIColor(named: "TAAltBackground")
         view.layer.cornerRadius = 16
@@ -148,4 +148,13 @@ class PremiumFeaturesVc: UIViewController {
         }
     }
 
+}
+
+extension PremiumFeaturesVc {
+    class SmartScroll: UIScrollView {
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            isScrollEnabled = contentSize.height - 10 > frame.height
+        }
+    }
 }
