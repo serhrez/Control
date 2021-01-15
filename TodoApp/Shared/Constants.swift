@@ -20,6 +20,8 @@ enum Constants {
     static let maximumDescriptionLength = 140
     
     static let inboxId = "Inbox-inbox" // Should never be changed if migration has not been done
+    // MARK: Premium
+    static let maximumTasksCount = 40
 }
 
 fileprivate var safeAreaInsets: UIEdgeInsets {

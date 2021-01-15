@@ -41,6 +41,8 @@ final class TagPicker: UIViewController {
     private var shouldDismiss: (TagPicker) -> Void
     private let viewSourceFrame: CGRect
     private let shouldPurposelyAnimateViewBackgroundColor: Bool
+    private let bgView = UIView()
+    private var didCompleteAnim = false
     typealias DataSource = UICollectionViewDiffableDataSource<Section, String>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, String>
     
@@ -57,7 +59,7 @@ final class TagPicker: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private let bgView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBgView))
@@ -111,6 +113,7 @@ final class TagPicker: UIViewController {
             containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TABackground")!)
         } completion: { _ in
             self.containerView.setAnchorPoint(.init(x: 0.5, y: 0.5))
+            self.didCompleteAnim = true
         }
         
         if shouldPurposelyAnimateViewBackgroundColor {
@@ -203,6 +206,9 @@ extension TagPicker: UITextFieldDelegate {
             properlyDismiss()
         }
         return false
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return didCompleteAnim
     }
 }
 

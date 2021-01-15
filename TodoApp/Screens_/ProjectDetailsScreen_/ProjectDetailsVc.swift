@@ -525,6 +525,11 @@ class ProjectDetailsVc: UIViewController {
     }
     
     func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
+        guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).count <= Constants.maximumTasksCount else {
+            let premiumFeaturesVc = PremiumFeaturesVc()
+            navigationController?.pushViewController(premiumFeaturesVc, animated: true)
+            return
+        }
         let rlmTags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in task.tags.contains(where: { tag.name == $0 }) }
         let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())
         rlmTask.tags.append(objectsIn: rlmTags)
@@ -532,6 +537,7 @@ class ProjectDetailsVc: UIViewController {
             project.tasks.append(rlmTask)
         }
         state = .list
+        newFormView.resetView()
     }
 
         

@@ -142,7 +142,7 @@ class ProjectNewTaskForm: UIView {
         return nil
     }
     
-    private func resetView() {
+    func resetView() {
         nameField.text = ""
         taskDescription.text = ""
         tags = []
@@ -284,7 +284,6 @@ class ProjectNewTaskForm: UIView {
             reminder: date.1,
             repeatt: date.2)
         shouldCreateTask(newTask)
-        resetView()
     }
     
     private lazy var plusButton: CustomButton = {
