@@ -133,19 +133,23 @@ class PremiumFeaturesVc: UIViewController {
     }
     
     private func handle(_ error: InAppError) {
+        let message: String
         switch error {
-        case .unknown: print("Unknown error. Please contact support")
-        case .clientInvalid: print("Not allowed to make the payment")
-        case .paymentInvalid: print("The purchase identifier was invalid")
-        case .paymentNotAllowed: print("The device is not allowed to make the payment")
-        case .storeProductNotAvailable: print("The product is not available in the current storefront")
-        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-        case .other(let other): print(other)
-        case .restoreFailed: print("Restore failed")
-        case .nothingToRestore: print("You have nothing to restore")
+        case .unknown: message = "Unknown error. Please contact support"
+        case .clientInvalid: message = "Not allowed to make the payment"
+        case .paymentInvalid: message = "The purchase identifier was invalid"
+        case .paymentNotAllowed: message = "The device is not allowed to make the payment"
+        case .storeProductNotAvailable: message = "The product is not available in the current storefront"
+        case .cloudServicePermissionDenied: message = "Access to cloud service information is not allowed"
+        case .cloudServiceNetworkConnectionFailed: message = "Could not connect to the network"
+        case .cloudServiceRevoked: message = "User has revoked permission to use this cloud service"
+        case .other(let other): message = other
+        case .restoreFailed: message = "Restore failed"
+        case .nothingToRestore: message = "You have nothing to restore"
         }
+        let alertVc = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVc.addAction(.init(title: "OK", style: .cancel, handler: nil))
+        present(alertVc, animated: true, completion: nil)
     }
 
 }
