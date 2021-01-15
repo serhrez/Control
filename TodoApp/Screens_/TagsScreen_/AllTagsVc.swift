@@ -165,14 +165,8 @@ class AllTagsVc: UIViewController {
         default: return
         }
     }
-    
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
 
-extension AllTagsVc: AppNavigationRouterDelegate { }
 extension AllTagsVc: SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()

@@ -155,14 +155,8 @@ class AllProjectsVc: UIViewController {
         dismiss(animated: true, completion: nil)
         router.openAllTags(mode: .show)
     }
-    
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
 
-extension AllProjectsVc: AppNavigationRouterDelegate { }
 extension AllProjectsVc: UITableViewDataSource {
     
     func vmIndex(for indexPath: IndexPath) -> Int {

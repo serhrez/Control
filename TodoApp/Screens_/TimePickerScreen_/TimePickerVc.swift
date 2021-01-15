@@ -67,9 +67,4 @@ class TimePickerVc: UIViewController {
         super.viewDidAppear(animated)
         [timeSelectionHoursView, timeSelectionMinutesView].forEach { $0.viewDidAppear() }
     }
-    deinit {
-        didDisappear()
-    }
-    var didDisappear: () -> Void = { }
 }
-extension TimePickerVc: AppNavigationRouterDelegate { }

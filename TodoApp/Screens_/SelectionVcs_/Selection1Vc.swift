@@ -75,10 +75,6 @@ class Selection1Vc: UIViewController {
         self.navigationController?.popViewController(animated: true)
     })
     
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
 
 extension Selection1Vc {
@@ -102,5 +98,3 @@ extension Optional: Selection1VcItem where Wrapped: CustomStringConvertible {
         return self?.description ?? "None"
     }
 }
-
-extension Selection1Vc: AppNavigationRouterDelegate { }

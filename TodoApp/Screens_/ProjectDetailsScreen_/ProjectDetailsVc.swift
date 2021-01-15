@@ -640,11 +640,6 @@ class ProjectDetailsVc: UIViewController {
         bottomMessage.show(height)
     }
     
-    var didDisappear: () -> Void = { }
-
-    deinit {
-        didDisappear()
-    }
 }
 
 extension ProjectDetailsVc {
@@ -670,5 +665,3 @@ extension ProjectDetailsVc {
         }
     }
 }
-
-extension ProjectDetailsVc: AppNavigationRouterDelegate { }

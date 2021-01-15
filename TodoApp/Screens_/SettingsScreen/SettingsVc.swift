@@ -81,13 +81,8 @@ class SettingsVc: UIViewController {
         default: break
         }
         popTransition.handlePan(gesture)
-    }
-    
-    var didDisappear: () -> Void = { }
-    deinit { didDisappear() }
+    }    
 }
-
-extension SettingsVc: AppNavigationRouterDelegate { }
 
 extension SettingsVc: TATransitionProvider {
     func pushTransitioning(to vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {

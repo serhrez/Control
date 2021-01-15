@@ -94,13 +94,8 @@ class SearchVc: UIViewController {
     @objc func cancelClicked() {
         router.navigationController?.popViewController(animated: true)
     }
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
 
-extension SearchVc: AppNavigationRouterDelegate { }
 extension SearchVc: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = viewModel.searchResult.value[0].items[indexPath.row].task

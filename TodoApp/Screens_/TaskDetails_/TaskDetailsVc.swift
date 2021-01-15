@@ -585,15 +585,7 @@ final class TaskDetailsVc: UIViewController {
         default: return
         }
     }
-
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-        print("didDisappear")
-    }
 }
-
-extension TaskDetailsVc: AppNavigationRouterDelegate { }
 
 extension TaskDetailsVc: ResizingTokenFieldDelegate {
     func resizingTokenField(_ tokenField: ResizingTokenField, shouldRemoveToken token: ResizingTokenFieldToken) -> Bool {

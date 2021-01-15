@@ -192,13 +192,7 @@ final class CalendarVc: UIViewController {
             self.viewModel.timeSelected(hours: $0, minutes: $1)
         }), animated: true)
     }
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
-
-extension CalendarVc: AppNavigationRouterDelegate { }
 
 extension CalendarVc {
     

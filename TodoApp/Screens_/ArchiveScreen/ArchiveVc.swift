@@ -65,14 +65,7 @@ final class ArchiveVc: UIViewController {
         title = "Archive"
     }
     
-    var didDisappear: () -> Void = { }
-    
-    deinit {
-        didDisappear()
-    }
 }
-
-extension ArchiveVc: AppNavigationRouterDelegate { }
 
 extension ArchiveVc: SwipeCollectionViewCellDelegate {
     

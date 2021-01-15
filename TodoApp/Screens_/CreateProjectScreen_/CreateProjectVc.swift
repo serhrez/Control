@@ -263,5 +263,3 @@ extension CreateProjectVc: UITextViewDelegate {
     }
     
 }
-
-extension CreateProjectVc: AppNavigationRouterDelegate { }

@@ -10,10 +10,6 @@ import UIKit
 import Motion
 import Material
 
-protocol AppNavigationRouterDelegate: AnyObject {
-    var didDisappear: () -> Void { get set }
-}
-
 class AppNavigationRouter {
     
     var navigationController: UINavigationController!

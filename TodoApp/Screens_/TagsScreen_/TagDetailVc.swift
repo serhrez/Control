@@ -56,13 +56,7 @@ class TagDetailVc: UIViewController {
             .disposed(by: bag)
         collectionView.delegate = self
     }
-    var didDisappear: () -> Void = { }
-    deinit {
-        didDisappear()
-    }
 }
-
-extension TagDetailVc: AppNavigationRouterDelegate { }
 
 extension TagDetailVc: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

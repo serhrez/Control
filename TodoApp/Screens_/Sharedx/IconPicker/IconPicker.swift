@@ -106,23 +106,9 @@ final class IconPicker: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    var didDisappear: () -> Void = { }
-    deinit { didDisappear() }
 }
-
-extension IconPicker: AppNavigationRouterDelegate { }
 
 extension IconPicker: UICollectionViewDelegate {
-//     func
-}
-
-extension IconPicker: UICollectionViewDataSource {
-    func getCell(at indexPath: IndexPath) -> IconColCell? {
-        if collectionView.indexPathsForVisibleItems.firstIndex(of: indexPath) != nil {
-            return collectionView.cellForItem(at: indexPath) as? IconColCell
-        }
-        return nil
-    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath == selectedIndexPath { return }
         if let prevCell = getCell(at: selectedIndexPath) {
@@ -131,6 +117,15 @@ extension IconPicker: UICollectionViewDataSource {
         selectedIndexPath = indexPath
         let newCell = getCell(at: selectedIndexPath)
         newCell?.configure(isSelected: true)
+    }
+}
+
+extension IconPicker: UICollectionViewDataSource {
+    func getCell(at indexPath: IndexPath) -> IconColCell? {
+        if collectionView.indexPathsForVisibleItems.firstIndex(of: indexPath) != nil {
+            return collectionView.cellForItem(at: indexPath) as? IconColCell
+        }
+        return nil
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IconColCell.identifier, for: indexPath) as! IconColCell

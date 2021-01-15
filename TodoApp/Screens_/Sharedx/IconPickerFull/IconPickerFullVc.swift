@@ -197,12 +197,7 @@ final class IconPickerFullVc: UIViewController {
 //        snapshot.appendItems(items)
 //        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
 //    }
-    var didDisappear: () -> Void = { }
-    deinit { didDisappear() }
-
 }
-
-extension IconPickerFullVc: AppNavigationRouterDelegate { }
 
 extension IconPickerFullVc: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
