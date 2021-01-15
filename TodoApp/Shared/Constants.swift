@@ -14,6 +14,7 @@ enum Constants {
 //    static let vcBottomPadding2: CGFloat = max(30, safeAreaInsets.bottom)
     // Animation timings
     static let animationDefaultDuration: TimeInterval = 0.35
+    static let animationBottomMessagesDuration: TimeInterval = 0.5
     
     // MARK: Model restrictions
     static let maximumProjectNameLength = 50

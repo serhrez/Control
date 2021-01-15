@@ -17,11 +17,6 @@ class AppNavigationRouter {
     private init() { }
     
     private func pushVc(_ vc: UIViewController, _ transitionType: MotionTransitionAnimationType, animated: Bool = true) {
-//        let previousTransitionType = navigationController.motionNavigationTransitionType
-//        navigationController.motionNavigationTransitionType = transitionType
-//        vc.didDisappear = { [weak self] in
-//            self?.navigationController.motionNavigationTransitionType = previousTransitionType
-//        }
         navigationController.pushViewController(vc, animated: true)
     }
     

@@ -58,7 +58,7 @@ class PremiumFeaturesVc: UIViewController {
         button.addTarget(self, action: #selector(clickedOnBuy), for: .touchUpInside)
         button.stateBackgroundColor = .init(highlighted: .red, normal: .hex("#FFE600"))
         button.setTitle("Only $4,99", for: .normal)
-        button.setTitleColor(UIColor(named: "TAHeading")!, for: .normal)
+        button.setTitleColor(.hex("#242424"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
