@@ -42,11 +42,14 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let toView = transitionContext.view(forKey: .to)!
+        let fromView = transitionContext.view(forKey: .from)!
         transitionContext.containerView.addSubview(toView)
         let initialFrame = toView.frame
             toView.frame = toView.frame.modify(modifyX: { _ in -toView.bounds.width })
+        fromView.alpha = 1
         UIView.animate(withDuration: transitionDuration, delay: 0.0, options: .curveLinear) {
             toView.frame = initialFrame
+            fromView.alpha = 0.7
         } completion: { _ in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
