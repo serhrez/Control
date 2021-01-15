@@ -11,12 +11,12 @@ target 'TodoApp' do
   pod 'AttributedLib', :git => 'https://github.com/cointowitcher/Attributed'
   pod 'SwipeCellKit'
   pod 'Typist'
-  pod 'WSTagsField', :git => 'https://github.com/cointowitcher/WSTagsField'
   pod 'ResizingTokenField', :path => 'LocalPods/ResizingTokenField'
   pod 'GrowingTextView'
   pod 'JTAppleCalendar'
   pod 'InfiniteLayout'
   pod 'SwiftyStoreKit'
+  pod 'SwiftyDrop', '~>4.0'
 
   # Not UI
   pod 'RealmSwift'
