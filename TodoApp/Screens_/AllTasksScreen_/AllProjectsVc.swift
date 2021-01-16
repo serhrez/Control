@@ -22,7 +22,7 @@ class AllProjectsVc: UIViewController {
         let view = AllTasksToolbar(frame: .zero)
         view.onClick = { [weak self] in
             let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.id == Constants.inboxId })!
-            self?.router.openProjectDetails(project: project, state: .startAddTask)
+            self?.router.openProjectDetails(project: project, state: .startAddTask, isInbox: true)
         }
         return view
     }()

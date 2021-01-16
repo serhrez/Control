@@ -444,6 +444,8 @@ final class TaskDetailsVc: UIViewController {
         containerStack.setCustomSpacing(spacingAfterTaskDescription ? 30 : 0, after: taskDescription)
         let spacingAfterSubtasksTable = task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
         containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 30 : 0, after: subtasksTable)
+        let datesSeparatorVisible = task.date?.date != nil && (task.date?.reminder != nil || task.date?.repeat != nil)
+        datesStackSeparator.isHidden = !datesSeparatorVisible
     }
     
     private func setupNavigationBar() {

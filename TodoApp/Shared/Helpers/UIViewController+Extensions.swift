@@ -45,6 +45,10 @@ extension UIViewController: UIGestureRecognizerDelegate {
         }
         navigationController?.interactivePopGestureRecognizer?.delegate = addBackButton && popGesture ? self : NilDelegate()
     }
+    
+    func removeInteractivePopGesture() {
+        navigationController?.interactivePopGestureRecognizer?.delegate = NilDelegate()
+    }
 }
 
 fileprivate class NilDelegate: NSObject, UIGestureRecognizerDelegate {

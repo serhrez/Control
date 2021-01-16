@@ -67,6 +67,9 @@ class ProjectDetailsVc: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if shouldPopTwo {
+            removeInteractivePopGesture()
+        }
         didAppear = true
         self.newFormView.didAppear()
         self.view.layoutSubviews()

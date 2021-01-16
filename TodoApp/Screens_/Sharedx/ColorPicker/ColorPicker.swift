@@ -64,8 +64,8 @@ class ColorPicker: UIViewController {
         isShouldDismissInternal = true
         UIView.animate(withDuration: Constants.animationDefaultDuration) {
             self.view.layer.opacity = 0
-            self.whiteContainer.setAnchorPoint(.init(x: 0, y: 0.5))
-            self.whiteContainer.transform = .init(scaleX: 0.1, y: 1)
+            self.whiteContainer.setAnchorPoint(.init(x: 0.05, y: 0.5))
+            self.whiteContainer.transform = .init(scaleX: 0.1, y: 0.1)
         } completion: { _ in
             self.shouldDismiss?()
         }

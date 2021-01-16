@@ -25,9 +25,9 @@ final class PlusView: UIView {
         containerView.layer.cornerRadius = 25
         layout(containerView).edges().width(50).height(50)
         
-        let plus = UIImageView(image: UIImage(named: "check"))
+        let plus = UIImageView(image: UIImage(named: "check")?.resize(toWidth: 17))
         plus.tintColor = UIColor(named: "TAAltBackground")!
         plus.contentMode = .scaleAspectFit
-        containerView.layout(plus).center().width(17).height(13)
+        containerView.layout(plus).center()
     }
 }

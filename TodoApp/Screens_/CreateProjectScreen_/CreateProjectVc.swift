@@ -166,13 +166,8 @@ class CreateProjectVc: UIViewController {
         button.onClick = { [weak self] in
             self?.plusClicked()
         }
-        let plus = UIView()
-        plus.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        plus.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        let plus = PlusView()
         button.layer.cornerRadius = 25
-        plus.backgroundColor = .hex("#447BFE")
-        let imageView = UIImageView(image: UIImage(named: "plus"))
-        plus.layout(imageView).width(18).height(18).center()
         button.layout(plus).edges()
         return button
     }()

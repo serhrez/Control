@@ -61,6 +61,10 @@ class SettingsVc: UIViewController {
         secondaryCollectionView.collectionView.isScrollEnabled = false
         setupPopTransition()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        removeInteractivePopGesture()
+    }
     
     // MARK: - Pop transition
     func setupPopTransition() {
