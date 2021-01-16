@@ -17,6 +17,7 @@ target 'TodoApp' do
   pod 'InfiniteLayout'
   pod 'SwiftyStoreKit'
   pod 'SwiftyDrop', '~>4.0'
+  pod 'Haptica'
 
   # Not UI
   pod 'RealmSwift'

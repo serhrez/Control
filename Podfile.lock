@@ -3,6 +3,7 @@ PODS:
   - DeepDiff (2.3.1)
   - Differentiator (4.0.1)
   - GrowingTextView (0.7.2)
+  - Haptica (3.0.2)
   - InfiniteLayout (0.4.2):
     - InfiniteLayout/Core (= 0.4.2)
   - InfiniteLayout/CocoaProxy (0.4.2)
@@ -52,6 +53,7 @@ DEPENDENCIES:
   - AttributedLib (from `https://github.com/cointowitcher/Attributed`)
   - DeepDiff
   - GrowingTextView
+  - Haptica
   - InfiniteLayout
   - JTAppleCalendar
   - Material (from `https://github.com/cointowitcher/Material`)
@@ -77,6 +79,7 @@ SPEC REPOS:
     - DeepDiff
     - Differentiator
     - GrowingTextView
+    - Haptica
     - InfiniteLayout
     - JTAppleCalendar
     - Motion
@@ -121,6 +124,7 @@ SPEC CHECKSUMS:
   DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
+  Haptica: dc206651beeca25ab4744c633fbf0ae4d1e86baf
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
   JTAppleCalendar: 932cadea40b1051beab10f67843451d48ba16c99
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
@@ -145,6 +149,6 @@ SPEC CHECKSUMS:
   Typist: 06465ab9867782aa6c81e38f073dfc01dab73deb
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: aaf0874e46af289ce7f6a785d28ff86445449fd5
+PODFILE CHECKSUM: 1eb02fd897dbc04f76f742f3682df8612bcd40df
 
 COCOAPODS: 1.10.0
