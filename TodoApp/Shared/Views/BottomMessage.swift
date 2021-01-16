@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Material
+import Haptica
 
 class BottomMessage: UIView {
     private static var previousBottomMessage: BottomMessage?
@@ -38,6 +39,7 @@ class BottomMessage: UIView {
         layout(stack).center().leading(20) { _, _ in .greaterThanOrEqual }.trailing(20) { _, _ in .lessThanOrEqual }
         let onClickControl = OnClickControl { [weak self] isClicked in
             if isClicked {
+                Haptic.impact(.light).generate()
                 onClicked()
                 self?.dismiss()
             }

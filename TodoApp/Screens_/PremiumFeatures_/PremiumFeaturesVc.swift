@@ -56,9 +56,10 @@ class PremiumFeaturesVc: UIViewController {
     let buyButton: NewCustomButton = {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnBuy), for: .touchUpInside)
-        button.stateBackgroundColor = .init(highlighted: .red, normal: .hex("#FFE600"))
+        button.stateBackgroundColor = .init(highlighted: .hex("#242424"), normal: .hex("#FFE600"))
         button.setTitle("Only $4,99", for: .normal)
         button.setTitleColor(.hex("#242424"), for: .normal)
+        button.setTitleColor(.hex("#FFE600"), for: .highlighted)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
