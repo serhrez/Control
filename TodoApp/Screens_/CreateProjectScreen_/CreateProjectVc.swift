@@ -11,6 +11,7 @@ import Material
 import SnapKit
 import AttributedLib
 import Typist
+import Haptica
 
 class CreateProjectVc: UIViewController {
     let keyboard = Typist()
@@ -117,6 +118,7 @@ class CreateProjectVc: UIViewController {
         guard let projectName = projectNameField.text,
               !projectName.isEmpty,
               !allProject.contains(where: { $0.name == projectName }) else {
+            Haptic.impact(.light).generate()
             AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
             return
         }

@@ -11,6 +11,7 @@ import Material
 import RxDataSources
 import RxSwift
 import SwipeCellKit
+import Haptica
 
 class TasksWithDoneList: UIView {
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<AnimSection<Model>>
@@ -117,6 +118,7 @@ class TasksWithDoneList: UIView {
                 let taskCell = tableView.dequeueReusableCell(withReuseIdentifier: TasksListTaskCell.reuseIdentifier, for: indexPath) as! TasksListTaskCell
                 taskCell.configure(text: task.name, date: task.date?.date, tagName: task.tags.first?.name, otherTags: task.tags.count >= 2, priority: task.priority, hasChecklist: !task.subtask.isEmpty) { [weak self] in
                     self?.onChangeIsDone(task)
+                    Haptic.impact(.light).generate()
                 }
                 taskCell.delegate = self
                 return taskCell
@@ -124,6 +126,7 @@ class TasksWithDoneList: UIView {
                 let doneCell = tableView.dequeueReusableCell(withReuseIdentifier: DoneTasksListTaskCell.reuseIdentifier, for: indexPath) as! DoneTasksListTaskCell
                 doneCell.configure(text: task.name) { [weak self] in
                     self?.onChangeIsDone(task)
+                    Haptic.impact(.light).generate()
                 }
                 doneCell.delegate = self
                 return doneCell
@@ -214,6 +217,7 @@ extension TasksWithDoneList: UICollectionViewDelegate {
             onSelected(task)
         case let .doneTask(task):
             onChangeIsDone(task)
+            Haptic.impact(.light).generate()
         }
     }
 }

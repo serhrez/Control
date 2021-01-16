@@ -11,6 +11,7 @@ import Material
 import AttributedLib
 import ResizingTokenField
 import SwiftDate
+import Haptica
 
 class ProjectNewTaskForm: UIView {
     let shouldAnimate: () -> Bool
@@ -272,6 +273,7 @@ class ProjectNewTaskForm: UIView {
     
     func plusClicked() {
         guard let name = nameField.text, !name.isEmpty else {
+            Haptic.impact(.light).generate()
             AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
             return
         }

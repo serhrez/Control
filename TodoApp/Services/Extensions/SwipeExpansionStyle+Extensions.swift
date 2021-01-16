@@ -9,5 +9,5 @@ import Foundation
 import SwipeCellKit
 
 extension SwipeExpansionStyle {
-    static let todoCustom = SwipeExpansionStyle(target: .percentage(0.75), additionalTriggers: [], elasticOverscroll: false, completionAnimation: .fill(.manual(timing: .after)))
+    static let todoCustom = SwipeExpansionStyle(target: .percentage(0.65), additionalTriggers: [], elasticOverscroll: false, completionAnimation: .fill(.manual(timing: .after)))
 }

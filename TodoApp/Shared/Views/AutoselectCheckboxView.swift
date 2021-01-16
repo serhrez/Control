@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Material
+import Haptica
 
 class AutoselectCheckboxView: UIView {
     private let uncheckedView: UIView = {
@@ -19,12 +20,16 @@ class AutoselectCheckboxView: UIView {
 
         return uncheckedView
     }()
-    private let checkedView: UIView = {
+    private let checkedViewImage = UIImageView(image: UIImage(named: "check"))
+    private lazy var checkedView: UIView = {
         let checkedView = UIView()
-        checkedView.backgroundColor = .hex("#00CE15")
         checkedView.layer.cornerRadius = 6
         checkedView.layer.cornerCurve = .continuous
-        checkedView.layout(UIImageView(image: UIImage(named: "checkbox-ok"))).edges()
+        checkedView.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        checkedView.heightAnchor.constraint(equalToConstant: 22).isActive = true
+
+        checkedView.layout(checkedViewImage).center().width(11).height(8)
+        checkedView.backgroundColor = .hex("#00CE15")
 
         return checkedView
     }()
@@ -79,6 +84,7 @@ class AutoselectCheckboxView: UIView {
             UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 changeState()
             }
+            Haptic.impact(.soft).generate()
         } else {
             changeState()
         }

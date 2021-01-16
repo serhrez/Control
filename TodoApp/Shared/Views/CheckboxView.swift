@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Material
+import Haptica
 
 class CheckboxView: UIView {
     private lazy var uncheckedView: UIView = {
@@ -119,6 +120,7 @@ class CheckboxView: UIView {
             UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
+            Haptic.impact(.light).generate()
         } else {
             apply()
         }
