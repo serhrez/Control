@@ -39,11 +39,11 @@ final class CalendarVc: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
-    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "yeldoublecircle", text: "Today", onClick: { [weak self] in
+    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today", onClick: { [weak self] in
         self?.viewModel.clickedToday()
     })
     lazy var tomorrowButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "calendar-plussvg", text: "Tomorrow", onClick: { [weak self] in
+        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow", onClick: { [weak self] in
             self?.viewModel.clickedTomorrow()
         })
         button.imageView2.tintColor = .hex("#447BFE")

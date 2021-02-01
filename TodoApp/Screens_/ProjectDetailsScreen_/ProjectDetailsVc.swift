@@ -230,29 +230,37 @@ class ProjectDetailsVc: UIViewController {
     @objc func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if case .list = state {
-            actions += [.init(title: "Complete All", image: UIImage(named: "circle-check"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
+            let completeAllActive = project.tasks.contains { !$0.isDone }
+            let completeAllImage = completeAllActive ? UIImage(named: "circle-check") : UIImage(named: "circle-check")?.withTintColor(UIColor(named: "TASubElement")!)
+            let completeAllColor = completeAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
+            actions += [.init(title: "Complete All", image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { [weak self] _ in
                 RealmProvider.main.safeWrite {
                     self?.project.tasks.forEach {
                         $0.isDone = true
                     }
                 }
             })]
-            actions += [.init(title: "Sort by name", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
+            let sortGrayImage = UIImage(named: "switch-vertical")?.withTintColor(UIColor(named: "TASubElement")!)
+            let sortImage = UIImage(named: "switch-vertical")
+            let sortedByName = project.sorting == .byName
+            actions += [.init(title: "Sort by name", image: sortedByName ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByName, didSelect: { [weak self] (_) in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byName
                 }
             })]
-            actions += [.init(title: "Sort by created", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
+            let sortedByCreated = project.sorting == .byCreatedAt
+            actions += [.init(title: "Sort by created", image: sortedByCreated ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByCreated, didSelect: { [weak self] (_) in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byCreatedAt
                 }
             })]
-            actions += [.init(title: "Sort by priority", image: UIImage(named: "switch-vertical"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] (_) in
+            let sortedByPriority = project.sorting == .byPriority
+            actions += [.init(title: "Sort by priority", image: sortedByPriority ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByPriority, didSelect: { [weak self] _ in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byPriority
                 }
             })]
-            actions += [.init(title: "Delete Completed", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
+            actions += [.init(title: "Delete Completed", image: UIImage(named: "checks"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
                 let allTasksId = self?.project.tasks.filter { $0.isDone }.map { $0.id } ?? []
                 guard !allTasksId.isEmpty else { return }
                 let projectId = self?.project.id ?? ""

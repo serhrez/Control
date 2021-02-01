@@ -11,7 +11,7 @@ import UIKit
 
 class CloseButton: UIView {
     private let onClickControl: OnClickControl
-    private let crossImageView = UIImageView(image: UIImage(named: "closebuttonsvg"))
+    private let crossImageView = UIImageView(image: UIImage(named: "closebutton2"))
     private let overlayView = OverlaySelectionView(frame: .zero)
     var onClicked: () -> Void
     init(onClicked: @escaping () -> Void) {

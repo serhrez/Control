@@ -49,6 +49,8 @@ import UIKit
     /// Is the view highlighted by gesture.
     var highlighted: Bool { get set }
     
+    var isSelectable: Bool { get set }
+    
     /// Render the view for action.
     func renderActionView()
 
@@ -131,6 +133,8 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     
     /// Background color for highlighted state.
     public var overlayColor: Color = .white
+    
+    public var isSelectable: Bool = true
 
     // MARK: - Subviews
     

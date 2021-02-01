@@ -582,6 +582,12 @@ extension PopMenuViewController {
                 let action = actions[index]
                 // Must not be already highlighted
                 guard !action.highlighted else { return }
+                // Unhighlight other actions.
+                defer {
+                    actions.filter { return !$0.isEqual(action) }.forEach { $0.highlighted = false }
+                }
+
+                guard action.isSelectable else { return }
                 
                 if shouldEnableHaptics {
                     Haptic.selection.generate()
@@ -589,8 +595,6 @@ extension PopMenuViewController {
                 
                 // Highlight current action view.
                 action.highlighted = true
-                // Unhighlight other actions.
-                actions.filter { return !$0.isEqual(action) }.forEach { $0.highlighted = false }
             }
         case .ended:
             // Unhighlight all actions.
@@ -632,6 +636,7 @@ extension PopMenuViewController {
     /// - Parameter index: The index for action
     fileprivate func actionDidSelect(at index: Int, animated: Bool = true) {
         let action = actions[index]
+        guard action.isSelectable else { return }
         action.actionSelected?(animated: animated)
         
         if shouldEnableHaptics {

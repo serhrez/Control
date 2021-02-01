@@ -90,6 +90,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
             highlightActionView(highlighted)
         }
     }
+    public var isSelectable = true
     
     /// Background color for highlighted state.
     public var overlayColor: Color = UIColor(named: "TAAltBackground")!
@@ -123,10 +124,11 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     // MARK: - Initializer
     
     /// Initializer.
-    public init(title: String? = nil, image: UIImage? = nil, color: Color? = nil, didSelect: PopMenuActionHandler? = nil) {
+    public init(title: String? = nil, image: UIImage? = nil, color: Color? = nil, isSelectable: Bool = true, didSelect: PopMenuActionHandler? = nil) {
         self.title = title
         self.image = image
         self.color = color
+        self.isSelectable = isSelectable
         self.didSelect = didSelect
         
         view = UIView()
