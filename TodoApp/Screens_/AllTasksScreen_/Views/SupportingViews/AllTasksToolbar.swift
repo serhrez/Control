@@ -18,7 +18,7 @@ final class AllTasksToolbar: UIView {
         get { containerView.onClick }
         set {
             containerView.onClick = {
-                Haptic.impact(UIImpactFeedbackGenerator.FeedbackStyle.light).generate()
+                Haptic.impact(.light).generate()
                 newValue()
             }
         }
