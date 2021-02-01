@@ -151,6 +151,8 @@
 		A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A90B258A398A00FB50FC /* AutoselectCheckboxViews.swift */; };
 		A5F6A911258A49DD00FB50FC /* ArchiveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A910258A49DD00FB50FC /* ArchiveCell.swift */; };
 		A5F6A91C258A4BC400FB50FC /* TasksListTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A91B258A4BC400FB50FC /* TasksListTaskCell.swift */; };
+		A5FC5D0925C86D01001A0E3A /* AppIcon-DarkMode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FC5D0725C86D01001A0E3A /* AppIcon-DarkMode@2x.png */; };
+		A5FC5D0A25C86D01001A0E3A /* AppIcon-DarkMode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5FC5D0825C86D01001A0E3A /* AppIcon-DarkMode@3x.png */; };
 		A5FD7D302588C7B6002D7145 /* PlannedVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D2F2588C7B6002D7145 /* PlannedVc.swift */; };
 		A5FD7D352588C7BD002D7145 /* PlannedVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D342588C7BD002D7145 /* PlannedVcVm.swift */; };
 		A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FD7D392588D393002D7145 /* PlannedVcHeader.swift */; };
@@ -329,6 +331,8 @@
 		A5F6A90B258A398A00FB50FC /* AutoselectCheckboxViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoselectCheckboxViews.swift; sourceTree = "<group>"; };
 		A5F6A910258A49DD00FB50FC /* ArchiveCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCell.swift; sourceTree = "<group>"; };
 		A5F6A91B258A4BC400FB50FC /* TasksListTaskCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksListTaskCell.swift; sourceTree = "<group>"; };
+		A5FC5D0725C86D01001A0E3A /* AppIcon-DarkMode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-DarkMode@2x.png"; sourceTree = "<group>"; };
+		A5FC5D0825C86D01001A0E3A /* AppIcon-DarkMode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-DarkMode@3x.png"; sourceTree = "<group>"; };
 		A5FD7D2F2588C7B6002D7145 /* PlannedVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVc.swift; sourceTree = "<group>"; };
 		A5FD7D342588C7BD002D7145 /* PlannedVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVcVm.swift; sourceTree = "<group>"; };
 		A5FD7D392588D393002D7145 /* PlannedVcHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannedVcHeader.swift; sourceTree = "<group>"; };
@@ -494,6 +498,7 @@
 		A5085EB7255704AB00A31BBB /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A5FC5D0625C86C5E001A0E3A /* DarkMode-AppIcon */,
 				A5B8231A25A8B96A00259849 /* LaunchScreen_ */,
 				A5C0105A258CFCFE001E0FED /* UpdateDiff */,
 				A5796AB22561A91A00423112 /* Helpers */,
@@ -911,6 +916,15 @@
 			path = ArchiveScreen;
 			sourceTree = "<group>";
 		};
+		A5FC5D0625C86C5E001A0E3A /* DarkMode-AppIcon */ = {
+			isa = PBXGroup;
+			children = (
+				A5FC5D0725C86D01001A0E3A /* AppIcon-DarkMode@2x.png */,
+				A5FC5D0825C86D01001A0E3A /* AppIcon-DarkMode@3x.png */,
+			);
+			path = "DarkMode-AppIcon";
+			sourceTree = "<group>";
+		};
 		A5FD7D2E2588C77D002D7145 /* PlannedScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -1057,6 +1071,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5FC5D0925C86D01001A0E3A /* AppIcon-DarkMode@2x.png in Resources */,
+				A5FC5D0A25C86D01001A0E3A /* AppIcon-DarkMode@3x.png in Resources */,
 				A5B8231C25A8B98000259849 /* LaunchScreen.xib in Resources */,
 				A5085E3C2556EF7B00A31BBB /* Assets.xcassets in Resources */,
 				A5085E8A2556F8E500A31BBB /* bundled.realm in Resources */,

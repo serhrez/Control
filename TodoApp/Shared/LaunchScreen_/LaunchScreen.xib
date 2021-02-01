@@ -33,7 +33,7 @@
         </view>
     </objects>
     <resources>
-        <image name="iconlaunchscreen" width="260" height="260"/>
+        <image name="iconlaunchscreen" width="256" height="256"/>
         <namedColor name="TABackground">
             <color red="0.96470588235294119" green="0.96470588235294119" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
