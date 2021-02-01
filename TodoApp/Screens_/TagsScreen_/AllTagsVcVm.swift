@@ -40,12 +40,6 @@ class AllTagsVcVm {
             selectionSet = .init()
         }
         modelsUpdate.subscribe().disposed(by: bag)
-        if case .show = mode { // Maybe we should use not only on show but who knows
-            let tasksToken = RealmProvider.main.realm.objects(RlmTask.self).observe(on: .main) { [weak self] _ in
-                self?.modelsUpdateSubject.onNext(())
-            }
-            tokens.append(tasksToken)
-        }
         let tagsToken = RealmProvider.main.realm.objects(RlmTag.self).observe(on: .main) { [weak self] changes in
             guard let self = self else { return }
             switch changes {
@@ -58,6 +52,13 @@ class AllTagsVcVm {
             }
             self.modelsUpdateSubject.onNext(())
         }
+        if case .show = mode { // Maybe we should use not only on show but who knows
+            let tasksToken = RealmProvider.main.realm.objects(RlmTask.self).observe(on: .main) { [weak self] _ in
+                self?.modelsUpdateSubject.onNext(())
+            }
+            tokens.append(tasksToken)
+        }
+
         tokens.append(tagsToken)
     }
 
