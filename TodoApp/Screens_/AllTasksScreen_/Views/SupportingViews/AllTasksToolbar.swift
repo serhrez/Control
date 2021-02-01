@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Material
+import Haptica
 
 final class AllTasksToolbar: UIView {
     static let estimatedHeight: CGFloat = 64
@@ -15,7 +16,12 @@ final class AllTasksToolbar: UIView {
     
     var onClick: () -> Void {
         get { containerView.onClick }
-        set { containerView.onClick = newValue }
+        set {
+            containerView.onClick = {
+                Haptic.impact(UIImpactFeedbackGenerator.FeedbackStyle.light).generate()
+                newValue()
+            }
+        }
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
