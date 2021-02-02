@@ -15,6 +15,7 @@ enum Constants {
     // Animation timings
     static let animationDefaultDuration: TimeInterval = 0.35
     static let animationBottomMessagesDuration: TimeInterval = 0.5
+    static let topInsetSpacingBetweenSearchBarAndElements: CGFloat = 21
     
     // MARK: Model restrictions
     static let maximumProjectNameLength = 50

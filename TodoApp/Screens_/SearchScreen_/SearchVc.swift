@@ -70,11 +70,12 @@ class SearchVc: UIViewController {
     }
     
     private func setupCollectionView() {
-        view.layout(collectionView).topSafe(5).leadingSafe(13).trailingSafe(13)
+        view.layout(collectionView).topSafe(4).leadingSafe(20).trailingSafe(20) // 4 - between searchbar and bottom
+        
         collectionView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
         }
-        collectionView.contentInset = .init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
+        collectionView.contentInset = .init(top: Constants.topInsetSpacingBetweenSearchBarAndElements, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
