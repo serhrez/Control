@@ -118,7 +118,7 @@ final class IconPickerFullVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
-        collectionView.contentInset = .init(top: 17, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = .init(top: 11, left: 0, bottom: 0, right: 0)
         collectionView.register(IconPickerEmojiCell.self, forCellWithReuseIdentifier: IconPickerEmojiCell.reuseIdentifier)
         collectionView.register(IconPickerEmojiHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: IconPickerEmojiHeader.reuseIdentifier)
         collectionView.backgroundColor = .clear
