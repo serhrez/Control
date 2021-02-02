@@ -39,20 +39,20 @@ final class CalendarVc: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
-    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today", onClick: { [weak self] in
+    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today", imageWidth: 30, onClick: { [weak self] in
         self?.viewModel.clickedToday()
     })
     lazy var tomorrowButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow", onClick: { [weak self] in
+        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow", imageWidth: 28, onClick: { [weak self] in
             self?.viewModel.clickedTomorrow()
         })
         button.imageView2.tintColor = .hex("#447BFE")
         return button
     }()
-    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", isOneLine: false, onClick: { [weak self] in
+    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", isOneLine: false, imageWidth: 26, onClick: { [weak self] in
         self?.viewModel.clickedNextMonday()
     })
-    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", onClick: { [weak self] in
+    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", imageWidth: 25, onClick: { [weak self] in
         self?.viewModel.clickedEvening()
     })
     private lazy var buttonsStack: UIStackView = {
@@ -140,6 +140,11 @@ final class CalendarVc: UIViewController {
         scrollView.layout(buttonsStackCenterLayout).leading(25).trailing(25).top(separatorView.anchor.bottom).height(138)
         buttonsStackCenterLayout.layout(buttonsStack).leading().trailing().centerY()
         scrollView.layout(separatorView2).leading(25).trailing(25).top(buttonsStackCenterLayout.anchor.bottom)
+        todayButton.label.snp.makeConstraints { make in
+            make.firstBaseline.equalTo(tomorrowButton.label.snp.firstBaseline)
+            make.firstBaseline.equalTo(nextMondayButton.label.snp.firstBaseline)
+            make.firstBaseline.equalTo(eveningButton.label.snp.firstBaseline)
+        }
         
         let buttonsStackCenterLayout2 = UIStackView(arrangedSubviews: [
             timeButton, reminderButton, repeatButton
@@ -198,13 +203,14 @@ extension CalendarVc {
     
     class CalendarButton1: UIButton {
         let imageView2 = UIImageView(frame: .zero)
+        let label = UILabel()
         private let onClick: () -> Void
-        init(image imageName: String, text: String, isOneLine: Bool = true, onClick: @escaping () -> Void) {
+        init(image imageName: String, text: String, isOneLine: Bool = true, imageWidth: CGFloat, onClick: @escaping () -> Void) {
             self.onClick = onClick
             super.init(frame: .zero)
-            imageView2.image = UIImage(named: imageName)
+            imageView2.image = UIImage(named: imageName)?.resize(toWidth: imageWidth)
+            imageView2.contentMode = .bottom
             layout(imageView2).top().centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
-            let label = UILabel()
             label.text = text
             label.font = .systemFont(ofSize: 16, weight: .semibold)
             label.minimumScaleFactor = 0.95
