@@ -65,9 +65,6 @@ class AllProjectsVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
         setupTableView()
-//        tasksToolbar.onClick = {
-//            self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
-//        }
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
     }
     
