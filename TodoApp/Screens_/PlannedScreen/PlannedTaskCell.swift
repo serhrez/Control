@@ -84,9 +84,9 @@ class PlannedTaskCell: UICollectionViewCell {
         }
         if hasChecklist {
             verticalStackRightIndicators.addArrangedSubview(getIndicatorImageView("list-check"))
-        }
-        if date != nil {
-            verticalStackRightIndicators.addArrangedSubview(getIndicatorImageView("calendar"))
+            verticalStackRightIndicators.isHidden = false
+        } else {
+            verticalStackRightIndicators.isHidden = true
         }
         verticalHorizontalStack.addArrangedSubview(UIView()) // works like spacer, so that view will be stretched to the left
     }
