@@ -48,6 +48,11 @@ class TimeSelectionxView: UIView {
         collectionView.collectionViewLayout = layout
     }
     
+    func beforeDisappear() {
+        guard let centered = collectionView.centeredIndexPath else { return }
+        collectionView.scrollToItem(at: centered, at: .centeredVertically, animated: true)
+    }
+    
     override func setNeedsDisplay() {
         super.setNeedsDisplay()
         gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor,
