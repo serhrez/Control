@@ -53,9 +53,12 @@ class ProjectDetailsTop: UIView {
         backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
-        layout(colorCircle).leading(28).top(33)
-        layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(28)
-        layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField).trailing(projectNameField).bottom(28)
+        layout(scrollView).edges().height(117)
+        scrollView.scrollIndicatorInsets = .init(top: 8, left: 0, bottom: 8, right: 0)
+        scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
+        scrollView.layout(colorCircle).leading(28).top(33)
+        scrollView.layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(28)
+        scrollView.layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField).trailing(projectNameField).bottom(28)
         layout(clickableIcon).top(-58 / 2).centerX()
         projectDescription.snp.makeConstraints { make in
             make.height.equalTo(24)
@@ -63,11 +66,12 @@ class ProjectDetailsTop: UIView {
         projectDescription.shouldSetHeight = { [weak self] newHeight in
             guard let self = self else { return }
             self.projectDescription.snp.remakeConstraints { make in
-                make.height.equalTo(min(newHeight, ceil(self.projectDescriptionFont.lineHeight) * 2 + self.projectDescriptionFont.lineHeight / 5 ))
+                make.height.equalTo(newHeight)
             }
             if self.shouldAnimate() {
                 UIView.animate(withDuration: Constants.animationDefaultDuration) {
                     self.layoutSubviews()
+                    self.scrollView.layoutSubviews()
                     self.shouldLayoutSubviews()
                 }
             }
@@ -81,6 +85,7 @@ class ProjectDetailsTop: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    private let scrollView = UIScrollView()
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 28, weight: .bold)
@@ -94,7 +99,7 @@ class ProjectDetailsTop: UIView {
     
     private let projectDescriptionFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
     lazy var projectDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
+        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .noScroll)
         description.onEnter = { [weak description] in description?.textField.resignFirstResponder() }
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(projectDescriptionFont)
         description.placeholderAttrs = attributes
