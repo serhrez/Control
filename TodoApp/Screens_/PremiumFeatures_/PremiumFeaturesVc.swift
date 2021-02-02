@@ -105,27 +105,14 @@ class PremiumFeaturesVc: UIViewController {
         containerView.layout(imageView).top(22).leading(21) { _, _ in .greaterThanOrEqual }
             .trailing(21) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.8216)
         containerView.layout(premiumLabel).top(imageView.anchor.bottom, 33.2).leading(30).trailing(30)
-        containerView.layout(plusesStack).top(premiumLabel.anchor.bottom, 30).leading(30).trailing(30)
-        plusesStack.addArrangedSubview(getHorizontalStack("Unlimited Tasks"))
-        plusesStack.addArrangedSubview(getHorizontalStack("Unlimited reminders"))
-        plusesStack.addArrangedSubview(getHorizontalStack("Unlock Archive"))
-        plusesStack.addArrangedSubview(getHorizontalStack("Constant improvements and new features"))
+        containerView.layout(plusesStack).top(premiumLabel.anchor.bottom, 30).leading(30).trailing(15)
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tasks"))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited reminders"))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlock Archive"))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Constant improvements and new features"))
         containerView.layout(buyButton).top(plusesStack.anchor.bottom, 35).leading(30).trailing(30).height(60)
         containerView.layout(infoLabel).top(buyButton.anchor.bottom, 25).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(25)
         view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
-    }
-    
-    func getHorizontalStack(_ text: String) -> UIStackView {
-        let check = CheckboxView()
-        check.tint = .hex("#447BFE")
-        check.configure(isChecked: true)
-        let textLabel = UILabel()
-        textLabel.font = .systemFont(ofSize: 16, weight: .regular)
-        textLabel.text = text
-        let horizontalStack = UIStackView(arrangedSubviews: [check, textLabel, UIView()])
-        horizontalStack.axis = .horizontal
-        horizontalStack.spacing = 9
-        return horizontalStack
     }
     
     @objc func clickedOnBuy() {
@@ -170,6 +157,26 @@ class PremiumFeaturesVc: UIViewController {
 }
 
 extension PremiumFeaturesVc {
+    class PremiumFeatureView: UIView {
+        let check = CheckboxView()
+        let textLabel = UILabel()
+
+        init(_ text: String) {
+            super.init(frame: .zero)
+            check.tint = .hex("#447BFE")
+            check.configure(isChecked: true)
+            textLabel.font = .systemFont(ofSize: 16, weight: .regular)
+            textLabel.text = text
+            textLabel.numberOfLines = 0
+            layout(check).top().leading().width(21).height(21)
+            layout(textLabel).top(1).leading(check.anchor.trailing, 9).trailing().bottom(1)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
+    
     class SmartScroll: UIScrollView {
         override func layoutSubviews() {
             super.layoutSubviews()
