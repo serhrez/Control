@@ -18,13 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         SwiftDate.defaultRegion = .current
         _ = InAppManager.shared
         let window = UIWindow(windowScene: windowScene)
-        do {
-            try FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
-            try FileManager.default.removeItem(at: DirPath.inLibrary("archive.realm"))
-        } catch {
-            print(error.localizedDescription)
+        if UserDefaultsWrapper.shared.debugDeleteDb {
+            do {
+                try FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
+                try FileManager.default.removeItem(at: DirPath.inLibrary("archive.realm"))
+            } catch {
+                print(error.localizedDescription)
+            }
+            PredefinedRealm.populateRealm(RealmProvider.main.realm)
         }
-        PredefinedRealm.populateRealm(RealmProvider.main.realm)
 //        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
 //        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
 //        let tag1 = RealmProvider.main.realm.objects(RlmTag.self).filter { $0.name == "Work" }.first!

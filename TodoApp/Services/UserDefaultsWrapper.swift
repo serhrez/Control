@@ -10,19 +10,31 @@ import Foundation
 class UserDefaultsWrapper {
     private let defaults = UserDefaults.standard
     static let shared = UserDefaultsWrapper()
-    
+    init() {
+        defaults.register(defaults: [
+            .isPremium: false,
+            .didOnboard: false,
+            .debugDeleteDb: true
+        ])
+    }
     var isPremium: Bool {
-        get { defaults.bool(forKey: .premiumKey) }
-        set { defaults.setValue(newValue, forKey: .premiumKey) }
+        get { defaults.bool(forKey: .isPremium) }
+        set { defaults.setValue(newValue, forKey: .isPremium) }
     }
     
     var didOnboard: Bool {
-        get { defaults.bool(forKey: .onboardKey) }
-        set { defaults.setValue(newValue, forKey: .onboardKey) }
+        get { defaults.bool(forKey: .didOnboard) }
+        set { defaults.setValue(newValue, forKey: .didOnboard) }
+    }
+    
+    var debugDeleteDb: Bool {
+        get { defaults.bool(forKey: .debugDeleteDb) }
+        set { defaults.setValue(newValue, forKey: .debugDeleteDb) }
     }
 }
 
 fileprivate extension String {
-    static let premiumKey = "isPremiumPurchased"
-    static let onboardKey = "didOnboard"
+    static let isPremium = "isPremiumPurchased"
+    static let didOnboard = "didOnboard"
+    static let debugDeleteDb = "debugDeleteDb"
 }

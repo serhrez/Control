@@ -70,4 +70,18 @@ extension RealmProvider {
             fatalError()
         }
     }
+    func addInboxProjectToRealm() {
+        let isInboxInRealm = realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }
+        guard !isInboxInRealm else { return }
+        do {
+            try realm.write {
+                let project = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+                project.id = Constants.inboxId
+                realm.add(project)
+            }
+        } catch {
+            print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
+            fatalError()
+        }
+    }
 }
