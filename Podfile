@@ -18,6 +18,7 @@ target 'TodoApp' do
   pod 'SwiftyStoreKit'
   pod 'SwiftyDrop', '~>4.0'
   pod 'Haptica'
+  pod 'Eureka'
 
   # Not UI
   pod 'RealmSwift'
