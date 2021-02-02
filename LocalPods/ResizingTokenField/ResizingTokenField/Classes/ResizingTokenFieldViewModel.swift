@@ -43,7 +43,7 @@ class ResizingTokenFieldViewModel {
                       height: itemHeight)
     }
     var addCellSize: CGSize {
-        return CGSize(width: 22, height: 22)
+        return CGSize(width: 27.75, height: 22.75)
     }
         
     var shownState: ShownState = .none

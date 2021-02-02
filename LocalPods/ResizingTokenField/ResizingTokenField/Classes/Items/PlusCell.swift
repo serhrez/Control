@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class PlusCell: UICollectionViewCell {
-    
-    let imageView: UIImageView = UIImageView(image: UIImage(named: "Path", in: Bundle(for: NSClassFromString("ResizingTokenField.ResizingTokenField")!), with: .none))
-    
+    var width: CGFloat { 27.75 }
+    var height: CGFloat { 22.75 }
+    var dotSize: CGFloat { 2.75 }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -24,16 +24,22 @@ class PlusCell: UICollectionViewCell {
         setUp()
     }
     
-    private func setUp() {
-        addSubview(imageView)
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+    private func setUp() {        
         layer.cornerRadius = 11
         backgroundColor = UIColor(red: 0, green: 0.808, blue: 0.081, alpha: 0.1)
+        layer.cornerRadius = height / 2
+        layer.cornerCurve = .continuous
+        layer.addSublayer(getDotLayer(offsetX: 0))
+        layer.addSublayer(getDotLayer(offsetX: -dotSize * 2))
+        layer.addSublayer(getDotLayer(offsetX: dotSize * 2))
+    }
+    
+    func getDotLayer(offsetX: CGFloat) -> CALayer {
+        let layer = CALayer()
+        layer.cornerRadius = 1
+        layer.backgroundColor = UIColor(red: 0, green: 0.808, blue: 0.081, alpha: 1).cgColor
+        layer.frame = .init(x: width / 2 - dotSize / 2 + offsetX, y: height / 2 - dotSize / 2, width: dotSize, height: dotSize)
+        return layer
     }
     
     override var isHighlighted: Bool {
