@@ -11,7 +11,10 @@ import Material
 import JTAppleCalendar
 import AttributedLib
 
-class TAJTDateHeader: JTACMonthReusableView {
+class CalendarViewHeader: UIView {
+    var onPrev: (() -> Void)?
+    var onNext: (() -> Void)?
+
     lazy var leftChevronButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(leftClicked), for: .touchUpInside)
@@ -25,19 +28,41 @@ class TAJTDateHeader: JTACMonthReusableView {
         return button
     }()
     lazy var titleLabel: UILabel = UILabel()
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-    lazy var topView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layout(titleLabel).center()
-        return view
-    }()
+    init(taLayout: CalendarViewLayout) {
+        super.init(frame: .zero)
+        heightAnchor.constraint(equalToConstant: taLayout.cellWidthHeight).isActive = true
+        layout(leftChevronButton).top().bottom().leading().width(taLayout.cellWidthHeight)
+        layout(rightChevronButton).top().bottom().trailing().width(taLayout.cellWidthHeight)
+        layout(titleLabel).center()
+    }
+        
+    func configure(month: String, year: String, onPrev: @escaping () -> Void, onNext: @escaping () -> Void) {
+        self.onPrev = onPrev
+        self.onNext = onNext
+        UIView.transition(with: titleLabel, duration: Constants.animationDefaultDuration, options: [.transitionCrossDissolve]) {
+            self.titleLabel.attributedText = month.at.attributed { attr in
+                attr.foreground(color: UIColor(named: "TAHeading")!).font(.systemFont(ofSize: 18, weight: .semibold))
+            } + " \(year)".at.attributed { attr in
+                attr.foreground(color: .hex("#447BFE")).font(.systemFont(ofSize: 18, weight: .semibold))
+            }
+        }
+    }
     @objc func leftClicked() {
         onPrev?()
     }
     @objc func rightClicked() {
         onNext?()
     }
+
+}
+
+class TAJTDateHeader: JTACMonthReusableView {
+
     let weekDaysStack: UIStackView = {
         func getView(text: String) -> UIView {
             let view = UIView()
@@ -51,32 +76,9 @@ class TAJTDateHeader: JTACMonthReusableView {
         stack.distribution = .fillEqually
         return stack
     }()
-    lazy var stack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [topView, weekDaysStack])
-        stack.axis = .vertical
-        return stack
-    }()
-    var onPrev: (() -> Void)?
-    var onNext: (() -> Void)?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layout(stack).edges()
-    }
-    func setTaLayout(taLayout: CalendarViewLayout) {
-        topView.heightAnchor.constraint(equalToConstant: taLayout.cellWidthHeight).isActive = true
-        topView.layout(leftChevronButton).top().bottom().leading().width(taLayout.cellWidthHeight)
-        topView.layout(rightChevronButton).top().bottom().trailing().width(taLayout.cellWidthHeight)
-    }
-    
-    func configure(month: String, year: String, onPrev: @escaping () -> Void, onNext: @escaping () -> Void) {
-        self.onPrev = onPrev
-        self.onNext = onNext
-        titleLabel.attributedText = month.at.attributed { attr in
-            attr.foreground(color: UIColor(named: "TAHeading")!).font(.systemFont(ofSize: 18, weight: .semibold))
-        } + " \(year)".at.attributed { attr in
-            attr.foreground(color: .hex("#447BFE")).font(.systemFont(ofSize: 18, weight: .semibold))
-        }
-        print("month: \(month) year: \(year)")
+        layout(weekDaysStack).edges()
     }
     
     required init?(coder aDecoder: NSCoder) {

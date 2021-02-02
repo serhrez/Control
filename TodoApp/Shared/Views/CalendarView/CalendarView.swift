@@ -14,6 +14,7 @@ import SwiftDate
 final class CalendarView: UIView {
     private let taLayout: CalendarViewLayout
     private let jct = JTACMonthView()
+    private lazy var dateHeader = CalendarViewHeader(taLayout: taLayout)
     private let formatter = DateFormatter()
     private let selectDate: (Date) -> Void
     private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)
@@ -32,7 +33,8 @@ final class CalendarView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         backgroundColor = UIColor(named: "TAAltBackground")!
-        layout(jct).edges().width(taLayout.overallWidth).height(taLayout.overallHeight)
+        layout(dateHeader).leading().trailing().top()
+        layout(jct).leading().trailing().bottom().top(dateHeader.anchor.bottom).width(taLayout.overallWidth).height(taLayout.overallHeight)
         // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
         jct.register(TAJTDateCell.self, forCellWithReuseIdentifier: TAJTDateCell.idq)
         jct.register(TAJTDateHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TAJTDateHeader")
@@ -60,13 +62,12 @@ final class CalendarView: UIView {
 extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     
     func calendar(_ calendar: JTACMonthView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTACMonthReusableView {
-        guard let header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "TAJTDateHeader", for: indexPath) as? TAJTDateHeader else { return TAJTDateHeader() }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
         let month = dateFormatter.string(from: range.start)
         dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: range.start)
-        header.configure(month: month, year: year, onPrev: {
+        dateHeader.configure(month: month, year: year, onPrev: {
             calendar.isUserInteractionEnabled = false
             calendar.scrollToSegment(.previous) {
                 calendar.isUserInteractionEnabled = true
@@ -77,8 +78,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
                 calendar.isUserInteractionEnabled = true
             }
         })
-        header.setTaLayout(taLayout: taLayout)
-        return header
+        return calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "TAJTDateHeader", for: indexPath)
     }
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         guard let cell = cell as? TAJTDateCell else { return }
@@ -128,7 +128,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         }
     }
     func calendarSizeForMonths(_ calendar: JTACMonthView?) -> MonthSize? {
-        return MonthSize(defaultSize: taLayout.cellWidthHeight * 2)
+        return MonthSize(defaultSize: taLayout.cellWidthHeight)
     }
 
 }
@@ -152,7 +152,7 @@ struct CalendarViewLayout {
         cellColumns * cellWidthHeight + (cellColumns - 1) * columnsSpace + columnsSpace
     }
     var overallHeight: CGFloat {
-        cellWidthHeight * (cellRows + 2) // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
+        cellWidthHeight * (cellRows + 1) // + 1 header with weekdays([S,M,T,W,T,F,S])
     }
     
     static let default1: CalendarViewLayout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - 13 * 2 - 10 * 2, cellColumns: 7, cellRows: 6)
