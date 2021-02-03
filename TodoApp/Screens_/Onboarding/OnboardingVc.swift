@@ -10,6 +10,85 @@ import UIKit
 import Material
 import VisualEffectView
 
+class OnboardingVcContainer: UIViewController {
+    private var viewControllers: [UIViewController]!
+    private var currentViewController: UIViewController?
+    private var nextViewController: UIViewController?
+    private var backgroundView: UIView = UIView()
+    private let visualEffectView = VisualEffectView(frame: .zero)
+    private var gradients: [[UIColor]] = []
+    private var gradientViews: [GradientView2] = []
+    private var currentScreen: Int = -1
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        view.backgroundColor = UIColor(named: "TABackground")
+    }
+    func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]]) {
+        self.viewControllers = viewControllers.reversed()
+        self.gradients = gradients
+        self.view.addSubview(backgroundView)
+        self.view.addSubview(visualEffectView)
+        visualEffectView.colorTint = .clear
+        visualEffectView.blurRadius = 0.14 * UIScreen.main.bounds.width
+        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        backgroundView.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width * CGFloat(viewControllers.count), height: UIScreen.main.bounds.height)
+        visualEffectView.frame = UIScreen.main.bounds
+        let topVc = self.viewControllers.popLast()!
+        currentViewController = topVc
+        self.addChild(topVc)
+        self.view.addSubview(topVc.view)
+        self.nextViewController = self.viewControllers.popLast()
+        addGradient(0)
+        addNextToRight()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    func addGradient(_ index: Int) {
+        let gradientView = GradientView2(colors: gradients[index], direction: .horizontal)
+        backgroundView.addSubview(gradientView)
+        gradientView.frame = .init(x: CGFloat(index) * UIScreen.main.bounds.width + 0.16 * UIScreen.main.bounds.width, y: 0.15 * UIScreen.main.bounds.height, width: 0.68 * UIScreen.main.bounds.width, height: 0.68 * UIScreen.main.bounds.width)
+        gradientView.animateLocations()
+        gradientViews.append(gradientView)
+        if gradientViews.count > 2 {
+            gradientViews.removeFirst().removeFromSuperview()
+        }
+    }
+    
+    func addNextToRight() {
+        guard let currentViewController = currentViewController else { return }
+        guard let nextViewController = nextViewController else { return }
+        let nextVcFrame = CGRect(x: currentViewController.view.frame.origin.x + UIScreen.main.bounds.width, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        nextViewController.view.frame = nextVcFrame
+        self.addChildPresent(nextViewController)
+        currentScreen += 1
+        addGradient(currentScreen + 1)
+    }
+    
+    func toNext() {
+        guard let currentViewController = currentViewController else { return }
+        guard let nextViewController = nextViewController else { return }
+        UIView.animate(withDuration: 0.5) {
+            nextViewController.view.frame = CGRect(x: nextViewController.view.frame.origin.x - UIScreen.main.bounds.width, y: nextViewController.view.frame.origin.y, width: nextViewController.view.frame.width, height: nextViewController.view.frame.height)
+            currentViewController.view.frame = .init(origin: CGPoint(x: -self.view.bounds.size.width, y: 0), size: self.view.bounds.size)
+            self.backgroundView.frame = .init(x: self.backgroundView.frame.origin.x - UIScreen.main.bounds.width, y: self.backgroundView.frame.origin.y, width: self.backgroundView.frame.width, height: self.backgroundView.frame.height)
+        } completion: { _ in
+            self.currentViewController?.addChildDismiss()
+            self.currentViewController = nextViewController
+            self.nextViewController = self.viewControllers.popLast()
+            self.addNextToRight()
+        }
+
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
 class OnboardingVc: UIViewController {
     let imageView: UIImageView
     let imageViewContainer = UIView()
@@ -51,24 +130,20 @@ class OnboardingVc: UIViewController {
         view.addTarget(self, action: #selector(skipClicked), for: .touchUpInside)
         return view
     }()
-    lazy var gradientView = GradientView2(colors: gradientColors, direction: .horizontal)
-    let visualEffectView = VisualEffectView(frame: .zero)
 
     private let onSkip: ((OnboardingVc) -> Void)?
     private let onClick: (OnboardingVc) -> Void
     private let shouldOnboard: Bool
-    private let gradientColors: [UIColor]
-    private let gradientLayer: CAGradientLayer = CAGradientLayer()
-    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, shouldOnboard: Bool = false, gradientColors: [UIColor], onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
+    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
         imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: UIScreen.main.bounds.width * imageWidth))
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         imageView.contentMode = .center
         self.onSkip = onSkip
         self.onClick = onClick
         self.shouldOnboard = shouldOnboard
-        self.gradientColors = gradientColors
         super.init(nibName: nil, bundle: nil)
         button.setTitle(nextStepText, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         skipButton.setTitle(skipText, for: .normal)
         skipButton.setTitleColor(skipColor, for: .normal)
         nameLabel.text = nameText
@@ -102,21 +177,9 @@ class OnboardingVc: UIViewController {
             self.imageView.transform = .identity
         } completion: { _ in
         }
-        self.gradientView.animateLocations()
-
-        UIView.animate(withDuration: Constants.animationDefaultDuration * 4, delay: 0.0, options: [.autoreverse, .repeat, .curveEaseIn]) {
-            self.visualEffectView.blurRadius = 0.2 * UIScreen.main.bounds.width
-        }
-
     }
     private func setupViews() {
         imageView.transform = .init(scaleX: 0.5, y: 0.5)
-        view.backgroundColor = UIColor(named: "TABackground")
-        visualEffectView.colorTint = .clear
-        visualEffectView.blurRadius = 0.12 * UIScreen.main.bounds.width
-        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(gradientView)
-        view.addSubview(visualEffectView)
         centerView.layout(imageViewContainer).leading().trailing().top()
         imageViewContainer.layout(imageView).edges()
         centerView.layout(nameLabel).leading().trailing().top(imageView.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
@@ -127,21 +190,20 @@ class OnboardingVc: UIViewController {
         if onSkip == nil {
             skipButton.isHidden = true
         }
-        view.layout(gradientView).center(imageViewContainer.anchor.center).width(imageViewContainer.anchor.width).multiply(0.9).height(imageViewContainer.anchor.width).multiply(0.9)
-        view.layout(visualEffectView).edges()
     }
     
 }
 
 extension OnboardingVc {
-    static func getOnboardingNavigation(onSkip: @escaping () -> Void, onPremiumVc: @escaping () -> Void) -> UINavigationController {
+    static func getOnboardingNavigation(onSkip: @escaping () -> Void, onPremiumVc: @escaping () -> Void) -> OnboardingVcContainer {
+        let onboardingVc = OnboardingVcContainer()
+
         let sixthVc = OnboardingVc(imageName: "stepsix",
                                    imageWidth: 0.84,
                                    nameText: "Add your projects and work directly with them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only $4,99",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
-                                   gradientColors: [UIColor.hex("#C8D8FF"), UIColor.hex("#FFB1F2"), UIColor.hex("#FFCCC9"), UIColor.hex("#FFE5BD")],
                                    onSkip: { vc in
                                     onSkip()
                                    },
@@ -157,14 +219,13 @@ extension OnboardingVc {
                                    detailText: "Put up the tags, and solve your problems, as well as search by tag will help.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
-                                   gradientColors: [UIColor.hex("#CEFFC1"), UIColor.hex("#D2FFD5")],
                                    onSkip: { vc in
                                     vc.navigationController?.pushViewController(sixthVc, animated: true)
                                    },
                                    skipText: "Skip",
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
-                                    vc.navigationController?.pushViewController(sixthVc, animated: true)
+                                    onboardingVc.toNext()
                                    })
 
         let fourthVc = OnboardingVc(imageName: "stepfour",
@@ -173,14 +234,13 @@ extension OnboardingVc {
                                    detailText: "A calendar will solve all the problems of how to arrange everything for years to come.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
-                                   gradientColors: [UIColor.hex("#CADAFF"), UIColor.hex("#B9CEFF")],
                                    onSkip: { vc in
                                     vc.navigationController?.pushViewController(sixthVc, animated: true)
                                    },
                                    skipText: "Skip",
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
-                                    vc.navigationController?.pushViewController(fifthVc, animated: true)
+                                    onboardingVc.toNext()
                                    })
 
         let thirdVc = OnboardingVc(imageName: "stepthree",
@@ -189,14 +249,13 @@ extension OnboardingVc {
                                    detailText: "Set a priority so you don't forget what's important to you.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
-                                   gradientColors: [UIColor.hex("#85A9FF"), UIColor.hex("#FFAEA9"), UIColor.hex("#FFE0B2")],
                                    onSkip: { vc in
                                     vc.navigationController?.pushViewController(sixthVc, animated: true)
                                    },
                                    skipText: "Skip",
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
-                                    vc.navigationController?.pushViewController(fourthVc, animated: true)
+                                    onboardingVc.toNext()
                                    })
         let secondVc = OnboardingVc(imageName: "steptwo",
                                     imageWidth: 0.37,
@@ -204,14 +263,13 @@ extension OnboardingVc {
                                    detailText: "In today's screen you can see all your tasks for today and make it.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
-                                   gradientColors: [UIColor.hex("#FFE9C8"), UIColor.hex("#FFF9C1")],
                                    onSkip: { vc in
                                     vc.navigationController?.pushViewController(sixthVc, animated: true)
                                    },
                                    skipText: "Skip",
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
-                                    vc.navigationController?.pushViewController(thirdVc, animated: true)
+                                    onboardingVc.toNext()
                                    })
         let firstVc = OnboardingVc(imageName: "stepone",
                                    imageWidth: 0.35,
@@ -220,18 +278,24 @@ extension OnboardingVc {
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
                                    shouldOnboard: true,
-                                   gradientColors: [UIColor.hex("#D3C4FF"), UIColor.hex("#D8CBFF")],
                                    onSkip: { vc in
                                     vc.navigationController?.pushViewController(sixthVc, animated: true)
                                    },
                                    skipText: "Skip",
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
-                                    vc.navigationController?.pushViewController(secondVc, animated: true)
+                                    onboardingVc.toNext()
                                    })
 
 
-        let nc = OnboardingNavigationController(rootViewController: firstVc)
-        return nc
+        onboardingVc.setOnboardingStack(viewControllers: [firstVc, secondVc, thirdVc, fourthVc, fifthVc, sixthVc], gradients: [
+            [UIColor.hex("#D3C4FF"), UIColor.hex("#D8CBFF")],
+            [UIColor.hex("#FFE9C8"), UIColor.hex("#FFF9C1")],
+            [UIColor.hex("#85A9FF"), UIColor.hex("#FFAEA9"), UIColor.hex("#FFE0B2")],
+            [UIColor.hex("#CADAFF"), UIColor.hex("#B9CEFF")],
+            [UIColor.hex("#CEFFC1"), UIColor.hex("#D2FFD5")],
+            [UIColor.hex("#C8D8FF"), UIColor.hex("#FFB1F2"), UIColor.hex("#FFCCC9"), UIColor.hex("#FFE5BD")]
+        ])
+        return onboardingVc
     }
 }

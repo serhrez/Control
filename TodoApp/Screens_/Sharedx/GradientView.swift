@@ -63,6 +63,8 @@ class GradientView2: UIView {
         super.init(frame: .zero)
         layer.addSublayer(gradientLayer)
         isUserInteractionEnabled = false
+        gradientLayer.shouldRasterize = true
+        self.layer.shouldRasterize = true
     }
     
     convenience init(colors: [UIColor], direction: Direction, locations: [NSNumber]? = nil) {
