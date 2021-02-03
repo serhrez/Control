@@ -185,6 +185,7 @@ class ProjectDetailsVc: UIViewController {
         topView.color = project.color
         topView.icon = project.icon
         tasksWithDoneList.sorting = project.sorting
+        projectStartedView.configure(tintColor: project.color)
     }
     
     private func projectBindingSetup() {

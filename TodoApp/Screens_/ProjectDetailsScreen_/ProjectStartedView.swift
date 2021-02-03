@@ -15,15 +15,19 @@ class ProjectStartedView: UIView {
         super.init(frame: .zero)
         setupView()
     }
+    func configure(tintColor: UIColor) {
+        imageView.tintColor = tintColor
+    }
     
     private func setupView() {
-        let imageView = UIImageView(image: UIImage(named: "startedmessypath")?.withRenderingMode(.alwaysTemplate))
         imageView.tintColor = UIColor(named: "TAHeading")
         imageView.contentMode = .scaleAspectFit
         layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.1436)
         layout(largeTitle).leading().trailing().top(imageView.anchor.bottom, 25.35)
         layout(smallTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom()
     }
+    private let imageView = UIImageView(image: UIImage(named: "startedmessypath")?.withRenderingMode(.alwaysTemplate))
+
     let largeTitle: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 32, weight: .bold)
@@ -65,9 +69,9 @@ class ProjectStartedView: UIView {
         view.heightAnchor.constraint(equalToConstant: 14).isActive = true
         view.backgroundColor = .hex("#447BFE")
         view.layer.cornerRadius = 7
-        let plusPath = UIImageView(image: UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate))
-        plusPath.tintColor = UIColor(named: "TAAltBackground")!
-        view.layout(plusPath).edges(top: 3, left: 3, bottom: 3, right: 3)
+        let plusPath = UIImageView(image: UIImage(named: "check")?.resize(toWidth: 8)?.withRenderingMode(.alwaysTemplate))
+        plusPath.tintColor = UIColor.white
+        view.layout(plusPath).center()
         return view
     }()
     
