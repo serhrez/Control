@@ -13,7 +13,7 @@ class SettingsVc: UIViewController {
     var popTransition = SlidePopTransition()
     lazy var mainCollectionView = SettingsVcCollectionView(
         items: [
-            .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 12, onClick: { [weak self] in
+            .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 14, onClick: { [weak self] in
                 guard let self = self else { return }
                 self.router.openPremiumFeatures()
             }),
