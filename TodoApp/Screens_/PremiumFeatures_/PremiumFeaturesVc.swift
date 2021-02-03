@@ -168,7 +168,7 @@ extension PremiumFeaturesVc {
             textLabel.font = .systemFont(ofSize: 16, weight: .regular)
             textLabel.text = text
             textLabel.numberOfLines = 0
-            layout(check).top().leading().width(21).height(21)
+            layout(check).top().leading().width(22).height(22)
             layout(textLabel).top(1).leading(check.anchor.trailing, 9).trailing().bottom(1)
         }
         

@@ -53,6 +53,10 @@ class AllProjectsVc: UIViewController {
             let onboardingVc = OnboardingVc.getOnboardingNavigation { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
                 UserDefaultsWrapper.shared.didOnboard = true
+            } onPremiumVc: { [weak self] in
+                self?.navigationController?.pushViewController(PremiumFeaturesVc(), animated: false)
+                self?.dismiss(animated: true, completion: nil)
+                UserDefaultsWrapper.shared.didOnboard = true
             }
             onboardingVc.modalPresentationStyle = .overFullScreen
             
