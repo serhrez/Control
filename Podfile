@@ -19,6 +19,7 @@ target 'TodoApp' do
   pod 'SwiftyDrop', '~>4.0'
   pod 'Haptica'
   pod 'Eureka'
+  pod 'VisualEffectView'
 
   # Not UI
   pod 'RealmSwift'
