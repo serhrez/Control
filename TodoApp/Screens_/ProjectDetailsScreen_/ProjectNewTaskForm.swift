@@ -412,4 +412,9 @@ class ImageButton: SimpleButton {
         super.configureButtonStyles()
         setScale(0.9, for: .highlighted)
     }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let frameIncreased = bounds.insetBy(dx: -10, dy: -10)
+        return frameIncreased.contains(point)
+    }
 }
