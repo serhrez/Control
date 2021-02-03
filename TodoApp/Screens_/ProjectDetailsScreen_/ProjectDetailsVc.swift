@@ -331,7 +331,6 @@ class ProjectDetailsVc: UIViewController {
     lazy var topView = ProjectDetailsTop(
         color: .hex("#FF9900"),
         projectName: project.name,
-        projectDescription: project.notes,
         icon: .text("🚒"),
         onProjectNameChanged: { [weak self] newName in
             RealmProvider.main.safeWrite {

@@ -79,17 +79,8 @@ class CreateProjectVc: UIViewController {
         containerView.layout(plusButton).bottom(20).trailing(20)
         containerView.layout(closeButton).top(12).trailing(12)
         containerView.layout(colorCircle).top(42).leading(26)
-        containerView.layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(36)
-        containerView.layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField.anchor.leading).bottom(plusButton.anchor.top, 38).trailing(36)
+        containerView.layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(36).bottom(plusButton.anchor.top, 38)
         view.layout(clickableIcon).top(containerView.anchor.top, -24).leading(26)
-        
-        let heightConstraint = self.projectDescription.heightAnchor.constraint(equalToConstant: self.projectDescription.textField.font?.lineHeight ?? 20)
-        heightConstraint.isActive = true
-        projectDescription.shouldSetHeight = { [weak self] in
-            heightConstraint.constant = min($0, ((ceil(self?.projectDescription.textField.font?.lineHeight ?? 22)) * 4))
-            self?.properlyLayout()
-        }
-
     }
     
     func properlyLayout() {
@@ -122,8 +113,7 @@ class CreateProjectVc: UIViewController {
             AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
             return
         }
-        let description = projectDescription.text
-        let project = RlmProject(name: projectName, icon: icon, notes: description, color: color, date: Date())
+        let project = RlmProject(name: projectName, icon: icon, notes: "", color: color, date: Date())
         RealmProvider.main.safeWrite {
             RealmProvider.main.realm.add(project)
         }
@@ -172,16 +162,6 @@ class CreateProjectVc: UIViewController {
         button.layer.cornerRadius = 25
         button.layout(plus).edges()
         return button
-    }()
-    
-    lazy var projectDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .scrollIfTwoLines)
-        description.onEnter = { }
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 20, weight: .regular))
-        description.placeholderAttrs = attributes
-        description.textFieldAttrs = attributes
-        description.growingTextFieldDelegate = self
-        return description
     }()
         
     private func iconSelected() {
@@ -234,26 +214,12 @@ extension CreateProjectVc: UITextFieldDelegate {
         return true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case projectNameField:
-            projectDescription.textField.becomeFirstResponder()
-        default: break
-        }
         return true
     }
 }
 
 extension CreateProjectVc: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        switch textView {
-        case projectDescription.textField :
-            let currentText = textView.text ?? ""
-            guard let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
-
-            return updatedText.count < Constants.maximumDescriptionLength
-        default: break
-        }
         return true
     }
     

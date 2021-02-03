@@ -11,7 +11,6 @@ import Material
 import AttributedLib
 import SnapKit
 
-//extension ProjectDetailsVc {
 class ProjectDetailsTop: UIView {
     
     var color: UIColor {
@@ -26,22 +25,19 @@ class ProjectDetailsTop: UIView {
     }
     let shouldAnimate: () -> Bool
     let onProjectNameChanged: (String) -> Void
-    let onProjectDescriptionChanged: (String) -> Void
     let iconSelected: () -> Void
     let onColorSelected: (_ sourceView: UIView, _ selectedColor: UIColor) -> Void
     var shouldLayoutSubviews: () -> Void = { }
     
-    init(color: UIColor, projectName: String, projectDescription: String?, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void, shouldAnimate: @escaping () -> Bool) {
+    init(color: UIColor, projectName: String, icon: Icon, onProjectNameChanged: @escaping (String) -> Void, onProjectDescriptionChanged: @escaping (String) -> Void, colorSelection: @escaping (_ sourceView: UIView, _ selectedColor: UIColor) -> Void, iconSelected: @escaping () -> Void, shouldAnimate: @escaping () -> Bool) {
         self.icon = icon
         self.color = color
         self.onProjectNameChanged = onProjectNameChanged
-        self.onProjectDescriptionChanged = onProjectDescriptionChanged
         self.onColorSelected = colorSelection
         self.iconSelected = iconSelected
         self.shouldAnimate = shouldAnimate
         super.init(frame: .zero)
         self.projectNameField.text = projectName
-        self.projectDescription.text = projectDescription ?? ""
         setupViews()
     }
     
@@ -53,29 +49,12 @@ class ProjectDetailsTop: UIView {
         backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
-        layout(scrollView).edges().height(117)
+        layout(scrollView).edges().height(88)
         scrollView.scrollIndicatorInsets = .init(top: 8, left: 0, bottom: 8, right: 0)
         scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor).isActive = true
         scrollView.layout(colorCircle).leading(28).top(33)
         scrollView.layout(projectNameField).leading(colorCircle.anchor.trailing, 13).centerY(colorCircle.anchor.centerY).trailing(28)
-        scrollView.layout(projectDescription).top(projectNameField.anchor.bottom, 5).leading(projectNameField).trailing(projectNameField).bottom(28)
         layout(clickableIcon).top(-58 / 2).centerX()
-        projectDescription.snp.makeConstraints { make in
-            make.height.equalTo(24)
-        }
-        projectDescription.shouldSetHeight = { [weak self] newHeight in
-            guard let self = self else { return }
-            self.projectDescription.snp.remakeConstraints { make in
-                make.height.equalTo(newHeight)
-            }
-            if self.shouldAnimate() {
-                UIView.animate(withDuration: Constants.animationDefaultDuration) {
-                    self.layoutSubviews()
-                    self.scrollView.layoutSubviews()
-                    self.shouldLayoutSubviews()
-                }
-            }
-        }
     }
     
     private func colorSelection() {
@@ -95,17 +74,6 @@ class ProjectDetailsTop: UIView {
             attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
         return textField
-    }()
-    
-    private let projectDescriptionFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
-    lazy var projectDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Notes", scrollBehavior: .noScroll)
-        description.onEnter = { [weak description] in description?.textField.resignFirstResponder() }
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(projectDescriptionFont)
-        description.placeholderAttrs = attributes
-        description.textFieldAttrs = attributes
-        description.growingTextFieldDelegate = self
-        return description
     }()
     
     private lazy var colorCircle: GappedCircle = {
@@ -139,29 +107,6 @@ class ProjectDetailsTop: UIView {
         return superHitTest ?? clickableIcon.hitTest(point, with: event)
     }
 }
-
-extension ProjectDetailsTop: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        switch textView {
-        case projectDescription.textField:
-            if text == "\n" { return true }
-            let currentText = textView.text ?? ""
-            guard let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
-
-            return updatedText.count < Constants.maximumDescriptionLength
-        default: break
-        }
-        return true
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        switch textView {
-        case projectDescription.textField:
-            onProjectDescriptionChanged(projectDescription.text)
-        default: break
-        }
-    }
-}
 extension ProjectDetailsTop: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
@@ -183,11 +128,6 @@ extension ProjectDetailsTop: UITextFieldDelegate {
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case projectNameField:
-            projectDescription.textField.becomeFirstResponder()
-        default: break
-        }
         return true
     }
 }
