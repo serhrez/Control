@@ -170,10 +170,8 @@ final class TagPicker: UIViewController {
     }()
     
     private func properlyDismiss() {
-        self.containerView.setAnchorPoint(.init(x: 0.5, y: 1))
         UIView.animate(withDuration: Constants.animationDefaultDuration) {
             self.view.layer.opacity = 0
-            self.containerView.transform = .init(scaleX: 0.1, y: 0.1)
         } completion: { _ in
             self.shouldDismiss(self)
         }
