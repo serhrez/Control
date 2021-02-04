@@ -31,7 +31,9 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         self.tagCreated = tagCreated
         self.shouldClose = shouldClose
         nameField.text = ""
-        nameField.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { // TODO: remove this awful crutch
+            self.nameField.becomeFirstResponder()
+        }
     }
 
     func setupViews() {

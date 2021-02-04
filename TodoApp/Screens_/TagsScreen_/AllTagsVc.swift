@@ -90,8 +90,8 @@ class AllTagsVc: UIViewController {
     }
     
     func setupCollectionView() {
-        view.layout(collectionView).topSafe().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }.leadingSafe(13).trailingSafe(13)
-        collectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
+        view.layout(collectionView).topSafe().bottom().leadingSafe(13).trailingSafe(13)
+        collectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding + 10, right: 0)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
