@@ -13,11 +13,12 @@ class AllProjectsVcVM {
     private var projects: [RlmProject] = []
     var models: [Model] {
         var models = [getTodayModel(), getPriorityModel(), getPlannedModel()]
-            + projects.map { Model.project($0) } + [.addProject]
+            + projects.sorted(by: { $0.createdAt < $1.createdAt }).map { Model.project($0) }
+        
         if let inbox = getInboxModel() {
             models.insert(inbox, at: 0)
         }
-        return models
+        return models + [.addProject]
     }
     private var tokens: [NotificationToken] = []
     var tableUpdates: TableUpdatesFunc?
