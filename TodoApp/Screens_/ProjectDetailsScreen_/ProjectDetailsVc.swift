@@ -228,7 +228,7 @@ class ProjectDetailsVc: UIViewController {
     
     @objc func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
-        if case .list = state {
+        if !state.isAddTask {
             let completeAllActive = project.tasks.contains { !$0.isDone }
             let completeAllImage = completeAllActive ? UIImage(named: "circle-check") : UIImage(named: "circle-check")?.withTintColor(UIColor(named: "TASubElement")!)
             let completeAllColor = completeAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
@@ -259,7 +259,11 @@ class ProjectDetailsVc: UIViewController {
                     self?.project.sorting = .byPriority
                 }
             })]
-            actions += [.init(title: "Delete Completed", image: UIImage(named: "checks"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] _ in
+            let deleteCompletedAllActive = project.tasks.contains { $0.isDone }
+            let deleteCompletedAllImage = deleteCompletedAllActive ? UIImage(named: "checks") : UIImage(named: "checks")?.withTintColor(UIColor(named: "TASubElement")!)
+            let deleteCompletedAllColor = deleteCompletedAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
+
+            actions += [.init(title: "Delete Completed", image: deleteCompletedAllImage, color: deleteCompletedAllColor, isSelectable: deleteCompletedAllActive, didSelect: { [weak self] _ in
                 let allTasksId = self?.project.tasks.filter { $0.isDone }.map { $0.id } ?? []
                 guard !allTasksId.isEmpty else { return }
                 let projectId = self?.project.id ?? ""
