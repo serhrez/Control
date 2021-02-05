@@ -52,7 +52,8 @@ class OnboardingVcContainer: UIViewController {
         let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
         gradientView.alpha = isDarkTheme() ? 0.25 : 1
         backgroundView.addSubview(gradientView)
-        gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.16 * UIScreen.main.bounds.width, y: 0.15 * UIScreen.main.bounds.height, width: 0.68 * UIScreen.main.bounds.width, height: 0.68 * UIScreen.main.bounds.width)
+        let yOffset: CGFloat = UIScreen.main.bounds.width >= 400 ? 0.15 : 0.09
+        gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.16 * UIScreen.main.bounds.width, y: yOffset * UIScreen.main.bounds.height, width: 0.68 * UIScreen.main.bounds.width, height: 0.68 * UIScreen.main.bounds.width)
         gradientView.animateLocations()
         gradientViews.append(gradientView)
         if gradientViews.count > 2 && offsetIndex == nil {
@@ -194,7 +195,7 @@ class OnboardingVc: UIViewController {
         imageView.transform = .init(scaleX: 0.5, y: 0.5)
         centerView.layout(imageViewContainer).leading().trailing().top()
         imageViewContainer.layout(imageView).edges()
-        centerView.layout(nameLabel).leading().trailing().top(imageView.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
+        centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
         centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, 0.02455 * UIScreen.main.bounds.height).bottom()
         view.layout(centerView).centerY(-0.095982 * UIScreen.main.bounds.height).width(UIScreen.main.bounds.width * 0.8225).centerX()
         view.layout(skipButton).bottom(Constants.vcMinBottomPadding + 10).leading(74).trailing(74)
