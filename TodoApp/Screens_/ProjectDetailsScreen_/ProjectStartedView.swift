@@ -11,12 +11,44 @@ import Material
 import AttributedLib
 
 class ProjectStartedView: UIView {
-    init() {
+    private let mode: Mode
+    init(mode: Mode) {
+        self.mode = mode
         super.init(frame: .zero)
         setupView()
     }
-    func configure(tintColor: UIColor) {
-        imageView.tintColor = tintColor
+    func configure(tintColor: UIColor? = nil, mode: Mode? = nil) {
+        if let tintColor = tintColor {
+            imageView.tintColor = tintColor
+        }
+        if let mode = mode {
+            var smallTitleWithPlusAlpha: CGFloat = 0
+            var detailTitleAlpha: CGFloat = 0
+            var largeTitleNumberOfLines: Int = 2
+            switch mode {
+            case .noPriorities:
+                largeTitle.text = "There are no priorities right now"
+                detailTitle.text = "All of your assignments are displayed here"
+                detailTitleAlpha = 1
+            case .freeDay:
+                largeTitle.text = "You have a free day"
+                detailTitle.text = "All of your assignments are displayed here"
+                detailTitleAlpha = 1
+                largeTitleNumberOfLines = 1
+            case .projectEmpty:
+                largeTitle.text = "That's a good one, you're doing great!"
+                smallTitleWithPlusAlpha = 1
+            case .started:
+                smallTitleWithPlusAlpha = 1
+            case .noCalendarPlanned:
+                detailTitleAlpha = 1
+                largeTitle.text = "There are no planned tasks"
+                detailTitle.text = "Planned tasks will be shown here"
+            }
+            smallTitleWithPlus.alpha = smallTitleWithPlusAlpha
+            detailTitle.alpha = detailTitleAlpha
+            largeTitle.numberOfLines = largeTitleNumberOfLines
+        }
     }
     
     private func setupView() {
@@ -24,7 +56,9 @@ class ProjectStartedView: UIView {
         imageView.contentMode = .scaleAspectFit
         layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.1436)
         layout(largeTitle).leading().trailing().top(imageView.anchor.bottom, 25.35)
-        layout(smallTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom()
+        layout(smallTitleWithPlus).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
+        layout(detailTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
+        configure(mode: mode)
     }
     private let imageView = UIImageView(image: UIImage(named: "startedmessypath")?.withRenderingMode(.alwaysTemplate))
 
@@ -40,7 +74,18 @@ class ProjectStartedView: UIView {
         return label
     }()
     
-    lazy var smallTitle: UIView = {
+    lazy var detailTitle: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = UIColor(named: "TAHeading")!
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var smallTitleWithPlus: UIView = {
         let view = UIView()
         view.layout(smallTitleLeading).leading().top().bottom()
         view.layout(smallTitleTrailing).trailing().top().bottom()
@@ -79,5 +124,15 @@ class ProjectStartedView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension ProjectStartedView {
+    enum Mode {
+        case started
+        case freeDay
+        case noPriorities
+        case projectEmpty
+        case noCalendarPlanned
     }
 }

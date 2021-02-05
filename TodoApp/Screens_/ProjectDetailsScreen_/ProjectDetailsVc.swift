@@ -152,6 +152,8 @@ class ProjectDetailsVc: UIViewController {
             tasksToolBarOpacity = 1
         case (_, .empty):
             tasksToolBarOpacity = 1
+            projectStartedViewOpacity = 1
+            projectStartedView.configure(mode: .projectEmpty)
         default: break
         }
         func apply() {
@@ -383,10 +385,10 @@ class ProjectDetailsVc: UIViewController {
             view.layout(projectStartedView).centerX().centerY().priority(749).leading(47).trailing(47).top(topView.anchor.bottom, 20) { _, _ in .greaterThanOrEqual }
             view.bringSubviewToFront(topView)
         } else {
-            view.layout(projectStartedView).centerX().centerY().leading(47).trailing(47)
+            view.layout(projectStartedView).topSafe(0.065 * UIScreen.main.bounds.height).leading(47).trailing(47)
         }
     }
-    private lazy var projectStartedView = ProjectStartedView()
+    private lazy var projectStartedView = ProjectStartedView(mode: .started)
     
     // MARK: - ProjectNewTaskForm VIEW
     private func projectNewTaskViewSetup() {

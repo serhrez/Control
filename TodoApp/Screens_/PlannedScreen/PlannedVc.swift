@@ -15,6 +15,7 @@ final class PlannedVc: UIViewController {
     private lazy var noCalendarViewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: noCalendarViewFlowLayout)
     private let calendarViewFlowLayout = UICollectionViewFlowLayout()
     private lazy var calendarViewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: calendarViewFlowLayout)
+    private let projectStartedView = ProjectStartedView(mode: .freeDay)
     private var calendarPadding: CGFloat { 13 }
     private var calendarInset: CGFloat { 9 }
     
@@ -48,7 +49,7 @@ final class PlannedVc: UIViewController {
     private var selectedMode1 = true {
         didSet {
             rightBarButton.image = barButtonImage
-            transitionToAnotherMode(animate: didAppear)
+            transitionToAnotherMode()
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -66,6 +67,9 @@ final class PlannedVc: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
+        view.layout(projectStartedView).centerX().centerY().leading(47).trailing(47)
+        projectStartedViewChangeMode()
+        projectStartedView.configure(tintColor: UIColor.hex("#447bfe"), mode: .noCalendarPlanned)
         view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).topSafe().bottom()
         noCalendarViewCollectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
         view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe()
@@ -135,15 +139,27 @@ final class PlannedVc: UIViewController {
         }
         
         viewModel.calendarModelsUpdate
-            .do(onNext: {
-                if $0.isEmpty { return }
-//                print($0[0].items.reduce(into: "", { $0 += $1.task.name + ";" }))
+            .do(onNext: { [weak self] _ in
+                self?.projectStartedViewChangeMode()
             })
             .bind(to: calendarViewCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
     }
+    
+    func projectStartedViewChangeMode() {
+        func apply() {
+            self.projectStartedView.alpha = (selectedMode1 && RealmProvider.main.realm.objects(RlmTaskDate.self).isEmpty) ? 1 : 0
+        }
+        if didAppear {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                apply()
+            }
+        } else {
+            apply()
+        }
+    }
 
-    func transitionToAnotherMode(animate: Bool = true) {
+    func transitionToAnotherMode() {
         func apply() {
             if self.selectedMode1 {
                 self.noCalendarViewCollectionView.reloadData()
@@ -154,13 +170,14 @@ final class PlannedVc: UIViewController {
             self.calendarViewCollectionView.layer.opacity = self.selectedMode1 ? 0 : 1
             self.calendarViewContainer.layer.opacity = self.selectedMode1 ? 0 : 1
         }
-        if animate {
+        if didAppear {
             UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
         } else {
             apply()
         }
+        projectStartedViewChangeMode()
     }
 
     private func setupNavigationBar() {

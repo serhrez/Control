@@ -89,6 +89,10 @@ class TasksWithDoneList: UIView {
             .disposed(by: bag)
     }
     
+    var isEmpty: Bool {
+        self.currentItems?.allSatisfy { $0.items.isEmpty } ?? true
+    }
+    
     func sortCurrentItems(_ models: [Model], sorting: ProjectSorting) -> [Model] {
         return models.sorted { model1, model2 -> Bool in
             switch (model1, model2) {

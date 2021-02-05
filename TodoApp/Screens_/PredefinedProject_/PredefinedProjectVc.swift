@@ -137,6 +137,7 @@ class PredefinedProjectVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")!.withAlphaComponent(0.5)
         return view
     }()
+    private let projectStartedView = ProjectStartedView(mode: .freeDay)
     private lazy var tasksToolbar = AllTasksToolbar()
     let trashTextField = TrashTextField()
 
@@ -156,9 +157,16 @@ class PredefinedProjectVc: UIViewController {
         switch mode {
         case .priority:
             title = "Priority"
+            projectStartedView.configure(tintColor: .hex("#447bfe"), mode: .noPriorities)
         case .today:
             title = "Today"
+            projectStartedView.configure(tintColor: .hex("#ff9900"), mode: .freeDay)
         }
+        tasksSubject.subscribe(onNext: { [weak self] tasks in
+            self?.changeProjectStartedViewState(with: tasks.isEmpty)
+        })
+        .disposed(by: bag)
+        view.layout(projectStartedView).topSafe(0.065 * UIScreen.main.bounds.height).leading(47).trailing(47)
         applySharedNavigationBarAppearance()
         view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
         setupTasksWithDoneListBinding()
@@ -278,6 +286,19 @@ class PredefinedProjectVc: UIViewController {
             }
         }
     }
+    
+    func changeProjectStartedViewState(with isEmpty: Bool) {
+        func apply() {
+            self.projectStartedView.alpha = isEmpty ? 1 : 0
+        }
+        if didAppear {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                apply()
+            }
+        } else {
+            apply()
+        }
+    }
 
     func changeState(isAdding: Bool = false) {
         if isAdding {
@@ -285,9 +306,17 @@ class PredefinedProjectVc: UIViewController {
         } else {
             newFormView.getFirstResponder()?.resignFirstResponder()
         }
-        UIView.animate(withDuration: Constants.animationDefaultDuration) {
+        func apply() {
             self.newFormView.alpha = isAdding ? 1 : 0
             self.newFormViewBg.alpha = isAdding ? 1 : 0
+            self.projectStartedView.alpha = isAdding ? 0 : (self.tasksWithDoneList.isEmpty ? 1 : 0)
+        }
+        if didAppear {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                apply()
+            }
+        } else {
+            apply()
         }
     }
 
