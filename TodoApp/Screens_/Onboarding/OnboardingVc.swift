@@ -24,6 +24,7 @@ class OnboardingVcContainer: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(named: "TABackground")
+        LaunchScreenManager().animateAfterLaunch(self.view)
     }
     func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
         self.viewControllers = viewControllers.reversed()
@@ -143,6 +144,7 @@ class OnboardingVc: UIViewController {
         view.addTarget(self, action: #selector(skipClicked), for: .touchUpInside)
         return view
     }()
+    private var dimensionsV2: Bool { UIScreen.main.bounds.width < 400 }
 
     private let onSkip: ((OnboardingVc) -> Void)?
     private let onClick: (OnboardingVc) -> Void
@@ -180,9 +182,6 @@ class OnboardingVc: UIViewController {
         applySharedNavigationBarAppearance(addBackButton: false, popGesture: false)
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         setupViews()
-        if shouldOnboard {
-            LaunchScreenManager().animateAfterLaunch(self.view)
-        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -198,11 +197,12 @@ class OnboardingVc: UIViewController {
         centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
         centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, 0.02455 * UIScreen.main.bounds.height).bottom()
         view.layout(centerView).centerY(-0.095982 * UIScreen.main.bounds.height).width(UIScreen.main.bounds.width * 0.8225).centerX()
-        view.layout(skipButton).bottom(Constants.vcMinBottomPadding + 10).leading(74).trailing(74)
-        view.layout(button).height(60).bottom(skipButton.anchor.top, UIScreen.main.bounds.height * 0.03906).centerX().width(UIScreen.main.bounds.width * 0.7922).top(centerView.anchor.bottom, 0.052455 * UIScreen.main.bounds.height) { _, _ in .greaterThanOrEqual }
+        view.layout(skipButton).bottom(UIScreen.main.bounds.height * (dimensionsV2 ? 0.035 : 0.05)).leading(74).trailing(74)
+        view.layout(button).height(60).bottom(Constants.vcMinBottomPadding + 10 + 20 + UIScreen.main.bounds.height * 0.03906) { _, _ in .greaterThanOrEqual }.centerX().width(UIScreen.main.bounds.width * 0.7922).top(centerView.anchor.bottom, (dimensionsV2 ? 0.04 : 0.052455) * UIScreen.main.bounds.height) { _, _ in .greaterThanOrEqual }
         if onSkip == nil {
             skipButton.isHidden = true
         }
+        view.bringSubviewToFront(skipButton)
     }
     
 }
