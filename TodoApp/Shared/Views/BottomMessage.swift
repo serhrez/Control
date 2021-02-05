@@ -83,11 +83,14 @@ extension BottomMessage {
             return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         case .allTasksDeleted:
             return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Dos Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+        case .taskCreatedInInbox:
+            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "New task has been created in inbox", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         }
     }
     
     enum MessageType {
         case taskDeleted
         case allTasksDeleted
+        case taskCreatedInInbox
     }
 }

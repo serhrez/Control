@@ -27,7 +27,6 @@ class ProjectDetailsVc: UIViewController {
     @SafeObject private var project: RlmProject
     private var isInbox: Bool
     private var tokens: [NotificationToken] = []
-    private var shouldChangeHeightByKeyboardChange = true
     private let bag = DisposeBag()
     private let shouldPopTwo: Bool
     private var doOnAppear: (() -> Void)?
@@ -82,7 +81,6 @@ class ProjectDetailsVc: UIViewController {
         keyboard
             .on(event: .willChangeFrame) { [weak self] options in
                 guard let self = self else { return }
-                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
@@ -94,7 +92,6 @@ class ProjectDetailsVc: UIViewController {
             }
             .on(event: .willHide) { [weak self] options in
                 guard let self = self else { return }
-                guard self.shouldChangeHeightByKeyboardChange else { return }
                 let height = options.endFrame.intersection(self.view.bounds).height
                 guard previousHeight != height else { return }
                 if self.state.isAddTask && height < 100 { return }
@@ -105,7 +102,6 @@ class ProjectDetailsVc: UIViewController {
                 self.animateLayoutSubviews()
             }
             .start()
-
     }
     
     private func changeState(oldState: PrScreenState, newState: PrScreenState) {
@@ -168,7 +164,7 @@ class ProjectDetailsVc: UIViewController {
         if !didAppear {
             apply()
         } else {
-            UIView.animate(withDuration: 0.25) {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
                 apply()
             }
         }
