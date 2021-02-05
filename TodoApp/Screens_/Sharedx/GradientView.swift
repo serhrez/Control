@@ -81,23 +81,6 @@ class GradientView2: UIView {
     }
     
     func animateLocations() {
-        var fromLocations: [NSNumber] = []
-        var toLocations: [NSNumber] = []
-        if locations != nil {
-            fromLocations = locations!
-        } else
-        if colors.count == 2 {
-            fromLocations = [0, 100]
-            toLocations = [99, 100]
-        } else
-        if colors.count == 3 {
-            fromLocations = [0, 50, 100]
-            toLocations = [98,99,100]
-        } else
-        if colors.count == 4 {
-            fromLocations = [0, 33, 66, 100]
-            toLocations = [97,98,99,100]
-        }
         let anim2 = CABasicAnimation(keyPath: "colors")
         anim2.fromValue = colors.map { $0.cgColor }
         anim2.toValue = Array(colors.map { $0.cgColor }.reversed())

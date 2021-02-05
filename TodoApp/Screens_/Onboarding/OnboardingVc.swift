@@ -17,6 +17,7 @@ class OnboardingVcContainer: UIViewController {
     private var backgroundView: UIView = UIView()
     private let visualEffectView = VisualEffectView(frame: .zero)
     private var gradients: [[UIColor]] = []
+    private var blackThemeGradients: [[UIColor]] = []
     private var gradientViews: [GradientView2] = []
     private var currentScreen: Int = -1
     
@@ -24,9 +25,10 @@ class OnboardingVcContainer: UIViewController {
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(named: "TABackground")
     }
-    func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]]) {
+    func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
         self.viewControllers = viewControllers.reversed()
         self.gradients = gradients
+        self.blackThemeGradients = blackThemeGradients
         self.view.addSubview(backgroundView)
         self.view.addSubview(visualEffectView)
         visualEffectView.colorTint = .clear
@@ -47,7 +49,8 @@ class OnboardingVcContainer: UIViewController {
     }
     
     func addGradient(_ index: Int, offsetIndex: Int? = nil) {
-        let gradientView = GradientView2(colors: gradients[index], direction: .horizontal)
+        let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
+        gradientView.alpha = isDarkTheme() ? 0.25 : 1
         backgroundView.addSubview(gradientView)
         gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.16 * UIScreen.main.bounds.width, y: 0.15 * UIScreen.main.bounds.height, width: 0.68 * UIScreen.main.bounds.width, height: 0.68 * UIScreen.main.bounds.width)
         gradientView.animateLocations()
@@ -212,7 +215,7 @@ extension OnboardingVc {
                                    nameText: "Add your projects and work directly with them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only $4,99",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#00CE15").withAlphaComponent(0.5), normal: .hex("#00CE15")),
                                    onSkip: { vc in
                                     onSkip()
                                    },
@@ -227,7 +230,7 @@ extension OnboardingVc {
                                    nameText: "Tags will help you label different thoughts.",
                                    detailText: "Put up the tags, and solve your problems, as well as search by tag will help.",
                                    nextStepText: "Next Step",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#571CFF").withAlphaComponent(0.5), normal: .hex("#571CFF")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
@@ -242,7 +245,7 @@ extension OnboardingVc {
                                    nameText: "Plan ahead, and write down everything.",
                                    detailText: "A calendar will solve all the problems of how to arrange everything for years to come.",
                                    nextStepText: "Next Step",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447bfe")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
@@ -257,7 +260,7 @@ extension OnboardingVc {
                                    nameText: "Priority will help you sort things out.",
                                    detailText: "Set a priority so you don't forget what's important to you.",
                                    nextStepText: "Next Step",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#00ce15").withAlphaComponent(0.5), normal: .hex("#00ce15")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
@@ -271,7 +274,7 @@ extension OnboardingVc {
                                    nameText: "See all your thoughts for today.",
                                    detailText: "In today's screen you can see all your tasks for today and make it.",
                                    nextStepText: "Next Step",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#571cff").withAlphaComponent(0.5), normal: .hex("#571cff")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
@@ -285,7 +288,7 @@ extension OnboardingVc {
                                    nameText: "Write anything you can think of",
                                    detailText: "Collect all your thoughts in the inbox so you don’t forget. You can review it later.",
                                    nextStepText: "Next Step",
-                                   nextStepColorState: .init(highlighted: .blue, normal: .hex("#447BFE")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447BFE")),
                                    shouldOnboard: true,
                                    onSkip: { vc in
                                     onboardingVc.toLast()
@@ -304,6 +307,13 @@ extension OnboardingVc {
             [UIColor.hex("#CADAFF"), UIColor.hex("#B9CEFF")],
             [UIColor.hex("#CEFFC1"), UIColor.hex("#D2FFD5")],
             [UIColor.hex("#C8D8FF"), UIColor.hex("#FFB1F2"), UIColor.hex("#FFCCC9"), UIColor.hex("#FFE5BD")]
+        ], blackThemeGradients: [
+            [UIColor.hex("#4200FF"), UIColor.hex("#00A3FF")],
+            [UIColor.hex("#FFE500"), UIColor.hex("#FBA21D")],
+            [UIColor.hex("#001AFF"), UIColor.hex("#FF0F00"), UIColor.hex("#FF9900")],
+            [UIColor.hex("#3975FF"), UIColor.hex("#004BFF")],
+            [UIColor.hex("#33FF00"), UIColor.hex("#00FF0D")],
+            [UIColor.hex("#004CFF"), UIColor.hex("#FF00D4"), UIColor.hex("#FF0F00"), UIColor.hex("#FFE600")]
         ])
         return onboardingVc
     }

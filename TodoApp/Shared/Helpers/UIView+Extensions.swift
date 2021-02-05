@@ -30,3 +30,8 @@ extension UIView {
     
     var isWhiteTheme: Bool { self.traitCollection.userInterfaceStyle == .light }
 }
+
+func isDarkTheme() -> Bool {
+    let window = UIApplication.shared.windows.first
+    return window?.traitCollection.userInterfaceStyle == .dark
+}
