@@ -34,9 +34,6 @@ class TAJTDateCell: JTACDayCell {
     
     func configure(with cellState: CellState, blue: Bool, orange: Bool, red: Bool, gray: Bool) {
         label.text = cellState.text
-        if cellState.isSelected {
-            label.textColor = UIColor(named: "TAAltBackground")!
-        } else
         if cellState.dateBelongsTo == DateOwner.thisMonth {
             label.textColor = UIColor(named: "TAHeading")
         } else {
@@ -49,7 +46,7 @@ class TAJTDateCell: JTACDayCell {
             indicatorColors.append(UIColor(named: "TASubElement")!)
         }
         if blue {
-            indicatorColors.append(cellState.isSelected ? UIColor(named: "TAAltBackground")! : UIColor(hex: "#447BFE")!)
+            indicatorColors.append(UIColor(hex: "#447BFE")!)
         }
         if orange {
             indicatorColors.append(UIColor(hex: "#FF9900")!)
@@ -64,9 +61,12 @@ class TAJTDateCell: JTACDayCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        selectedView.backgroundColor = UIColor(red: 0.267, green: 0.482, blue: 0.996, alpha: 1)
+        selectedView.backgroundColor = UIColor.hex("#447bfe").withAlphaComponent(0.15)
+        selectedView.layer.cornerRadius = 10
+        selectedView.layer.cornerCurve = .continuous
+        selectedView.layer.borderWidth = 2.5
+        selectedView.layer.borderColor = UIColor.hex("#447bfe").cgColor
         selectedView.isHidden = true
-        selectedView.layer.cornerRadius = 8
         layout(selectedView).edges()
         layout(label).center()
     }
