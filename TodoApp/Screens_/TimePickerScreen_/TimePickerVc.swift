@@ -54,6 +54,14 @@ class TimePickerVc: UIViewController {
         label.text = "00"
         return label
     }()
+    private let blueView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hex("#447bfe").withAlphaComponent(0.15)
+        view.layer.borderWidth = 2.5
+        view.layer.borderColor = UIColor.hex("#447bfe").cgColor
+        view.layer.cornerRadius = 10
+        return view
+    }()
     let keyboard = Typist()
     let numberField: UITextField = UITextField()
     private var clearDoneButtons: ClearDoneButtons!
@@ -97,12 +105,14 @@ class TimePickerVc: UIViewController {
         numberField.becomeFirstResponder()
         numberField.delegate = self
         view.layout(containerView).leadingSafe(13).trailingSafe(13)
-        containerView.layout(incontainerCenter).top(53).centerX().width(containerView.anchor.width).multiply(0.63)
-        incontainerCenter.layout(timeSelectionHoursView).leading().top().bottom()
+        containerView.layout(incontainerCenter).top(53).centerX().width(containerView.anchor.width).multiply(0.55)
+        incontainerCenter.layout(timeSelectionHoursView).leading(20).top().bottom()
         incontainerCenter.layout(twoDots).center()
-        incontainerCenter.layout(timeSelectionMinutesView).trailing().top().bottom()
-        incontainerCenter.layout(rightNumber).trailing(-1).centerY().width(timeSelectionMinutesView.anchor.width)
-        incontainerCenter.layout(leftNumber).leading(1).centerY().width(timeSelectionHoursView.anchor.width)
+        incontainerCenter.layout(timeSelectionMinutesView).trailing(20).top().bottom()
+        incontainerCenter.layout(rightNumber).trailing(19).centerY().width(timeSelectionMinutesView.anchor.width)
+        incontainerCenter.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
+        incontainerCenter.layout(blueView).leading().trailing().centerY().height(71)
+        blueView.isUserInteractionEnabled = false
         containerView.layout(clearDoneButtons).top(incontainerCenter.anchor.bottom, 63).bottom(20).leading(20).trailing(20)
         setupKeyboard()
         self.containerView.snp.makeConstraints { make in

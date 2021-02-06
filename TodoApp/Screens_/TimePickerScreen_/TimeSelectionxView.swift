@@ -30,7 +30,7 @@ class TimeSelectionxView: UIView {
     
     private func setupViews() {
         layout(collectionView).edges().height(192).width(72)
-        gradient.locations = [0, 0.33, 0.4, 0.6, 0.67, 1]
+        gradient.locations = [0.15, 0.33, 0.4, 0.6, 0.67, 0.85]
         gradient.mask = collectionView.layer
         gradient.frame = .init(x: 0, y: 0, width: 72, height: 192)
         layer.insertSublayer(gradient, at: 0)
