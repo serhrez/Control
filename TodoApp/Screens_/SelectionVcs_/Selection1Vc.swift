@@ -11,7 +11,7 @@ import Material
 import AttributedLib
 
 protocol Selection1VcItem {
-    var description: String { get }
+    func description(with none: String?) -> String
 }
 
 class Selection1Vc: UIViewController {
@@ -20,6 +20,7 @@ class Selection1Vc: UIViewController {
     private var selectedIndex: Int
     private var selectionViews: [Selection1View] = []
     private let onDone: (Int) -> Void
+    var noneText: String?
     
     init(title: String, items: [Selection1VcItem], selectedIndex: Int, onDone: @escaping (Int) -> Void) {
         self.items = items
@@ -44,7 +45,7 @@ class Selection1Vc: UIViewController {
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
         for i in items.enumerated() {
-            let view = Selection1View(text: i.element.description, isSelected: i.offset == selectedIndex, isStyle2: i.offset == 0)
+            let view = Selection1View(text: i.element.description(with: noneText), isSelected: i.offset == selectedIndex, isStyle2: i.offset == 0)
             view.onSelected = { [weak self] in
                 guard let self = self else { return }
                 self.selectItem(i.offset)
@@ -87,14 +88,16 @@ extension Selection1Vc {
     
     static func repeatVc(onDone: @escaping (Repeat?) -> Void, selected: Repeat?) -> Selection1Vc {
         let items: [Repeat?] = [nil] + Repeat.all
-        return Selection1Vc(title: "Repeat", items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
+        let vc = Selection1Vc(title: "Repeat", items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
             onDone(items[index])
         }
+        vc.noneText = "Never"
+        return vc
     }
 }
 
 extension Optional: Selection1VcItem where Wrapped: CustomStringConvertible {
-    var description: String {
-        return self?.description ?? "None"
+    func description(with none: String?) -> String {
+        return self?.description ?? none ?? "None"
     }
 }

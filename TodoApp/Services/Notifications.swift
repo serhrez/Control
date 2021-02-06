@@ -47,12 +47,12 @@ class Notifications: NSObject {
         switch reminder {
         case .oneDayEarly:
             newDate = date.dateAt(.yesterday)
-        case .fiveMinutesEarly:
-            newDate = date - 5.minutes
-        case .tenMinutesEarly:
-            newDate = date - 10.minutes
-        case .thirtyMinutesEarly:
-            newDate = date - 30.minutes
+        case .oneHourBefore: newDate = date - 1.hours
+        case .oneWeekBefore: newDate = date - 1.weeks
+        case .tenMinutesBefore: newDate = date - 10.minutes
+        case .thirtyMinutesBefore: newDate = date - 30.minutes
+        case .twoHoursBefore: newDate = date - 2.hours
+        case .fiveMinutesBefore: newDate = date - 5.minutes
         }
         scheduleNotification(identifier: task.id + "reminder", name: "Reminder for \(task.name)", body: task.taskDescription, date: newDate, repeatt: nil)
         // Postpone date according to reminder or cancel nexisting notifications
@@ -76,13 +76,13 @@ class Notifications: NSObject {
         if let repeatt = repeatt {
             let dateComponents: Set<Calendar.Component>
             switch repeatt {
-            case .yearly:
+            case .everyYear:
                 dateComponents = [.month, .day, .hour, .minute, .second]
-            case .daily:
+            case .everyDay:
                 dateComponents = [.hour, .minute, .second]
-            case .weekly:
+            case .everyWeek:
                 dateComponents = [.weekday, .hour, .minute, .second]
-            case .monthly:
+            case .everyMonth:
                 dateComponents = [.day, .hour, .minute, .second]
             }
             triggerDate = Calendar.current.dateComponents(dateComponents, from: date)

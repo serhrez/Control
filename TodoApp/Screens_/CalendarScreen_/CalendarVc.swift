@@ -229,46 +229,36 @@ extension CalendarVc {
         }
     }
     
-    class CalendarButton2: UIView {
+    class CalendarButton2: OnClickControl {
         let imageView = UIImageView(frame: .zero)
         let label = UILabel()
-        let button = NewCustomButton(type: .custom)
-        private let onClick: () -> Void
+        let statusLabel = UILabel()
         
         init(image imageName: String, text: String, onClick: @escaping () -> Void) {
-            self.onClick = onClick
-            super.init(frame: .zero)
+            super.init(onClick: { if $0 { onClick() } })
             label.font = .systemFont(ofSize: 18, weight: .semibold)
             label.text = text
             imageView.image = UIImage(named: imageName)?.resize(toHeight: 25)
             
             layout(imageView).leading().top().bottom()
             layout(label).leading(37).centerY()
-            layout(button).trailing().centerY()
-            button.addTarget(self, action: #selector(clicked), for: .touchUpInside)
+            layout(statusLabel).trailing().centerY()
             configure(selectedText: nil)
-            button.pointInsideInsets = .init(top: 15, left: 15, bottom: 15, right: 15)
+            self.pointInsideInsets = .init(top: 10, left: 0, bottom: 10, right: 0)
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        @objc func clicked() {
-            onClick()
-        }
         
         func configure(selectedText: String?) {
             if let selectedText = selectedText {
-                button.setTitle(selectedText, for: .normal)
-                button.setTitleColor(.hex("#447BFE"), for: .normal)
+                statusLabel.text = selectedText
+                statusLabel.textColor = UIColor.hex("#447bfe")
             } else {
-                button.setTitle("None", for: .normal)
-                button.setTitleColor(UIColor(named: "TASubElement")!, for: .normal)
+                statusLabel.text = "None"
+                statusLabel.textColor = UIColor(named: "TASubElement")
             }
-        }
-        override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-            let superHit = super.hitTest(point, with: event)
-            return superHit ?? button.hitTest(point, with: event)
         }
     }
 }

@@ -9,24 +9,24 @@
 import Foundation
 
 enum Repeat: String, CustomStringConvertible {
-    case daily
-    case weekly
-    case monthly
-    case yearly
+    case everyDay
+    case everyWeek
+    case everyMonth
+    case everyYear
     
-    static let all: [Repeat] = [.daily, .weekly, .monthly, .yearly]
+    static let all: [Repeat] = [.everyDay, .everyWeek, .everyMonth, .everyYear]
     
     
     var description: String {
         switch self {
-        case .daily:
-            return "Daily"
-        case .weekly:
-            return "Weekly"
-        case .monthly:
-            return "Monthly"
-        case .yearly:
-            return "Yearly"
+        case .everyDay:
+            return "Every Day"
+        case .everyWeek:
+            return "Every Week"
+        case .everyMonth:
+            return "Every Month"
+        case .everyYear:
+            return "Every Year"
         }
     }
 }
