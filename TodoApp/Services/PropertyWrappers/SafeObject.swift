@@ -13,7 +13,7 @@ import RealmSwift
     var wrappedValue: Obj {
         get {
             guard !internalValue.isInvalidated else {
-                fatalError("Was accessed invalidated object. This line should be deleted in production")
+                print("Was accessed invalidated object. This line should be deleted in production")
                 return Obj()
             }
             return internalValue

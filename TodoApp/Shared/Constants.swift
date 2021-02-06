@@ -18,8 +18,6 @@ enum Constants {
     static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 21
     
     // MARK: Model restrictions
-    static let maximumProjectNameLength = 50
-    static let maximumDescriptionLength = 140
     
     static let inboxId = "Inbox-inbox" // Should never be changed if migration has not been done
     // MARK: Premium

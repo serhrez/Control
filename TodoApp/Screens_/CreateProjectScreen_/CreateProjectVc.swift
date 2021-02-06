@@ -208,7 +208,7 @@ extension CreateProjectVc: UITextFieldDelegate {
             guard let stringRange = Range(range, in: currentText) else { return false }
             let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
 
-            return updatedText.count < Constants.maximumProjectNameLength
+            return true
         default: break
         }
         return true

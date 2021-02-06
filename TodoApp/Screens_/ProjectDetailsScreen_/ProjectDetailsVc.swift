@@ -294,6 +294,11 @@ class ProjectDetailsVc: UIViewController {
     
     func deleteProjectClicked() {
         print("clicked")
+        
+        guard !self.project.tasks.isEmpty else {
+            self.deleteProject()
+            return
+        }
         let alertVc = UIAlertController(title: "Delete '\(project.name)'", message: "Are you sure?", preferredStyle: .alert)
         alertVc.addAction(.init(title: "Delete all", style: .destructive, handler: { [weak self] _ in
             guard let self = self else { return }
