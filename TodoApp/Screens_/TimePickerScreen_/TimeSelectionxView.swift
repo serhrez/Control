@@ -86,7 +86,9 @@ extension TimeSelectionxView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TPVTextCell.reuseIdentifier, for: indexPath) as! TPVTextCell
         let realIndexPath = self.collectionView.indexPath(from: indexPath)
-        cell.configure(text: "\(getNumberForItem(realIndexPath.item))")
+        let itemText = "\(getNumberForItem(realIndexPath.item))"
+        let text = itemText.count == 1 ? "0\(itemText)" : itemText
+        cell.configure(text: text)
         return cell
     }
     
