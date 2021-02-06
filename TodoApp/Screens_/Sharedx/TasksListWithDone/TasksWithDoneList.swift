@@ -44,6 +44,7 @@ class TasksWithDoneList: UIView {
             tableView.contentInset = contentInsets
         }
     }
+    var sortingEnabled: Bool = true
     
     init(onSelected: @escaping (RlmTask) -> Void, onChangeIsDone: @escaping (RlmTask) -> Void, shouldDelete: ((RlmTask) -> Void)?, isGradientHidden: Bool = false, shouldLayoutSevenPointsHigher: Bool = false) {
         self.onSelected = onSelected
@@ -94,6 +95,7 @@ class TasksWithDoneList: UIView {
     }
     
     func sortCurrentItems(_ models: [Model], sorting: ProjectSorting) -> [Model] {
+        guard sortingEnabled else { return models }
         return models.sorted { model1, model2 -> Bool in
             switch (model1, model2) {
             case (.task, .doneTask): return true

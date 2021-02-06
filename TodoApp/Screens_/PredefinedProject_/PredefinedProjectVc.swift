@@ -166,6 +166,7 @@ class PredefinedProjectVc: UIViewController {
             self?.changeProjectStartedViewState(with: tasks.isEmpty)
         })
         .disposed(by: bag)
+        tasksWithDoneList.sortingEnabled = false
         view.layout(projectStartedView).topSafe(0.065 * UIScreen.main.bounds.height).leading(47).trailing(47)
         applySharedNavigationBarAppearance()
         view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
@@ -196,7 +197,7 @@ class PredefinedProjectVc: UIViewController {
                 case .priority:
                     self.tasksSubject.onNext(results.filter { $0.priority == .high })
                 case .today:
-                    self.tasksSubject.onNext(results.filter { $0.date?.date?.isToday ?? false })
+                    self.tasksSubject.onNext(results.filter { $0.date?.date?.isToday ?? false }.sorted(by: { $0.date!.date! < $1.date!.date! }))
                 }
             }
         }
