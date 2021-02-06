@@ -459,7 +459,7 @@ final class TaskDetailsVc: UIViewController {
     @objc private func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if viewModel.subtasksModels[0].items.isEmpty {
-            actions.append(PopuptodoAction(title: "Add checklist", image: UIImage(named: "list-check"), didSelect: { [weak self] action in
+            actions.append(PopuptodoAction(title: "Add Checklist", image: UIImage(named: "list-check"), didSelect: { [weak self] action in
                 self?.addChecklistSelected(action: action)
             }))
         }
