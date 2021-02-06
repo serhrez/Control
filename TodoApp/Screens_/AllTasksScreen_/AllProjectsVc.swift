@@ -54,7 +54,6 @@ class AllProjectsVc: UIViewController {
                 self?.dismiss(animated: true, completion: nil)
                 UserDefaultsWrapper.shared.didOnboard = true
             } onPremiumVc: { [weak self] in
-                self?.navigationController?.pushViewController(PremiumFeaturesVc(), animated: false)
                 self?.dismiss(animated: true, completion: nil)
                 UserDefaultsWrapper.shared.didOnboard = true
             }

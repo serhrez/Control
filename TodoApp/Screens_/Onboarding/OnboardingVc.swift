@@ -33,7 +33,7 @@ class OnboardingVcContainer: UIViewController {
         self.view.addSubview(backgroundView)
         self.view.addSubview(visualEffectView)
         visualEffectView.colorTint = .clear
-        visualEffectView.blurRadius = 0.14 * UIScreen.main.bounds.width
+        visualEffectView.blurRadius = 0.2 * UIScreen.main.bounds.width
         visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width * CGFloat(viewControllers.count), height: UIScreen.main.bounds.height)
         visualEffectView.frame = UIScreen.main.bounds
@@ -51,10 +51,10 @@ class OnboardingVcContainer: UIViewController {
     
     func addGradient(_ index: Int, offsetIndex: Int? = nil) {
         let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
-        gradientView.alpha = isDarkTheme() ? 0.25 : 1
+        gradientView.alpha = isDarkTheme() ? 0.1 : 0.8
         backgroundView.addSubview(gradientView)
-        let yOffset: CGFloat = UIScreen.main.bounds.width >= 400 ? 0.15 : 0.09
-        gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.16 * UIScreen.main.bounds.width, y: yOffset * UIScreen.main.bounds.height, width: 0.68 * UIScreen.main.bounds.width, height: 0.68 * UIScreen.main.bounds.width)
+        let yOffset: CGFloat = UIScreen.main.bounds.width >= 400 ? 0.18 : 0.13
+        gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.25 * UIScreen.main.bounds.width, y: yOffset * UIScreen.main.bounds.height, width: 0.50 * UIScreen.main.bounds.width, height: 0.50 * UIScreen.main.bounds.width)
         gradientView.animateLocations()
         gradientViews.append(gradientView)
         if gradientViews.count > 2 && offsetIndex == nil {
@@ -149,11 +149,13 @@ class OnboardingVc: UIViewController {
     private let onSkip: ((OnboardingVc) -> Void)?
     private let onClick: (OnboardingVc) -> Void
     private let shouldOnboard: Bool
-    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
+    private let isPremiumScreen: Bool
+    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
         imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: UIScreen.main.bounds.width * imageWidth))
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         imageView.contentMode = .center
         self.onSkip = onSkip
+        self.isPremiumScreen = isPremiumScreen
         self.onClick = onClick
         self.shouldOnboard = shouldOnboard
         super.init(nibName: nil, bundle: nil)
@@ -171,7 +173,26 @@ class OnboardingVc: UIViewController {
     }
     
     @objc func buttonClicked() {
-        onClick(self)
+        if isPremiumScreen {
+            InAppManager.shared.purchaseProduct { [weak self] error in
+                if let error = error {
+                    self?.handle(error)
+                } else {
+                    print("Success buy")
+                    guard let self = self else { return }
+                    self.onClick(self)
+                }
+            }
+        } else {
+            onClick(self)
+        }
+    }
+    
+    private func handle(_ error: InAppError) {
+        let message = error.message
+        let alertVc = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertVc.addAction(.init(title: "OK", style: .cancel, handler: nil))
+        present(alertVc, animated: true, completion: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -217,6 +238,7 @@ extension OnboardingVc {
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only $4,99",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#00CE15").withAlphaComponent(0.5), normal: .hex("#00CE15")),
+                                   isPremiumScreen: true,
                                    onSkip: { vc in
                                     onSkip()
                                    },
