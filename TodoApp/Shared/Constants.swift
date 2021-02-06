@@ -13,9 +13,9 @@ enum Constants {
     static var vcMinBottomPadding: CGFloat = max(30, safeAreaInsets.bottom)
 //    static let vcBottomPadding2: CGFloat = max(30, safeAreaInsets.bottom)
     // Animation timings
-    static var animationDefaultDuration: TimeInterval = 0.35
+    static var animationDefaultDuration: TimeInterval = 0.18
     static var animationBottomMessagesDuration: TimeInterval = 0.5
-    static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 21
+    static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 20
     
     // MARK: Model restrictions
     
