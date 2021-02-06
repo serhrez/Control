@@ -477,7 +477,7 @@ final class TaskDetailsVc: UIViewController {
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
                 self?.selectPrioritySelected(action: action)
             }),
-            PopuptodoAction(title: "Add Date", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
+            PopuptodoAction(title: self.viewModel.task.date != nil ? "Edit Date" : "Add Date", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
                 self?.addCalendarSelected(action: action)
             }),
             PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: { [weak self] action in
