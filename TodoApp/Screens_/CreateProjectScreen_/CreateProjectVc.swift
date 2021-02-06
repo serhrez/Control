@@ -101,6 +101,7 @@ class CreateProjectVc: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(named: "TAAltBackground")!
         view.layer.cornerRadius = 16
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return view
     }()
     
