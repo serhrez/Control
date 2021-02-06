@@ -234,7 +234,7 @@ extension OnboardingVc {
 
         let sixthVc = OnboardingVc(imageName: "stepsix",
                                    imageWidth: 0.84,
-                                   nameText: "Add your projects and work directly with them.",
+                                   nameText: "Add Your Projects And Work Directly With Them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only $4,99",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#00CE15").withAlphaComponent(0.5), normal: .hex("#00CE15")),
@@ -250,8 +250,8 @@ extension OnboardingVc {
 
         let fifthVc = OnboardingVc(imageName: "stepfive",
                                    imageWidth: 0.35,
-                                   nameText: "Tags will help you label different thoughts.",
-                                   detailText: "Put up the tags, and solve your problems, as well as search by tag will help.",
+                                   nameText: "Tags Help You To Label Different Thoughts.",
+                                   detailText: "Put up the tags, and solve your plans, as well as search by tag.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#571CFF").withAlphaComponent(0.5), normal: .hex("#571CFF")),
                                    onSkip: { vc in
@@ -265,8 +265,8 @@ extension OnboardingVc {
 
         let fourthVc = OnboardingVc(imageName: "stepfour",
                                     imageWidth: 0.34,
-                                   nameText: "Plan ahead, and write down everything.",
-                                   detailText: "A calendar will solve all the problems of how to arrange everything for years to come.",
+                                   nameText: "Plan Ahead, And Note Everything.",
+                                   detailText: "The calendar will solve all the Plans of how to arrange everything even for the upcoming years.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447bfe")),
                                    onSkip: { vc in
@@ -280,8 +280,8 @@ extension OnboardingVc {
 
         let thirdVc = OnboardingVc(imageName: "stepthree",
                                    imageWidth: 0.81,
-                                   nameText: "Priority will help you sort things out.",
-                                   detailText: "Set a priority so you don't forget what's important to you.",
+                                   nameText: "Prioritization Helps You To Sort Things Out.",
+                                   detailText: "Set a prior task, so you don't forget what's important to you.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#00ce15").withAlphaComponent(0.5), normal: .hex("#00ce15")),
                                    onSkip: { vc in
@@ -294,8 +294,8 @@ extension OnboardingVc {
                                    })
         let secondVc = OnboardingVc(imageName: "steptwo",
                                     imageWidth: 0.37,
-                                   nameText: "See all your thoughts for today.",
-                                   detailText: "In today's screen you can see all your tasks for today and make it.",
+                                   nameText: "See All Your Plans For Today.",
+                                   detailText: "In today's screen you can see all your tasks for today and fulfill them.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#571cff").withAlphaComponent(0.5), normal: .hex("#571cff")),
                                    onSkip: { vc in
@@ -308,7 +308,7 @@ extension OnboardingVc {
                                    })
         let firstVc = OnboardingVc(imageName: "stepone",
                                    imageWidth: 0.35,
-                                   nameText: "Write anything you can think of",
+                                   nameText: "Write Something You Can Think Of.",
                                    detailText: "Collect all your thoughts in the inbox so you don’t forget. You can review it later.",
                                    nextStepText: "Next Step",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447BFE")),
