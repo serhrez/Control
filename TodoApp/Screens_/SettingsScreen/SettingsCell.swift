@@ -24,6 +24,7 @@ struct SettingsCellData: Hashable {
     var imageName: String
     var imageWidth: CGFloat
     var onClick: () -> Void
+    var active: Bool = true
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -57,7 +58,10 @@ class SettingsCell: UICollectionViewListCell {
         guard let cellData = state.cellData else { return }
         self.imageView.image = UIImage(named: cellData.imageName)?.resize(toWidth: CGFloat(cellData.imageWidth))
         label.text = cellData.text
+        label.textColor = cellData.active ? UIColor(named: "TAHeading") : UIColor.hex("#A4A4A4")
+        if cellData.active {
         overlayView.setHighlighted(state.isHighlighted)
+        }
     }
     
     override var configurationState: UICellConfigurationState {
@@ -72,7 +76,7 @@ class SettingsCell: UICollectionViewListCell {
     
     private func setupViews() {
         imageView.contentMode = .center
-        label.textColor = UIColor(named: "TAHeading")!
+        label.textColor = data.flatMap { $0.active ? UIColor(named: "TAHeading") : UIColor(named: "#A4A4A4") } ?? UIColor(named: "TAHeading")!
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         layout(imageView).leading(33).centerY().width(20).height(20)
         layout(label).leading(64).centerY()
