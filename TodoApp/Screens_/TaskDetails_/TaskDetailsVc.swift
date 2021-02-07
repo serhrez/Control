@@ -35,6 +35,9 @@ final class TaskDetailsVc: UIViewController {
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
+    private var displayVersion2: Bool {
+        UIScreen.main.bounds.width < 400
+    }
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -344,6 +347,12 @@ final class TaskDetailsVc: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 6).isActive = true
         return view
     }()
+    private let datesStackSeparator2: UIView = {
+        let view = UIView()
+        view.accessibilityIdentifier = "datesStackSeparator2"
+        view.heightAnchor.constraint(equalToConstant: 6).isActive = true
+        return view
+    }()
     
     private let stackReminderRepeat: UIStackView = {
         let stack = UIStackView(frame: .zero)
@@ -429,12 +438,30 @@ final class TaskDetailsVc: UIViewController {
         stackDateDetail.addArrangedSubview(dateDetailLabel)
         stackDateDetail.addArrangedSubview(UIView()) // empty view
         
-        containerStack.addArrangedSubview(stackDateDetail)
-        stackReminderRepeat.addArrangedSubview(reminderDetailLabel)
-        stackReminderRepeat.addArrangedSubview(repeatDetailLabel)
-        stackReminderRepeat.addArrangedSubview(UIView()) // empty view
-        containerStack.addArrangedSubview(datesStackSeparator) // empty view
-        containerStack.addArrangedSubview(stackReminderRepeat)
+        if !displayVersion2 {
+            containerStack.addArrangedSubview(stackDateDetail)
+            stackReminderRepeat.addArrangedSubview(reminderDetailLabel)
+            stackReminderRepeat.addArrangedSubview(repeatDetailLabel)
+            stackReminderRepeat.addArrangedSubview(UIView()) // empty view
+            containerStack.addArrangedSubview(datesStackSeparator) // empty view
+            containerStack.addArrangedSubview(stackReminderRepeat)
+        } else {
+            containerStack.addArrangedSubview(stackDateDetail)
+            containerStack.addArrangedSubview(datesStackSeparator)
+            let reminderDetailLabelStack = UIStackView(arrangedSubviews: [reminderDetailLabel, UIView()])
+            reminderDetailLabelStack.axis = .horizontal
+            reminderDetailLabelStack.alignment = .leading
+            reminderDetailLabelStack.accessibilityIdentifier = "reminderDetailLabelStack"
+
+            containerStack.addArrangedSubview(reminderDetailLabelStack)
+            containerStack.addArrangedSubview(datesStackSeparator2)
+            let repeatDetailLabelStack = UIStackView(arrangedSubviews: [repeatDetailLabel, UIView()])
+            repeatDetailLabelStack.axis = .horizontal
+            repeatDetailLabelStack.alignment = .leading
+            repeatDetailLabelStack.accessibilityIdentifier = "reminderDetailLabelStack"
+            containerStack.addArrangedSubview(repeatDetailLabelStack)
+
+        }
     }
     
     func setSpacings() {
@@ -447,6 +474,10 @@ final class TaskDetailsVc: UIViewController {
         containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 30 : 0, after: subtasksTable)
         let datesSeparatorVisible = task.date?.date != nil && (task.date?.reminder != nil || task.date?.repeat != nil)
         datesStackSeparator.isHidden = !datesSeparatorVisible
+        if displayVersion2 {
+            let datesSeparatorVisible2 = task.date?.reminder != nil && task.date?.repeat != nil
+            datesStackSeparator2.isHidden = !datesSeparatorVisible2
+        }
     }
     
     private func setupNavigationBar() {

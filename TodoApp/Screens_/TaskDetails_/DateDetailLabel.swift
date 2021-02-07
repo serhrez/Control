@@ -22,6 +22,11 @@ class DateDetailLabel: UIView {
         label.font = .systemFont(ofSize: 15, weight: .semibold)
         clipsToBounds = true
         imageView.contentMode = .center
+        label.adjustsFontSizeToFitWidth = true
+    }
+    
+    func setFontSize(size: CGFloat) {
+        label.font = .systemFont(ofSize: size, weight: .semibold)
     }
     
     required init?(coder: NSCoder) {
