@@ -27,23 +27,23 @@ class ProjectStartedView: UIView {
             var largeTitleNumberOfLines: Int = 2
             switch mode {
             case .noPriorities:
-                largeTitle.text = "There are no priorities right now"
-                detailTitle.text = "All of your assignments are displayed here"
+                largeTitle.text = "There Are No Priorities Right Now."
+                detailTitle.text = "All of your assignments are displayed here."
                 detailTitleAlpha = 1
             case .freeDay:
-                largeTitle.text = "You have a free day"
-                detailTitle.text = "All of your assignments are displayed here"
+                largeTitle.text = "You Have a Free Day."
+                detailTitle.text = "All of your assignments are displayed here."
                 detailTitleAlpha = 1
                 largeTitleNumberOfLines = 1
             case .projectEmpty:
-                largeTitle.text = "That's a good one, you're doing great!"
+                largeTitle.text = "That's a Good One, You're Doing Great!"
                 smallTitleWithPlusAlpha = 1
             case .started:
                 smallTitleWithPlusAlpha = 1
             case .noCalendarPlanned:
                 detailTitleAlpha = 1
-                largeTitle.text = "There are no planned tasks"
-                detailTitle.text = "Planned tasks will be shown here"
+                largeTitle.text = "There Are No Planned Tasks."
+                detailTitle.text = "Planned tasks will be shown here."
             }
             smallTitleWithPlus.alpha = smallTitleWithPlusAlpha
             detailTitle.alpha = detailTitleAlpha
