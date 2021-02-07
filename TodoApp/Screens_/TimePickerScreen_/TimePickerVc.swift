@@ -27,11 +27,6 @@ class TimePickerVc: UIViewController {
         view.layer.cornerRadius = 16
         return view
     }()
-    private let incontainerCenter: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
     private let twoDots: UILabel = {
         let label = UILabel()
         label.text = ":"
@@ -54,8 +49,8 @@ class TimePickerVc: UIViewController {
         label.text = "00"
         return label
     }()
-    private let blueView: UIView = {
-        let view = UIView()
+    private let blueView: BlueView = {
+        let view = BlueView()
         view.backgroundColor = UIColor.hex("#447bfe").withAlphaComponent(0.15)
         view.layer.borderWidth = 2.5
         view.layer.borderColor = UIColor.hex("#447bfe").cgColor
@@ -104,16 +99,17 @@ class TimePickerVc: UIViewController {
         numberField.keyboardType = .numberPad
         numberField.becomeFirstResponder()
         numberField.delegate = self
-        view.layout(containerView).leadingSafe(13).trailingSafe(13)
-        containerView.layout(incontainerCenter).top(53).centerX().width(containerView.anchor.width).multiply(0.55)
-        incontainerCenter.layout(timeSelectionHoursView).leading(20).top().bottom()
-        incontainerCenter.layout(twoDots).center()
-        incontainerCenter.layout(timeSelectionMinutesView).trailing(20).top().bottom()
-        incontainerCenter.layout(rightNumber).trailing(19).centerY().width(timeSelectionMinutesView.anchor.width)
-        incontainerCenter.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
-        incontainerCenter.layout(blueView).leading().trailing().centerY().height(71)
-        blueView.isUserInteractionEnabled = false
-        containerView.layout(clearDoneButtons).top(incontainerCenter.anchor.bottom, 63).bottom(20).leading(20).trailing(20)
+        view.layout(containerView).leadingSafe(13).trailingSafe(13).height(253)
+        containerView.layout(blueView).centerX().top(62).height(71).width(216)
+        blueView.clipsToBounds = true
+        blueView.layout(timeSelectionHoursView).leading(20).centerY()
+        blueView.layout(timeSelectionMinutesView).trailing(20).centerY()
+        blueView.layout(twoDots).center()
+        blueView.layout(rightNumber).trailing(19).centerY().width(timeSelectionMinutesView.anchor.width)
+        blueView.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
+        blueView.hitTestView2 = timeSelectionHoursView
+        blueView.hitTestView1 = timeSelectionMinutesView
+        containerView.layout(clearDoneButtons).bottom(20).leading(20).trailing(20)
         setupKeyboard()
         self.containerView.snp.makeConstraints { make in
             make.bottom.equalTo(0)
@@ -149,6 +145,22 @@ class TimePickerVc: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         [timeSelectionHoursView, timeSelectionMinutesView].forEach { $0.viewDidAppear() }
+    }
+}
+
+fileprivate class BlueView: UIView {
+    var hitTestView1: TimeSelectionxView?
+    var hitTestView2: TimeSelectionxView?
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard let hitTestView1 = hitTestView1,
+              let hitTestView2 = hitTestView2 else { return nil }
+        if hitTestView1.bounds.contains(hitTestView1.convert(self.convert(point, to: nil), from: nil)) {
+            return hitTestView1.collectionView
+        }
+        if hitTestView2.bounds.contains(hitTestView2.convert(self.convert(point, to: nil), from: nil)) {
+            return hitTestView2.collectionView
+        }
+        return super.hitTest(point, with: event)
     }
 }
 

@@ -17,7 +17,6 @@ class TimeSelectionxView: UIView {
     private var initialSelected: Int
     private(set) var selected: Int
     var numberOfItems: Int
-    let gradient = CAGradientLayer()
     init(maxNumber: Int, selected: Int) {
         self.numberOfItems = maxNumber
         self.initialSelected = selected
@@ -30,10 +29,6 @@ class TimeSelectionxView: UIView {
     
     private func setupViews() {
         layout(collectionView).edges().height(192).width(72)
-        gradient.locations = [0.15, 0.33, 0.4, 0.6, 0.67, 0.85]
-        gradient.mask = collectionView.layer
-        gradient.frame = .init(x: 0, y: 0, width: 72, height: 192)
-        layer.insertSublayer(gradient, at: 0)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.infiniteDelegate = self
@@ -51,16 +46,6 @@ class TimeSelectionxView: UIView {
     func beforeDisappear() {
         guard let centered = collectionView.centeredIndexPath else { return }
         collectionView.scrollToItem(at: centered, at: .centeredVertically, animated: true)
-    }
-    
-    override func setNeedsDisplay() {
-        super.setNeedsDisplay()
-        gradient.colors = [UIColor(named: "TAAltBackground")!.cgColor,
-                           UIColor.hex("#C8C8C8").cgColor,
-                           UIColor(named: "TAHeading")!.cgColor,
-                           UIColor(named: "TAHeading")!.cgColor,
-                           UIColor.hex("#C8C8C8").cgColor,
-                           UIColor(named: "TAAltBackground")!.cgColor]
     }
     
     override func didMoveToSuperview() {
