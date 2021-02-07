@@ -195,14 +195,41 @@ class PredefinedProjectVc: UIViewController {
             case let .initial(results), let .update(results, deletions: _, insertions: _, modifications: _):
                 switch self.mode {
                 case .priority:
-                    self.tasksSubject.onNext(results.filter { $0.priority == .high })
+                    self.tasksSubject.onNext(PredefinedProjectVc.sortPriority(results.filter { $0.priority != .none }))
                 case .today:
-                    self.tasksSubject.onNext(results.filter { $0.date?.date?.isToday ?? false }.sorted(by: { $0.date!.date! < $1.date!.date! }))
+                    self.tasksSubject.onNext(PredefinedProjectVc.sortToday(results.filter { $0.date?.date?.isToday ?? false }))
                 }
             }
         }
         tokens.append(token)
     }
+    private static func sortPriority(_ models: [RlmTask]) -> [RlmTask] {
+        return models.sorted { task1, task2 -> Bool in
+            if task1.isDone != task2.isDone {
+                return task2.isDone
+            }
+            if task1.priority != task2.priority {
+                return task1.priority > task2.priority
+            }
+            if task1.date?.date != nil && task2.date!.date != nil {
+                return task1.date!.date! > task2.date!.date!
+            }
+            return task1.createdAt > task2.createdAt
+        }
+    }
+    
+    private static func sortToday(_ models: [RlmTask]) -> [RlmTask] {
+        return models.sorted { task1, task2 -> Bool in
+            if task1.isDone != task2.isDone {
+                return task2.isDone
+            }
+            if task1.date?.date != nil && task2.date!.date != nil {
+                return task1.date!.date! > task2.date!.date!
+            }
+            return task1.createdAt > task2.createdAt
+        }
+    }
+
     
     func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
         let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
@@ -278,7 +305,7 @@ class PredefinedProjectVc: UIViewController {
             guard let self = self else { return }
             switch self.mode {
             case .priority:
-                self.addTaskModel = .init(priority: .high, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
+                self.addTaskModel = .init(priority: .low, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
             case .today:
                 let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
                 let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
@@ -414,7 +441,7 @@ class PredefinedProjectVc: UIViewController {
         newFormView.resetView()
         switch self.mode {
         case .priority:
-            if task.priority != .high {
+            if task.priority == .none {
                 showBottomMessage(type: .taskCreatedInInbox, onClicked: { })
             }
         case .today:
