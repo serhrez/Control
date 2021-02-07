@@ -280,7 +280,7 @@ class PredefinedProjectVc: UIViewController {
             case .priority:
                 self.addTaskModel = .init(priority: .high, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
             case .today:
-                let threeHoursLaterDate = Date() + 3.hours
+                let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
                 let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
                 let shouldAddDate = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask
                 self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: shouldAddDate ? date : nil , reminder: nil, repeatt: nil)
