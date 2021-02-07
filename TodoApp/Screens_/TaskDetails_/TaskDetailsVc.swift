@@ -35,9 +35,6 @@ final class TaskDetailsVc: UIViewController {
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
-    private var displayVersion2: Bool {
-        UIScreen.main.bounds.width < 400
-    }
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -438,7 +435,7 @@ final class TaskDetailsVc: UIViewController {
         stackDateDetail.addArrangedSubview(dateDetailLabel)
         stackDateDetail.addArrangedSubview(UIView()) // empty view
         
-        if !displayVersion2 {
+        if !Constants.displayVersion2 {
             containerStack.addArrangedSubview(stackDateDetail)
             stackReminderRepeat.addArrangedSubview(reminderDetailLabel)
             stackReminderRepeat.addArrangedSubview(repeatDetailLabel)
@@ -474,7 +471,7 @@ final class TaskDetailsVc: UIViewController {
         containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 30 : 0, after: subtasksTable)
         let datesSeparatorVisible = task.date?.date != nil && (task.date?.reminder != nil || task.date?.repeat != nil)
         datesStackSeparator.isHidden = !datesSeparatorVisible
-        if displayVersion2 {
+        if Constants.displayVersion2 {
             let datesSeparatorVisible2 = task.date?.reminder != nil && task.date?.repeat != nil
             datesStackSeparator2.isHidden = !datesSeparatorVisible2
         }

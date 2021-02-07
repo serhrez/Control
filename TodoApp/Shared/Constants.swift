@@ -16,6 +16,7 @@ enum Constants {
     static var animationDefaultDuration: TimeInterval = 0.18
     static var animationBottomMessagesDuration: TimeInterval = 0.5
     static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 20
+    static let displayVersion2: Bool = UIScreen.main.bounds.width < 400
     
     // MARK: Model restrictions
     
