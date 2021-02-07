@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = window
         window.makeKeyAndVisible()
-        LaunchScreenManager().animateAfterLaunch(window.rootViewController!.view)
+//        LaunchScreenManager().animateAfterLaunch(window.rootViewController!.view)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

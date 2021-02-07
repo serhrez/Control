@@ -24,7 +24,7 @@ class OnboardingVcContainer: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = UIColor(named: "TABackground")
-        LaunchScreenManager().animateAfterLaunch(self.view)
+//        LaunchScreenManager().animateAfterLaunch(self.view)
     }
     func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
         self.viewControllers = viewControllers.reversed()
