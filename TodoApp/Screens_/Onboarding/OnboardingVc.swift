@@ -11,9 +11,9 @@ import Material
 import VisualEffectView
 
 class OnboardingVcContainer: UIViewController {
-    private var viewControllers: [UIViewController]!
-    private var currentViewController: UIViewController?
-    private var nextViewController: UIViewController?
+    private var viewControllers: [OnboardingVc]!
+    private var currentViewController: OnboardingVc?
+    private var nextViewController: OnboardingVc?
     private var backgroundView: UIView = UIView()
     private let visualEffectView = VisualEffectView(frame: .zero)
     private var gradients: [[UIColor]] = []
@@ -26,7 +26,7 @@ class OnboardingVcContainer: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
 //        LaunchScreenManager().animateAfterLaunch(self.view)
     }
-    func setOnboardingStack(viewControllers: [UIViewController], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
+    func setOnboardingStack(viewControllers: [OnboardingVc], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
         self.viewControllers = viewControllers.reversed()
         self.gradients = gradients
         self.blackThemeGradients = blackThemeGradients
@@ -47,6 +47,7 @@ class OnboardingVcContainer: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        currentViewController?.animateIn()
     }
     
     func addGradient(_ index: Int, offsetIndex: Int? = nil) {
@@ -75,7 +76,8 @@ class OnboardingVcContainer: UIViewController {
     func toNext(addNextToRight: Bool = true) {
         guard let currentViewController = currentViewController else { return }
         guard let nextViewController = nextViewController else { return }
-        UIView.animate(withDuration: 0.5) {
+        nextViewController.animateIn()
+        UIView.animate(withDuration: Constants.animationOnboardingDuration) {
             nextViewController.view.frame = CGRect(x: nextViewController.view.frame.origin.x - UIScreen.main.bounds.width, y: nextViewController.view.frame.origin.y, width: nextViewController.view.frame.width, height: nextViewController.view.frame.height)
             currentViewController.view.frame = .init(origin: CGPoint(x: -self.view.bounds.size.width, y: 0), size: self.view.bounds.size)
             self.backgroundView.frame = .init(x: self.backgroundView.frame.origin.x - UIScreen.main.bounds.width, y: self.backgroundView.frame.origin.y, width: self.backgroundView.frame.width, height: self.backgroundView.frame.height)
@@ -203,15 +205,14 @@ class OnboardingVc: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         setupViews()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UIView.animate(withDuration: Constants.animationDefaultDuration * 4, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn) {
+    func animateIn() {
+        UIView.animate(withDuration: Constants.animationOnboardingDuration * 2, delay: Constants.animationOnboardingDuration * 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseIn) {
             self.imageView.transform = .identity
         } completion: { _ in
         }
     }
     private func setupViews() {
-        imageView.transform = .init(scaleX: 0.5, y: 0.5)
+        imageView.transform = .init(scaleX: 0.6, y: 0.6)
         centerView.layout(imageViewContainer).leading().trailing().top()
         imageViewContainer.layout(imageView).edges()
         centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
@@ -232,7 +233,7 @@ extension OnboardingVc {
         let onboardingVc = OnboardingVcContainer()
 
         let sixthVc = OnboardingVc(imageName: "stepsix",
-                                   imageWidth: 0.84,
+                                   imageWidth: 0.6,
                                    nameText: "Add Your Projects And Work Directly With Them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only \(InAppManager.shared.productPrice)",
@@ -248,7 +249,7 @@ extension OnboardingVc {
                                    })
 
         let fifthVc = OnboardingVc(imageName: "stepfive",
-                                   imageWidth: 0.35,
+                                   imageWidth: 0.49275,
                                    nameText: "Tags Help You To Label Different Thoughts.",
                                    detailText: "Put up the tags, and solve your plans, as well as search by tag.",
                                    nextStepText: "Next Step",
@@ -263,7 +264,7 @@ extension OnboardingVc {
                                    })
 
         let fourthVc = OnboardingVc(imageName: "stepfour",
-                                    imageWidth: 0.34,
+                                    imageWidth: 0.444,
                                    nameText: "Plan Ahead, And Note Everything.",
                                    detailText: "The calendar will solve all the Plans of how to arrange everything even for the upcoming years.",
                                    nextStepText: "Next Step",
@@ -278,7 +279,7 @@ extension OnboardingVc {
                                    })
 
         let thirdVc = OnboardingVc(imageName: "stepthree",
-                                   imageWidth: 0.81,
+                                   imageWidth: 0.686,
                                    nameText: "Prioritization Helps You To Sort Things Out.",
                                    detailText: "Set a prior task, so you don't forget what's important to you.",
                                    nextStepText: "Next Step",
@@ -292,7 +293,7 @@ extension OnboardingVc {
                                     onboardingVc.toNext()
                                    })
         let secondVc = OnboardingVc(imageName: "steptwo",
-                                    imageWidth: 0.37,
+                                    imageWidth: 0.53,
                                    nameText: "See All Your Plans For Today.",
                                    detailText: "In today's screen you can see all your tasks for today and fulfill them.",
                                    nextStepText: "Next Step",
@@ -306,7 +307,7 @@ extension OnboardingVc {
                                     onboardingVc.toNext()
                                    })
         let firstVc = OnboardingVc(imageName: "stepone",
-                                   imageWidth: 0.35,
+                                   imageWidth: 0.46,
                                    nameText: "Write Something You Can Think Of.",
                                    detailText: "Collect all your thoughts in the inbox so you don’t forget. You can review it later.",
                                    nextStepText: "Next Step",
