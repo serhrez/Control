@@ -130,14 +130,14 @@ final class CalendarVc: UIViewController {
         centerYAnchor.isActive = true
         centerXAnchor.isActive = true
         containerView.layout(scrollView).trailing().leading().top(13)
-        containerView.layout(clearDoneButtons).bottom(Constants.displayVersion2 ? 15 : 20).leading().trailing().top(scrollView.anchor.bottom, Constants.displayVersion2 ? 15 : 20)
+        containerView.layout(clearDoneButtons).bottom(0.01674 * UIScreen.main.bounds.height).leading().trailing().top(scrollView.anchor.bottom, 0.01674 * UIScreen.main.bounds.height)
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
         scrollView.frameLayoutGuide.heightAnchor.constraint(lessThanOrEqualTo: scrollView.contentLayoutGuide.heightAnchor).isActive = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.layout(calendarView).top().centerX()
-        scrollView.layout(separatorView).leading(25).trailing(25).top(calendarView.anchor.bottom, 22)
+        scrollView.layout(separatorView).leading(25).trailing(25).top(calendarView.anchor.bottom, 0.02455 * UIScreen.main.bounds.height)
         let buttonsStackCenterLayout = UIView()
-        scrollView.layout(buttonsStackCenterLayout).leading(25).trailing(25).top(separatorView.anchor.bottom).height(138)
+        scrollView.layout(buttonsStackCenterLayout).leading(25).trailing(25).top(separatorView.anchor.bottom).height(0.154017 * UIScreen.main.bounds.height)
         buttonsStackCenterLayout.layout(buttonsStack).leading().trailing().centerY()
         scrollView.layout(separatorView2).leading(25).trailing(25).top(buttonsStackCenterLayout.anchor.bottom)
         todayButton.label.snp.makeConstraints { make in
@@ -151,8 +151,8 @@ final class CalendarVc: UIViewController {
         ])
         buttonsStackCenterLayout2.axis = .vertical
         buttonsStackCenterLayout2.spacing = 27
-        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 34)
-        scrollView.layout(clearButton).top(buttonsStackCenterLayout2.anchor.bottom, 30).leading(25).trailing(25).bottom(10).height(55)
+        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 0.037946 * UIScreen.main.bounds.height)
+        scrollView.layout(clearButton).top(buttonsStackCenterLayout2.anchor.bottom, 0.03348 * UIScreen.main.bounds.height).leading(25).trailing(25).bottom(10).height(55)
         let scrollHeight = scrollView.frameLayoutGuide.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         scrollHeight.priority = .init(1)
         scrollHeight.isActive = true
