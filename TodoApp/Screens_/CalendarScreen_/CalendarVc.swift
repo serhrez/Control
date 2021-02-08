@@ -130,7 +130,7 @@ final class CalendarVc: UIViewController {
         centerYAnchor.isActive = true
         centerXAnchor.isActive = true
         containerView.layout(scrollView).trailing().leading().top(13)
-        containerView.layout(clearDoneButtons).bottom(20).leading().trailing().top(scrollView.anchor.bottom, 20)
+        containerView.layout(clearDoneButtons).bottom(Constants.displayVersion2 ? 15 : 20).leading().trailing().top(scrollView.anchor.bottom, Constants.displayVersion2 ? 15 : 20)
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
         scrollView.frameLayoutGuide.heightAnchor.constraint(lessThanOrEqualTo: scrollView.contentLayoutGuide.heightAnchor).isActive = true
         scrollView.showsVerticalScrollIndicator = false
@@ -151,7 +151,7 @@ final class CalendarVc: UIViewController {
         ])
         buttonsStackCenterLayout2.axis = .vertical
         buttonsStackCenterLayout2.spacing = 27
-        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 34)//.bottom()
+        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 34)
         scrollView.layout(clearButton).top(buttonsStackCenterLayout2.anchor.bottom, 30).leading(25).trailing(25).bottom(10).height(55)
         let scrollHeight = scrollView.frameLayoutGuide.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         scrollHeight.priority = .init(1)
