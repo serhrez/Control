@@ -16,7 +16,7 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
         }
     }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.7)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.5)) {
         self.transitionDuration = duration
         super.init()
     }
@@ -65,7 +65,7 @@ class SlidePopTransition: UIPercentDrivenInteractiveTransition, UIViewController
         }
     }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.7)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.5)) {
         self.transitionDuration = duration
         super.init()
         self.completionSpeed = CGFloat(duration * 0.7)
