@@ -13,14 +13,20 @@ import SwiftyDrop
 
 class PremiumFeaturesVc: UIViewController {
 
-    let containerView: UIScrollView = {
-        let view = SmartScroll()
-        view.contentLayoutGuide.widthAnchor.constraint(equalTo: view.frameLayoutGuide.widthAnchor).isActive = true
+    let containerView: UIView = {
+        let view = UIView()
         view.backgroundColor = UIColor(named: "TAAltBackground")
         view.layer.cornerRadius = 16
-        view.scrollIndicatorInsets = .init(top: 16 / 2, left: 0, bottom: 16 / 2, right: 0)
+        view.clipsToBounds = true
         return view
     }()
+    let scrollView: UIScrollView = {
+        let view = SmartScroll()
+        view.contentLayoutGuide.widthAnchor.constraint(equalTo: view.frameLayoutGuide.widthAnchor).isActive = true
+        view.scrollIndicatorInsets = .init(top: 16 / 2, left: 0, bottom: 0, right: 0)
+        return view
+    }()
+    
     let imageView: UIImageView = {
         let view = UIImageView(image: UIImage(named: "premiumimage"))
         view.contentMode = .scaleAspectFit
@@ -75,6 +81,12 @@ class PremiumFeaturesVc: UIViewController {
         button.titleLabel?.textAlignment = .center
         return button
     }()
+    let bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "TAAltBackground")
+        return view
+    }()
+
     private let notification: LimitNotification?
     
     init(notification: LimitNotification? = nil) {
@@ -92,7 +104,7 @@ class PremiumFeaturesVc: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        containerView.flashScrollIndicators()
+        scrollView.flashScrollIndicators()
         if let notification = notification {
             Drop.down(notification.text, state: .info, duration: 2, action: .none)
         }
@@ -102,16 +114,18 @@ class PremiumFeaturesVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")!
         applySharedNavigationBarAppearance()
         view.layout(containerView).leading(13).trailing(13).topSafe()
-        containerView.layout(imageView).top(22).leading(21) { _, _ in .greaterThanOrEqual }
+        containerView.layout(scrollView).top().leading().trailing()
+        containerView.layout(bottomView).bottom().leading().trailing().top(scrollView.anchor.bottom)
+        scrollView.layout(imageView).top(22).leading(21) { _, _ in .greaterThanOrEqual }
             .trailing(21) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.8216)
-        containerView.layout(premiumLabel).top(imageView.anchor.bottom, 33.2).leading(30).trailing(30)
-        containerView.layout(plusesStack).top(premiumLabel.anchor.bottom, 30).leading(30).trailing(15)
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tasks"))
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited reminders"))
+        scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 33.2).leading(30).trailing(30)
+        scrollView.layout(plusesStack).top(premiumLabel.anchor.bottom, 30).leading(30).trailing(15).bottom(35)
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tags"))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Reminders"))
         plusesStack.addArrangedSubview(PremiumFeatureView("Unlock Archive"))
-        plusesStack.addArrangedSubview(PremiumFeatureView("Constant improvements and new features"))
-        containerView.layout(buyButton).top(plusesStack.anchor.bottom, 35).leading(30).trailing(30).height(60)
-        containerView.layout(infoLabel).top(buyButton.anchor.bottom, 25).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(25)
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Prioritization"))
+        bottomView.layout(buyButton).top(5).leading(30).trailing(30).height(60)
+        bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.0279 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.0279 * UIScreen.main.bounds.height)
         view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
     }
     
