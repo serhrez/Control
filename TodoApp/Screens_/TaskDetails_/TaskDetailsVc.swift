@@ -300,7 +300,7 @@ final class TaskDetailsVc: UIViewController {
         return view
     }()
     private lazy var taskNameh1: MyGrowingTextView = {
-        let taskLabel = MyGrowingTextView(placeholderText: "Call to John Wick?", scrollBehavior: .noScroll)
+        let taskLabel = MyGrowingTextView(placeholderText: FunnyTextProvider.shared.getFunText(), scrollBehavior: .noScroll)
         taskLabel.textField.font = .systemFont(ofSize: 20, weight: .medium)
         taskLabel.accessibilityIdentifier = "taskNameh1"
         taskLabel.placeholderAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TASubElement")!)

@@ -14,7 +14,8 @@ class UserDefaultsWrapper {
         defaults.register(defaults: [
             .isPremium: false,
             .didOnboard: false,
-            .debugDeleteDb: true
+            .debugDeleteDb: true,
+            .lastTimeGeneratedFunTextNumber: -1
         ])
     }
     var isPremium: Bool {
@@ -31,10 +32,20 @@ class UserDefaultsWrapper {
         get { defaults.bool(forKey: .debugDeleteDb) }
         set { defaults.setValue(newValue, forKey: .debugDeleteDb) }
     }
+    var lastTimeGeneratedFunText: Date {
+        get { defaults.value(forKey: .lastTimeGeneratedFunText) as? Date ?? .distantPast }
+        set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunText) }
+    }
+    var lastTimeGeneratedFunTextNumber: Int {
+        get { defaults.integer(forKey: .lastTimeGeneratedFunText) }
+        set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunText) }
+    }
 }
 
 fileprivate extension String {
     static let isPremium = "isPremiumPurchased"
     static let didOnboard = "didOnboard"
     static let debugDeleteDb = "debugDeleteDb"
+    static let lastTimeGeneratedFunText = "lastTimeGeneratedFunText"
+    static let lastTimeGeneratedFunTextNumber = "lastTimeGeneratedFunTextNumber"
 }

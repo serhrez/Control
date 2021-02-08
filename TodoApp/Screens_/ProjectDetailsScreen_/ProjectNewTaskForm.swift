@@ -231,7 +231,7 @@ class ProjectNewTaskForm: UIView {
         textField.font = .systemFont(ofSize: 20, weight: .medium)
         textField.textColor = UIColor(named: "TAHeading")!
         let attributes = Attributes().font(UIFont.systemFont(ofSize: 20, weight: .medium))
-        textField.attributedPlaceholder = "Call to John Wick?".at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
+        textField.attributedPlaceholder = FunnyTextProvider.shared.getFunText().at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         return textField
     }()
     lazy var calendarButton: ImageButton = {
