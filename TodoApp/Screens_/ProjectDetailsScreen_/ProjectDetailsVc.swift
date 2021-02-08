@@ -483,7 +483,7 @@ class ProjectDetailsVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: { [weak self] sourceView in
-            guard RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
+            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
                 self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                 return
             }
@@ -590,7 +590,7 @@ class ProjectDetailsVc: UIViewController {
         RealmProvider.main.safeWrite {
             project.tasks.append(rlmTask)
         }
-        state = .list
+        state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil))
         newFormView.resetView()
     }
 

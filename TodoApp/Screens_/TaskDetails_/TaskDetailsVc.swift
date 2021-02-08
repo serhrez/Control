@@ -503,7 +503,7 @@ final class TaskDetailsVc: UIViewController {
         }
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
-                guard RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
+                guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
                     self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                     return
                 }

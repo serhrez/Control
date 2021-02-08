@@ -115,7 +115,7 @@ class PredefinedProjectVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: { [weak self] sourceView in
-            guard RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != .none }.count <= Constants.maximumPriorities else {
+            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != .none }.count <= Constants.maximumPriorities else {
                 self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                 return
             }
@@ -306,16 +306,20 @@ class PredefinedProjectVc: UIViewController {
     private func toolbarViewSetup() {
         view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(Constants.vcMinBottomPadding)
         tasksToolbar.onClick = { [weak self] in
-            guard let self = self else { return }
-            switch self.mode {
-            case .priority:
-                self.addTaskModel = .init(priority: .low, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
-            case .today:
-                let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
-                let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
-                let shouldAddDate = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask
-                self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: shouldAddDate ? date : nil , reminder: nil, repeatt: nil)
-            }
+            self?.setUpInitialDataToAddTaskModel()
+        }
+    }
+    
+    func setUpInitialDataToAddTaskModel() {
+        switch self.mode {
+        case .priority:
+            let shouldAddPriority = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != Priority.none }.count <= Constants.maximumPriorities
+            self.addTaskModel = .init(priority: shouldAddPriority ? .low : .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
+        case .today:
+            let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
+            let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
+            let shouldAddDate = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask
+            self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: shouldAddDate ? date : nil , reminder: nil, repeatt: nil)
         }
     }
     
@@ -436,18 +440,25 @@ class PredefinedProjectVc: UIViewController {
         RealmProvider.main.safeWrite {
             project.tasks.append(rlmTask)
         }
-        addTaskModel = nil
-        newFormView.resetView()
+        var shouldClose = false
         switch self.mode {
         case .priority:
             if task.priority == .none {
                 showBottomMessage(type: .taskCreatedInInbox, onClicked: { })
+                shouldClose = true
             }
         case .today:
             if task.date == nil || task.date.flatMap { !$0.isToday } ?? false {
                 showBottomMessage(type: .taskCreatedInInbox, onClicked: { })
+                shouldClose = true
             }
         }
+        if shouldClose {
+            addTaskModel = nil
+        } else {
+            setUpInitialDataToAddTaskModel()
+        }
+        newFormView.resetView()
     }
 
 

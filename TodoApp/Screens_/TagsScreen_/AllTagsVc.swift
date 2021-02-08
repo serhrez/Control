@@ -196,7 +196,7 @@ extension AllTagsVc: UICollectionViewDelegate {
         let model = viewModel.models[indexPath.section].items[indexPath.row]
         switch model {
         case .addTag:
-            guard RealmProvider.main.realm.objects(RlmTag.self).count <= Constants.maximumTags else {
+            guard UserDefaultsWrapper.shared.isPremium ||  RealmProvider.main.realm.objects(RlmTag.self).count <= Constants.maximumTags else {
                 router.openPremiumFeatures(notification: .tagsLimit)
                 return
             }
