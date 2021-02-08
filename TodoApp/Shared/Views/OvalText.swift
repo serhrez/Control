@@ -32,7 +32,7 @@ class OvalText: UIView {
         super.init(frame: .zero)
         backgroundColor = .clear
         label = UILabel()
-        label.textColor = UIColor(named: "TAAltBackground")!
+        label.textColor = UIColor(hex: "#FFFFFF")!
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .bold)
         containerView.backgroundColor = bgColor
