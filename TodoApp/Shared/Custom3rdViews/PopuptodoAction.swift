@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import PopMenu
+import Material
 
 /// The default PopMenu action class.
 public class PopuptodoAction: NSObject, PopMenuAction {
@@ -27,7 +28,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     public let view: UIView
     
     /// Color of action.
-    public let color: Color?
+    public let color: PopMenu.Color?
     
     /// Handler of action when selected.
     public let didSelect: PopMenuActionHandler?
@@ -44,7 +45,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     // MARK: - Computed Properties
     
     /// Text color of the label.
-    public var tintColor: Color {
+    public var tintColor: PopMenu.Color {
         get {
             return titleLabel.textColor
         }
@@ -93,7 +94,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     public var isSelectable = true
     
     /// Background color for highlighted state.
-    public var overlayColor: Color = UIColor(named: "TAAltBackground")!
+    public var overlayColor: PopMenu.Color = UIColor(named: "TAAltBackground")!
 
     // MARK: - Subviews
     
@@ -117,6 +118,11 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         return imageView
     }()
     
+    private lazy var iconImageViewContainer: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     // MARK: - Constants
     
     public static let textLeftPadding: CGFloat = 25
@@ -124,7 +130,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     // MARK: - Initializer
     
     /// Initializer.
-    public init(title: String? = nil, image: UIImage? = nil, color: Color? = nil, isSelectable: Bool = true, didSelect: PopMenuActionHandler? = nil) {
+    public init(title: String? = nil, image: UIImage? = nil, color: PopMenu.Color? = nil, isSelectable: Bool = true, didSelect: PopMenuActionHandler? = nil) {
         self.title = title
         self.image = image
         self.color = color
@@ -145,14 +151,8 @@ public class PopuptodoAction: NSObject, PopMenuAction {
 
         if let _ = image {
             hasImage = true
-            view.addSubview(iconImageView)
-            
-            NSLayoutConstraint.activate([
-//                iconImageView.widthAnchor.constraint(equalToConstant: iconWidthHeight),
-                iconImageView.heightAnchor.constraint(equalToConstant: iconWidthHeight),
-                iconImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: iconLeftPadding),
-                iconImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
+            view.layout(iconImageViewContainer).height(iconWidthHeight).width(iconWidthHeight).leading(view.anchor.leading, iconLeftPadding).centerY(view.anchor.centerY)
+            iconImageViewContainer.layout(iconImageView).edges()
         }
         
         view.addSubview(titleLabel)
