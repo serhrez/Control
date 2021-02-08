@@ -88,7 +88,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
             self?.handleSwipeActionRestore(action: action, path: path)
         })
         restoreAction.backgroundColor = .hex("#FF9900")
-        restoreAction.image = UIImage(named: "arrow-back-up")?.resize(toWidth: 24)
+        restoreAction.image = UIImage(named: "arrow-back-up")?.resize(toWidth: 22)
         restoreAction.hidesWhenSelected = true
     
         return [deleteAction, restoreAction]
