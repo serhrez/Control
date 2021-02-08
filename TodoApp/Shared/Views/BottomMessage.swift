@@ -84,7 +84,7 @@ extension BottomMessage {
         case .allTasksDeleted:
             return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Dos Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
         case .taskCreatedInInbox:
-            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "New task has been created in inbox", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#FFE600"), imageName: nil, text: "New Task Has Been Created in Inbox", textColor: UIColor(named: "TAHeading")!, imageWidth: 17, onClicked: onClicked)
         }
     }
     
