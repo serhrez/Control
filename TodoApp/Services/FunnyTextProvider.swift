@@ -35,9 +35,9 @@ class FunnyTextProvider {
 
 extension FunnyTextProvider {
     static let phrases: [String] = [
-        "Выпустить первый релиз тудушки",
+        "Сбежать с Таркова",
         "Поиграть с Русланом в Тарков",
-        "Купить биткоин"
+        "Выпустить первый релиз тудушки"
     ]
 }
 
