@@ -235,7 +235,7 @@ extension OnboardingVc {
                                    imageWidth: 0.84,
                                    nameText: "Add Your Projects And Work Directly With Them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
-                                   nextStepText: "Only $4,99",
+                                   nextStepText: "Only \(InAppManager.shared.productPrice)",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#00CE15").withAlphaComponent(0.5), normal: .hex("#00CE15")),
                                    isPremiumScreen: true,
                                    onSkip: { vc in

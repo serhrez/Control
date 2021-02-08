@@ -63,7 +63,7 @@ class PremiumFeaturesVc: UIViewController {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnBuy), for: .touchUpInside)
         button.stateBackgroundColor = .init(highlighted: .hex("#242424"), normal: .hex("#FFE600"))
-        button.setTitle("Only $4,99", for: .normal)
+        button.setTitle("Only \(InAppManager.shared.productPrice)", for: .normal)
         button.setTitleColor(.hex("#242424"), for: .normal)
         button.setTitleColor(.hex("#FFE600"), for: .highlighted)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
