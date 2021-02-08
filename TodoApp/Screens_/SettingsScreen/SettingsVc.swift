@@ -32,7 +32,7 @@ class SettingsVc: UIViewController {
         ])
     lazy var secondaryCollectionView = SettingsVcCollectionView(
         items: [
-            .init(text: "Recommend to Friends", imageName: "recommendheart", imageWidth: 16.35, onClick: { [weak self] in
+            .init(text: "Recommend to Friends", imageName: "recommendheart", imageWidth: 16.35 + 3, onClick: { [weak self] in
                 guard let self = self else { return }
                 let textToShare = "Check out this Todo-app"
 
@@ -46,7 +46,7 @@ class SettingsVc: UIViewController {
                     self.present(activityVC, animated: true, completion: nil)
                 }
             }),
-            .init(text: "Feedback & Suggestions", imageName: "feedback", imageWidth: 18, onClick: { [weak self] in
+            .init(text: "Feedback & Suggestions", imageName: "feedback", imageWidth: 18 + 2, onClick: { [weak self] in
                 guard let self = self else { return }
                 guard let url = URL(string: "https://twitter.com") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
