@@ -95,7 +95,8 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         let startDate = formatter.date(from: "2017 01 01")!
         let endDate = formatter.date(from: "2025 02 01")!
         
-        let parameters = ConfigurationParameters(startDate: startDate,endDate: endDate)
+        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate, firstDayOfWeek: .monday)
+        
         return parameters
     }
     

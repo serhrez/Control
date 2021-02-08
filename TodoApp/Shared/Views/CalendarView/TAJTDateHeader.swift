@@ -72,7 +72,7 @@ class TAJTDateHeader: JTACMonthReusableView {
             view.layout(label).center()
             return view
         }
-        let stack = UIStackView(arrangedSubviews: ["S", "M", "T", "W", "T", "F", "S"].map { getView(text: $0) })
+        let stack = UIStackView(arrangedSubviews: ["M", "T", "W", "T", "F", "S", "S"].map { getView(text: $0) })
         stack.distribution = .fillEqually
         return stack
     }()
