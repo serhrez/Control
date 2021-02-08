@@ -185,7 +185,7 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         guard case .tag = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")?.withRenderingMode(.alwaysTemplate)
+        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
         deleteAction.textColor = UIColor(named: "TAAltBackground")!
         return [deleteAction]
     }
