@@ -51,7 +51,7 @@ class AllProjectsVcVM {
     }
     
     func getPriorityModel() -> Model {
-        let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority == .high }
+        let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != .none }
         let count = tasks.count
         let progress: Double
         if count == 0 {
