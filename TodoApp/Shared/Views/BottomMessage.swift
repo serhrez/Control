@@ -80,11 +80,11 @@ extension BottomMessage {
     static func create(messageType: MessageType, onClicked: @escaping () -> Void) -> BottomMessage {
         switch messageType {
         case .taskDeleted:
-            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#447BFE"), imageName: "arrow-back-up", text: "To-Do is Moved to Archive, Restore?", textColor: UIColor(hex: "#FFFFFF")!, imageWidth: 17, onClicked: onClicked)
         case .allTasksDeleted:
-            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Dos Moved to Archive, Restore?", textColor: UIColor(named: "TAAltBackground")!, imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#EF4439"), imageName: "trash", text: "To-Dos Moved to Archive, Restore?", textColor: UIColor(hex: "#FFFFFF")!, imageWidth: 17, onClicked: onClicked)
         case .taskCreatedInInbox:
-            return BottomMessage(backgroundColor: .hex("#FFE600"), imageName: nil, text: "New Task Has Been Created in Inbox", textColor: UIColor(named: "TAHeading")!, imageWidth: 17, onClicked: onClicked)
+            return BottomMessage(backgroundColor: .hex("#FFE600"), imageName: nil, text: "New Task Has Been Created in Inbox", textColor: UIColor(hex: "#242424")!, imageWidth: 17, onClicked: onClicked)
         }
     }
     
