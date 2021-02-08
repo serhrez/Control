@@ -115,6 +115,10 @@ class PredefinedProjectVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: { [weak self] sourceView in
+            guard RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != .none }.count <= Constants.maximumPriorities else {
+                self?.router.openPremiumFeatures(notification: .prioritiesLimit)
+                return
+            }
             self?.showPriorityPicker(sourceView: sourceView)
         },
         onTagPlusClicked: { [weak self] in
@@ -425,11 +429,6 @@ class PredefinedProjectVc: UIViewController {
     }
     
     func shouldCreateTask(task: ProjectDetailsTaskCreateModel) {
-        guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).count <= Constants.maximumTasksCount else {
-            let premiumFeaturesVc = PremiumFeaturesVc(notification: .tasksLimit)
-            navigationController?.pushViewController(premiumFeaturesVc, animated: true)
-            return
-        }
         guard let project = RealmProvider.main.realm.objects(RlmProject.self).filter({ $0.id == Constants.inboxId }).first else { return }
         let rlmTags = RealmProvider.main.realm.objects(RlmTag.self).filter { tag in task.tags.contains(where: { tag.name == $0 }) }
         let rlmTask = RlmTask(name: task.name, taskDescription: task.description, priority: task.priority, isDone: false, date: RlmTaskDate(date: task.date, reminder: task.reminder, repeat: task.repeatt), createdAt: Date())

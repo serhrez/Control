@@ -199,18 +199,21 @@ extension PremiumFeaturesVc {
     }
     
     enum LimitNotification {
-        case tasksLimit
         case archiveLimit
         case dateToTaskLimit
+        case tagsLimit
+        case prioritiesLimit
         
         var text: String {
             switch self {
-            case .tasksLimit:
-                return "You can have up to \(Constants.maximumTasksCount) tasks"
             case .archiveLimit:
                 return "You can't open archive in free version"
             case .dateToTaskLimit:
                 return "You can't have more than \(Constants.maximumDatesToTask) reminders"
+            case .tagsLimit:
+                return "You can't have more than \(Constants.maximumTags) tags"
+            case .prioritiesLimit:
+                return "You can't set more than \(Constants.maximumPriorities) priorities"
             }
         }
     }

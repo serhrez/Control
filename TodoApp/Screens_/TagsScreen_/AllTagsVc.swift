@@ -75,7 +75,7 @@ class AllTagsVc: UIViewController {
                 print("willChangeFrame set height: \(height)")
                 if previousHeight == height { return }
                 previousHeight = height
-                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: max(height, Constants.vcMinBottomPadding + 10), right: 0)
             }
             .on(event: .willHide, do: { [weak self] (options) in
                 guard let self = self else { return }
@@ -84,7 +84,7 @@ class AllTagsVc: UIViewController {
                 print("willHide set height: \(height)")
                 if previousHeight == height { return }
                 previousHeight = height
-                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                self.collectionView.contentInset = .init(top: 0, left: 0, bottom: max(height, Constants.vcMinBottomPadding + 10), right: 0)
             })
             .start()
     }
@@ -129,7 +129,9 @@ class AllTagsVc: UIViewController {
                 }
             case .addTagEnterName:
                 let addTagEnterName = collectionView.dequeueReusableCell(withReuseIdentifier: AllTagsEnterNameCell.reuseIdentifier, for: indexPath) as! AllTagsEnterNameCell
-                addTagEnterName.configure(tagCreated: self.viewModel.addTag, shouldClose: self.viewModel.addTagClosedWithoutAdding)
+                addTagEnterName.configure(tagCreated: self.viewModel.addTag, shouldClose: { [weak self] in
+                    self?.viewModel.addTagClosedWithoutAdding()
+                })
                 return addTagEnterName
             }
         }
@@ -194,6 +196,10 @@ extension AllTagsVc: UICollectionViewDelegate {
         let model = viewModel.models[indexPath.section].items[indexPath.row]
         switch model {
         case .addTag:
+            guard RealmProvider.main.realm.objects(RlmTag.self).count <= Constants.maximumTags else {
+                router.openPremiumFeatures(notification: .tagsLimit)
+                return
+            }
             viewModel.allowAdding()
         case .addTagEnterName: break
         case let .tag(tag):

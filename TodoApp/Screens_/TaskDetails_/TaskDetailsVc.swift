@@ -503,6 +503,10 @@ final class TaskDetailsVc: UIViewController {
         }
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
+                guard RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
+                    self?.router.openPremiumFeatures(notification: .prioritiesLimit)
+                    return
+                }
                 self?.selectPrioritySelected(action: action)
             }),
             PopuptodoAction(title: self.viewModel.task.date != nil ? "Edit Date" : "Add Date", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
