@@ -82,7 +82,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
             self?.handleSwipeActionRestore(action: action, path: path)
         })
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
+        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(hex: "#FFFFFF")!, renderingMode: .alwaysTemplate)
         deleteAction.hidesWhenSelected = true
         let restoreAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
             self?.handleSwipeActionRestore(action: action, path: path)

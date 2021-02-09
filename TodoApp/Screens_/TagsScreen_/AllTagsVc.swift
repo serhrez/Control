@@ -158,8 +158,8 @@ class AllTagsVc: UIViewController {
         let tag = viewModel.models[0].items[indexPath.row]
         switch tag {
         case let .tag(tag):
-            let alertVc = UIAlertController(title: "Are you sure?", message: "you really wanna delete this \(tag.name)??", preferredStyle: .alert)
-            alertVc.addAction(UIAlertAction(title: "Hmm, not sure", style: .default))
+            let alertVc = UIAlertController(title: "Delete Tag", message: "Tag '\(tag.name)' will be removed from all your tasks", preferredStyle: .alert)
+            alertVc.addAction(UIAlertAction(title: "Cancel", style: .default))
             alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
                 self?.viewModel.deleteTag(tag)
             }))
@@ -185,8 +185,7 @@ extension AllTagsVc: SwipeCollectionViewCellDelegate {
         guard case .tag = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
         deleteAction.backgroundColor = .hex("#EF4439")
-        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
-        deleteAction.textColor = UIColor(named: "TAAltBackground")!
+        deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(hex: "#FFFFFF")!, renderingMode: .alwaysTemplate)
         return [deleteAction]
     }
 }

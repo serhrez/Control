@@ -171,7 +171,7 @@ extension TasksWithDoneList: SwipeCollectionViewCellDelegate {
 //                    }
                 })
                 deleteAction.backgroundColor = .hex("#EF4439")
-                deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(named: "TAAltBackground")!, renderingMode: .alwaysTemplate)
+                deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(hex: "#FFFFFF")!, renderingMode: .alwaysTemplate)
                 deleteAction.hidesWhenSelected = true
                 deleteAction.transitionDelegate = ScaleTransition.default
                 actions.append(deleteAction)

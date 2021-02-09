@@ -299,7 +299,7 @@ class ProjectDetailsVc: UIViewController {
             self.deleteProject()
             return
         }
-        let alertVc = UIAlertController(title: "Delete '\(project.name)'", message: "Are you sure?", preferredStyle: .alert)
+        let alertVc = UIAlertController(title: "Delete Project", message: "Project '\(project.name)' will be removed", preferredStyle: .alert)
         alertVc.addAction(.init(title: "Delete all", style: .destructive, handler: { [weak self] _ in
             guard let self = self else { return }
             self.deleteProject()
