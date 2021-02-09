@@ -143,6 +143,7 @@ class ProjectDetailsVc: UIViewController {
             newFormView.priority = newTask.priority
             newFormView.date = (newTask.date, newTask.reminder, newTask.repeatt)
             newFormView.tags = ModelFormatt.tagsSorted(tags: newTask.tags)
+            self.tasksWithDoneList.layer.opacity = 1
             return
         case (_, .list):
             tasksWithDoneListOpacity = 1
@@ -338,7 +339,7 @@ class ProjectDetailsVc: UIViewController {
     lazy var topView = ProjectDetailsTop(
         color: .hex("#FF9900"),
         projectName: project.name,
-        icon: .text("🚒"),
+        icon: .text(getRandomEmoji()),
         onProjectNameChanged: { [weak self] newName in
             RealmProvider.main.safeWrite {
                 self?.project.name = newName

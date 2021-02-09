@@ -12,3 +12,11 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension Array {
+    func randomElement() -> Element? {
+        guard let firstIndex = indices.first,
+           let lastIndex = indices.last else { return nil }
+        return self[Int.random(in: firstIndex...lastIndex)]
+    }
+}

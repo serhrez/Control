@@ -50,7 +50,7 @@ class PredefinedRealm {
             task.tags.append(tag4)
             project1.tasks.append(task)
             var datereferencex = Date().dateAt(.nextWeek)
-            let project2 = RlmProject(name: "Work", icon: .text("🚒"), notes: "", color: .hex("#00CE15"), date: Date())
+            let project2 = RlmProject(name: "Work", icon: .text(getRandomEmoji()), notes: "", color: .hex("#00CE15"), date: Date())
             task = RlmTask(name: "Task1", priority: .medium, isDone: true)
             task.tags.append(tag1)
             task.priority = .low

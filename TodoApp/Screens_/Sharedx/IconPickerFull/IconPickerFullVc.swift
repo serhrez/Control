@@ -70,21 +70,6 @@ final class IconPickerFullVc: UIViewController {
         return layout
     }()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-//    private lazy var dataSource: DataSource = {
-//        let dataSource = DataSource(collectionView: collectionView) { (collectionView, ip, emoji) -> UICollectionViewCell? in
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IconPickerEmojiCell.reuseIdentifier, for: ip) as! IconPickerEmojiCell
-//            cell.configure(emoji: emoji)
-//            return cell
-//        }
-//        dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, ip -> UICollectionReusableView? in
-//            guard let self = self else { return nil }
-//            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: IconPickerEmojiHeader.reuseIdentifier, for: ip) as! IconPickerEmojiHeader
-////            let headerString = self.items.filter { !$0.1.isEmpty }[ip.section].0.viewString
-////            header.configure(name: headerString)
-//            return header
-//        }
-//        return dataSource
-//    }()
     var items: [ItemWithSection] = IconPickerFullVc.allEmojis {
         didSet {
             DispatchQueue.main.async {
@@ -179,24 +164,6 @@ final class IconPickerFullVc: UIViewController {
     func applyDifference() {
         self.collectionView.reloadData()
     }
-//    func applyDifference(animatingDifferences: Bool = true) {
-//        var snapshot = Snapshot()
-//        let filtered = items.filter { !$0.1.isEmpty }
-//        snapshot.appendSections(filtered.map { $0.0 })
-//        for section in filtered {
-//            snapshot.appendItems(section.1.map { $0.emoji }, toSection: section.0)
-//        }
-//        DispatchQueue.global(qos: .userInteractive).async { [self] in
-//            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-//        }
-//    }
-    
-//    func applySnapshot(animatingDifferences: Bool = true) {
-//        var snapshot = Snapshot()
-//        snapshot.appendSections([.main])
-//        snapshot.appendItems(items)
-//        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-//    }
 }
 
 extension IconPickerFullVc: UICollectionViewDataSource {
@@ -206,7 +173,6 @@ extension IconPickerFullVc: UICollectionViewDataSource {
         cell.configure(emoji: item.emoji)
         return cell
     }
-//    func collectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items[section].1.count
     }

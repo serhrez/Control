@@ -27,6 +27,10 @@ enum Constants {
     static let maximumTags = 10
     static let maximumDatesToTask = 15
     static let maximumPriorities = 20
+    
+    // MARK: Misc
+    static let colors: [UIColor] = [.hex("#242424"), .hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#FFE600"), .hex("#EF4439"), .hex("#FF9900")]
+    static let colorsForRandom: [UIColor] = [.hex("#447BFE"), .hex("#571CFF"), .hex("#00CE15"), .hex("#EF4439"), .hex("#FF9900")]
 }
 
 fileprivate var safeAreaInsets: UIEdgeInsets {

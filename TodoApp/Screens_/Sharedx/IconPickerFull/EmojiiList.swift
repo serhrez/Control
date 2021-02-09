@@ -37,22 +37,6 @@ extension IconPickerFullVc {
         }
     }
     static let allEmojis: [ItemWithSection] = Readerr.getAllEmojis()
-//    static func getAllEmojis(_ completion: @escaping ([(EmojiiSection, [Emojii])]) -> Void) {
-//        if let allEmojis = allEmojis {
-//            completion(allEmojis)
-//            return
-//        }
-//        let currentQueue = OperationQueue.current ?? .main
-//        DispatchQueue.global(qos: .userInteractive).async {
-//            let allEmoj = Readerr.getAllEmojis()
-//            allEmojis = allEmoj
-//            currentQueue.addOperation {
-//                completion(allEmoj)
-//            }
-//        }
-//    }
-//
-//    private static var allEmojis: [(EmojiiSection, [Emojii])]?
 
 }
 
@@ -80,23 +64,3 @@ fileprivate enum Readerr {
         return nil
     }
 }
-//
-//import Foundation
-//
-//enum BreakingTopSymbolsLoader {
-//    static func loadSymbols() -> [CanonicalSymbol] {
-//        guard let symbolString = getString() else { return [] }
-//        let strings = symbolString.split(whereSeparator: { $0.isNewline })
-//        let canonicalSymbols: [CanonicalSymbol] = strings.compactMap { CanonicalSymbol(combinedSymbol: String($0)) }
-//        return canonicalSymbols
-//    }
-//
-//    private static func getString() -> String? {
-//        if let filepath = Bundle.main.path(forResource: "top-stocks-for-smart-import", ofType: "txt") {
-//            let contents = try? String(contentsOfFile: filepath)
-//            return contents
-//        }
-//        return nil
-//    }
-//
-//}

@@ -15,12 +15,12 @@ import Haptica
 
 class CreateProjectVc: UIViewController {
     let keyboard = Typist()
-    var icon: Icon = .text("🚒") {
+    var icon: Icon = .text(getRandomEmoji()) {
         didSet {
             self.clickableIcon.iconView.configure(icon)
         }
     }
-    var color: UIColor =  .hex("#FF9900")
+    var color: UIColor = Constants.colorsForRandom.randomElement()!
     private var didAppear: Bool = false
     private var shouldChangeHeightByKeyboardChange = true
 

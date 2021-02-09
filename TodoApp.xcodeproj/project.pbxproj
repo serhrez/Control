@@ -108,6 +108,7 @@
 		A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58281FD2597DCB80097178A /* NewCustomButton.swift */; };
 		A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */; };
 		A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583626A25A37E95009FF3E0 /* SafeObject.swift */; };
+		A5917D4D25D2D64900780AEA /* RandomEmoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5917D4C25D2D64900780AEA /* RandomEmoji.swift */; };
 		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
 		A592318A25725B90008E955D /* TaskCellx2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318925725B90008E955D /* TaskCellx2.swift */; };
 		A592319025726536008E955D /* TimePickerVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318F25726536008E955D /* TimePickerVc.swift */; };
@@ -291,6 +292,7 @@
 		A58281FD2597DCB80097178A /* NewCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomButton.swift; sourceTree = "<group>"; };
 		A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+extensions.swift"; sourceTree = "<group>"; };
 		A583626A25A37E95009FF3E0 /* SafeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeObject.swift; sourceTree = "<group>"; };
+		A5917D4C25D2D64900780AEA /* RandomEmoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomEmoji.swift; sourceTree = "<group>"; };
 		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
 		A592318925725B90008E955D /* TaskCellx2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx2.swift; sourceTree = "<group>"; };
 		A592318F25726536008E955D /* TimePickerVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerVc.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				A510A19425ACDBA400E74E1E /* InApps */,
 				A53225DD25AE12290098EB35 /* Notifications.swift */,
 				A55889B525D19F26007449B9 /* FunnyTextProvider.swift */,
+				A5917D4C25D2D64900780AEA /* RandomEmoji.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1341,6 +1344,7 @@
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
 				A5C3E55325ABB419007ECBCA /* CascadeDeleting.swift in Sources */,
 				A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */,
+				A5917D4D25D2D64900780AEA /* RandomEmoji.swift in Sources */,
 				A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */,
 				A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */,
 				A5EEC0FF25A2407800AFE0CA /* UIImage+imageWithColor.swift in Sources */,
