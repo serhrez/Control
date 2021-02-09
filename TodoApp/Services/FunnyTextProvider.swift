@@ -35,9 +35,28 @@ class FunnyTextProvider {
 
 extension FunnyTextProvider {
     static let phrases: [String] = [
-        "Сбежать с Таркова",
-        "Поиграть с Русланом в Тарков",
-        "Выпустить первый релиз тудушки"
+        "Call John Wick",
+        "Complete Dark Souls",
+        "Call Dad",
+        "Call Sister",
+        "Call Brother",
+        "Buy Gifts for Family",
+        "Buy Christmas Gifts",
+        "Take a Vacation",
+        "Start Watching One-Punch Man",
+        "Start Watching Jo Jo's Incredible Adventure",
+        "Add New Tasks ",
+        "Reply to Email",
+        "Go to the Post Office",
+        "Invest in Bitcoin",
+        "Extend Gym",
+        "Read a Chapter of a Book",
+        "Buy Gift for Tomorrow",
+        "Learn to Play the Guitar",
+        "Learn to Design",
+        "Start Watching the Series Dark",
+        "Start Going to The Gym",
+        "Complete Cyberpunk 2077"
     ]
 }
 

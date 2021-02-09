@@ -37,8 +37,8 @@ class UserDefaultsWrapper {
         set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunText) }
     }
     var lastTimeGeneratedFunTextNumber: Int {
-        get { defaults.integer(forKey: .lastTimeGeneratedFunText) }
-        set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunText) }
+        get { defaults.integer(forKey: .lastTimeGeneratedFunTextNumber) }
+        set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunTextNumber) }
     }
 }
 
