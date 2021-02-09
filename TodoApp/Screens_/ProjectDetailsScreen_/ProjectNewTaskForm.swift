@@ -308,7 +308,7 @@ class ProjectNewTaskForm: UIView {
 
     private let taskDescriptionFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
     lazy var taskDescription: MyGrowingTextView = {
-        let textView = MyGrowingTextView(placeholderText: "Need to add notes?", scrollBehavior: .noScroll)
+        let textView = MyGrowingTextView(placeholderText: "Notes...", scrollBehavior: .noScroll)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
         let attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
