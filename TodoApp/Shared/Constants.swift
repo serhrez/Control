@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 enum Constants {
     // MARK: UI
-    static var navigationTitleFontSize: CGFloat = UIScreen.main.bounds.height > 750 ? 22 : 18
-    static var vcMinBottomPadding: CGFloat = max(30, safeAreaInsets.bottom)
+    static var navigationTitleFontSize: CGFloat = Constants.displayVersion2 ? 18 : 22
+    static var vcMinBottomPadding: CGFloat = Constants.displayVersion2 ? 10 : max(30, safeAreaInsets.bottom)
 //    static let vcBottomPadding2: CGFloat = max(30, safeAreaInsets.bottom)
     // Animation timings
     static var animationDefaultDuration: TimeInterval = 0.18
     static var animationBottomMessagesDuration: TimeInterval = 0.5
-    static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 20
+    static var topInsetSpacingBetweenSearchBarAndElements: CGFloat = 15
     static let displayVersion2: Bool = UIScreen.main.bounds.width < 400
     static let animationOnboardingDuration = 0.5
     
