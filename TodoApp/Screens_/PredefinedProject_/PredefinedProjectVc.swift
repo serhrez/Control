@@ -31,6 +31,8 @@ class PredefinedProjectVc: UIViewController {
                 newFormView.priority = addTaskModel.priority
                 newFormView.date = (addTaskModel.date, addTaskModel.reminder, addTaskModel.repeatt)
                 newFormView.tags = ModelFormatt.tagsSorted(tags: addTaskModel.tags)
+                newFormView.name = addTaskModel.name
+                newFormView.taskDescriptionText = addTaskModel.description
             }
         }
     }
@@ -115,7 +117,7 @@ class PredefinedProjectVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: { [weak self] sourceView in
-            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != .none }.count <= Constants.maximumPriorities else {
+            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
                 self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                 return
             }
@@ -455,10 +457,10 @@ class PredefinedProjectVc: UIViewController {
         }
         if shouldClose {
             addTaskModel = nil
+            newFormView.resetView()
         } else {
             setUpInitialDataToAddTaskModel()
         }
-        newFormView.resetView()
     }
 
 

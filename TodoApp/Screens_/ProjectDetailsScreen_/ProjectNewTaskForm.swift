@@ -68,6 +68,14 @@ class ProjectNewTaskForm: UIView {
             priorityButton.tintColor = priority != .none ? priority.color : UIColor(named: "TASubElement")!
         }
     }
+    var name: String {
+        get { nameField.text ?? "" }
+        set { nameField.text = newValue }
+    }
+    var taskDescriptionText: String {
+        get { taskDescription.text }
+        set { taskDescription.text = newValue }
+    }
     init(onCalendarClicked: @escaping (UIView) -> Void,
          onTagClicked: @escaping (UIView) -> Void,
          onPriorityClicked: @escaping (UIView) -> Void,
