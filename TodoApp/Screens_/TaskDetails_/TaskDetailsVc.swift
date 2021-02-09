@@ -651,6 +651,7 @@ extension TaskDetailsVc: UITableViewDelegate {
 
 extension TaskDetailsVc: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
         let model = viewModel.subtasksModels[0].items[indexPath.row]
         guard case .subtask = model else { return [] }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: handleSwipeActionDeletion)
