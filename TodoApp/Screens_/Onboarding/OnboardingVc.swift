@@ -17,6 +17,8 @@ class OnboardingVcContainer: UIViewController {
     private var backgroundView: UIView = UIView()
     private let visualEffectView = VisualEffectView(frame: .zero)
     private var gradients: [[UIColor]] = []
+    private var gradientAlphas: [CGFloat] = []
+    private var blackThemeGradientAlphas: [CGFloat] = []
     private var blackThemeGradients: [[UIColor]] = []
     private var gradientViews: [GradientView2] = []
     private var currentScreen: Int = -1
@@ -26,10 +28,12 @@ class OnboardingVcContainer: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
 //        LaunchScreenManager().animateAfterLaunch(self.view)
     }
-    func setOnboardingStack(viewControllers: [OnboardingVc], gradients: [[UIColor]], blackThemeGradients: [[UIColor]]) {
+    func setOnboardingStack(viewControllers: [OnboardingVc], gradients: [[UIColor]], blackThemeGradients: [[UIColor]], gradientAlphas: [CGFloat], blackThemeGradientAlphas: [CGFloat]) {
         self.viewControllers = viewControllers.reversed()
         self.gradients = gradients
         self.blackThemeGradients = blackThemeGradients
+        self.gradientAlphas = gradientAlphas
+        self.blackThemeGradientAlphas = blackThemeGradientAlphas
         self.view.addSubview(backgroundView)
         self.view.addSubview(visualEffectView)
         visualEffectView.colorTint = .clear
@@ -52,7 +56,7 @@ class OnboardingVcContainer: UIViewController {
     
     func addGradient(_ index: Int, offsetIndex: Int? = nil) {
         let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
-        gradientView.alpha = isDarkTheme() ? 0.1 : 0.8
+        gradientView.alpha = isDarkTheme() ? blackThemeGradientAlphas[index] : gradientAlphas[index]
         backgroundView.addSubview(gradientView)
         let yOffset: CGFloat = Constants.displayVersion2 ? 0.13 : 0.18
         gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.25 * UIScreen.main.bounds.width, y: yOffset * UIScreen.main.bounds.height, width: 0.50 * UIScreen.main.bounds.width, height: 0.50 * UIScreen.main.bounds.width)
@@ -122,7 +126,7 @@ class OnboardingVc: UIViewController {
         view.font = .systemFont(ofSize: 16, weight: .regular)
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = UIColor(named: "TAHeading")!
+        view.textColor = UIColor(named: "TASubElement")!
         view.adjustsFontSizeToFitWidth = true
         return view
     }()
@@ -324,12 +328,12 @@ extension OnboardingVc {
 
 
         onboardingVc.setOnboardingStack(viewControllers: [firstVc, secondVc, thirdVc, fourthVc, fifthVc, sixthVc], gradients: [
-            [UIColor.hex("#D3C4FF"), UIColor.hex("#D8CBFF")],
-            [UIColor.hex("#FFE9C8"), UIColor.hex("#FFF9C1")],
-            [UIColor.hex("#85A9FF"), UIColor.hex("#FFAEA9"), UIColor.hex("#FFE0B2")],
-            [UIColor.hex("#CADAFF"), UIColor.hex("#B9CEFF")],
-            [UIColor.hex("#CEFFC1"), UIColor.hex("#D2FFD5")],
-            [UIColor.hex("#C8D8FF"), UIColor.hex("#FFB1F2"), UIColor.hex("#FFCCC9"), UIColor.hex("#FFE5BD")]
+            [UIColor.hex("#E1D7FF"), UIColor.hex("#E3EEFF")],
+            [UIColor.hex("#FFF3E1"), UIColor.hex("#FFFCE3")],
+            [UIColor.hex("#C5D6FF"), UIColor.hex("#FFD0CD"), UIColor.hex("#FFF0DA")],
+            [UIColor.hex("#DEE8FF"), UIColor.hex("#FEDCFF")],
+            [UIColor.hex("#E9FFE3"), UIColor.hex("#E0FFED")],
+            [UIColor.hex("#B7CCFF"), UIColor.hex("#FFAFF1"), UIColor.hex("#FFBDB9"), UIColor.hex("#FFE5BD"), UIColor.hex("#FFDEAC")]
         ], blackThemeGradients: [
             [UIColor.hex("#4200FF"), UIColor.hex("#00A3FF")],
             [UIColor.hex("#FFE500"), UIColor.hex("#FBA21D")],
@@ -337,7 +341,11 @@ extension OnboardingVc {
             [UIColor.hex("#3975FF"), UIColor.hex("#004BFF")],
             [UIColor.hex("#33FF00"), UIColor.hex("#00FF0D")],
             [UIColor.hex("#004CFF"), UIColor.hex("#FF00D4"), UIColor.hex("#FF0F00"), UIColor.hex("#FFE600")]
-        ])
+        ], gradientAlphas: [
+            1, 1, 1, 1, 1, 1
+        ], blackThemeGradientAlphas: [
+            0.1, 0.1, 0.1, 0.1, 0.1, 0.4
+        ]) // 6 steps
         return onboardingVc
     }
 }
