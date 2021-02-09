@@ -315,7 +315,7 @@ class PredefinedProjectVc: UIViewController {
     func setUpInitialDataToAddTaskModel() {
         switch self.mode {
         case .priority:
-            let shouldAddPriority = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != Priority.none }.count <= Constants.maximumPriorities
+            let shouldAddPriority = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != Priority.none }.count <= Constants.maximumPriorities
             self.addTaskModel = .init(priority: shouldAddPriority ? .low : .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
         case .today:
             let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours

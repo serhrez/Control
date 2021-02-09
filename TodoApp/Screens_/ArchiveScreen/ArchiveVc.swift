@@ -79,7 +79,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
         let deleteAction = SwipeAction(style: .default, title: nil, handler: { [weak self] action, path in
-            self?.handleSwipeActionRestore(action: action, path: path)
+            self?.handleSwipeActionDeletion(action: action, path: path)
         })
         deleteAction.backgroundColor = .hex("#EF4439")
         deleteAction.image = UIImage(named: "trash")?.withTintColor(UIColor(hex: "#FFFFFF")!, renderingMode: .alwaysTemplate)
