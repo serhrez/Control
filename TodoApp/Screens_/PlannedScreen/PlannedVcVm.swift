@@ -52,7 +52,7 @@ class PlannedVcVm {
         
     func updateModels() {
         var taskDates: [Date: [RlmTask]] = [:]
-        for task in tasks.filter({ $0.date?.date != nil }) {
+        for task in tasks.filter({ $0.date?.date != nil }).filter({ Date() < $0.date!.date! }) {
             let startDate = task.date!.date!.dateAtStartOf(.day)
             if taskDates[startDate] != nil {
                 taskDates[startDate]!.append(task)

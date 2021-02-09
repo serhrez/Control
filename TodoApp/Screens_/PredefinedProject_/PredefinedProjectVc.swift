@@ -31,8 +31,6 @@ class PredefinedProjectVc: UIViewController {
                 newFormView.priority = addTaskModel.priority
                 newFormView.date = (addTaskModel.date, addTaskModel.reminder, addTaskModel.repeatt)
                 newFormView.tags = ModelFormatt.tagsSorted(tags: addTaskModel.tags)
-                newFormView.name = addTaskModel.name
-                newFormView.taskDescriptionText = addTaskModel.description
             }
         }
     }
@@ -316,11 +314,15 @@ class PredefinedProjectVc: UIViewController {
         switch self.mode {
         case .priority:
             let shouldAddPriority = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter { $0.priority != Priority.none }.count <= Constants.maximumPriorities
+            self.newFormView.taskDescription.text = ""
+            self.newFormView.nameField.text = ""
             self.addTaskModel = .init(priority: shouldAddPriority ? .low : .none, name: "", description: "", tags: [], date: nil, reminder: nil, repeatt: nil)
         case .today:
             let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
             let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
             let shouldAddDate = UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask
+            self.newFormView.taskDescription.text = ""
+            self.newFormView.nameField.text = ""
             self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: shouldAddDate ? date : nil , reminder: nil, repeatt: nil)
         }
     }
