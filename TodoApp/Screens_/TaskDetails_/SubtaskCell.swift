@@ -41,6 +41,7 @@ final class SubtaskCell: SwipeTableViewCell {
         contentView.backgroundColor = .clear
         backgroundColor = UIColor(named: "TAAltBackground")!
         nameLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        nameLabel.textColor = UIColor(named: "TAHeading")!
         selectionStyle = .none
     }
 }

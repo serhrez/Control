@@ -51,6 +51,7 @@ class AllTagsSelectionTagCell: SwipeCollectionViewCell {
         layer.cornerRadius = 16
         clipsToBounds = true
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.textColor = UIColor(named: "TAHeading")!
         contentView.layout(nameLabel).centerY().leading(20)
 
         contentView.layout(checkboxView).centerY().trailing(15).leading(nameLabel.anchor.trailing, 15) { _, _ in .greaterThanOrEqual }

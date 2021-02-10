@@ -18,6 +18,7 @@ class PlannedTaskCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        label.textColor = UIColor(named: "TAHeading")!
         return label
     }()
     private let verticalStack: UIStackView = {

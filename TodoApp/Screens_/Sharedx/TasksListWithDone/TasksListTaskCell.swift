@@ -18,7 +18,7 @@ class TasksListTaskCell: SwipeCollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-
+        label.textColor = UIColor(named: "TAHeading")!
         return label
     }()
     private let verticalStack: UIStackView = {
