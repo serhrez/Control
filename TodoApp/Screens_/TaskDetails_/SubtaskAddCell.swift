@@ -38,7 +38,7 @@ final class SubtaskAddCell: UITableViewCell {
     var subtaskCreated: ((String) -> Void)?
     
     func setupViews() {
-        contentView.layout(plusImage).centerY().leading().width(18).height(18)
+        contentView.layout(plusImage).centerY().leading(2).width(18).height(18)
         contentView.layout(textField).centerY().leading(31).trailing(10)
         contentView.backgroundColor = .clear
         textField.delegate = self
