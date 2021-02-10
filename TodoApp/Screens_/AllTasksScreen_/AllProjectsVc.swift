@@ -68,7 +68,7 @@ class AllProjectsVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
         setupTableView()
-        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottomSafe(-AllTasksToolbar.estimatedHeight)
+        view.layout(tasksToolbar).leadingSafe(13).trailingSafe(13).bottom(-AllTasksToolbar.estimatedHeight)
     }
     
     private func setupSettingsPushVc() {
@@ -112,7 +112,7 @@ class AllProjectsVc: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        view.layout(tasksToolbar).bottomSafe(30)
+        view.layout(tasksToolbar).bottom(Constants.vcMinBottomPadding)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
         }
