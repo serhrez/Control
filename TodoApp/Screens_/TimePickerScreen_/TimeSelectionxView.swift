@@ -11,12 +11,15 @@ import Material
 import PopMenu
 import RxDataSources
 import InfiniteLayout
+import Haptica
 
 class TimeSelectionxView: UIView {
     let collectionView = InfiniteCollectionView()
     private var initialSelected: Int
     private(set) var selected: Int
     var numberOfItems: Int
+    var willMoveToNil: Bool = true
+    var didFirstTimeAlreadyCentered = false
     init(maxNumber: Int, selected: Int) {
         self.numberOfItems = maxNumber
         self.initialSelected = selected
@@ -46,6 +49,10 @@ class TimeSelectionxView: UIView {
     func beforeDisappear() {
         guard let centered = collectionView.centeredIndexPath else { return }
         collectionView.scrollToItem(at: centered, at: .centeredVertically, animated: true)
+    }
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        willMoveToNil = newSuperview == nil
     }
     
     override func didMoveToSuperview() {
@@ -90,5 +97,9 @@ extension TimeSelectionxView: InfiniteCollectionViewDelegate {
         guard let to = to else { return }
         let realIndexPath = self.collectionView.indexPath(from: to)
         selected = getNumberForItem(realIndexPath.item)
+        if !willMoveToNil && didFirstTimeAlreadyCentered {
+            Haptic.impact(HapticFeedbackStyle.soft).generate()
+        }
+        didFirstTimeAlreadyCentered = true
     }
 }
