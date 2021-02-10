@@ -45,11 +45,13 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
         let fromView = transitionContext.view(forKey: .from)!
         transitionContext.containerView.addSubview(toView)
         let initialFrame = toView.frame
-            toView.frame = toView.frame.modify(modifyX: { _ in -toView.bounds.width })
+        toView.frame = toView.frame.modify(modifyX: { _ in -toView.bounds.width })
+        let fromViewDestination = fromView.frame.modify(modifyX: { _ in fromView.bounds.width * 0.2 })
         fromView.alpha = 1
         UIView.animate(withDuration: transitionDuration, delay: 0.0, options: .curveLinear) {
             toView.frame = initialFrame
-            fromView.alpha = 0.7
+            fromView.alpha = 0.75
+            fromView.frame = fromViewDestination
         } completion: { _ in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
@@ -78,9 +80,12 @@ class SlidePopTransition: UIPercentDrivenInteractiveTransition, UIViewController
         let fromView = transitionContext.view(forKey: .from)!
         let toView = transitionContext.view(forKey: .to)!
         transitionContext.containerView.insertSubview(toView, belowSubview: fromView)
-        toView.alpha = 0.7
+        let toViewInitialFrame = toView.frame
+        toView.frame = toView.frame.modify(modifyX: { _ in toView.bounds.width * 0.2 })
+        toView.alpha = 0.75
         UIView.animate(withDuration: transitionDuration, delay: 0.0, options: .curveLinear) {
             toView.alpha = 1
+            toView.frame = toViewInitialFrame
             fromView.frame = fromView.frame.modify(modifyX: { _ in -fromView.frame.bounds.width })
         } completion: { _ in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
