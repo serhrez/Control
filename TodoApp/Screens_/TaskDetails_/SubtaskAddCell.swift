@@ -22,7 +22,7 @@ final class SubtaskAddCell: UITableViewCell {
         return textField
     }()
     private let plusImage: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "plus"))
+        let imageView = UIImageView(image: UIImage(named: "plus")?.withTintColor(UIColor.hex("#DFDFDF")))
         return imageView
     }()
     
