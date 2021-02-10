@@ -10,6 +10,7 @@ import UIKit
 import Material
 import AttributedLib
 import SwiftyDrop
+import Haptica
 
 class PremiumFeaturesVc: UIViewController {
 
@@ -130,6 +131,7 @@ class PremiumFeaturesVc: UIViewController {
     }
     
     @objc func clickedOnBuy() {
+        Haptic.impact(.light).generate()
         InAppManager.shared.purchaseProduct { [weak self] error in
             if let error = error {
                 self?.handle(error)
