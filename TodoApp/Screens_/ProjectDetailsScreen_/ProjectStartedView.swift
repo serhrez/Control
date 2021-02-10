@@ -77,7 +77,7 @@ class ProjectStartedView: UIView {
     lazy var detailTitle: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor(named: "TAHeading")!
+        label.textColor = UIColor(named: "TASubElement")!
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
@@ -97,14 +97,14 @@ class ProjectStartedView: UIView {
     let smallTitleLeading: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor(named: "TAHeading")!
+        label.textColor = UIColor(named: "TASubElement")!
         label.text = "Tap the"
         return label
     }()
     let smallTitleTrailing: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = UIColor(named: "TAHeading")!
+        label.textColor = UIColor(named: "TASubElement")!
         label.text = "button to write it down!"
         return label
     }()
