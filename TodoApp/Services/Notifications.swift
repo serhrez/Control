@@ -38,9 +38,18 @@ class Notifications: NSObject {
             }
         }
     }
+        
+    func removeNotifications(id: String) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [id])
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [id + "ctg"])
+    }
+        
+    func scheduleTask(task: RlmTask, date: Date, reminder: Reminder?, repeatt: Repeat?) {
+        scheduleReminder(task: task, date: date, reminder: reminder)
+        scheduleNotification(identifier: task.id, name: task.name, body: task.taskDescription, date: date, repeatt: repeatt)
+    }
     
-    func scheduleReminder(task: RlmTask, date: Date, reminder: Reminder?) {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [task.id])
+    private func scheduleReminder(task: RlmTask, date: Date, reminder: Reminder?) {
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [task.id])
         guard let reminder = reminder else { return }
         let newDate: Date
@@ -57,13 +66,8 @@ class Notifications: NSObject {
         scheduleNotification(identifier: task.id + "reminder", name: "Reminder for \(task.name)", body: task.taskDescription, date: newDate, repeatt: nil)
         // Postpone date according to reminder or cancel nexisting notifications
     }
-        
-    func scheduleTask(task: RlmTask, date: Date, reminder: Reminder?, repeatt: Repeat?) {
-        scheduleReminder(task: task, date: date, reminder: reminder)
-        scheduleNotification(identifier: task.id, name: task.name, body: task.taskDescription, date: date, repeatt: repeatt)
-    }
     
-    func scheduleNotification(identifier: String, name: String, body: String, date: Date, repeatt: Repeat?) {
+    private func scheduleNotification(identifier: String, name: String, body: String, date: Date, repeatt: Repeat?) {
         let categoryIdentifier = identifier + "ctg"
         let content = UNMutableNotificationContent()
         content.title = name

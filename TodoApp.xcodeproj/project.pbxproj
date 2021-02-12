@@ -80,6 +80,7 @@
 		A54EFB4A258FED36009CFE0F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB49258FED36009CFE0F /* Constants.swift */; };
 		A55889B625D19F26007449B9 /* FunnyTextProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55889B525D19F26007449B9 /* FunnyTextProvider.swift */; };
 		A55889BB25D1A34A007449B9 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55889BA25D1A34A007449B9 /* Collection+Extensions.swift */; };
+		A55BFA3025D6BC6200B57CD3 /* RealmStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55BFA2F25D6BC6200B57CD3 /* RealmStore.swift */; };
 		A55F65E825A73E5200BB46DD /* PredefinedProjectVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55F65E725A73E5200BB46DD /* PredefinedProjectVc.swift */; };
 		A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55F65EF25A7ADC100BB46DD /* GradientView.swift */; };
 		A56047C5255D927100C447CF /* PopMenuAppearance+appAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */; };
@@ -264,6 +265,7 @@
 		A54EFB49258FED36009CFE0F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A55889B525D19F26007449B9 /* FunnyTextProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunnyTextProvider.swift; sourceTree = "<group>"; };
 		A55889BA25D1A34A007449B9 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
+		A55BFA2F25D6BC6200B57CD3 /* RealmStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStore.swift; sourceTree = "<group>"; };
 		A55F65E725A73E5200BB46DD /* PredefinedProjectVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredefinedProjectVc.swift; sourceTree = "<group>"; };
 		A55F65EF25A7ADC100BB46DD /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		A56047C4255D927100C447CF /* PopMenuAppearance+appAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PopMenuAppearance+appAppearance.swift"; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 				A5C6BEA4259DE18400BDAA43 /* UIView+Extensions.swift */,
 				A57B963025AB5DDD008E899C /* AnimationsFactory.swift */,
 				A57B962B25AB58AB008E899C /* DebugView.swift */,
+				A55BFA2F25D6BC6200B57CD3 /* RealmStore.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1274,6 +1277,7 @@
 				A5085E952556F8E500A31BBB /* Repeat_.swift in Sources */,
 				A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */,
 				A520C80025ADC11300CE9AA0 /* UserDefaultsWrapper.swift in Sources */,
+				A55BFA3025D6BC6200B57CD3 /* RealmStore.swift in Sources */,
 				A5DD59DE2565BD4A002AEF42 /* TaskDetailsVcVm.swift in Sources */,
 				A573BA9E25B0E849006F6FB1 /* OnboardingPushTransition.swift in Sources */,
 				A5356D772569B6610042F604 /* AutoselectCheckboxView.swift in Sources */,

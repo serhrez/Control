@@ -19,6 +19,7 @@ class DBHelper {
     // MARK: - Archiving
     static func archive(taskId: String, projectId: String, archiveRealmProvider: RealmProvider = .archive, sourceRealmProvider: RealmProvider = .main) throws {
         guard let task = sourceRealmProvider.realm.objects(RlmTask.self).first(where: { $0.id == taskId }) else { return }
+        Notifications.shared.removeNotifications(id: task.id)
         try archiveRealmProvider.realm.write {
             let task = archiveRealmProvider.realm.create(RlmTask.self, value: task, update: .all)
             let archived = RlmArchived(task: task, projectId: projectId)
@@ -36,6 +37,7 @@ class DBHelper {
             let task = destinationProvider.realm.create(RlmTask.self, value: unwrapped, update: .all)
             let project = destinationProvider.realm.objects(RlmProject.self).first(where: { $0.id == archivedTask.projectId }) ?? getInboxProject(provider: destinationProvider)
             project.tasks.append(task)
+            RealmStore.main.updateDateDependencies(in: task)
         }
         try sourceProvider.realm.write {
             sourceProvider.realm.cascadeDelete(archivedTask)

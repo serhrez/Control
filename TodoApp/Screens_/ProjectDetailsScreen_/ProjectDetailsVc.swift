@@ -239,6 +239,9 @@ class ProjectDetailsVc: UIViewController {
                         $0.isDone = true
                     }
                 }
+                self?.project.tasks.forEach {
+                RealmStore.main.updateDateDependencies(in: $0)
+                }
             })]
             let sortGrayImage = UIImage(named: "switch-vertical")?.withTintColor(UIColor(named: "TASubElement")!)
             let sortImage = UIImage(named: "switch-vertical")
@@ -321,6 +324,9 @@ class ProjectDetailsVc: UIViewController {
     
     func deleteProject() {
         tokens = []
+        self.project.tasks.forEach { task in
+            Notifications.shared.removeNotifications(id: task.id)
+        }
         RealmProvider.main.safeWrite {
             RealmProvider.main.realm.cascadeDelete(self.project)
         }
@@ -591,6 +597,7 @@ class ProjectDetailsVc: UIViewController {
         RealmProvider.main.safeWrite {
             project.tasks.append(rlmTask)
         }
+        RealmStore.main.updateDateDependencies(in: rlmTask)
         state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil))
         newFormView.resetView()
     }

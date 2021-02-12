@@ -444,6 +444,7 @@ class PredefinedProjectVc: UIViewController {
         RealmProvider.main.safeWrite {
             project.tasks.append(rlmTask)
         }
+        RealmStore.main.updateDateDependencies(in: rlmTask)
         var shouldClose = false
         switch self.mode {
         case .priority:

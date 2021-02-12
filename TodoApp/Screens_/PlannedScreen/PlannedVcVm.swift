@@ -75,6 +75,7 @@ class PlannedVcVm {
         RealmProvider.main.safeWrite {
             task.isDone = isDone
         }
+        RealmStore.main.updateDateDependencies(in: task)
     }
     
     func selectDayFromJct(_ date: Date) {

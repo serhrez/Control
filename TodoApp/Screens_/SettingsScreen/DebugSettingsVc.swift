@@ -42,6 +42,9 @@ class DebugSettingsVc: FormViewController {
                 UserDefaultsWrapper.shared.debugDeleteDb = value
             })
             <<< debugButtonRow(title: "Clear main database", onClick: {
+                RealmProvider.main.realm.objects(RlmTask.self).forEach { task in
+                    Notifications.shared.removeNotifications(id: task.id)
+                }
                 RealmProvider.main.safeWrite {
                     RealmProvider.main.realm.deleteAll()
                 }

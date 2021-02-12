@@ -175,7 +175,9 @@ class TaskDetailsVcVm {
     }
     
     func newDate(date: Date?, reminder: Reminder?, repeatt: Repeat?) {
-        if let date = date, task.realm != nil {
+        guard task.realm != nil else { return }
+        Notifications.shared.removeNotifications(id: task.id)
+        if let date = date {
             Notifications.shared.scheduleTask(task: task.freeze(), date: date, reminder: reminder, repeatt: repeatt)
         }
         RealmProvider.main.safeWrite {
