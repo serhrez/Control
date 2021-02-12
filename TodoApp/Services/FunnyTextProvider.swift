@@ -15,7 +15,7 @@ class FunnyTextProvider {
     }
     
     func getFunText() -> String {
-        if UserDefaultsWrapper.shared.lastTimeGeneratedFunText.difference(in: .hour, from: Date()).flatMap({ $0 >= 2 }) ?? true {
+        if UserDefaultsWrapper.shared.lastTimeGeneratedFunText.difference(in: .minute, from: Date()).flatMap({ $0 >= 1 }) ?? true {
             updateTextCounter()
         }
         return FunnyTextProvider.phrases[safe: UserDefaultsWrapper.shared.lastTimeGeneratedFunTextNumber] ?? FunnyTextProvider.phrases[safe: 0] ?? "New To-Do"
