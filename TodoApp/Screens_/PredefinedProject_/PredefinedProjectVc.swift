@@ -42,6 +42,7 @@ class PredefinedProjectVc: UIViewController {
         RealmProvider.main.safeWrite {
             task.isDone.toggle()
         }
+        RealmStore.main.updateDateDependencies(in: task)
     }, shouldDelete: { [weak self] task in
         guard let self = self,
               let project = task.project.first else { return }

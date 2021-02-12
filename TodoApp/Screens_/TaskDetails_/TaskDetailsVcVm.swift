@@ -133,6 +133,7 @@ class TaskDetailsVcVm {
         RealmProvider.main.safeWrite { [weak self] in
             self?.task.isDone.toggle()
         }
+        RealmStore.main.updateDateDependencies(in: task)
     }
     
     func deleteTag(with title: String) {

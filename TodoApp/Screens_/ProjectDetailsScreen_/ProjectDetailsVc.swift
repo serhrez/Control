@@ -638,6 +638,7 @@ class ProjectDetailsVc: UIViewController {
             RealmProvider.main.safeWrite {
                 task.isDone.toggle()
             }
+            RealmStore.main.updateDateDependencies(in: task)
         }, shouldDelete: { [weak self] task in
             guard let self = self else { return }
             let taskId = task.id

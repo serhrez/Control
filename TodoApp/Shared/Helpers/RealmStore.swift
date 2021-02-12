@@ -19,9 +19,10 @@ class RealmStore {
             
     func updateDateDependencies(in task: RlmTask) {
         guard task.realm != nil else { return }
-        Notifications.shared.removeNotifications(id: task.id)
         if let date = task.date?.date, !task.isDone {
-            Notifications.shared.scheduleTask(task: task.freeze(), date: date, reminder: task.date?.reminder, repeatt: task.date?.repeat)
+            Notifications.shared.scheduleTask(task: task, date: date, reminder: task.date?.reminder, repeatt: task.date?.repeat)
+        } else {
+            Notifications.shared.removeNotifications(id: task.id)
         }
     }
 }
