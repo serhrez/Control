@@ -104,15 +104,11 @@ final class TagPicker: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        containerView.setAnchorPoint(.init(x: 0.5, y: 1))
-        containerView.transform = CGAffineTransform(scaleX: 1, y: 0.05)
 
         UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0) { [self] in
-            containerView.transform = .identity
             containerView.layer.opacity = 1
             containerView.addShadow(offset: .init(width: 0, height: 8), opacity: 0.1, radius: 16, color: UIColor(named: "TABackground")!)
         } completion: { _ in
-            self.containerView.setAnchorPoint(.init(x: 0.5, y: 0.5))
             self.didCompleteAnim = true
         }
         
