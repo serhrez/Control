@@ -284,7 +284,7 @@ extension OnboardingVc {
         let onboardingVc = OnboardingVcContainer()
 
         let sixthVc = OnboardingVc(imageName: "stepsix",
-                                   imageWidth: 0.920289855072464,
+                                   imageWidth: Constants.displayVersion2 ? 0.8 : 0.920289855072464,
                                    nameText: "Add Your Projects And Work Directly With Them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only \(InAppManager.shared.productPrice)",

@@ -163,9 +163,9 @@ class PremiumFeaturesVc: UIViewController {
         view.layout(containerView).leading(13).trailing(13).topSafe()
         containerView.layout(scrollView).top().leading().trailing()
         containerView.layout(bottomView).bottom().leading().trailing().top(scrollView.anchor.bottom)
-        scrollView.layout(imageView).top(0.0390625 * UIScreen.main.bounds.height).leading(0.108695652173913 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }
-            .trailing(0.108695652173913 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.922558922558923)
-        scrollView.layout(gradientView).center(imageView.anchor.center).width(0.45 * UIScreen.main.bounds.width).height(0.45 * UIScreen.main.bounds.width)
+        scrollView.layout(imageView).top(0.0390625 * UIScreen.main.bounds.height).leading((Constants.displayVersion2 ? 0.23 : 0.108695652173913) * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }
+            .trailing((Constants.displayVersion2 ? 0.23 : 0.108695652173913) * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.922558922558923)
+        scrollView.layout(gradientView).center(imageView.anchor.center, offsetY: 20).width(0.45 * UIScreen.main.bounds.width).height(0.45 * UIScreen.main.bounds.width)
         scrollView.layout(visualEffectView).edges()
         scrollView.bringSubviewToFront(imageView)
         scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 0.029017857142857 * UIScreen.main.bounds.height).leading(30).trailing(30)
@@ -247,7 +247,7 @@ extension PremiumFeaturesVc {
     class SmartScroll: UIScrollView {
         override func layoutSubviews() {
             super.layoutSubviews()
-            isScrollEnabled = contentSize.height - 10 > frame.height
+            isScrollEnabled = false//contentSize.height - 10 > frame.height
         }
     }
     
