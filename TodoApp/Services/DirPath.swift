@@ -8,8 +8,6 @@
 
 import Foundation
 
-private let groupId = Bundle.main.bundleIdentifier ?? "com.SergeyReznichenko.Todo"
-
 enum DirPathError: Error, LocalizedError {
   case notFound
   case containerNotFound(String)
@@ -48,7 +46,7 @@ class DirPath {
     
     static func inSharedContainer(_ name: String) throws -> URL {
         guard let url = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: groupId) else {
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.sergeyreznichenko.control") else {
                 throw DirPathError.containerNotFound(groupId)
         }
         return url.appendingPathComponent(name)
