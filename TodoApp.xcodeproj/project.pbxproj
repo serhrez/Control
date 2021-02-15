@@ -227,6 +227,7 @@
 		A516835F255B4AE30076D29E /* AddProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProjectCell.swift; sourceTree = "<group>"; };
 		A516C41425DA91D100CB9EAC /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		A516C41525DA91D100CB9EAC /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		A516C41B25DABF3B00CB9EAC /* TodoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodoApp.entitlements; sourceTree = "<group>"; };
 		A51967602584F71D0021621A /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
 		A51967682584FE5D0021621A /* IconColCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColCell.swift; sourceTree = "<group>"; };
 		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
@@ -413,6 +414,7 @@
 		A5085E312556EF7800A31BBB /* TodoApp */ = {
 			isa = PBXGroup;
 			children = (
+				A516C41B25DABF3B00CB9EAC /* TodoApp.entitlements */,
 				A5085E322556EF7800A31BBB /* AppDelegate.swift */,
 				A5085E342556EF7800A31BBB /* SceneDelegate.swift */,
 				A5EF5F7C255B242D0088DE0A /* Screens_ */,
@@ -1555,6 +1557,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TodoApp/TodoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
@@ -1579,6 +1582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TodoApp/TodoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
