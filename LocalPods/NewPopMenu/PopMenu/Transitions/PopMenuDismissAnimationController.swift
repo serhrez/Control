@@ -45,9 +45,7 @@ final public class PopMenuDismissAnimationController: NSObject, UIViewController
     /// Run the animation.
     fileprivate func animate(_ viewController: PopMenuViewController) {
         viewController.containerView.alpha = 0
-        viewController.backgroundView.alpha = 0
-        
-        viewController.containerView.transform = .init(scaleX: 0.55, y: 0.55)
+        viewController.backgroundView.alpha = 0        
     }
     
 }
