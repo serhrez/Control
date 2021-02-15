@@ -17,10 +17,7 @@ class ProjectStartedView: UIView {
         super.init(frame: .zero)
         setupView()
     }
-    func configure(tintColor: UIColor? = nil, mode: Mode? = nil) {
-        if let tintColor = tintColor {
-            imageView.tintColor = tintColor
-        }
+    func configure(mode: Mode? = nil) {
         if let mode = mode {
             var smallTitleWithPlusAlpha: CGFloat = 0
             var detailTitleAlpha: CGFloat = 0
@@ -30,24 +27,30 @@ class ProjectStartedView: UIView {
                 largeTitle.text = "There Are No Priorities Right Now."
                 detailTitle.text = "All of your assignments are displayed here."
                 detailTitleAlpha = 1
+                imageView.image = UIImage(named: "placeholderred")
             case .freeDay:
                 largeTitle.text = "You Have a Free Day."
                 detailTitle.text = "All of your assignments are displayed here."
                 detailTitleAlpha = 1
                 largeTitleNumberOfLines = 1
+                imageView.image = UIImage(named: "placeholderyellow")
             case .projectEmpty:
                 largeTitle.text = "Your Project is Empty."
                 largeTitleNumberOfLines = 1
                 smallTitleWithPlusAlpha = 1
+                imageView.image = UIImage(named: "placeholderyellow")
             case .inboxEmpty:
                 largeTitle.text = "Your Inbox is Empty."
                 smallTitleWithPlusAlpha = 1
+                imageView.image = UIImage(named: "placeholderviolet")
             case .started:
                 smallTitleWithPlusAlpha = 1
+                imageView.image = UIImage(named: "placeholderyellow")
             case .noCalendarPlanned:
                 detailTitleAlpha = 1
                 largeTitle.text = "There Are No Planned Tasks."
                 detailTitle.text = "Planned tasks will be shown here."
+                imageView.image = UIImage(named: "placeholderyellow")
             }
             smallTitleWithPlus.alpha = smallTitleWithPlusAlpha
             detailTitle.alpha = detailTitleAlpha
@@ -56,9 +59,8 @@ class ProjectStartedView: UIView {
     }
     
     private func setupView() {
-        imageView.tintColor = UIColor(named: "TAHeading")
         imageView.contentMode = .scaleAspectFit
-        layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.1436)
+        layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.785714285714286)
         layout(largeTitle).leading().trailing().top(imageView.anchor.bottom, 25.35)
         layout(smallTitleWithPlus).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
         layout(detailTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }

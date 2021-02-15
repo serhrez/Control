@@ -67,9 +67,9 @@ final class PlannedVc: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        view.layout(projectStartedView).topSafe(0.065 * UIScreen.main.bounds.height).leading(47).trailing(47)
+        view.layout(projectStartedView).centerY(-100).leading(47).trailing(47)
         projectStartedViewChangeMode()
-        projectStartedView.configure(tintColor: UIColor.hex("#447bfe"), mode: .noCalendarPlanned)
+        projectStartedView.configure(mode: .noCalendarPlanned)
         view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).topSafe().bottom()
         noCalendarViewCollectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
         view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe()

@@ -162,17 +162,17 @@ class PredefinedProjectVc: UIViewController {
         switch mode {
         case .priority:
             title = "Priority"
-            projectStartedView.configure(tintColor: .hex("#447bfe"), mode: .noPriorities)
+            projectStartedView.configure(mode: .noPriorities)
         case .today:
             title = "Today"
-            projectStartedView.configure(tintColor: .hex("#ff9900"), mode: .freeDay)
+            projectStartedView.configure(mode: .freeDay)
         }
         tasksSubject.subscribe(onNext: { [weak self] tasks in
             self?.changeProjectStartedViewState(with: tasks.isEmpty)
         })
         .disposed(by: bag)
         tasksWithDoneList.sortingEnabled = false
-        view.layout(projectStartedView).topSafe(0.065 * UIScreen.main.bounds.height).leading(47).trailing(47)
+        view.layout(projectStartedView).centerY(-100).leading(47).trailing(47)
         applySharedNavigationBarAppearance()
         view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
         setupTasksWithDoneListBinding()
