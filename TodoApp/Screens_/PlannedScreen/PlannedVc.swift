@@ -15,7 +15,7 @@ final class PlannedVc: UIViewController {
     private lazy var noCalendarViewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: noCalendarViewFlowLayout)
     private let calendarViewFlowLayout = UICollectionViewFlowLayout()
     private lazy var calendarViewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: calendarViewFlowLayout)
-    private let projectStartedView = ProjectStartedView(mode: .freeDay)
+    private let projectStartedView = ProjectStartedView(mode: .noCalendarPlanned)
     private var calendarPadding: CGFloat { 13 }
     private var calendarInset: CGFloat { 9 }
     
@@ -69,7 +69,6 @@ final class PlannedVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         view.layout(projectStartedView).centerY(-100).leading(47).trailing(47)
         projectStartedViewChangeMode()
-        projectStartedView.configure(mode: .noCalendarPlanned)
         view.layout(noCalendarViewCollectionView).leading(calendarPadding).trailing(calendarPadding).topSafe().bottom()
         noCalendarViewCollectionView.contentInset = .init(top: 0, left: 0, bottom: Constants.vcMinBottomPadding, right: 0)
         view.layout(calendarViewContainer).leading(calendarPadding).trailing(calendarPadding).topSafe()
@@ -148,7 +147,7 @@ final class PlannedVc: UIViewController {
     
     func projectStartedViewChangeMode() {
         func apply() {
-            self.projectStartedView.alpha = (selectedMode1 && RealmProvider.main.realm.objects(RlmTaskDate.self).isEmpty) ? 1 : 0
+            self.projectStartedView.alpha = (selectedMode1 && RealmProvider.main.realm.objects(RlmTaskDate.self).filter { $0.date != nil }.isEmpty) ? 1 : 0
         }
         if didAppear {
             UIView.animate(withDuration: Constants.animationDefaultDuration) {

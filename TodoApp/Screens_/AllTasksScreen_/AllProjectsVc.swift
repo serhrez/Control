@@ -64,6 +64,8 @@ class AllProjectsVc: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
@@ -115,6 +117,13 @@ class AllProjectsVc: UIViewController {
         view.layout(tasksToolbar).bottom(Constants.vcMinBottomPadding)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
+        }
+        // In case something bad happened. Maybe manually violated etc.
+        if !(RealmProvider.main.realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }) {
+            let inboxProject = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            RealmProvider.main.safeWrite {
+                RealmProvider.main.realm.add(inboxProject)
+            }
         }
     }
     

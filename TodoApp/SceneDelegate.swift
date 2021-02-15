@@ -26,26 +26,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 print(error.localizedDescription)
             }
             PredefinedRealm.populateRealm(RealmProvider.main.realm)
+            if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
+                try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
+            }
         }
-//        let viewController = TaskDetailsVc(viewModel: .init(task: RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name == "Empty task" }.first!))
-//        let viewController = CalendarVc(viewModel: .init(reminder: nil, repeat: nil, date: nil), onDone: { print($0, $1, $2) })
-//        let tag1 = RealmProvider.main.realm.objects(RlmTag.self).filter { $0.name == "Work" }.first!
-//        let viewController = TagDetailVc(viewModel: .init(tag: tag1))
-//        let viewController = TimePickerVc(hours: 12, minutes: 23, onDone: { print($0) })
-//        let viewController = SearchVc()
-//        let viewController = CreateProjectVc(viewModel: .init())
-//        let viewController = PlannedVc()
-//        let viewController = ArchiveVc(viewModel: .init())
-//        let viewController = AllTagsVc(mode: .selection(selected: [], { print($0) }))
-//        let viewController = InboxTasksVc()
-//        let viewController = ProjectDetailsVc()
-//        let viewController = CreateProjectVc()
-//        let project = RealmProvider.main.realm.objects(RlmProject.self).first(where: { $0.name == "Inbox" })
-//        let viewController = ProjectDetailsVc(project: project!)
-//        let viewController = TagPicker(viewSource: UIView(frame: .init(x: 200, y: 600, width: 50, height: 50)), items: ["Work", "Plan", "Important"], finished: { print($0) })
-//        let viewController = IconPickerFullVc(onSelected: { print($0) })
-//        let viewController = SettingsVc()
-//        let viewController = SettingsVc()
+        if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
+            try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
+        }
         let viewController = AllProjectsVc()
 
         let navigationVc = TANavigationController(rootViewController: viewController)
