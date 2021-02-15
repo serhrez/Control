@@ -46,7 +46,7 @@ class SettingsVc: UIViewController {
                     self.present(activityVC, animated: true, completion: nil)
                 }
             }),
-            .init(text: "Feedback & Suggestions", imageName: "feedback", imageWidth: 18 + 2, onClick: { [weak self] in
+            .init(text: "Feedbacks & Suggestions", imageName: "feedback", imageWidth: 18 + 2, onClick: { [weak self] in
                 guard let self = self else { return }
                 guard let url = URL(string: "https://twitter.com/ControlToDo") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

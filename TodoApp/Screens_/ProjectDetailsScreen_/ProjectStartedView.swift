@@ -36,7 +36,11 @@ class ProjectStartedView: UIView {
                 detailTitleAlpha = 1
                 largeTitleNumberOfLines = 1
             case .projectEmpty:
-                largeTitle.text = "That's a Good One, You're Doing Great!"
+                largeTitle.text = "Your Project is Empty."
+                largeTitleNumberOfLines = 1
+                smallTitleWithPlusAlpha = 1
+            case .inboxEmpty:
+                largeTitle.text = "Your Inbox is Empty."
                 smallTitleWithPlusAlpha = 1
             case .started:
                 smallTitleWithPlusAlpha = 1
@@ -105,7 +109,7 @@ class ProjectStartedView: UIView {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = UIColor(named: "TASubElement")!
-        label.text = "button to write it down!"
+        label.text = "button to add the task!"
         return label
     }()
     let plusImage: UIView = {
@@ -133,6 +137,7 @@ extension ProjectStartedView {
         case freeDay
         case noPriorities
         case projectEmpty
+        case inboxEmpty
         case noCalendarPlanned
     }
 }
