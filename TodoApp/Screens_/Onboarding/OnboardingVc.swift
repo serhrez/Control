@@ -133,6 +133,43 @@ class OnboardingVc: UIViewController {
     let centerView: UIView = {
         return UIView()
     }()
+    
+    lazy var save50Label: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor(named: "TAPremSpecial2")
+        view.snp.makeConstraints { make in
+            make.height.equalTo(42)
+        }
+        
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-SemiBold", size: 18)
+        label.text = "SAVE 50%"
+        label.textColor = UIColor(named: "TAPremSpecial1")
+        label.adjustsFontSizeToFitWidth = true
+
+        view.layout(label).center().leading(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }.trailing(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }
+        
+        return view
+    }()
+    lazy var notaSubscriptionLabel: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor.hex("#FFE600")
+        view.snp.makeConstraints { make in
+            make.height.equalTo(42)
+        }
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-Bold", size: 15)
+        label.attributedText = "NOT A SUBSCRIPTION".at.attributed { attr in
+            attr.underlineStyle(.single).foreground(color: .hex("#242424"))
+        }
+        label.adjustsFontSizeToFitWidth = true
+        
+        view.layout(label).center().leading(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }.trailing(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }
+        return view
+    }()
+
     let button: NewCustomButton = {
         let view = NewCustomButton()
         view.layer.cornerRadius = 16
@@ -155,7 +192,7 @@ class OnboardingVc: UIViewController {
     private let onClick: (OnboardingVc) -> Void
     private let shouldOnboard: Bool
     private let isPremiumScreen: Bool
-    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
+    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, titleColor: UIColor? = nil, titleColorSelected: UIColor? = nil, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
         imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: UIScreen.main.bounds.width * imageWidth))
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         imageView.contentMode = .center
@@ -165,12 +202,18 @@ class OnboardingVc: UIViewController {
         self.shouldOnboard = shouldOnboard
         super.init(nibName: nil, bundle: nil)
         button.setTitle(nextStepText, for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        if let titleColor = titleColor, let titleColorSelected = titleColorSelected {
+            button.setTitleColor(titleColor, for: .normal)
+            button.setTitleColor(titleColorSelected, for: .highlighted)
+        } else {
+            button.setTitleColor(.white, for: .normal)
+        }
         skipButton.setTitle(skipText, for: .normal)
         skipButton.setTitleColor(skipColor, for: .normal)
         nameLabel.text = nameText
         detailLabel.text = detailText
         button.stateBackgroundColor = nextStepColorState
+        
     }
     
     @objc func skipClicked() {
@@ -219,13 +262,17 @@ class OnboardingVc: UIViewController {
         imageView.transform = .init(scaleX: 0.6, y: 0.6)
         centerView.layout(imageViewContainer).leading().trailing().top()
         imageViewContainer.layout(imageView).edges()
-        centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, 0.06696 * UIScreen.main.bounds.height)
-        centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, 0.02455 * UIScreen.main.bounds.height).bottom()
+        centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, Constants.displayVersion2 && isPremiumScreen ? 2 : ((Constants.displayVersion2 ? 0.045 : 0.06696) * UIScreen.main.bounds.height))
+        centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, Constants.displayVersion2 && isPremiumScreen ? 2 : ((Constants.displayVersion2 ? 0.018 : 0.02455) * UIScreen.main.bounds.height)).bottom()
         view.layout(centerView).centerY(-0.095982 * UIScreen.main.bounds.height).width(UIScreen.main.bounds.width * 0.8225).centerX()
         view.layout(skipButton).bottom(UIScreen.main.bounds.height * (Constants.displayVersion2 ? 0.035 : 0.05)).leading(74).trailing(74)
         view.layout(button).height(60).bottom(Constants.vcMinBottomPadding + 10 + 20 + UIScreen.main.bounds.height * 0.03906) { _, _ in .greaterThanOrEqual }.centerX().width(UIScreen.main.bounds.width * 0.7922).top(centerView.anchor.bottom, (Constants.displayVersion2 ? 0.04 : 0.052455) * UIScreen.main.bounds.height) { _, _ in .greaterThanOrEqual }
         if onSkip == nil {
             skipButton.isHidden = true
+        }
+        if isPremiumScreen {
+            view.layout(save50Label).bottom(button.anchor.top, 6).leading(button.anchor.leading)
+            view.layout(notaSubscriptionLabel).bottom(button.anchor.top, 6).leading(save50Label.anchor.trailing, 8).trailing(button.anchor.trailing)
         }
         view.bringSubviewToFront(skipButton)
     }
@@ -237,11 +284,13 @@ extension OnboardingVc {
         let onboardingVc = OnboardingVcContainer()
 
         let sixthVc = OnboardingVc(imageName: "stepsix",
-                                   imageWidth: 0.6,
+                                   imageWidth: 0.920289855072464,
                                    nameText: "Add Your Projects And Work Directly With Them.",
                                    detailText: "Put icons on projects, change colors, and do whatever you want.",
                                    nextStepText: "Only \(InAppManager.shared.productPrice)",
-                                   nextStepColorState: .init(highlighted: UIColor.hex("#00CE15").withAlphaComponent(0.5), normal: .hex("#00CE15")),
+                                   nextStepColorState: .init(highlighted: UIColor.hex("#412904"), normal: .hex("#FF9900")),
+                                   titleColor: UIColor.hex("#412904"),
+                                   titleColorSelected: UIColor.hex("#ff9900"),
                                    isPremiumScreen: true,
                                    onSkip: { vc in
                                     onSkip()

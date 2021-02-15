@@ -11,8 +11,16 @@ import Material
 import AttributedLib
 import SwiftyDrop
 import Haptica
+import VisualEffectView
 
 class PremiumFeaturesVc: UIViewController {
+    private let visualEffectView: VisualEffectView = {
+        let view = VisualEffectView()
+        view.colorTint = .clear
+        view.blurRadius = 35
+
+        return view
+    }()
 
     let containerView: UIView = {
         let view = UIView()
@@ -28,6 +36,11 @@ class PremiumFeaturesVc: UIViewController {
         return view
     }()
     
+    let gradientView: GradientView2 = {
+        let gradientView = GradientView2(colors: isDarkTheme() ? [UIColor.hex("#0D3BA9"), UIColor.hex("#982584"), UIColor.hex("#B52B23"), UIColor.hex("#B87C23")] : [UIColor.hex("#B7CCFF"), UIColor.hex("#FFAFF1"), UIColor.hex("#FFBDB9"), UIColor.hex("#FFE5BD"), UIColor.hex("#FFDEAC")], direction: .horizontal)
+        
+        return gradientView
+    }()
     let imageView: UIImageView = {
         let view = UIImageView(image: UIImage(named: "premiumimage"))
         view.contentMode = .scaleAspectFit
@@ -57,16 +70,48 @@ class PremiumFeaturesVc: UIViewController {
     let plusesStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 14
+        stack.spacing = 0.008928571428571 * UIScreen.main.bounds.height
         return stack
+    }()
+    let save50Label: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor(named: "TAPremSpecial2")
+        view.snp.makeConstraints { make in
+            make.height.equalTo(42)
+        }
+        
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-SemiBold", size: 18)
+        label.text = "SAVE 50%"
+        label.textColor = UIColor(named: "TAPremSpecial1")
+        label.adjustsFontSizeToFitWidth = true
+        view.layout(label).center().leading(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }.trailing(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }
+        return view
+    }()
+    let notaSubscriptionLabel: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = UIColor.hex("#FFE600")
+        view.snp.makeConstraints { make in
+            make.height.equalTo(42)
+        }
+        let label = UILabel()
+        label.font = UIFont(name: "Inter-Bold", size: 15)
+        label.attributedText = "NOT A SUBSCRIPTION".at.attributed { attr in
+            attr.underlineStyle(.single).foreground(color: .hex("#242424"))
+        }
+        label.adjustsFontSizeToFitWidth = true
+        view.layout(label).center().leading(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }.trailing(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }
+        return view
     }()
     let buyButton: NewCustomButton = {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnBuy), for: .touchUpInside)
-        button.stateBackgroundColor = .init(highlighted: .hex("#242424"), normal: .hex("#FFE600"))
+        button.stateBackgroundColor = .init(highlighted: .hex("#242424"), normal: .hex("#FF9900"))
         button.setTitle("Only \(InAppManager.shared.productPrice)", for: .normal)
         button.setTitleColor(.hex("#242424"), for: .normal)
-        button.setTitleColor(.hex("#FFE600"), for: .highlighted)
+        button.setTitleColor(.hex("#FF9900"), for: .highlighted)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
@@ -106,6 +151,7 @@ class PremiumFeaturesVc: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollView.flashScrollIndicators()
+        gradientView.animateLocations(duration: Constants.animationDefaultDuration * 12)
         if let notification = notification {
             Drop.down(notification.text, state: .info, duration: 2, action: .none)
         }
@@ -117,16 +163,21 @@ class PremiumFeaturesVc: UIViewController {
         view.layout(containerView).leading(13).trailing(13).topSafe()
         containerView.layout(scrollView).top().leading().trailing()
         containerView.layout(bottomView).bottom().leading().trailing().top(scrollView.anchor.bottom)
-        scrollView.layout(imageView).top(22).leading(21) { _, _ in .greaterThanOrEqual }
-            .trailing(21) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.8216)
-        scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 33.2).leading(30).trailing(30)
-        scrollView.layout(plusesStack).top(premiumLabel.anchor.bottom, 30).leading(30).trailing(15).bottom(35)
+        scrollView.layout(imageView).top(0.0390625 * UIScreen.main.bounds.height).leading(0.108695652173913 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }
+            .trailing(0.108695652173913 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.922558922558923)
+        scrollView.layout(gradientView).center(imageView.anchor.center).width(0.45 * UIScreen.main.bounds.width).height(0.45 * UIScreen.main.bounds.width)
+        scrollView.layout(visualEffectView).edges()
+        scrollView.bringSubviewToFront(imageView)
+        scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 0.029017857142857 * UIScreen.main.bounds.height).leading(30).trailing(30)
+        scrollView.layout(plusesStack).top(premiumLabel.anchor.bottom, 0.017857142857143 * UIScreen.main.bounds.height).leading(30).trailing(15).bottom(35)
         plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tags"))
         plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Reminders"))
         plusesStack.addArrangedSubview(PremiumFeatureView("Unlock Archive"))
         plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Prioritization"))
-        bottomView.layout(buyButton).top(5).leading(30).trailing(30).height(60)
-        bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.0279 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.0279 * UIScreen.main.bounds.height)
+        bottomView.layout(save50Label).top(5).leading(30)
+        bottomView.layout(notaSubscriptionLabel).top(5).leading(save50Label.anchor.trailing, 8).trailing(30)
+        bottomView.layout(buyButton).top(notaSubscriptionLabel.anchor.bottom, 6).leading(30).trailing(30).height(60)
+        bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.011160714285714 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.013392857142857 * UIScreen.main.bounds.height)
         view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
     }
     

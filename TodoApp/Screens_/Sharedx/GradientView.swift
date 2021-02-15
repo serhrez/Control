@@ -80,11 +80,12 @@ class GradientView2: UIView {
         gradientLayer.frame = bounds
     }
     
-    func animateLocations() {
+    func animateLocations(duration: TimeInterval? = nil) {
         let anim2 = CABasicAnimation(keyPath: "colors")
         anim2.fromValue = colors.map { $0.cgColor }
         anim2.toValue = Array(colors.map { $0.cgColor }.reversed())
-        anim2.duration = Constants.animationDefaultDuration * 4
+        
+        anim2.duration = duration.map { CFTimeInterval($0) } ?? Constants.animationDefaultDuration * 4
         anim2.repeatCount = .infinity
         anim2.autoreverses = true
         gradientLayer.add(anim2, forKey: nil)

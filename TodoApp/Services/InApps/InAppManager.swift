@@ -11,7 +11,7 @@ import SwiftyStoreKit
 class InAppManager {
     var product: InAppProduct?
     var productPrice: String {
-        product?.localizedString ?? "$4.99"
+        product?.localizedString ?? "$2,99"
     }
     let productId = "com.sergeyreznichenko.control.premiumver"
     
