@@ -40,10 +40,11 @@ class Notifications: NSObject {
     }
         
     func removeNotifications(id: String) {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [id + "ctg"])
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [id + "reminder" + "ctg"])
-        notificationCenter.removeDeliveredNotifications(withIdentifiers: [id + "ctg"])
-        notificationCenter.removeDeliveredNotifications(withIdentifiers: [id + "reminder" + "ctg"])
+        let identifier1 = id
+        let identifier2 = id + "reminder"
+        let identifiers = [identifier1, identifier2]
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        notificationCenter.removeDeliveredNotifications(withIdentifiers: identifiers)
     }
         
     func scheduleTask(task: RlmTask, date: Date, reminder: Reminder?, repeatt: Repeat?) {
