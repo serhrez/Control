@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "premiumimage.pdf",
-      "idiom" : "universal"
+      "filename" : "premiumimage@1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "premiumimage@2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "premiumimage@3.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
