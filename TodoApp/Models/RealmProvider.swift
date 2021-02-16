@@ -31,7 +31,7 @@ struct RealmProvider {
     
     // MARK: - Projects realm
     private static let mainConfig = Realm.Configuration(
-        fileURL: (try! DirPath.inSharedContainer(archiveConfigPath)),
+        fileURL: (try! DirPath.inSharedContainer(mainConfigPath)),
         schemaVersion: 4)
     
     public static var main: RealmProvider = {
