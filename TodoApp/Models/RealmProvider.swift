@@ -22,7 +22,7 @@ struct RealmProvider {
     
     // MARK: - Archive realm
     private static let archiveConfig = Realm.Configuration(
-        fileURL: (try? DirPath.inSharedContainer(archiveConfigPath)) ?? (try! DirPath.inLibrary(archiveConfigPath)),
+        fileURL: (try! DirPath.inSharedContainer(archiveConfigPath)),
         schemaVersion: 4)
     
     public static var archive: RealmProvider = {
@@ -31,7 +31,7 @@ struct RealmProvider {
     
     // MARK: - Projects realm
     private static let mainConfig = Realm.Configuration(
-        fileURL: (try? DirPath.inSharedContainer(mainConfigPath)) ?? (try! DirPath.inLibrary(archiveConfigPath)),
+        fileURL: (try! DirPath.inSharedContainer(archiveConfigPath)),
         schemaVersion: 4)
     
     public static var main: RealmProvider = {

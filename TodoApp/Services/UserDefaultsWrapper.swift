@@ -14,7 +14,7 @@ class UserDefaultsWrapper {
         defaults.register(defaults: [
             .isPremium: false,
             .didOnboard: false,
-            .debugDeleteDb: true,
+            .debugDeleteDb: false,
             .lastTimeGeneratedFunTextNumber: -1
         ])
     }

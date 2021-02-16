@@ -47,7 +47,7 @@ class DirPath {
     static func inSharedContainer(_ name: String) throws -> URL {
         guard let url = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: "group.com.sergeyreznichenko.control") else {
-                throw DirPathError.containerNotFound(groupId)
+                throw DirPathError.containerNotFound("group.com.sergeyreznichenko.control")
         }
         return url.appendingPathComponent(name)
     }

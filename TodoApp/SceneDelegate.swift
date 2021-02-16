@@ -20,8 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         if UserDefaultsWrapper.shared.debugDeleteDb {
             do {
-                try FileManager.default.removeItem(at: DirPath.inLibrary("main.realm"))
-                try FileManager.default.removeItem(at: DirPath.inLibrary("archive.realm"))
+                try FileManager.default.removeItem(at: DirPath.inSharedContainer("main.realm"))
+                try FileManager.default.removeItem(at: DirPath.inSharedContainer("archive.realm"))
             } catch {
                 print(error.localizedDescription)
             }
