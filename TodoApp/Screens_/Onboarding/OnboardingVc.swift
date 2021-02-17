@@ -55,6 +55,7 @@ class OnboardingVcContainer: UIViewController {
     }
     
     func addGradient(_ index: Int, offsetIndex: Int? = nil) {
+        guard index == gradients.indices.last else { return }
         let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
         gradientView.alpha = isDarkTheme() ? blackThemeGradientAlphas[index] : gradientAlphas[index]
         backgroundView.addSubview(gradientView)

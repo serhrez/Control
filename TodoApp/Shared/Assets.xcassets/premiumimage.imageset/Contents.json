@@ -1,26 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "premiumimage@1.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "premiumimage@2.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "premiumimage@3.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "premiumimage.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }
