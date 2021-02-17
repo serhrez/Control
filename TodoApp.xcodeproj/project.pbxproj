@@ -57,6 +57,7 @@
 		A52ED3352595169700474128 /* EmojiiList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3342595169700474128 /* EmojiiList.swift */; };
 		A52ED3A325951C9100474128 /* EmojiList.txt in Resources */ = {isa = PBXBuildFile; fileRef = A52ED3A225951C9100474128 /* EmojiList.txt */; };
 		A52EF31125DD50C8008658D8 /* Primitives+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52EF31025DD50C8008658D8 /* Primitives+Data.swift */; };
+		A52EF34025DD58EB008658D8 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52EF33F25DD58EB008658D8 /* KeychainWrapper.swift */; };
 		A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315CFD256678A8000D8FCD /* InsetLabel.swift */; };
 		A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D082566C700000D8FCD /* SubtaskCell.swift */; };
 		A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */; };
@@ -246,6 +247,7 @@
 		A52ED3342595169700474128 /* EmojiiList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiiList.swift; sourceTree = "<group>"; };
 		A52ED3A225951C9100474128 /* EmojiList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = EmojiList.txt; sourceTree = "<group>"; };
 		A52EF31025DD50C8008658D8 /* Primitives+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Primitives+Data.swift"; sourceTree = "<group>"; };
+		A52EF33F25DD58EB008658D8 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		A5315CFD256678A8000D8FCD /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		A5315D082566C700000D8FCD /* SubtaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskCell.swift; sourceTree = "<group>"; };
 		A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskAddCell.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				A53225DD25AE12290098EB35 /* Notifications.swift */,
 				A55889B525D19F26007449B9 /* FunnyTextProvider.swift */,
 				A5917D4C25D2D64900780AEA /* RandomEmoji.swift */,
+				A52EF33F25DD58EB008658D8 /* KeychainWrapper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1352,6 +1355,7 @@
 				A5B8232725A8BA4D00259849 /* LaunchScreenManager.swift in Sources */,
 				A5F6A8FA258A29F200FB50FC /* ArchiveVcVm.swift in Sources */,
 				A59231B92572C1B3008E955D /* TPVTextCell.swift in Sources */,
+				A52EF34025DD58EB008658D8 /* KeychainWrapper.swift in Sources */,
 				A50834F225C9D03B009D2067 /* DebugSettingsVc.swift in Sources */,
 				A56047D1255D98F100C447CF /* AllTagsVc.swift in Sources */,
 				A5B67F7F2591058500EAD13D /* ProjectNewTaskForm.swift in Sources */,

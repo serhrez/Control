@@ -11,6 +11,7 @@ PODS:
   - InfiniteLayout/Core (0.4.2):
     - InfiniteLayout/CocoaProxy
   - JTAppleCalendar (8.0.3)
+  - KeychainAccess (4.2.1)
   - Material (3.1.8):
     - Material/Core (= 3.1.8)
   - Material/Core (3.1.8):
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - Haptica
   - InfiniteLayout
   - JTAppleCalendar
+  - KeychainAccess
   - Material (from `https://github.com/cointowitcher/Material`)
   - NewPopMenu (from `LocalPods/NewPopMenu`)
   - Nimble
@@ -87,6 +89,7 @@ SPEC REPOS:
     - Haptica
     - InfiniteLayout
     - JTAppleCalendar
+    - KeychainAccess
     - Motion
     - Nimble
     - Quick
@@ -134,6 +137,7 @@ SPEC CHECKSUMS:
   Haptica: dc206651beeca25ab4744c633fbf0ae4d1e86baf
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
   JTAppleCalendar: 932cadea40b1051beab10f67843451d48ba16c99
+  KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   Material: e9965c31d6e77f495e82d0b0564efe8d5c11bcc3
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
   NewPopMenu: 2927f482cd37d73bd42f45176eff64ad8ed977ff
@@ -157,6 +161,6 @@ SPEC CHECKSUMS:
   VisualEffectView: 172fce132b8208da6c0b7c572e7f3987ad54546d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 7b52d5a2db8e6a641c240e9d410b7c30b1611b07
+PODFILE CHECKSUM: caf558a2510ca866402b88fbd513ebe8c7721eff
 
 COCOAPODS: 1.10.0
