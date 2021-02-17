@@ -56,6 +56,7 @@
 		A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */; };
 		A52ED3352595169700474128 /* EmojiiList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3342595169700474128 /* EmojiiList.swift */; };
 		A52ED3A325951C9100474128 /* EmojiList.txt in Resources */ = {isa = PBXBuildFile; fileRef = A52ED3A225951C9100474128 /* EmojiList.txt */; };
+		A52EF31125DD50C8008658D8 /* Primitives+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52EF31025DD50C8008658D8 /* Primitives+Data.swift */; };
 		A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315CFD256678A8000D8FCD /* InsetLabel.swift */; };
 		A5315D092566C700000D8FCD /* SubtaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D082566C700000D8FCD /* SubtaskCell.swift */; };
 		A5315D112566C70D000D8FCD /* SubtaskAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */; };
@@ -244,6 +245,7 @@
 		A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerFullVc.swift; sourceTree = "<group>"; };
 		A52ED3342595169700474128 /* EmojiiList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiiList.swift; sourceTree = "<group>"; };
 		A52ED3A225951C9100474128 /* EmojiList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = EmojiList.txt; sourceTree = "<group>"; };
+		A52EF31025DD50C8008658D8 /* Primitives+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Primitives+Data.swift"; sourceTree = "<group>"; };
 		A5315CFD256678A8000D8FCD /* InsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLabel.swift; sourceTree = "<group>"; };
 		A5315D082566C700000D8FCD /* SubtaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskCell.swift; sourceTree = "<group>"; };
 		A5315D102566C70D000D8FCD /* SubtaskAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtaskAddCell.swift; sourceTree = "<group>"; };
@@ -510,6 +512,7 @@
 				A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */,
 				A5EEC0FE25A2407800AFE0CA /* UIImage+imageWithColor.swift */,
 				A55889BA25D1A34A007449B9 /* Collection+Extensions.swift */,
+				A52EF31025DD50C8008658D8 /* Primitives+Data.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1384,6 +1387,7 @@
 				A5EF5F74255B21DC0088DE0A /* AppNavigationRouter.swift in Sources */,
 				A533E046255C1EC400B301C7 /* CircleText.swift in Sources */,
 				A5168358255B43760076D29E /* CustomButton.swift in Sources */,
+				A52EF31125DD50C8008658D8 /* Primitives+Data.swift in Sources */,
 				A5F6A904258A313F00FB50FC /* RlmArchived.swift in Sources */,
 				A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,

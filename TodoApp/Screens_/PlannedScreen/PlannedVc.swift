@@ -110,7 +110,8 @@ final class PlannedVc: UIViewController {
                 let date = self.viewModel.noCalendarModelsUpdate.value[indexPath.section].date
                 headerView.configure(date: date)
                 return headerView
-            default: fatalError()
+            default:
+                    fatalError()
             }
         }
         viewModel.noCalendarModelsUpdate
@@ -205,7 +206,8 @@ extension PlannedVc: UICollectionViewDelegate {
             task = viewModel.noCalendarModelsUpdate.value[indexPath.section].items[indexPath.item].task
         case calendarViewCollectionView:
             task = viewModel.calendarModelsUpdate.value[indexPath.section].items[indexPath.item].task
-        default: fatalError()
+        default:
+                fatalError()
         }
         router.openTaskDetails(task)
     }
@@ -218,7 +220,8 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.width, height: 62)
         case calendarViewCollectionView:
             return CGSize(width: collectionView.bounds.width, height: 62)
-        default: fatalError()
+        default:
+                fatalError()
         }
     }
     
@@ -228,7 +231,8 @@ extension PlannedVc: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.width, height: 93)
         case calendarViewCollectionView:
             return CGSize(width: 0, height: 0)
-        default: fatalError()
+        default:
+                fatalError()
         }
     }
 }

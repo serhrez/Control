@@ -18,18 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         SwiftDate.defaultRegion = .current
         _ = InAppManager.shared
         let window = UIWindow(windowScene: windowScene)
-        if UserDefaultsWrapper.shared.debugDeleteDb {
-            do {
-                try FileManager.default.removeItem(at: DirPath.inSharedContainer("main.realm"))
-                try FileManager.default.removeItem(at: DirPath.inSharedContainer("archive.realm"))
-            } catch {
-                print(error.localizedDescription)
-            }
-            PredefinedRealm.populateRealm(RealmProvider.main.realm)
-            if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
-                try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
-            }
-        }
+//        if UserDefaultsWrapper.shared.debugDeleteDb {
+//            do {
+//                try FileManager.default.removeItem(at: DirPath.inSharedContainer("main.realm"))
+//                try FileManager.default.removeItem(at: DirPath.inSharedContainer("archive.realm"))
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//            PredefinedRealm.populateRealm(RealmProvider.main.realm)
+//            if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
+//                try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
+//            }
+//        }
         if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
             try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
         }

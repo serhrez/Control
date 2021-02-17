@@ -67,7 +67,9 @@ extension RealmProvider {
             }
         } catch {
             print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
-            fatalError()
+            #if DEBUG
+                fatalError()
+            #endif
         }
     }
     func addInboxProjectToRealm() {
@@ -81,7 +83,9 @@ extension RealmProvider {
             }
         } catch {
             print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
-            fatalError()
+            #if DEBUG
+                fatalError()
+            #endif
         }
     }
 }

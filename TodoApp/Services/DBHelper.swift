@@ -51,7 +51,9 @@ extension DBHelper {
             try archive(taskId: taskId, projectId: projectId, archiveRealmProvider: archiveRealmProvider, sourceRealmProvider: sourceRealmProvider)
         } catch {
             print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
-            fatalError()
+            #if DEBUG
+                fatalError()
+            #endif
         }
     }
     
@@ -60,7 +62,9 @@ extension DBHelper {
             try unarchive(taskId: taskId, from: sourceProvider, to: destinationProvider)
         } catch {
             print("⚠️⚠️⚠️ Realm error: \(error.localizedDescription)")
-            fatalError()
+            #if DEBUG
+                fatalError()
+            #endif
         }
     }
 }

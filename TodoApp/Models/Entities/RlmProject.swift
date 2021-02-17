@@ -50,7 +50,11 @@ final class RlmProject: Object {
     @objc dynamic var _sorting: String = ProjectSorting.byCreatedAt.rawValue
     var sorting: ProjectSorting {
         get {
-            if ProjectSorting(rawValue: _sorting) == nil { fatalError() }
+            if ProjectSorting(rawValue: _sorting) == nil {
+                #if DEBUG
+                    fatalError()
+                #endif
+            }
             return ProjectSorting(rawValue: _sorting) ?? .byCreatedAt
         }
         set {
