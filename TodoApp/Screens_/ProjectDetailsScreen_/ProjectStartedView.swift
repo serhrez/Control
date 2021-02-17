@@ -59,14 +59,14 @@ class ProjectStartedView: UIView {
     }
     
     private func setupView() {
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         layout(imageView).leading(27).trailing(27).top().width(imageView.anchor.height).multiply(1.785714285714286)
         layout(largeTitle).leading().trailing().top(imageView.anchor.bottom, 25.35)
         layout(smallTitleWithPlus).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
         layout(detailTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
         configure(mode: mode)
     }
-    private let imageView = UIImageView(image: UIImage(named: "startedmessypath")?.withRenderingMode(.alwaysTemplate))
+    private let imageView = UIImageView(image: UIImage(named: "startedmessypath"))
 
     let largeTitle: UILabel = {
         let label = UILabel(frame: .zero)

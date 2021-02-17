@@ -194,9 +194,11 @@ class OnboardingVc: UIViewController {
     private let shouldOnboard: Bool
     private let isPremiumScreen: Bool
     init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, titleColor: UIColor? = nil, titleColorSelected: UIColor? = nil, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
-        imageView = UIImageView(image: UIImage(named: imageName)?.resize(toWidth: UIScreen.main.bounds.width * imageWidth))
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-        imageView.contentMode = .center
+        imageView = UIImageView(image: UIImage(named: imageName))
+        imageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * imageWidth).isActive = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = false
+        
         self.onSkip = onSkip
         self.isPremiumScreen = isPremiumScreen
         self.onClick = onClick
@@ -261,8 +263,8 @@ class OnboardingVc: UIViewController {
     }
     private func setupViews() {
         imageView.transform = .init(scaleX: 0.6, y: 0.6)
-        centerView.layout(imageViewContainer).leading().trailing().top()
-        imageViewContainer.layout(imageView).edges()
+        centerView.layout(imageViewContainer).leading().trailing().top().height(imageViewContainer.anchor.width)
+        imageViewContainer.layout(imageView).center()
         centerView.layout(nameLabel).leading().trailing().top(imageViewContainer.anchor.bottom, Constants.displayVersion2 && isPremiumScreen ? 2 : ((Constants.displayVersion2 ? 0.045 : 0.06696) * UIScreen.main.bounds.height))
         centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, Constants.displayVersion2 && isPremiumScreen ? 2 : ((Constants.displayVersion2 ? 0.018 : 0.02455) * UIScreen.main.bounds.height)).bottom()
         view.layout(centerView).centerY(-0.095982 * UIScreen.main.bounds.height).width(UIScreen.main.bounds.width * 0.8225).centerX()

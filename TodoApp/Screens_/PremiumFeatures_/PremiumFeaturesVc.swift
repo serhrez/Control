@@ -44,6 +44,7 @@ class PremiumFeaturesVc: UIViewController {
     let imageView: UIImageView = {
         let view = UIImageView(image: UIImage(named: "premiumimage"))
         view.contentMode = .scaleAspectFit
+        view.clipsToBounds = false
         return view
     }()
     let premiumLabel: UILabel = {

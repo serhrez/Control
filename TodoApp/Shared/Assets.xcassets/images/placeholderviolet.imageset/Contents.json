@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "placeholderviolet.svg",
+      "filename" : "placeholderviolet.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "placeholdervioletdm.svg",
+      "filename" : "placeholdervioletdm.pdf",
       "idiom" : "universal"
     }
   ],
