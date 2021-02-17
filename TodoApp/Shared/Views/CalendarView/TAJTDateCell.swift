@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Material
 import JTAppleCalendar
+import SwiftDate
 
 class TAJTDateCell: JTACDayCell {
     static let idq = "DateCell"
@@ -34,11 +35,14 @@ class TAJTDateCell: JTACDayCell {
     
     func configure(with cellState: CellState, blue: Bool, orange: Bool, red: Bool, gray: Bool) {
         label.text = cellState.text
-        if cellState.dateBelongsTo == DateOwner.thisMonth {
+        if cellState.date.isToday {
+            label.textColor = UIColor(hex: "#447bfe")
+        } else if cellState.dateBelongsTo == DateOwner.thisMonth {
             label.textColor = UIColor(named: "TAHeading")
         } else {
             label.textColor = UIColor(named: "TASubElement")
         }
+        
         selectedView.isHidden = !cellState.isSelected
         previousIndicatorsStack?.removeFromSuperview()
         var indicatorColors: [UIColor] = []
