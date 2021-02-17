@@ -24,8 +24,8 @@ class InAppManager {
     
     func restorePurchases(completion: @escaping (InAppError?) -> Void) {
         SwiftyStoreKit.restorePurchases(atomically: true) { results in
-            if let restoredProduct = results.restoredPurchases.filter { $0.productId == self.productId }.first {
-                UserDefaultsWrapper.shared.isPremium = true
+            if let restoredProduct = results.restoredPurchases.filter({ $0.productId == self.productId }).first {
+                KeychainWrapper.shared.isPremium = true
                 completion(nil)
             } else if results.restoreFailedPurchases.count > 0 {
                 completion(.restoreFailed)
@@ -42,7 +42,7 @@ class InAppManager {
             switch result {
             case .success(let purchase):
                 print("Purchase Success: \(purchase.productId)")
-                UserDefaultsWrapper.shared.isPremium = true
+                KeychainWrapper.shared.isPremium = true
                 completion(nil)
             case .error(let error):
                 switch error.code {

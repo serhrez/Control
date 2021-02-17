@@ -31,8 +31,8 @@ class DebugSettingsVc: FormViewController {
                 Constants.topInsetSpacingBetweenSearchBarAndElements = value
             })
         form +++ Section("Features")
-            <<< debugSwitchRow(title: "premium", value: UserDefaultsWrapper.shared.isPremium, onChange: { value in
-                UserDefaultsWrapper.shared.isPremium = value
+            <<< debugSwitchRow(title: "premium", value: KeychainWrapper.shared.isPremium, onChange: { value in
+                KeychainWrapper.shared.isPremium = value
             })
             <<< debugSwitchRow(title: "didOnboard", value: UserDefaultsWrapper.shared.didOnboard, onChange: { value in
                 UserDefaultsWrapper.shared.didOnboard = value

@@ -16,10 +16,10 @@ class SettingsVc: UIViewController {
             .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 14, onClick: { [weak self] in
                 guard let self = self else { return }
                 self.router.openPremiumFeatures()
-            }, active: !UserDefaultsWrapper.shared.isPremium),
+            }, active: !KeychainWrapper.shared.isPremium),
             .init(text: "Archive", imageName: "archive", imageWidth: 20, onClick: { [weak self] in
                 guard let self = self else { return }
-                guard UserDefaultsWrapper.shared.isPremium || Constants.archiveWithoutPremium else {
+                guard KeychainWrapper.shared.isPremium || Constants.archiveWithoutPremium else {
                     self.router.openPremiumFeatures(notification: .archiveLimit)
                     return
                 }

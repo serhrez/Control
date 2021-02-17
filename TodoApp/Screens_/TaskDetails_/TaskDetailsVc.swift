@@ -503,7 +503,7 @@ final class TaskDetailsVc: UIViewController {
         }
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
-                guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
+                guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
                     self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                     return
                 }
@@ -558,7 +558,7 @@ final class TaskDetailsVc: UIViewController {
     }
     func addCalendarSelected(action: PopMenuAction) {
         let taskDate = viewModel.task.date?.freeze()
-        guard UserDefaultsWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+        guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
             dismiss(animated: true) { [weak self] in
                 self?.router.openPremiumFeatures(notification: .dateToTaskLimit)
             }

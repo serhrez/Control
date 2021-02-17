@@ -430,7 +430,7 @@ class ProjectDetailsVc: UIViewController {
         onCalendarClicked: { [weak self] _ in
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
-            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
                 self.router.openPremiumFeatures(notification: .dateToTaskLimit)
                 return
             }
@@ -489,7 +489,7 @@ class ProjectDetailsVc: UIViewController {
             tagPicker.becomeFirstResponder()
         },
         onPriorityClicked: { [weak self] sourceView in
-            guard UserDefaultsWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
+            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
                 self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                 return
             }

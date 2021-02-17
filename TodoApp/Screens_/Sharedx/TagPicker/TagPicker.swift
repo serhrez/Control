@@ -195,7 +195,7 @@ extension TagPicker: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = textField.text,
            !text.isEmpty {
-            guard UserDefaultsWrapper.shared.isPremium ||  RealmProvider.main.realm.objects(RlmTag.self).count < Constants.maximumTags else {
+            guard KeychainWrapper.shared.isPremium ||  RealmProvider.main.realm.objects(RlmTag.self).count < Constants.maximumTags else {
                 router.openPremiumFeatures(notification: .tagsLimit)
                 return false
             }
