@@ -10,10 +10,16 @@ import UIKit
 import RxDataSources
 import RxSwift
 import SwipeCellKit
+import PopMenu
 
 final class ArchiveVc: UIViewController {
     private let flowLayout = UICollectionViewFlowLayout()
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = UIColor(named: "TAHeading")!
+        return button
+    }()
 
     private let viewModel: ArchiveVcVm
     private let bag = DisposeBag()
@@ -37,6 +43,7 @@ final class ArchiveVc: UIViewController {
         view.layout(collectionView).leading(13).trailing(13).topSafe().bottom()
         setupCalendarCollectionView()
         setupNavigationBar()
+        navigationItem.rightBarButtonItem = actionsButton
     }
     
     private func setupCalendarCollectionView() {
@@ -65,6 +72,38 @@ final class ArchiveVc: UIViewController {
         title = "Archive".localizable()
     }
     
+    @objc func actionsButtonClicked() {
+        var actions: [PopuptodoAction] = []
+        let isSelectable = !viewModel.archived.isEmpty
+        let color = isSelectable ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
+        actions.append(contentsOf: [
+            PopuptodoAction(title: "Restore All".localizable(), image: UIImage(named: "restoresvg"), color: color, isSelectable: isSelectable, didSelect: { [weak self] action in
+                self?.restoreAllSelected()
+            }),
+            PopuptodoAction(title: "Clear Archive".localizable(), image: UIImage(named: "trash"), color: color, isSelectable: isSelectable, didSelect: { [weak self] action in
+                self?.clearArchiveSelected()
+            }),
+        ])
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
+        popMenu.shouldDismissOnSelection = true
+        popMenu.appearance = .appAppearance
+        present(popMenu, animated: true)
+    }
+    
+    func restoreAllSelected() {
+        self.viewModel.archived.forEach {
+            guard let task = $0.task else { return }
+            let taskId = task.id
+            viewModel.restoreTask(taskId: taskId)
+        }
+    }
+    
+    func clearArchiveSelected() {
+        self.viewModel.archived.forEach {
+            viewModel.delete(archived: $0)
+        }
+    }
 }
 
 extension ArchiveVc: SwipeCollectionViewCellDelegate {
@@ -104,9 +143,7 @@ extension ArchiveVc: SwipeCollectionViewCellDelegate {
         let archived = self.viewModel.archived[path.row]
         guard let task = archived.task else { return }
         let taskId = task.id
-        let projectId = archived.projectId
         self.viewModel.restoreTask(taskId: taskId)
-
     }
 }
 extension ArchiveVc: UICollectionViewDelegateFlowLayout {
