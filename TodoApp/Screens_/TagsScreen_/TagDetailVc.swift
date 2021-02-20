@@ -32,7 +32,7 @@ class TagDetailVc: UIViewController {
     
     private func setupViews() {
         applySharedNavigationBarAppearance()
-        title = "Tag: \(viewModel.tag.name)"
+        title = "Tag".localizable() + ": \(viewModel.tag.name)"
         view.backgroundColor = UIColor(named: "TABackground")
         setupCollectionView()
     }

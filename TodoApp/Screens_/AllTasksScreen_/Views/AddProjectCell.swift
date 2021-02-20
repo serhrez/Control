@@ -30,7 +30,7 @@ final class AddProjectCell: UITableViewCell {
         layer.cornerRadius = 16
         clipsToBounds = true
         
-        label.text = "Add Project"
+        label.text = "Add Project".localizable()
         label.font = .systemFont(ofSize: 18, weight: .semibold)
 
         layout(centerView).center()

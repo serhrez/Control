@@ -178,7 +178,7 @@ class CreateProjectVc: UIViewController {
         textField.font = .systemFont(ofSize: 28, weight: .bold)
         textField.textColor = UIColor(named: "TAHeading")!
         textField.delegate = self
-        textField.attributedPlaceholder = "New Project".at.attributed { attr in
+        textField.attributedPlaceholder = "New Project".localizable().at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
         }
         return textField

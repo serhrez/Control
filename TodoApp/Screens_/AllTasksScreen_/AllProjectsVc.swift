@@ -120,7 +120,7 @@ class AllProjectsVc: UIViewController {
         }
         // In case something bad happened. Maybe manually violated etc.
         if !(RealmProvider.main.realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }) {
-            let inboxProject = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let inboxProject = RlmProject(name: "Inbox".localizable(), icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
             RealmProvider.main.safeWrite {
                 RealmProvider.main.realm.add(inboxProject)
             }
@@ -129,7 +129,7 @@ class AllProjectsVc: UIViewController {
     
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance(addBackButton: false)
-        title = "All Projects"
+        title = "All Projects".localizable()
         
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItems = [actionsButton, searchButton]
@@ -146,7 +146,7 @@ class AllProjectsVc: UIViewController {
     // MARK: - POPUP
     @objc private func actionsButtonClicked() {
         let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "Open Tags", image: UIImage(named: "tag"), didSelect: { [weak self] action in
+            PopuptodoAction(title: "Open Tags".localizable(), image: UIImage(named: "tag"), didSelect: { [weak self] action in
                 self?.openTags(action: action)
             })
         ]
@@ -200,7 +200,8 @@ extension AllProjectsVc: UITableViewDataSource {
         case let .project(project), let .inboxProject(project):
             let projectCell = tableView.dequeueReusableCell(withIdentifier: ProjectViewCell.reuseIdentifier, for: indexPath) as! ProjectViewCell
             let progress = viewModel.getProgress(for: project)
-            projectCell.configure(icon: project.icon, name: project.name, progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color, iconFontSize: project.id == Constants.inboxId ? 22 : nil)
+            let isInbox = project.id == Constants.inboxId
+            projectCell.configure(icon: project.icon, name: !isInbox ? project.name : "Inbox".localizable(), progress: CGFloat(progress), tasksCount: project.tasks.count, color: project.color, iconFontSize: isInbox ? 22 : nil)
             projectCell.selectionStyle = .none
             return projectCell
         case let .planned(project), let .priority(project), let .today(project):

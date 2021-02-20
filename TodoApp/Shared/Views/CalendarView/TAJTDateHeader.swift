@@ -72,7 +72,7 @@ class TAJTDateHeader: JTACMonthReusableView {
             view.layout(label).center()
             return view
         }
-        let stack = UIStackView(arrangedSubviews: ["M", "T", "W", "T", "F", "S", "S"].map { getView(text: $0) })
+        let stack = UIStackView(arrangedSubviews: ["Monday-One-Letter".localizable(comment: "Monday"), "Tuesday-One-Letter".localizable(comment: "Tuesday"), "Wednesday-One-Letter".localizable(comment: "Wendnesday"), "Thursday-One-Letter".localizable(comment: "Thursday"), "Friday-One-Letter".localizable(), "Saturday-One-Letter".localizable(), "Sunday-One-Letter".localizable()].map { getView(text: $0) })
         stack.distribution = .fillEqually
         return stack
     }()

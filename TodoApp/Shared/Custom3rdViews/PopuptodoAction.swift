@@ -159,7 +159,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: hasImage ? iconLeftPadding + iconWidthHeight + iconToTextOffset : iconLeftPadding),
-            titleLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
             titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         

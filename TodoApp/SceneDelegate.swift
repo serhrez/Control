@@ -31,7 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            }
 //        }
         if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
-            try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
+            let languagePrefix = Locale.preferredLanguages[0]
+            if languagePrefix == "en" {
+                try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
+            }
         }
         let viewController = AllProjectsVc()
 

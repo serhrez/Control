@@ -13,30 +13,30 @@ class SettingsVc: UIViewController {
     var popTransition = SlidePopTransition()
     lazy var mainCollectionView = SettingsVcCollectionView(
         items: [
-            .init(text: "Premium Features", imageName: "premiumfire", imageWidth: 14, onClick: { [weak self] in
+            .init(text: "Premium Features".localizable(), imageName: "premiumfire", imageWidth: 14, onClick: { [weak self] in
                 guard let self = self else { return }
                 self.router.openPremiumFeatures()
             }, active: !KeychainWrapper.shared.isPremium),
-            .init(text: "Archive", imageName: "archive", imageWidth: 20, onClick: { [weak self] in
+            .init(text: "Language".localizable(), imageName: "languagesel", imageWidth: 24, onClick: { [weak self] in
+                let settingsURL = URL(string: UIApplication.openSettingsURLString)!
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }),
+            .init(text: "Archive".localizable(), imageName: "archive", imageWidth: 20, onClick: { [weak self] in
                 guard let self = self else { return }
                 guard KeychainWrapper.shared.isPremium || Constants.archiveWithoutPremium else {
                     self.router.openPremiumFeatures(notification: .archiveLimit)
                     return
                 }
                 self.router.openArchive()
-            }),
-//            .init(text: "Debug Settings", imageName: "", imageWidth: 20, onClick: { [weak self] in
-//                guard let self = self else { return }
-//                self.navigationController?.pushViewController(DebugSettingsVc(), animated: true)
-//            })
+            })
         ])
     lazy var secondaryCollectionView = SettingsVcCollectionView(
         items: [
-            .init(text: "Recommend to Friends", imageName: "recommendheart", imageWidth: 16.35 + 3, onClick: { [weak self] in
+            .init(text: "Recommend to Friends".localizable(), imageName: "recommendheart", imageWidth: 16.35 + 3, onClick: { [weak self] in
                 guard let self = self else { return }
-                let textToShare = "Check out this Todo-app"
+                let textToShare = "Check out this Todo-app".localizable()
 
-                if let myWebsite = URL(string: "http://itunes.apple.com/app/idXXXXXXXXX") {//Enter link to your app here
+                if let myWebsite = URL(string: "http://itunes.apple.com/app/id1548301206") {//Enter link to your app here
                     let objectsToShare = [textToShare, myWebsite] as [Any]
                     let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
                     
@@ -46,7 +46,7 @@ class SettingsVc: UIViewController {
                     self.present(activityVC, animated: true, completion: nil)
                 }
             }),
-            .init(text: "Feedbacks & Suggestions", imageName: "feedback", imageWidth: 18 + 2, onClick: { [weak self] in
+            .init(text: "Feedbacks & Suggestions".localizable(), imageName: "feedback", imageWidth: 18 + 2, onClick: { [weak self] in
                 guard let self = self else { return }
                 guard let url = URL(string: "https://twitter.com/ControlToDo") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -57,7 +57,7 @@ class SettingsVc: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "TABackground")
         applySharedNavigationBarAppearance(popGesture: false)
-        title = "Settings"
+        title = "Settings".localizable()
         
         view.layout(mainCollectionView).topSafe().leading(13).trailing(13).bottomSafe()
         mainCollectionView.collectionView.isScrollEnabled = false

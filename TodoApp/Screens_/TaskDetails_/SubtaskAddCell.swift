@@ -15,7 +15,7 @@ final class SubtaskAddCell: UITableViewCell {
     
     private let textField: UITextField = {
         let textField = UITextField()
-        textField.attributedPlaceholder = "New Checklist...".at.attributed { attr in
+        textField.attributedPlaceholder = "New Checklist...".localizable().at.attributed { attr in
             attr.font(.systemFont(ofSize: 16, weight: .regular)).foreground(color: UIColor(named: "TASubElement")!)
         }
         textField.textColor = UIColor(named: "TAHeading")!

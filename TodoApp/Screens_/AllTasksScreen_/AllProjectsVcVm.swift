@@ -59,7 +59,7 @@ class AllProjectsVcVM {
         } else {
             progress = Double(tasks.filter { $0.isDone }.count) / Double(count)
         }
-        return .priority(.init(icon: .assetImage(name: "flag", tintHex: "#EF4439"), iconFontSize: 18, name: "Priority", progress: progress, tasksCount: count, color: .hex("#EF4439")))
+        return .priority(.init(icon: .assetImage(name: "flag", tintHex: "#EF4439"), iconFontSize: 18, name: "Priority".localizable(), progress: progress, tasksCount: count, color: .hex("#EF4439")))
     }
     
     func getTodayModel() -> Model {
@@ -71,7 +71,7 @@ class AllProjectsVcVM {
         } else {
             progress = Double(tasks.filter { $0.isDone }.count) / Double(count)
         }
-        return .today(.init(icon: .assetImage(name: "today", tintHex: nil), iconFontSize: 25, name: "Today", progress: progress, tasksCount: count, color: .hex("#FF9900")))
+        return .today(.init(icon: .assetImage(name: "today", tintHex: nil), iconFontSize: 25, name: "Today".localizable(), progress: progress, tasksCount: count, color: .hex("#FF9900")))
     }
     
     func getPlannedModel() -> Model {
@@ -83,7 +83,7 @@ class AllProjectsVcVM {
         } else {
             progress = Double(tasks.filter { $0.isDone }.count) / Double(count)
         }
-        return .planned(.init(icon: .assetImage(name: "calendar", tintHex: "#447bfe"), iconFontSize: 21, name: "Planned", progress: progress, tasksCount: count, color: .hex("#447bfe")))
+        return .planned(.init(icon: .assetImage(name: "calendar", tintHex: "#447bfe"), iconFontSize: 21, name: "Planned".localizable(), progress: progress, tasksCount: count, color: .hex("#447bfe")))
     }
     
     func progressForPlannedWithCount() -> (Double, Int) {

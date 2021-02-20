@@ -151,16 +151,16 @@ class AllTagsVc: UIViewController {
             
     func setupNavigationBar() {
         applySharedNavigationBarAppearance()
-        title = "Tags"
+        title = "Tags".localizable()
     }
     
     func handleSwipeActionDeletion(action: SwipeAction, indexPath: IndexPath) {
         let tag = viewModel.models[0].items[indexPath.row]
         switch tag {
         case let .tag(tag):
-            let alertVc = UIAlertController(title: "Delete Tag", message: "Tag '\(tag.name)' will be removed from all your tasks", preferredStyle: .alert)
-            alertVc.addAction(UIAlertAction(title: "Cancel", style: .default))
-            alertVc.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            let alertVc = UIAlertController(title: "Delete Tag".localizable(), message: "Tag".localizable() + " '\(tag.name)' " + "will be removed from all your tasks".localizable(), preferredStyle: .alert)
+            alertVc.addAction(UIAlertAction(title: "Cancel".localizable(), style: .default))
+            alertVc.addAction(UIAlertAction(title: "Delete".localizable(), style: .destructive, handler: { [weak self] _ in
                 self?.viewModel.deleteTag(tag)
             }))
             present(alertVc, animated: true, completion: nil)

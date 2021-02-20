@@ -208,7 +208,7 @@ class ProjectDetailsVc: UIViewController {
         addGestureToNavBar() // We add gesture to nav bar in order to check if topView icon was clicked
         navigationItem.rightBarButtonItem = actionsButton
         if isInbox {
-            title = "Inbox"
+            title = "Inbox".localizable()
         }
     }
     func addGestureToNavBar() {
@@ -232,7 +232,7 @@ class ProjectDetailsVc: UIViewController {
             let completeAllActive = project.tasks.contains { !$0.isDone }
             let completeAllImage = completeAllActive ? UIImage(named: "circle-check") : UIImage(named: "circle-check")?.withTintColor(UIColor(named: "TASubElement")!)
             let completeAllColor = completeAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
-            actions += [.init(title: "Complete All", image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { [weak self] _ in
+            actions += [.init(title: "Complete All".localizable(), image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { [weak self] _ in
                 RealmProvider.main.safeWrite {
                     self?.project.tasks.forEach {
                         $0.isDone = true
@@ -245,19 +245,19 @@ class ProjectDetailsVc: UIViewController {
             let sortGrayImage = UIImage(named: "switch-vertical")?.withTintColor(UIColor(named: "TASubElement")!)
             let sortImage = UIImage(named: "switch-vertical")
             let sortedByName = project.sorting == .byName
-            actions += [.init(title: "Sort by name", image: sortedByName ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByName, didSelect: { [weak self] (_) in
+            actions += [.init(title: "Sort by name".localizable(), image: sortedByName ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByName, didSelect: { [weak self] (_) in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byName
                 }
             })]
             let sortedByCreated = project.sorting == .byCreatedAt
-            actions += [.init(title: "Sort by created", image: sortedByCreated ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByCreated, didSelect: { [weak self] (_) in
+            actions += [.init(title: "Sort by created".localizable(), image: sortedByCreated ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByCreated, didSelect: { [weak self] (_) in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byCreatedAt
                 }
             })]
             let sortedByPriority = project.sorting == .byPriority
-            actions += [.init(title: "Sort by priority", image: sortedByPriority ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByPriority, didSelect: { [weak self] _ in
+            actions += [.init(title: "Sort by priority".localizable(), image: sortedByPriority ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByPriority, didSelect: { [weak self] _ in
                 RealmProvider.main.safeWrite {
                     self?.project.sorting = .byPriority
                 }
@@ -266,7 +266,7 @@ class ProjectDetailsVc: UIViewController {
             let deleteCompletedAllImage = deleteCompletedAllActive ? UIImage(named: "checks") : UIImage(named: "checks")?.withTintColor(UIColor(named: "TASubElement")!)
             let deleteCompletedAllColor = deleteCompletedAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
 
-            actions += [.init(title: "Delete Completed", image: deleteCompletedAllImage, color: deleteCompletedAllColor, isSelectable: deleteCompletedAllActive, didSelect: { [weak self] _ in
+            actions += [.init(title: "Delete Completed".localizable(), image: deleteCompletedAllImage, color: deleteCompletedAllColor, isSelectable: deleteCompletedAllActive, didSelect: { [weak self] _ in
                 let allTasksId = self?.project.tasks.filter { $0.isDone }.map { $0.id } ?? []
                 guard !allTasksId.isEmpty else { return }
                 let projectId = self?.project.id ?? ""
@@ -280,7 +280,7 @@ class ProjectDetailsVc: UIViewController {
                 }
             })]
             if project.id != Constants.inboxId {
-                actions += [.init(title: "Delete Project", image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] handler in
+                actions += [.init(title: "Delete Project".localizable(), image: UIImage(named: "trash"), color: UIColor(named: "TAHeading")!, didSelect: { [weak self] handler in
                     self?.deleteProjectClicked()
                 })]
             }
@@ -302,19 +302,19 @@ class ProjectDetailsVc: UIViewController {
             self.deleteProject()
             return
         }
-        let alertVc = UIAlertController(title: "Delete Project", message: "Project '\(project.name)' will be removed", preferredStyle: .alert)
-        alertVc.addAction(.init(title: "Delete all", style: .destructive, handler: { [weak self] _ in
+        let alertVc = UIAlertController(title: "Delete Project".localizable(), message: "\("Project".localizable()) '\(project.name)' \("will be removed".localizable(comment: "project 'projectname' will be removed"))", preferredStyle: .alert)
+        alertVc.addAction(.init(title: "Delete all".localizable(), style: .destructive, handler: { [weak self] _ in
             guard let self = self else { return }
             self.deleteProject()
         }))
-        alertVc.addAction(.init(title: "Delete and Archive", style: .default, handler: { [weak self] _ in
+        alertVc.addAction(.init(title: "Delete and Archive".localizable(), style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.project.tasks.forEach {
                 DBHelper.safeArchive(taskId: $0.id, projectId: self.project.id)
             }
             self.deleteProject()
         }))
-        alertVc.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
+        alertVc.addAction(.init(title: "Cancel".localizable(), style: .cancel, handler: { _ in
         }))
         self.presentedViewController?.dismiss(animated: true, completion: { [weak self] in
             self?.present(alertVc, animated: true, completion: nil)
@@ -512,28 +512,28 @@ class ProjectDetailsVc: UIViewController {
     func showPriorityPicker(sourceView: UIView) {
         let prevFirstResponder = self.getFirstResponder()
         let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "High Priority",
+            PopuptodoAction(title: "High Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.state.addTaskModel else { return }
                                 addTask.priority = .high
                                 self?.state = .addTask(addTask)
                             }),
-            PopuptodoAction(title: "Medium Priority",
+            PopuptodoAction(title: "Medium Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.state.addTaskModel else { return }
                                 addTask.priority = .medium
                                 self?.state = .addTask(addTask)
                             }),
-            PopuptodoAction(title: "Low Priority",
+            PopuptodoAction(title: "Low Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.state.addTaskModel else { return }
                                 addTask.priority = .low
                                 self?.state = .addTask(addTask)
                             }),
-            PopuptodoAction(title: "No Priority",
+            PopuptodoAction(title: "No Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.state.addTaskModel else { return }
@@ -566,19 +566,19 @@ class ProjectDetailsVc: UIViewController {
     }
     
     private func showAlertToOpenSettings() {
-        let alertController = UIAlertController(title: "Notifications are disabled", message: "You disabled notification for this app, so we cannot set up notifications", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Notifications are disabled".localizable(), message: "You disabled notification for this app, so we cannot set up notifications".localizable(), preferredStyle: .alert)
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
-            let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ -> Void in
+            let settingsAction = UIAlertAction(title: "Settings".localizable(), style: .default) { _ -> Void in
                 UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
                     print("Settings opened: \(success)") // Prints true
                 })
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
             alertController.addAction(settingsAction)
         } else {
-            let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Close".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
         }
 

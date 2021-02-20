@@ -40,7 +40,7 @@ final class AllTasksToolbar: UIView {
         layout(containerView).edges().height(Self.estimatedHeight)
         
         let label = UILabel()
-        label.text = "To-Do., Something new?"
+        label.text = "To-Do., Something new?".localizable()
         label.textColor = UIColor(named: "TASubElement")!
         label.font = .systemFont(ofSize: 16)
         containerView.layout(label).leading(30).trailing(30).top(20).bottom(20)

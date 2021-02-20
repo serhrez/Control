@@ -182,7 +182,7 @@ final class PlannedVc: UIViewController {
 
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance()
-        title = "Planned"
+        title = "Planned".localizable()
         rightBarButton.tintColor = UIColor(named: "TAHeading")
         navigationItem.rightBarButtonItems = [rightBarButton]
     }

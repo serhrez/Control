@@ -24,23 +24,23 @@ class ProjectStartedView: UIView {
             var largeTitleNumberOfLines: Int = 2
             switch mode {
             case .noPriorities:
-                largeTitle.text = "There Are No Priorities Right Now."
-                detailTitle.text = "All of your assignments are displayed here."
+                largeTitle.text = "There Are No Priorities Right Now.".localizable()
+                detailTitle.text = "All of your assignments are displayed here.".localizable()
                 detailTitleAlpha = 1
                 imageView.image = UIImage(named: "placeholderred")
             case .freeDay:
-                largeTitle.text = "You Have a Free Day."
-                detailTitle.text = "All of your assignments are displayed here."
+                largeTitle.text = "You Have a Free Day.".localizable()
+                detailTitle.text = "All of your assignments are displayed here.".localizable()
                 detailTitleAlpha = 1
                 largeTitleNumberOfLines = 1
                 imageView.image = UIImage(named: "placeholderyellow")
             case .projectEmpty:
-                largeTitle.text = "Your Project is Empty."
+                largeTitle.text = "Your Project is Empty.".localizable()
                 largeTitleNumberOfLines = 1
                 smallTitleWithPlusAlpha = 1
                 imageView.image = UIImage(named: "placeholderyellow")
             case .inboxEmpty:
-                largeTitle.text = "Your Inbox is Empty."
+                largeTitle.text = "Your Inbox is Empty.".localizable()
                 smallTitleWithPlusAlpha = 1
                 imageView.image = UIImage(named: "placeholderviolet")
             case .started:
@@ -48,8 +48,8 @@ class ProjectStartedView: UIView {
                 imageView.image = UIImage(named: "placeholderyellow")
             case .noCalendarPlanned:
                 detailTitleAlpha = 1
-                largeTitle.text = "There Are No Planned Tasks."
-                detailTitle.text = "Planned tasks will be shown here."
+                largeTitle.text = "There Are No Planned Tasks.".localizable()
+                detailTitle.text = "Planned tasks will be shown here.".localizable()
                 imageView.image = UIImage(named: "placeholderyellow")
             }
             smallTitleWithPlus.alpha = smallTitleWithPlusAlpha
@@ -72,7 +72,7 @@ class ProjectStartedView: UIView {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textColor = UIColor(named: "TAHeading")!
-        label.text = "Well done, you started a new project!"
+        label.text = "Well done, you started a new project!".localizable()
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
@@ -104,14 +104,14 @@ class ProjectStartedView: UIView {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = UIColor(named: "TASubElement")!
-        label.text = "Tap the"
+        label.text = "Tap the".localizable()
         return label
     }()
     let smallTitleTrailing: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = UIColor(named: "TASubElement")!
-        label.text = "button to add the task!"
+        label.text = "button to add the task!".localizable()
         return label
     }()
     let plusImage: UIView = {

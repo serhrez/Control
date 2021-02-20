@@ -128,7 +128,7 @@ final class IconPickerFullVc: UIViewController {
         
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClicked))
+        let cancelButton = UIBarButtonItem(title: "Cancel".localizable(), style: .plain, target: self, action: #selector(cancelClicked))
         cancelButton.tintColor = UIColor.hex("#447BFE")
         cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
         navigationItem.rightBarButtonItems = [cancelButton]

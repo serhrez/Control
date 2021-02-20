@@ -20,13 +20,13 @@ enum Repeat: String, CustomStringConvertible {
     var description: String {
         switch self {
         case .everyDay:
-            return "Every Day"
+            return "Every Day".localizable()
         case .everyWeek:
-            return "Every Week"
+            return "Every Week".localizable()
         case .everyMonth:
-            return "Every Month"
+            return "Every Month".localizable()
         case .everyYear:
-            return "Every Year"
+            return "Every Year".localizable()
         }
     }
 }

@@ -310,7 +310,7 @@ final class TaskDetailsVc: UIViewController {
     }()
     
     private lazy var taskDescription: MyGrowingTextView = {
-        let description = MyGrowingTextView(placeholderText: "Enter description", scrollBehavior: .noScroll)
+        let description = MyGrowingTextView(placeholderText: "Enter description".localizable(), scrollBehavior: .noScroll)
         description.accessibilityIdentifier = "taskDescription"
         let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
         description.placeholderAttrs = attributes
@@ -487,32 +487,32 @@ final class TaskDetailsVc: UIViewController {
     @objc private func actionsButtonClicked() {
         var actions: [PopuptodoAction] = []
         if viewModel.subtasksModels[0].items.isEmpty {
-            actions.append(PopuptodoAction(title: "Add Checklist", image: UIImage(named: "list-check"), didSelect: { [weak self] action in
+            actions.append(PopuptodoAction(title: "Add Checklist".localizable(), image: UIImage(named: "list-check"), didSelect: { [weak self] action in
                 self?.addChecklistSelected(action: action)
             }))
         }
         if tokenField.isHidden {
-            actions.append(PopuptodoAction(title: "Add Tags", image: UIImage(named: "tag"), didSelect: { [weak self] action in
+            actions.append(PopuptodoAction(title: "Add Tags".localizable(), image: UIImage(named: "tag"), didSelect: { [weak self] action in
                 self?.addTagsSelected(action: action)
             }))
         }
         if taskDescription.isHidden {
-            actions.append(PopuptodoAction(title: "Add Description", image: UIImage(named: "taskdescription"), didSelect: { [weak self] action in
+            actions.append(PopuptodoAction(title: "Add Description".localizable(), image: UIImage(named: "taskdescription"), didSelect: { [weak self] action in
                 self?.addDescriptionSelected(action: action)
             }))
         }
         actions.append(contentsOf: [
-            PopuptodoAction(title: "Select Priority", image: UIImage(named: "flag"), didSelect: { [weak self] action in
+            PopuptodoAction(title: "Select Priority".localizable(), image: UIImage(named: "flag"), didSelect: { [weak self] action in
                 guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
                     self?.router.openPremiumFeatures(notification: .prioritiesLimit)
                     return
                 }
                 self?.selectPrioritySelected(action: action)
             }),
-            PopuptodoAction(title: self.viewModel.task.date?.date != nil ? "Edit Date" : "Add Date", image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
+            PopuptodoAction(title: self.viewModel.task.date?.date != nil ? "Edit Date".localizable() : "Add Date".localizable(), image: UIImage(named: "calendar-plus"), didSelect: { [weak self] action in
                 self?.addCalendarSelected(action: action)
             }),
-            PopuptodoAction(title: "Delete To-Do", image: UIImage(named: "trash"), didSelect: { [weak self] action in
+            PopuptodoAction(title: "Delete To-Do".localizable(), image: UIImage(named: "trash"), didSelect: { [weak self] action in
                 self?.deleteTodoSelected(action: action)
             }),
         ])
@@ -541,10 +541,10 @@ final class TaskDetailsVc: UIViewController {
 
     func selectPrioritySelected(action: PopMenuAction) {
         let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "High Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectHighPriority() }),
-            PopuptodoAction(title: "Medium Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectMediumPriority() }),
-            PopuptodoAction(title: "Low Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() }),
-            PopuptodoAction(title: "No Priority", image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectNonePriority() })
+            PopuptodoAction(title: "High Priority".localizable(), image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectHighPriority() }),
+            PopuptodoAction(title: "Medium Priority".localizable(), image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectMediumPriority() }),
+            PopuptodoAction(title: "Low Priority".localizable(), image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectLowPriority() }),
+            PopuptodoAction(title: "No Priority".localizable(), image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] _ in self?.viewModel.selectNonePriority() })
         ]
         actions[0].imageTintColor = .hex("#EF4439")
         actions[1].imageTintColor = .hex("#FF9900")
@@ -583,19 +583,19 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func showAlertToOpenSettings() {
-        let alertController = UIAlertController(title: "Notifications are disabled", message: "You disabled notification for this app, so we cannot set up notifications", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Notifications are disabled".localizable(), message: "You disabled notification for this app, so we cannot set up notifications".localizable(), preferredStyle: .alert)
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
-            let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ -> Void in
+            let settingsAction = UIAlertAction(title: "Settings".localizable(), style: .default) { _ -> Void in
                 UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
                     print("Settings opened: \(success)") // Prints true
                 })
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
             alertController.addAction(settingsAction)
         } else {
-            let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Close".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
         }
 

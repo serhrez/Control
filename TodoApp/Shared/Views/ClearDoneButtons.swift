@@ -18,7 +18,7 @@ class ClearDoneButtons: UIView {
         self.done = done
         super.init(frame: .zero)
         let clearButton = NewCustomButton(type: .custom)
-        let attrClear = "Back".at.attributed { attr in
+        let attrClear = "Back".localizable().at.attributed { attr in
             attr.font(.systemFont(ofSize: 18, weight: .semibold))
         }
         clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)
@@ -31,7 +31,7 @@ class ClearDoneButtons: UIView {
         separator.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         let doneButton = NewCustomButton(type: .custom)
-        let attrDone = "Done".at.attributed { attr in
+        let attrDone = "Done".localizable().at.attributed { attr in
             attr.font(.systemFont(ofSize: 18, weight: .semibold)).foreground(color: .hex("#447BFE"))
         }
         doneButton.addTarget(self, action: #selector(doneClicked), for: .touchUpInside)

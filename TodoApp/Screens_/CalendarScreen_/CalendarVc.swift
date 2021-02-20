@@ -39,20 +39,20 @@ final class CalendarVc: UIViewController {
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
-    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today", imageWidth: 30, onClick: { [weak self] in
+    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today".localizable(), imageWidth: 30, onClick: { [weak self] in
         self?.viewModel.clickedToday()
     })
     lazy var tomorrowButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow", imageWidth: 28, onClick: { [weak self] in
+        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow".localizable(), imageWidth: 28, onClick: { [weak self] in
             self?.viewModel.clickedTomorrow()
         })
         button.imageView2.tintColor = .hex("#447BFE")
         return button
     }()
-    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday", isOneLine: false, imageWidth: 26, onClick: { [weak self] in
+    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday".localizable(), isOneLine: false, imageWidth: 26, onClick: { [weak self] in
         self?.viewModel.clickedNextMonday()
     })
-    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening", imageWidth: 25, onClick: { [weak self] in
+    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening".localizable(), imageWidth: 25, onClick: { [weak self] in
         self?.viewModel.clickedEvening()
     })
     private lazy var buttonsStack: UIStackView = {
@@ -68,13 +68,13 @@ final class CalendarVc: UIViewController {
     }, done: { [weak self] in
         self?.done()
     })
-    lazy var timeButton = CalendarButton2(image: "alarm", text: "Time", onClick: { [weak self] in
+    lazy var timeButton = CalendarButton2(image: "alarm", text: "Time".localizable(), onClick: { [weak self] in
         self?.clickedTime()
     })
-    lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder", onClick: { [weak self] in
+    lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder".localizable(), onClick: { [weak self] in
         self?.clickedReminder()
     })
-    lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat", onClick: { [weak self] in
+    lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat".localizable(), onClick: { [weak self] in
         self?.clickedRepeat()
     })
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
@@ -120,7 +120,7 @@ final class CalendarVc: UIViewController {
 
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        navigationItem.titleLabel.text = "Calendar"
+        navigationItem.titleLabel.text = "Calendar".localizable()
         navigationItem.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         view.layout(containerView).leading(13).trailing(13).topSafe() { _, _ in .greaterThanOrEqual }.bottomSafe(Constants.vcMinBottomPadding) { _, _ in .lessThanOrEqual }
         let centerYAnchor = containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -166,7 +166,7 @@ final class CalendarVc: UIViewController {
     private lazy var clearButton: NewCustomButton = {
         let button = NewCustomButton()
         button.stateBackgroundColor = .init(highlighted: UIColor(named: "TABorder")!, normal: UIColor(named: "TABorder")!.withAlphaComponent(0.4))
-        button.setAttributedTitle("Clear".at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
+        button.setAttributedTitle("Clear".localizable().at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(clickedClear), for: .touchUpInside)
         
@@ -256,7 +256,7 @@ extension CalendarVc {
                 statusLabel.text = selectedText
                 statusLabel.textColor = UIColor.hex("#447bfe")
             } else {
-                statusLabel.text = "None"
+                statusLabel.text = "None".localizable()
                 statusLabel.textColor = UIColor(named: "TASubElement")
             }
         }

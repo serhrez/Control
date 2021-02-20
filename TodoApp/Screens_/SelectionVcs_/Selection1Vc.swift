@@ -81,23 +81,23 @@ class Selection1Vc: UIViewController {
 extension Selection1Vc {
     static func reminderVc(onDone: @escaping (Reminder?) -> Void, selected: Reminder?) -> Selection1Vc {
         let items: [Reminder?] = [nil] + Reminder.all
-        return Selection1Vc(title: "Reminder", items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
+        return Selection1Vc(title: "Reminder".localizable(), items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
             onDone(items[index])
         }
     }
     
     static func repeatVc(onDone: @escaping (Repeat?) -> Void, selected: Repeat?) -> Selection1Vc {
         let items: [Repeat?] = [nil] + Repeat.all
-        let vc = Selection1Vc(title: "Repeat", items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
+        let vc = Selection1Vc(title: "Repeat".localizable(), items: items, selectedIndex: items.firstIndex(of: selected) ?? 0) { index in
             onDone(items[index])
         }
-        vc.noneText = "Never"
+        vc.noneText = "Never".localizable()
         return vc
     }
 }
 
 extension Optional: Selection1VcItem where Wrapped: CustomStringConvertible {
     func description(with none: String?) -> String {
-        return self?.description ?? none ?? "None"
+        return self?.description ?? none ?? "None".localizable(comment: "Selection1Vc none")
     }
 }

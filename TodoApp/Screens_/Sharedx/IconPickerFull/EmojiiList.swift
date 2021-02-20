@@ -25,14 +25,14 @@ extension IconPickerFullVc {
         
         var viewString: String {
             switch self {
-            case .smileysAndPeople: return "Smileys & People"
-            case .animalsAndNature: return "Animals & Nature"
-            case .foodAndDrink: return "Food & Drink"
-            case .activity: return "Activity"
-            case .travelAndPlaces: return "Travel & Places"
-            case .objects: return "Objects"
-            case .symbols: return "Symbols"
-            case .flags: return "Flags"
+            case .smileysAndPeople: return "Smileys & People".localizable()
+            case .animalsAndNature: return "Animals & Nature".localizable()
+            case .foodAndDrink: return "Food & Drink".localizable()
+            case .activity: return "Activity".localizable()
+            case .travelAndPlaces: return "Travel & Places".localizable()
+            case .objects: return "Objects".localizable()
+            case .symbols: return "Symbols".localizable()
+            case .flags: return "Flags".localizable()
             }
         }
     }

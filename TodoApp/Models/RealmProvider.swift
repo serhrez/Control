@@ -77,7 +77,7 @@ extension RealmProvider {
         guard !isInboxInRealm else { return }
         do {
             try realm.write {
-                let project = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+                let project = RlmProject(name: "Inbox".localizable(), icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
                 project.id = Constants.inboxId
                 realm.add(project)
             }

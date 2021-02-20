@@ -33,7 +33,7 @@ class AllTagsAddTagCell: UICollectionViewCell {
         layer.cornerRadius = 16
         clipsToBounds = true
         
-        label.text = "Add Tag"
+        label.text = "Add Tag".localizable()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
 
         contentView.layout(centerView).center()

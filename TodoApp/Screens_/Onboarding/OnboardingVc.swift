@@ -145,7 +145,7 @@ class OnboardingVc: UIViewController {
         
         let label = UILabel()
         label.font = UIFont(name: "Inter-SemiBold", size: 18)
-        label.text = "SAVE 50%"
+        label.text = "SAVE 50%".localizable()
         label.textColor = UIColor(named: "TAPremSpecial1")
         label.adjustsFontSizeToFitWidth = true
 
@@ -162,7 +162,7 @@ class OnboardingVc: UIViewController {
         }
         let label = UILabel()
         label.font = UIFont(name: "Inter-Bold", size: 15)
-        label.attributedText = "NOT A SUBSCRIPTION".at.attributed { attr in
+        label.attributedText = "NOT A SUBSCRIPTION".localizable().at.attributed { attr in
             attr.underlineStyle(.single).foreground(color: .hex("#242424"))
         }
         label.adjustsFontSizeToFitWidth = true
@@ -241,8 +241,8 @@ class OnboardingVc: UIViewController {
     
     private func handle(_ error: InAppError) {
         let message = error.message
-        let alertVc = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alertVc.addAction(.init(title: "OK", style: .cancel, handler: nil))
+        let alertVc = UIAlertController(title: "Error".localizable(), message: message, preferredStyle: .alert)
+        alertVc.addAction(.init(title: "OK".localizable(), style: .cancel, handler: nil))
         present(alertVc, animated: true, completion: nil)
     }
     
@@ -288,9 +288,9 @@ extension OnboardingVc {
 
         let sixthVc = OnboardingVc(imageName: "stepsix",
                                    imageWidth: Constants.displayVersion2 ? 0.8 : 0.920289855072464,
-                                   nameText: "Add Your Projects And Work Directly With Them.",
-                                   detailText: "Put icons on projects, change colors, and do whatever you want.",
-                                   nextStepText: "Only \(InAppManager.shared.productPrice)",
+                                   nameText: "Add Your Projects And Work Directly With Them.".localizable(),
+                                   detailText: "Put icons on projects, change colors, and do whatever you want.".localizable(),
+                                   nextStepText: "\("Only".localizable(comment: "Only $2.99")) \(InAppManager.shared.productPrice)",
                                    nextStepColorState: .init(highlighted: UIColor.hex("#412904"), normal: .hex("#FF9900")),
                                    titleColor: UIColor.hex("#412904"),
                                    titleColorSelected: UIColor.hex("#ff9900"),
@@ -298,7 +298,7 @@ extension OnboardingVc {
                                    onSkip: { vc in
                                     onSkip()
                                    },
-                                   skipText: "Continue without purchasing",
+                                   skipText: "Continue without purchasing".localizable(),
                                    skipColor: UIColor.hex("#A4A4A4"),
                                    onClick: { vc in
                                     onPremiumVc()
@@ -306,14 +306,14 @@ extension OnboardingVc {
 
         let fifthVc = OnboardingVc(imageName: "stepfive",
                                    imageWidth: 0.49275,
-                                   nameText: "Tags Help You To Label Different Thoughts.",
-                                   detailText: "Put up the tags, and solve your plans, as well as search by tag.",
-                                   nextStepText: "Next Step",
+                                   nameText: "Tags Help You To Label Different Thoughts.".localizable(),
+                                   detailText: "Put up the tags, and solve your plans, as well as search by tag.".localizable(),
+                                   nextStepText: "Next Step".localizable(),
                                    nextStepColorState: .init(highlighted: UIColor.hex("#571CFF").withAlphaComponent(0.5), normal: .hex("#571CFF")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
-                                   skipText: "Skip",
+                                   skipText: "Skip".localizable(),
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
                                     onboardingVc.toNext()
@@ -321,14 +321,14 @@ extension OnboardingVc {
 
         let fourthVc = OnboardingVc(imageName: "stepfour",
                                     imageWidth: 0.444,
-                                   nameText: "Plan Ahead, And Note Everything.",
-                                   detailText: "The calendar will solve all the Plans of how to arrange everything even for the upcoming years.",
-                                   nextStepText: "Next Step",
+                                   nameText: "Plan Ahead, And Note Everything.".localizable(),
+                                   detailText: "The calendar will solve all the Plans of how to arrange everything even for the upcoming years.".localizable(),
+                                   nextStepText: "Next Step".localizable(),
                                    nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447bfe")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
-                                   skipText: "Skip",
+                                   skipText: "Skip".localizable(),
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
                                     onboardingVc.toNext()
@@ -336,43 +336,43 @@ extension OnboardingVc {
 
         let thirdVc = OnboardingVc(imageName: "stepthree",
                                    imageWidth: 0.686,
-                                   nameText: "Prioritization Helps You To Sort Things Out.",
-                                   detailText: "Set a prior task, so you don't forget what's important to you.",
-                                   nextStepText: "Next Step",
+                                   nameText: "Prioritization Helps You To Sort Things Out.".localizable(),
+                                   detailText: "Set a prior task, so you don't forget what's important to you.".localizable(),
+                                   nextStepText: "Next Step".localizable(),
                                    nextStepColorState: .init(highlighted: UIColor.hex("#00ce15").withAlphaComponent(0.5), normal: .hex("#00ce15")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
-                                   skipText: "Skip",
+                                   skipText: "Skip".localizable(),
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
                                     onboardingVc.toNext()
                                    })
         let secondVc = OnboardingVc(imageName: "steptwo",
                                     imageWidth: 0.53,
-                                   nameText: "See All Your Plans For Today.",
-                                   detailText: "In today's screen you can see all your tasks for today and fulfill them.",
-                                   nextStepText: "Next Step",
+                                   nameText: "See All Your Plans For Today.".localizable(),
+                                   detailText: "In today's screen you can see all your tasks for today and fulfill them.".localizable(),
+                                   nextStepText: "Next Step".localizable(),
                                    nextStepColorState: .init(highlighted: UIColor.hex("#571cff").withAlphaComponent(0.5), normal: .hex("#571cff")),
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
-                                   skipText: "Skip",
+                                   skipText: "Skip".localizable(),
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
                                     onboardingVc.toNext()
                                    })
         let firstVc = OnboardingVc(imageName: "stepone",
                                    imageWidth: 0.46,
-                                   nameText: "Write Something You Can Think Of.",
-                                   detailText: "Collect all your thoughts in the inbox so you don’t forget. You can review it later.",
-                                   nextStepText: "Next Step",
+                                   nameText: "Write Something You Can Think Of.".localizable(),
+                                   detailText: "Collect all your thoughts in the inbox so you don’t forget. You can review it later.".localizable(),
+                                   nextStepText: "Next Step".localizable(),
                                    nextStepColorState: .init(highlighted: UIColor.hex("#447bfe").withAlphaComponent(0.5), normal: .hex("#447BFE")),
                                    shouldOnboard: true,
                                    onSkip: { vc in
                                     onboardingVc.toLast()
                                    },
-                                   skipText: "Skip",
+                                   skipText: "Skip".localizable(),
                                    skipColor: UIColor.hex("#447BFE"),
                                    onClick: { vc in
                                     onboardingVc.toNext()

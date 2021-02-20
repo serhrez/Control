@@ -21,13 +21,13 @@ enum Reminder: String, CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .oneDayEarly: return "One Day Earlier"
-        case .fiveMinutesBefore: return "5 Minutes Before"
-        case .tenMinutesBefore: return "10 Minutes Before"
-        case .thirtyMinutesBefore: return "30 Minutes Before"
-        case .oneHourBefore: return "1 Hour Before"
-        case .twoHoursBefore: return "2 Hour Before"
-        case .oneWeekBefore: return "One Week Before"
+        case .oneDayEarly: return "One Day Earlier".localizable()
+        case .fiveMinutesBefore: return "5 Minutes Before".localizable()
+        case .tenMinutesBefore: return "10 Minutes Before".localizable()
+        case .thirtyMinutesBefore: return "30 Minutes Before".localizable()
+        case .oneHourBefore: return "1 Hour Before".localizable()
+        case .twoHoursBefore: return "2 Hour Before".localizable()
+        case .oneWeekBefore: return "One Week Before".localizable()
         }
     }
 }

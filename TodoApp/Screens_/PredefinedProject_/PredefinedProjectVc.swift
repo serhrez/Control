@@ -161,10 +161,10 @@ class PredefinedProjectVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         switch mode {
         case .priority:
-            title = "Priority"
+            title = "Priority".localizable(comment: "ViewController's title")
             projectStartedView.configure(mode: .noPriorities)
         case .today:
-            title = "Today"
+            title = "Today".localizable(comment: "ViewController's title")
             projectStartedView.configure(mode: .freeDay)
         }
         tasksSubject.subscribe(onNext: { [weak self] tasks in
@@ -362,19 +362,19 @@ class PredefinedProjectVc: UIViewController {
     }
 
     private func showAlertToOpenSettings() {
-        let alertController = UIAlertController(title: "Notifications are disabled", message: "You disabled notification for this app, so we cannot set up notifications", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Notifications are disabled".localizable(), message: "You disabled notification for this app, so we cannot set up notifications".localizable(), preferredStyle: .alert)
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             guard UIApplication.shared.canOpenURL(settingsUrl) else { return }
-            let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ -> Void in
+            let settingsAction = UIAlertAction(title: "Settings".localizable(), style: .default) { _ -> Void in
                 UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
                     print("Settings opened: \(success)") // Prints true
                 })
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
             alertController.addAction(settingsAction)
         } else {
-            let cancelAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Close".localizable(), style: .default, handler: nil)
             alertController.addAction(cancelAction)
         }
 
@@ -384,28 +384,28 @@ class PredefinedProjectVc: UIViewController {
     func showPriorityPicker(sourceView: UIView) {
         let prevFirstResponder = self.getFirstResponder()
         let actions: [PopuptodoAction] = [
-            PopuptodoAction(title: "High Priority",
+            PopuptodoAction(title: "High Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.addTaskModel else { return }
                                 addTask.priority = .high
                                 self?.addTaskModel = addTask
                             }),
-            PopuptodoAction(title: "Medium Priority",
+            PopuptodoAction(title: "Medium Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.addTaskModel else { return }
                                 addTask.priority = .medium
                                 self?.addTaskModel = addTask
                             }),
-            PopuptodoAction(title: "Low Priority",
+            PopuptodoAction(title: "Low Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.addTaskModel else { return }
                                 addTask.priority = .low
                                 self?.addTaskModel = addTask
                             }),
-            PopuptodoAction(title: "No Priority",
+            PopuptodoAction(title: "No Priority".localizable(),
                             image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate),
                             didSelect: { [weak self] _ in
                                 guard var addTask = self?.addTaskModel else { return }

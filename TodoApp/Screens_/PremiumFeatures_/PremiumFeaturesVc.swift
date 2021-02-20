@@ -52,7 +52,7 @@ class PremiumFeaturesVc: UIViewController {
         view.minimumScaleFactor = 0.8
         view.numberOfLines = 1
         view.font = .systemFont(ofSize: 36, weight: .bold)
-        view.text = "Premium Features"
+        view.text = "Premium Features".localizable()
         view.adjustsFontSizeToFitWidth = true
         view.textColor = UIColor(named: "TAHeading")
         return view
@@ -60,9 +60,9 @@ class PremiumFeaturesVc: UIViewController {
     let infoLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 2
-        view.attributedText = "No additional purchases, just a ".at.attributed { attr in
+        view.attributedText = "No additional purchases, just a".localizable().at.attributed { attr in
             attr.font(.systemFont(ofSize: 16, weight: .regular)).foreground(color: UIColor(named: "TAHeading")!)
-        } + "one-time purchase!".at.attributed { attr in
+        } + " ".at.attributed { $0 } + "one-time purchase!".localizable().at.attributed { attr in
             attr.font(.systemFont(ofSize: 16, weight: .bold)).foreground(color: UIColor(named: "TAHeading")!)
         }
         view.textAlignment = .center
@@ -84,7 +84,7 @@ class PremiumFeaturesVc: UIViewController {
         
         let label = UILabel()
         label.font = UIFont(name: "Inter-SemiBold", size: 18)
-        label.text = "SAVE 50%"
+        label.text = "SAVE 50%".localizable()
         label.textColor = UIColor(named: "TAPremSpecial1")
         label.adjustsFontSizeToFitWidth = true
         view.layout(label).center().leading(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }.trailing(0.036231884057971 * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }
@@ -99,7 +99,7 @@ class PremiumFeaturesVc: UIViewController {
         }
         let label = UILabel()
         label.font = UIFont(name: "Inter-Bold", size: 15)
-        label.attributedText = "NOT A SUBSCRIPTION".at.attributed { attr in
+        label.attributedText = "NOT A SUBSCRIPTION".localizable().at.attributed { attr in
             attr.underlineStyle(.single).foreground(color: .hex("#242424"))
         }
         label.adjustsFontSizeToFitWidth = true
@@ -110,7 +110,7 @@ class PremiumFeaturesVc: UIViewController {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnBuy), for: .touchUpInside)
         button.stateBackgroundColor = .init(highlighted: .hex("#242424"), normal: .hex("#FF9900"))
-        button.setTitle("Only \(InAppManager.shared.productPrice)", for: .normal)
+        button.setTitle("\("Only".localizable(comment: "Only $2.99")) \(InAppManager.shared.productPrice)", for: .normal)
         button.setTitleColor(.hex("#242424"), for: .normal)
         button.setTitleColor(.hex("#FF9900"), for: .highlighted)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
@@ -121,7 +121,7 @@ class PremiumFeaturesVc: UIViewController {
     let restoreButton: NewCustomButton = {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnRestore), for: .touchUpInside)
-        button.setTitle("Restore Purchase", for: .normal)
+        button.setTitle("Restore Purchase".localizable(), for: .normal)
         button.opacityState = .init(highlighted: 0.5, normal: 1)
         button.setTitleColor(.hex("#447bfe"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -171,12 +171,13 @@ class PremiumFeaturesVc: UIViewController {
         scrollView.bringSubviewToFront(imageView)
         scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 0.029017857142857 * UIScreen.main.bounds.height).leading(30).trailing(30)
         scrollView.layout(plusesStack).top(premiumLabel.anchor.bottom, 0.017857142857143 * UIScreen.main.bounds.height).leading(30).trailing(15).bottom(35)
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tags"))
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Reminders"))
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlock Archive"))
-        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Prioritization"))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Tags".localizable()))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Reminders".localizable()))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlock Archive".localizable()))
+        plusesStack.addArrangedSubview(PremiumFeatureView("Unlimited Prioritization".localizable()))
         bottomView.layout(save50Label).top(5).leading(30)
         bottomView.layout(notaSubscriptionLabel).top(5).leading(save50Label.anchor.trailing, 8).trailing(30)
+        
         bottomView.layout(buyButton).top(notaSubscriptionLabel.anchor.bottom, 6).leading(30).trailing(30).height(60)
         bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.011160714285714 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.013392857142857 * UIScreen.main.bounds.height)
         view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
@@ -205,20 +206,20 @@ class PremiumFeaturesVc: UIViewController {
     private func handle(_ error: InAppError) {
         let message: String
         switch error {
-        case .unknown: message = "Unknown error. Please contact support"
-        case .clientInvalid: message = "Not allowed to make the payment"
-        case .paymentInvalid: message = "The purchase identifier was invalid"
-        case .paymentNotAllowed: message = "The device is not allowed to make the payment"
-        case .storeProductNotAvailable: message = "The product is not available in the current storefront"
-        case .cloudServicePermissionDenied: message = "Access to cloud service information is not allowed"
-        case .cloudServiceNetworkConnectionFailed: message = "Could not connect to the network"
-        case .cloudServiceRevoked: message = "User has revoked permission to use this cloud service"
+        case .unknown: message = "Unknown error. Please contact support".localizable()
+        case .clientInvalid: message = "Not allowed to make the payment".localizable()
+        case .paymentInvalid: message = "The purchase identifier was invalid".localizable()
+        case .paymentNotAllowed: message = "The device is not allowed to make the payment".localizable()
+        case .storeProductNotAvailable: message = "The product is not available in the current storefront".localizable()
+        case .cloudServicePermissionDenied: message = "Access to cloud service information is not allowed".localizable()
+        case .cloudServiceNetworkConnectionFailed: message = "Could not connect to the network".localizable()
+        case .cloudServiceRevoked: message = "User has revoked permission to use this cloud service".localizable()
         case .other(let other): message = other
-        case .restoreFailed: message = "Restore failed"
-        case .nothingToRestore: message = "You have nothing to restore"
+        case .restoreFailed: message = "Restore failed".localizable()
+        case .nothingToRestore: message = "You have nothing to restore".localizable()
         }
-        let alertVc = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alertVc.addAction(.init(title: "OK", style: .cancel, handler: nil))
+        let alertVc = UIAlertController(title: "Error".localizable(), message: message, preferredStyle: .alert)
+        alertVc.addAction(.init(title: "OK".localizable(), style: .cancel, handler: nil))
         present(alertVc, animated: true, completion: nil)
     }
 
@@ -261,13 +262,13 @@ extension PremiumFeaturesVc {
         var text: String {
             switch self {
             case .archiveLimit:
-                return "You can't open archive in free version"
+                return "You can't open archive in free version".localizable()
             case .dateToTaskLimit:
-                return "You can't have more than \(Constants.maximumDatesToTask) reminders"
+                return "You can't have more than".localizable(comment: "more than reminders/tags/priorities") + "\(Constants.maximumDatesToTask) " + "reminders".localizable()
             case .tagsLimit:
-                return "You can't have more than \(Constants.maximumTags) tags"
+                return "You can't have more than".localizable() + "\(Constants.maximumTags) " + "tags".localizable()
             case .prioritiesLimit:
-                return "You can't set more than \(Constants.maximumPriorities) priorities"
+                return "You can't set more than".localizable() + "\(Constants.maximumPriorities) " + "priorities".localizable()
             }
         }
     }

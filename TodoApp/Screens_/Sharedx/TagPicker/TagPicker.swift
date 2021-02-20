@@ -153,7 +153,7 @@ final class TagPicker: UIViewController {
     lazy var textFieldExternalCell: UITextField = {
         let textField = UITextField()
         let attributes = Attributes().font(.systemFont(ofSize: 18, weight: .semibold))
-        textField.attributedPlaceholder = "Add New Tag".at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
+        textField.attributedPlaceholder = "Add New Tag".localizable().at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         textField.delegate = self
         textField.font = .systemFont(ofSize: 18, weight: .semibold)
         return textField

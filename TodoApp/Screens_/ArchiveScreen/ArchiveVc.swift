@@ -62,7 +62,7 @@ final class ArchiveVc: UIViewController {
 
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance()
-        title = "Archive"
+        title = "Archive".localizable()
     }
     
 }

@@ -40,7 +40,7 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
-        nameField.attributedPlaceholder = "New Tag".at.attributed { attr in
+        nameField.attributedPlaceholder = "New Tag".localizable().at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!)
                 .font(.systemFont(ofSize: 16, weight: .semibold))
         }

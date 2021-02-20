@@ -23,17 +23,17 @@ enum InAppError {
 extension InAppError {
     var message: String {
         switch self {
-        case .unknown: return "Unknown error. Please contact support"
-        case .clientInvalid: return "Not allowed to make the payment"
-        case .paymentInvalid: return "The purchase identifier was invalid"
-        case .paymentNotAllowed: return "The device is not allowed to make the payment"
-        case .storeProductNotAvailable: return "The product is not available in the current storefront"
-        case .cloudServicePermissionDenied: return "Access to cloud service information is not allowed"
-        case .cloudServiceNetworkConnectionFailed: return "Could not connect to the network"
-        case .cloudServiceRevoked: return "User has revoked permission to use this cloud service"
+        case .unknown: return "Unknown error. Please contact support".localizable()
+        case .clientInvalid: return "Not allowed to make the payment".localizable()
+        case .paymentInvalid: return "The purchase identifier was invalid".localizable()
+        case .paymentNotAllowed: return "The device is not allowed to make the payment".localizable()
+        case .storeProductNotAvailable: return "The product is not available in the current storefront".localizable()
+        case .cloudServicePermissionDenied: return "Access to cloud service information is not allowed".localizable()
+        case .cloudServiceNetworkConnectionFailed: return "Could not connect to the network".localizable()
+        case .cloudServiceRevoked: return "User has revoked permission to use this cloud service".localizable()
         case .other(let other): return other
-        case .restoreFailed: return "Restore failed"
-        case .nothingToRestore: return "You have nothing to restore"
+        case .restoreFailed: return "Restore failed".localizable()
+        case .nothingToRestore: return "You have nothing to restore".localizable()
         }
     }
 }
