@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import PopMenu
 import Typist
+import SwiftDate
 
 class AllProjectsVc: UIViewController {
     let viewModel: AllProjectsVcVM = AllProjectsVcVM()
@@ -129,7 +130,7 @@ class AllProjectsVc: UIViewController {
     
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance(addBackButton: false)
-        title = "All Projects".localizable()
+        title = "Today".localizable() + ", \(Date().toFormat("d MMMM"))"
         
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItems = [actionsButton, searchButton]

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 enum Constants {
     // MARK: UI
-    static var navigationTitleFontSize: CGFloat = Constants.displayVersion2 ? 18 : 22
+    static var navigationTitleFontSize: CGFloat = 18
     static var vcMinBottomPadding: CGFloat = Constants.displayVersion2 ? 10 : max(30, safeAreaInsets.bottom)
 //    static let vcBottomPadding2: CGFloat = max(30, safeAreaInsets.bottom)
     // Animation timings
