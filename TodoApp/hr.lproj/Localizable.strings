@@ -104,10 +104,6 @@
 "will be removed" = "bit će uklonjeno";
 "Delete all" = "Izbrisati sve";
 "Delete and Archive" = "Izbriši i arhiviraj";
-"High Priority" = "Visoki prioritet";
-"Medium Priority" = "Srednji prioritet";
-"Low Priority" = "Nizak prioritet";
-"No Priority" = "Bez prioriteta";
 "Notifications are disabled" = "Obavijesti su onemogućene";
 "You disabled notification for this app, so we cannot set up notifications" = "Onemogućili ste obavijest za ovu aplikaciju, pa ne možemo postaviti obavijesti";
 "Cancel" = "Otkazati";
@@ -181,3 +177,6 @@
 "Next Monday" = "Sljedeći ponedjeljak";
 "Add Tag" = "Dodaj oznaku";
 "Language" = "Jezik";
+"Sort by date" = "Poredaj po datumu";
+"Sort" = "Vrsta";
+"TagDeletionCommentOneArgument" = "Oznaka '%@' uklonit će se iz svih vaših zadataka";

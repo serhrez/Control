@@ -103,10 +103,6 @@
 "will be removed" = "हटा दिया जाएगा";
 "Delete all" = "सभी हटा दो";
 "Delete and Archive" = "हटाएँ और पुरालेख";
-"High Priority" = "उच्च प्राथमिकता";
-"Medium Priority" = "मध्यम प्राथमिकता";
-"Low Priority" = "कम प्राथमिकता";
-"No Priority" = "कोई प्राथमिकता नहीं";
 "Notifications are disabled" = "सूचनाएं अक्षम हैं";
 "You disabled notification for this app, so we cannot set up notifications" = "आपने इस एप्लिकेशन के लिए अधिसूचना को अक्षम कर दिया है, इसलिए हम सूचनाएं सेट नहीं कर सकते";
 "Cancel" = "रद्द करना";
@@ -180,3 +176,6 @@
 "Next Monday" = "अगले सोमवार";
 "Add Tag" = "टैग जोड़ो";
 "Language" = "भाषा: हिन्दी";
+"Sort by date" = "दिनांक के हिसाब से अलग करे";
+"Sort" = "तरह";
+"TagDeletionCommentOneArgument" = "टैग '%@' को आपके सभी कार्यों से हटा दिया जाएगा";

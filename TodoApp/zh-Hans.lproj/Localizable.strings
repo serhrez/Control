@@ -103,10 +103,6 @@
 "will be removed" = "将被删除";
 "Delete all" = "删除所有";
 "Delete and Archive" = "删除和存档";
-"High Priority" = "高优先级";
-"Medium Priority" = "中等优先级";
-"Low Priority" = "低优先级";
-"No Priority" = "没有优先权";
 "Notifications are disabled" = "通知已禁用";
 "You disabled notification for this app, so we cannot set up notifications" = "您已禁用此应用的通知，因此我们无法设置通知";
 "Cancel" = "取消";
@@ -180,3 +176,6 @@
 "Next Monday" = "下个星期一";
 "Add Tag" = "添加标签";
 "Language" = "语言";
+"Sort by date" = "按日期排序";
+"Sort" = "种类";
+"TagDeletionCommentOneArgument" = "标记“%@”将从您的所有任务中删除";

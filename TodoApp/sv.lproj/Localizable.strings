@@ -104,10 +104,6 @@
 "will be removed" = "kommer att tas bort";
 "Delete all" = "Radera allt";
 "Delete and Archive" = "Radera och arkivera";
-"High Priority" = "Hög prioritet";
-"Medium Priority" = "Medium Priority";
-"Low Priority" = "Låg prioritet";
-"No Priority" = "Ingen prioritet";
 "Notifications are disabled" = "Meddelanden är inaktiverade";
 "You disabled notification for this app, so we cannot set up notifications" = "Du har inaktiverat avisering för den här appen, så vi kan inte konfigurera aviseringar";
 "Cancel" = "Avbryt";
@@ -181,3 +177,6 @@
 "Next Monday" = "Nästa måndag";
 "Add Tag" = "Lägg till tagg";
 "Language" = "Språk";
+"Sort by date" = "Sortera efter datum";
+"Sort" = "Sortera";
+"TagDeletionCommentOneArgument" = "Taggen '%@' kommer att tas bort från alla dina uppgifter";

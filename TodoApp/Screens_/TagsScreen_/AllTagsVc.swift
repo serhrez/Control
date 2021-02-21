@@ -158,7 +158,7 @@ class AllTagsVc: UIViewController {
         let tag = viewModel.models[0].items[indexPath.row]
         switch tag {
         case let .tag(tag):
-            let alertVc = UIAlertController(title: "Delete Tag".localizable(), message: "Tag".localizable() + " '\(tag.name)' " + "will be removed from all your tasks".localizable(), preferredStyle: .alert)
+            let alertVc = UIAlertController(title: "Delete Tag".localizable(), message: "TagDeletionCommentOneArgument".localizable(argument: tag.name), preferredStyle: .alert)            
             alertVc.addAction(UIAlertAction(title: "Cancel".localizable(), style: .default))
             alertVc.addAction(UIAlertAction(title: "Delete".localizable(), style: .destructive, handler: { [weak self] _ in
                 self?.viewModel.deleteTag(tag)

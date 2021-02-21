@@ -35,7 +35,6 @@
 "Tags" = "Tags";
 "Delete Tag" = "Delete Tag";
 "Tag" = "Tag";
-"will be removed from all your tasks" = "will be removed from all your tasks";
 "Delete" = "Delete";
 "New Tag" = "New Tag";
 "Tomorrow" = "Tomorrow";
@@ -96,10 +95,6 @@
 "will be removed" = "will be removed";
 "Delete all" = "Delete all";
 "Delete and Archive" = "Delete and Archive";
-"High Priority" = "High Priority";
-"Medium Priority" = "Medium Priority";
-"Low Priority" = "Low Priority";
-"No Priority" = "No Priority";
 "Notifications are disabled" = "Notifications are disabled";
 "You disabled notification for this app, so we cannot set up notifications" = "You disabled notification for this app, so we cannot set up notifications";
 "Cancel" = "Cancel";
@@ -173,3 +168,6 @@
 "Next Monday" = "Next Monday";
 "Add Tag" = "Add Tag";
 "Language" = "Language";
+"Sort by date" = "Sort by date";
+"Sort" = "Sort";
+"TagDeletionCommentOneArgument" = "Tag '%@' will be removed from all your tasks";

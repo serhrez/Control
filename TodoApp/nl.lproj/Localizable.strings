@@ -104,10 +104,6 @@
 "will be removed" = "zal worden verwijderd";
 "Delete all" = "Verwijder alles";
 "Delete and Archive" = "Verwijderen en archiveren";
-"High Priority" = "Hoge prioriteit";
-"Medium Priority" = "Gemiddelde prioriteit";
-"Low Priority" = "Lage prioriteit";
-"No Priority" = "Geen prioriteit";
 "Notifications are disabled" = "Meldingen zijn uitgeschakeld";
 "You disabled notification for this app, so we cannot set up notifications" = "Je hebt de melding voor deze app uitgeschakeld, dus we kunnen geen meldingen instellen";
 "Cancel" = "Annuleren";
@@ -181,3 +177,6 @@
 "Next Monday" = "Komende maandag";
 "Add Tag" = "Tag toevoegen";
 "Language" = "Taal";
+"Sort by date" = "Sorteren op datum";
+"Sort" = "Soort";
+"TagDeletionCommentOneArgument" = "Tag '%@' wordt verwijderd uit al uw taken";

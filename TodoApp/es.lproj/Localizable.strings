@@ -103,10 +103,6 @@
 "will be removed" = "será eliminado";
 "Delete all" = "Eliminar todos";
 "Delete and Archive" = "Eliminar y archivar";
-"High Priority" = "Alta prioridad";
-"Medium Priority" = "Prioridad media";
-"Low Priority" = "Baja prioridad";
-"No Priority" = "Sin prioridad";
 "Notifications are disabled" = "Las notificaciones están inhabilitadas";
 "You disabled notification for this app, so we cannot set up notifications" = "Desactivaste la notificación para esta aplicación, por lo que no podemos configurar notificaciones";
 "Cancel" = "Cancelar";
@@ -180,3 +176,6 @@
 "Next Monday" = "Siguiente lunes";
 "Add Tag" = "Añadir etiqueta";
 "Language" = "Idioma";
+"Sort by date" = "Ordenar por fecha";
+"Sort" = "Clasificar";
+"TagDeletionCommentOneArgument" = "La etiqueta '%@' se eliminará de todas sus tareas";
