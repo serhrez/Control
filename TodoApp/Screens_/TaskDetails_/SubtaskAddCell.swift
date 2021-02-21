@@ -43,7 +43,7 @@ final class SubtaskAddCell: UITableViewCell {
         contentView.backgroundColor = .clear
         textField.delegate = self
         selectionStyle = .none
-        backgroundColor = UIColor(named: "TAAltBackground")!
+        backgroundColor = UIColor(named: "TABackground")!
     }
     
     @discardableResult override func becomeFirstResponder() -> Bool {

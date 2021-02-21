@@ -264,8 +264,6 @@ final class TaskDetailsVc: UIViewController {
     let containerView: UIView = {
         let view = UIView()
         view.accessibilityIdentifier = "containerView"
-        view.backgroundColor = UIColor(named: "TAAltBackground")!
-        view.layer.cornerRadius = 16
         return view
     }()
     
@@ -312,7 +310,7 @@ final class TaskDetailsVc: UIViewController {
     private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description".localizable(), scrollBehavior: .noScroll)
         description.accessibilityIdentifier = "taskDescription"
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .regular))
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
@@ -400,13 +398,10 @@ final class TaskDetailsVc: UIViewController {
     }
     
     private func setupContainerView() {
-        view.layout(containerView).leading(13).trailing(13).topSafe()
-            .bottomSafe(Constants.vcMinBottomPadding) { _, _ -> LayoutRelation in
-            return .lessThanOrEqual
-        }
+        view.layout(containerView).leading(0).trailing(0).topSafe().bottom() { _, _ in .lessThanOrEqual }
         containerView.layout(scrollView).edges()
         scrollView.layout(containerStack).leading(26).trailing(26).top(23)
-        scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerStack.heightAnchor, constant: 23 + 23).isActive = true // 23 top + 23 bottom
+        scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerStack.heightAnchor, constant: 23 + 23).isActive = true // 23 top + 23 bottom + ContentInset
         let containerHeight = containerView.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         containerHeight.priority = .init(749)
         containerHeight.isActive = true
@@ -464,11 +459,11 @@ final class TaskDetailsVc: UIViewController {
     func setSpacings() {
         let task = viewModel.task
         let spacingAfterHorizontal1 = !taskDescription.isHidden || !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
-        containerStack.setCustomSpacing(spacingAfterHorizontal1 ? 16 : 0, after: horizontal1)
+        containerStack.setCustomSpacing(spacingAfterHorizontal1 ? 32 : 0, after: horizontal1)
         let spacingAfterTaskDescription = !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
-        containerStack.setCustomSpacing(spacingAfterTaskDescription ? 30 : 0, after: taskDescription)
+        containerStack.setCustomSpacing(spacingAfterTaskDescription ? 32 : 0, after: taskDescription)
         let spacingAfterSubtasksTable = task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
-        containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 30 : 0, after: subtasksTable)
+        containerStack.setCustomSpacing(spacingAfterSubtasksTable ? 21.5 : 0, after: subtasksTable)
         let datesSeparatorVisible = task.date?.date != nil && (task.date?.reminder != nil || task.date?.repeat != nil)
         datesStackSeparator.isHidden = !datesSeparatorVisible
         if Constants.displayVersion2 {
