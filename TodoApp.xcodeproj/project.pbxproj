@@ -29,6 +29,7 @@
 		A5085E972556F8E500A31BBB /* Priority_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E862556F8E500A31BBB /* Priority_.swift */; };
 		A5085EB32557047D00A31BBB /* UIColor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */; };
 		A5085EB9255704B800A31BBB /* DirPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB8255704B800A31BBB /* DirPath.swift */; };
+		A50E0F4D25E1B77700BA9A14 /* UIBarButtonItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50E0F4C25E1B77600BA9A14 /* UIBarButtonItem+Extensions.swift */; };
 		A510A10525ACC2D100E74E1E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A510A10425ACC2D100E74E1E /* StoreKit.framework */; };
 		A510A12A25ACD01000E74E1E /* PremiumFeaturesVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510A12925ACD01000E74E1E /* PremiumFeaturesVc.swift */; };
 		A510A19025ACDA0300E74E1E /* InAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510A18F25ACDA0300E74E1E /* InAppManager.swift */; };
@@ -220,6 +221,7 @@
 		A5085E862556F8E500A31BBB /* Priority_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority_.swift; sourceTree = "<group>"; };
 		A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Persistable.swift"; sourceTree = "<group>"; };
 		A5085EB8255704B800A31BBB /* DirPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirPath.swift; sourceTree = "<group>"; };
+		A50E0F4C25E1B77600BA9A14 /* UIBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
 		A510A10425ACC2D100E74E1E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A510A12925ACD01000E74E1E /* PremiumFeaturesVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumFeaturesVc.swift; sourceTree = "<group>"; };
 		A510A18F25ACDA0300E74E1E /* InAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppManager.swift; sourceTree = "<group>"; };
@@ -806,6 +808,7 @@
 				A57B963025AB5DDD008E899C /* AnimationsFactory.swift */,
 				A57B962B25AB58AB008E899C /* DebugView.swift */,
 				A55BFA2F25D6BC6200B57CD3 /* RealmStore.swift */,
+				A50E0F4C25E1B77600BA9A14 /* UIBarButtonItem+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				A5F6A904258A313F00FB50FC /* RlmArchived.swift in Sources */,
 				A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
+				A50E0F4D25E1B77700BA9A14 /* UIBarButtonItem+Extensions.swift in Sources */,
 				A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */,
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,

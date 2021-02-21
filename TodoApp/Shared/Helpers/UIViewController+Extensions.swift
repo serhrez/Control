@@ -33,13 +33,13 @@ extension UIViewController: UIGestureRecognizerDelegate {
 
         if addBackButton {
             // Back Button
-            let barButtonItem = UIBarButtonItem(title: "", image: UIImage(named: "chevron-left"), primaryAction: UIAction(handler: { [weak self] _ in
+            let barButtonItem = UIBarButtonItem.customInit(image: UIImage(named: "chevron-left")!, title: "Back".localizable(), primaryAction: UIAction(handler: { [weak self] _ in
                 if let customOnBack = customOnBack {
                     customOnBack()
                 } else {
                     self?.navigationController?.popViewController(animated: true)
                 }
-            }), menu: nil)
+            }))
             barButtonItem.tintColor = UIColor(named: "TAHeading")!
             navigationItem.leftBarButtonItem = barButtonItem
         }
