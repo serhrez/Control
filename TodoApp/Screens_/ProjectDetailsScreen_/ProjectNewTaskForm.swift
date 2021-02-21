@@ -122,9 +122,9 @@ class ProjectNewTaskForm: UIView {
             self.shouldUpdateLayout()
         }
         layout(bottomView).bottom().trailing().leading().height(54)
-        bottomView.layout(calendarButton).leading(25).centerY().width(25).height(25)
-        bottomView.layout(tagButton).leading(calendarButton.anchor.trailing, 25).centerY().width(25).height(25)
-        bottomView.layout(priorityButton).leading(tagButton.anchor.trailing, 25).centerY().width(25).height(25)
+        bottomView.layout(calendarButton).leading(23).centerY().width(28).height(28)
+        bottomView.layout(tagButton).leading(calendarButton.anchor.trailing, 26).centerY().width(28).height(28)
+        bottomView.layout(priorityButton).leading(tagButton.anchor.trailing, 26).centerY().width(28).height(28)
         
         layout(plusButton).trailing(20).bottom(20)
     }
@@ -237,7 +237,7 @@ class ProjectNewTaskForm: UIView {
     lazy var calendarButton: ImageButton = {
         let simpleButton = ImageButton(type: .custom)
         simpleButton.imageName = "calendar-plus"
-        simpleButton.imageWidth = 16
+        simpleButton.imageWidth = 19.56
         simpleButton.configureImage()
         simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(calendarClicked), for: .touchUpInside)
@@ -249,7 +249,7 @@ class ProjectNewTaskForm: UIView {
     lazy var tagButton: ImageButton = {
         let simpleButton = ImageButton(type: .custom)
         simpleButton.imageName = "tag"
-        simpleButton.imageWidth = 17.38
+        simpleButton.imageWidth = 22
         simpleButton.configureImage()
         simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(tagClicked), for: .touchUpInside)
@@ -261,7 +261,7 @@ class ProjectNewTaskForm: UIView {
     lazy var priorityButton: ImageButton = {
         let simpleButton = ImageButton(type: .custom)
         simpleButton.imageName = "flag"
-        simpleButton.imageWidth = 14
+        simpleButton.imageWidth = 17.67
         simpleButton.configureImage()
         simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(priorityClicked), for: .touchUpInside)
