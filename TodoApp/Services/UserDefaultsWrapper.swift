@@ -50,6 +50,14 @@ class UserDefaultsWrapper {
         get { defaults.integer(forKey: .lastTimeGeneratedFunTextNumber) }
         set { defaults.setValue(newValue, forKey: .lastTimeGeneratedFunTextNumber) }
     }
+    var numberOfTimesLaunched: Int {
+        get { defaults.integer(forKey: .numberOfTimesLaunched) }
+        set { defaults.setValue(newValue, forKey: .numberOfTimesLaunched) }
+    }
+    var lastVersionPromptedForReview: String {
+        get { defaults.string(forKey: .lastVersionPromptedForReview) ?? "" }
+        set { defaults.setValue(newValue, forKey: .lastVersionPromptedForReview) }
+    }
 }
 
 fileprivate extension String {
@@ -60,4 +68,6 @@ fileprivate extension String {
     static let lastTimeGeneratedFunTextNumber = "lastTimeGeneratedFunTextNumber"
     static let priorityScreenSorting = "priorityScreenSorting"
     static let todayScreenSorting = "todayScreenSorting"
+    static let numberOfTimesLaunched = "numberOfTimesLaunched"
+    static let lastVersionPromptedForReview = "lastVersionPromptedForReview"
 }

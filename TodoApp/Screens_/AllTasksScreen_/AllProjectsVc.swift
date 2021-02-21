@@ -126,6 +126,11 @@ class AllProjectsVc: UIViewController {
                 RealmProvider.main.realm.add(inboxProject)
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            if let windowScene = self.view.window?.windowScene {
+                StoreKitHelper.maybeDisplayStoreKit(windowScene: windowScene)
+            }
+        }
     }
     
     private func setupNavigationBar() {
