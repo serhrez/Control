@@ -351,6 +351,9 @@
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
 		A5CF45FB2574F676003715C8 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGrowingTextView.swift; sourceTree = "<group>"; };
+		A5D72A2F25E28B9E00C2B280 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A5D72A3025E28BA500C2B280 /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A5D72A3125E28CAD00C2B280 /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A5DD59CD256573CF002AEF42 /* ResizingToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingToken.swift; sourceTree = "<group>"; };
 		A5DD59D52565BC4A002AEF42 /* TaskDetailsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVc.swift; sourceTree = "<group>"; };
 		A5DD59DD2565BD4A002AEF42 /* TaskDetailsVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsVcVm.swift; sourceTree = "<group>"; };
@@ -1123,6 +1126,9 @@
 				sv,
 				pl,
 				hi,
+				"en-GB",
+				"en-AU",
+				"fr-CA",
 			);
 			mainGroup = A5085E262556EF7800A31BBB;
 			productRefGroup = A5085E302556EF7800A31BBB /* Products */;
@@ -1493,6 +1499,9 @@
 				A58142F525E12800001CE44E /* ru */,
 				A58142F625E12800001CE44E /* sv */,
 				A58142F725E12801001CE44E /* uk */,
+				A5D72A2F25E28B9E00C2B280 /* en-GB */,
+				A5D72A3025E28BA500C2B280 /* en-AU */,
+				A5D72A3125E28CAD00C2B280 /* fr-CA */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
