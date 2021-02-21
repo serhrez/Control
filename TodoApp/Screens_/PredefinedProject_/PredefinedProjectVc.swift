@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import RxSwift
 import RealmSwift
+import RxCocoa
 import Typist
 import PopMenu
 import SwiftDate
@@ -17,7 +18,7 @@ class PredefinedProjectVc: UIViewController {
     private let mode: Mode
     private let bag = DisposeBag()
     private var tokens = [NotificationToken]()
-    private let tasksSubject = PublishSubject<[RlmTask]>()
+    private let tasksSubject = BehaviorRelay<[RlmTask]>(value: [])
     private let keyboard = Typist()
     private var addTaskModel: ProjectDetailsTaskCreateModel? {
         didSet {
@@ -142,6 +143,13 @@ class PredefinedProjectVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")!.withAlphaComponent(0.5)
         return view
     }()
+    
+    private lazy var actionsButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "dots"), style: .done, target: self, action: #selector(actionsButtonClicked))
+        button.tintColor = UIColor(named: "TAHeading")!
+        return button
+    }()
+
     private let projectStartedView = ProjectStartedView(mode: .freeDay)
     private lazy var tasksToolbar = AllTasksToolbar()
     let trashTextField = TrashTextField()
@@ -159,19 +167,22 @@ class PredefinedProjectVc: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "TABackground")
+        navigationItem.rightBarButtonItem = actionsButton
         switch mode {
         case .priority:
             title = "Priority".localizable(comment: "ViewController's title")
             projectStartedView.configure(mode: .noPriorities)
+            tasksWithDoneList.sorting = UserDefaultsWrapper.shared.priorityScreenSorting
         case .today:
             title = "Today".localizable(comment: "ViewController's title")
             projectStartedView.configure(mode: .freeDay)
+            tasksWithDoneList.sorting = UserDefaultsWrapper.shared.todayScreenSorting
         }
         tasksSubject.subscribe(onNext: { [weak self] tasks in
             self?.changeProjectStartedViewState(with: tasks.isEmpty)
         })
         .disposed(by: bag)
-        tasksWithDoneList.sortingEnabled = false
+        tasksWithDoneList.sortingEnabled = true
         view.layout(projectStartedView).centerY(-100).leading(47).trailing(47)
         applySharedNavigationBarAppearance()
         view.layout(tasksWithDoneList).topSafe().leading(13).trailing(13).bottom()
@@ -200,42 +211,15 @@ class PredefinedProjectVc: UIViewController {
             case let .initial(results), let .update(results, deletions: _, insertions: _, modifications: _):
                 switch self.mode {
                 case .priority:
-                    self.tasksSubject.onNext(PredefinedProjectVc.sortPriority(results.filter { $0.priority != .none }))
+                    self.tasksSubject.accept(results.filter { $0.priority != .none })
                 case .today:
-                    self.tasksSubject.onNext(PredefinedProjectVc.sortToday(results.filter { $0.date?.date?.isToday ?? false }))
+                    self.tasksSubject.accept(results.filter { $0.date?.date?.isToday ?? false })
                 }
             }
         }
         tokens.append(token)
     }
-    private static func sortPriority(_ models: [RlmTask]) -> [RlmTask] {
-        return models.sorted { task1, task2 -> Bool in
-            if task1.isDone != task2.isDone {
-                return task2.isDone
-            }
-            if task1.priority != task2.priority {
-                return task1.priority > task2.priority
-            }
-            if task1.date?.date != nil && task2.date!.date != nil {
-                return task1.date!.date! > task2.date!.date!
-            }
-            return task1.createdAt > task2.createdAt
-        }
-    }
-    
-    private static func sortToday(_ models: [RlmTask]) -> [RlmTask] {
-        return models.sorted { task1, task2 -> Bool in
-            if task1.isDone != task2.isDone {
-                return task2.isDone
-            }
-            if task1.date?.date != nil && task2.date!.date != nil {
-                return task1.date!.date! > task2.date!.date!
-            }
-            return task1.createdAt > task2.createdAt
-        }
-    }
 
-    
     func showBottomMessage(type: BottomMessage.MessageType, onClicked: @escaping () -> Void) {
         let bottomMessage = BottomMessage.create(messageType: type, onClicked: onClicked)
         view.addSubview(bottomMessage)
@@ -464,6 +448,78 @@ class PredefinedProjectVc: UIViewController {
             newFormView.resetView()
         } else {
             setUpInitialDataToAddTaskModel()
+        }
+    }
+    
+    @objc func actionsButtonClicked() {
+        let tasks = tasksSubject.value
+        var actions: [PopuptodoAction] = []
+        let completeAllActive = tasks.contains { !$0.isDone }
+        let completeAllImage = completeAllActive ? UIImage(named: "circle-check") : UIImage(named: "circle-check")?.withTintColor(UIColor(named: "TASubElement")!)
+        let completeAllColor = completeAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
+        actions += [.init(title: "Complete All".localizable(), image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { _ in
+            RealmProvider.main.safeWrite {
+                tasks.forEach { $0.isDone = true }
+            }
+            tasks.forEach {
+                RealmStore.main.updateDateDependencies(in: $0)
+            }
+        })]
+        
+        actions += [.init(title: "Sort".localizable(), image: UIImage(named: "switch-vertical"), didSelect: { [weak self] _ in
+            self?.selectSorting()
+        })]
+
+        
+        let deleteCompletedAllActive = tasks.contains { $0.isDone }
+        let deleteCompletedAllImage = deleteCompletedAllActive ? UIImage(named: "checks") : UIImage(named: "checks")?.withTintColor(UIColor(named: "TASubElement")!)
+        let deleteCompletedAllColor = deleteCompletedAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
+
+        actions += [.init(title: "Delete Completed".localizable(), image: deleteCompletedAllImage, color: deleteCompletedAllColor, isSelectable: deleteCompletedAllActive, didSelect: { [weak self] _ in
+            let allTasks = tasks.filter { $0.isDone }
+            guard !allTasks.isEmpty else { return }
+            let allTasksIds = allTasks.map { $0.id }
+            allTasks.forEach { task in
+                guard let projectId = task.project.first?.id else { return }
+                DBHelper.safeArchive(taskId: task.id, projectId: projectId)
+            }
+            self?.showBottomMessage(type: .allTasksDeleted) {
+                allTasksIds.forEach { taskId in
+                    DBHelper.safeUnarchive(taskId: taskId)
+                }
+            }
+        })]
+        PopMenuAppearance.appCustomizeActions(actions: actions)
+        let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
+        popMenu.shouldDismissOnSelection = true
+        popMenu.appearance = .appAppearance
+        present(popMenu, animated: true, completion: {
+            print("didComplete")
+        })
+
+    }
+    
+    func selectSorting() {
+        let mode = self.mode
+        self.dismiss(animated: true) { [weak self] in
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            for sort in ProjectSorting.allCases {
+                let action = UIAlertAction(title: sort.name, style: .default, handler: { _ in
+                    switch mode {
+                    case .priority: UserDefaultsWrapper.shared.priorityScreenSorting = sort
+                    case .today: UserDefaultsWrapper.shared.todayScreenSorting = sort
+                    }
+                    self?.tasksWithDoneList.sorting = sort
+                })
+                switch mode {
+                case .priority: action.isEnabled = !(UserDefaultsWrapper.shared.priorityScreenSorting == sort)
+                case .today: action.isEnabled = !(UserDefaultsWrapper.shared.todayScreenSorting == sort)
+                }
+                alertController.addAction(action)
+            }
+            
+            alertController.addAction(.init(title: "Cancel".localizable(), style: .cancel, handler: nil))
+            self?.present(alertController, animated: true, completion: nil)
         }
     }
 

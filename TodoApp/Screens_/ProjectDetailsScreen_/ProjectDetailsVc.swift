@@ -242,26 +242,10 @@ class ProjectDetailsVc: UIViewController {
                 RealmStore.main.updateDateDependencies(in: $0)
                 }
             })]
-            let sortGrayImage = UIImage(named: "switch-vertical")?.withTintColor(UIColor(named: "TASubElement")!)
-            let sortImage = UIImage(named: "switch-vertical")
-            let sortedByName = project.sorting == .byName
-            actions += [.init(title: "Sort by name".localizable(), image: sortedByName ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByName, didSelect: { [weak self] (_) in
-                RealmProvider.main.safeWrite {
-                    self?.project.sorting = .byName
-                }
+            actions += [.init(title: "Sort".localizable(), image: UIImage(named: "switch-vertical"), didSelect: { [weak self] _ in
+                self?.selectSorting()
             })]
-            let sortedByCreated = project.sorting == .byCreatedAt
-            actions += [.init(title: "Sort by created".localizable(), image: sortedByCreated ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByCreated, didSelect: { [weak self] (_) in
-                RealmProvider.main.safeWrite {
-                    self?.project.sorting = .byCreatedAt
-                }
-            })]
-            let sortedByPriority = project.sorting == .byPriority
-            actions += [.init(title: "Sort by priority".localizable(), image: sortedByPriority ? sortImage : sortGrayImage, color: UIColor(named: "TAHeading")!, isSelectable: !sortedByPriority, didSelect: { [weak self] _ in
-                RealmProvider.main.safeWrite {
-                    self?.project.sorting = .byPriority
-                }
-            })]
+
             let deleteCompletedAllActive = project.tasks.contains { $0.isDone }
             let deleteCompletedAllImage = deleteCompletedAllActive ? UIImage(named: "checks") : UIImage(named: "checks")?.withTintColor(UIColor(named: "TASubElement")!)
             let deleteCompletedAllColor = deleteCompletedAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
@@ -295,9 +279,26 @@ class ProjectDetailsVc: UIViewController {
         })
     }
     
+    func selectSorting() {
+        self.dismiss(animated: true) { [weak self] in
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            for sort in ProjectSorting.allCases {
+                let action = UIAlertAction(title: sort.name, style: .default, handler: { _ in
+                    RealmProvider.main.safeWrite {
+                        self?.project.sorting = sort
+                    }
+                })
+                action.isEnabled = !(self?.project.sorting == sort)
+                alertController.addAction(action)
+            }
+            
+            alertController.addAction(.init(title: "Cancel".localizable(), style: .cancel, handler: nil))
+            self?.present(alertController, animated: true, completion: nil)
+        }
+
+    }
+    
     func deleteProjectClicked() {
-        print("clicked")
-        
         guard !self.project.tasks.isEmpty else {
             self.deleteProject()
             return

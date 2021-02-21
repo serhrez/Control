@@ -52,3 +52,27 @@ extension RlmTask: CascadeDeleting {
         [Property.date.rawValue, Property.subtask.rawValue]
     }
 }
+
+extension RlmTask {
+    static func compare(task1: RlmTask, task2: RlmTask, sorting: ProjectSorting) -> Bool {
+        if !task1.isDone && task2.isDone { return true }
+        if task1.isDone && !task2.isDone { return false}
+        switch sorting {
+        case .byCreatedAt:
+            return task1.createdAt > task2.createdAt
+        case .byName:
+            return task1.name != task2.name ?
+            task1.name > task2.name :
+            task1.createdAt > task2.createdAt
+        case .byPriority:
+            return task1.priority != task2.priority ?
+            task1.priority > task2.priority :
+            task1.createdAt > task2.createdAt
+        case .byDate:
+            if task1.date?.date != nil && task2.date!.date != nil {
+                return task1.date!.date! > task2.date!.date!
+            }
+            return task1.createdAt > task2.createdAt
+        }
+    }
+}

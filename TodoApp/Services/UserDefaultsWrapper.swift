@@ -15,7 +15,9 @@ class UserDefaultsWrapper {
             .isPremium: false,
             .didOnboard: false,
             .debugDeleteDb: false,
-            .lastTimeGeneratedFunTextNumber: -1
+            .lastTimeGeneratedFunTextNumber: -1,
+            .priorityScreenSorting: ProjectSorting.byPriority.rawValue,
+            .todayScreenSorting: ProjectSorting.byDate.rawValue
         ])
     }
     var isPremium: Bool {
@@ -26,6 +28,14 @@ class UserDefaultsWrapper {
     var didOnboard: Bool {
         get { defaults.bool(forKey: .didOnboard) }
         set { defaults.setValue(newValue, forKey: .didOnboard) }
+    }
+    var priorityScreenSorting: ProjectSorting {
+        get { ProjectSorting(rawValue: defaults.string(forKey: .priorityScreenSorting) ?? "") ?? ProjectSorting.byPriority }
+        set { defaults.setValue(newValue.rawValue, forKey: .priorityScreenSorting) }
+    }
+    var todayScreenSorting: ProjectSorting {
+        get { ProjectSorting(rawValue: defaults.string(forKey: .todayScreenSorting) ?? "") ?? ProjectSorting.byCreatedAt }
+        set { defaults.setValue(newValue.rawValue, forKey: .todayScreenSorting) }
     }
     
     var debugDeleteDb: Bool {
@@ -48,4 +58,6 @@ fileprivate extension String {
     static let debugDeleteDb = "debugDeleteDb"
     static let lastTimeGeneratedFunText = "lastTimeGeneratedFunText"
     static let lastTimeGeneratedFunTextNumber = "lastTimeGeneratedFunTextNumber"
+    static let priorityScreenSorting = "priorityScreenSorting"
+    static let todayScreenSorting = "todayScreenSorting"
 }

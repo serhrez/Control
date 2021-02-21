@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class NewCustomButton: UIButton {
-    var animationDuration: TimeInterval = 0.25
+    var animationDuration: TimeInterval = Constants.animationDefaultDuration
 
     var stateBackgroundColor: ColorState? {
         didSet {

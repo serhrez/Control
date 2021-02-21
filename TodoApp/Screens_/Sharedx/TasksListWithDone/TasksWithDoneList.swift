@@ -97,23 +97,7 @@ class TasksWithDoneList: UIView {
     func sortCurrentItems(_ models: [Model], sorting: ProjectSorting) -> [Model] {
         guard sortingEnabled else { return models }
         return models.sorted { model1, model2 -> Bool in
-            switch (model1, model2) {
-            case (.task, .doneTask): return true
-            case (.doneTask, .task): return false
-            default: break
-            }
-            switch sorting {
-            case .byCreatedAt:
-                return model1.task.createdAt > model2.task.createdAt
-            case .byName:
-                return model1.task.name != model2.task.name ?
-                model1.task.name > model2.task.name :
-                model1.task.createdAt > model2.task.createdAt
-            case .byPriority:
-                return model1.task.priority != model2.task.priority ?
-                model1.task.priority > model2.task.priority :
-                model1.task.createdAt > model2.task.createdAt
-            }
+            RlmTask.compare(task1: model1.task, task2: model2.task, sorting: sorting)
         }
     }
 
