@@ -69,10 +69,30 @@ extension RlmTask {
             task1.priority > task2.priority :
             task1.createdAt > task2.createdAt
         case .byDate:
-            if task1.date?.date != nil && task2.date!.date != nil {
+            if task1.date?.date != nil && task2.date?.date != nil {
                 return task1.date!.date! > task2.date!.date!
             }
             return task1.createdAt > task2.createdAt
         }
+    }
+}
+
+extension RlmTask {
+    func setIsDone(isDone: Bool) {
+        self.isDone = isDone
+        if self.date?.repeat == nil {
+            RealmStore.main.updateDateDependencies(in: self)
+        } else if let date = self.date, date.date != nil, isDone {
+            Notifications.shared.removeNotifications(id: self.id)
+            let newDate = RlmTaskDate(date: date.repeat!.addDate(initialDate: date.date!), reminder: date.reminder, repeat: date.repeat)
+            let newTask = RlmTask(name: self.name, taskDescription: self.taskDescription, priority: self.priority, isDone: false, date: newDate, createdAt: Date())
+            newTask.tags.append(objectsIn: tags)
+            let subtasks = subtask.map { $0.name }.map { RlmSubtask(name: $0) }
+            newTask.subtask.insert(contentsOf: subtasks, at: 0)
+            project.first?.tasks.append(newTask)
+            RealmStore.main.updateDateDependencies(in: newTask)
+            realm?.delete(date)
+        }
+        
     }
 }

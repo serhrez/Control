@@ -235,11 +235,8 @@ class ProjectDetailsVc: UIViewController {
             actions += [.init(title: "Complete All".localizable(), image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { [weak self] _ in
                 RealmProvider.main.safeWrite {
                     self?.project.tasks.forEach {
-                        $0.isDone = true
+                        $0.setIsDone(isDone: true)
                     }
-                }
-                self?.project.tasks.forEach {
-                RealmStore.main.updateDateDependencies(in: $0)
                 }
             })]
             actions += [.init(title: "Sort".localizable(), image: UIImage(named: "switch-vertical"), didSelect: { [weak self] _ in
@@ -636,9 +633,8 @@ class ProjectDetailsVc: UIViewController {
             self.router.openTaskDetails(task)
         }, onChangeIsDone: { task in
             RealmProvider.main.safeWrite {
-                task.isDone.toggle()
+                task.setIsDone(isDone: !task.isDone)
             }
-            RealmStore.main.updateDateDependencies(in: task)
         }, shouldDelete: { [weak self] task in
             guard let self = self else { return }
             let taskId = task.id

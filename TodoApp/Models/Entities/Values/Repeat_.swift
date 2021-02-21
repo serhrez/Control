@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftDate
 
 enum Repeat: String, CustomStringConvertible {
     case everyDay
@@ -27,6 +28,14 @@ enum Repeat: String, CustomStringConvertible {
             return "Every Month".localizable()
         case .everyYear:
             return "Every Year".localizable()
+        }
+    }
+    func addDate(initialDate: Date) -> Date {
+        switch self {
+        case .everyDay: return initialDate + 24.hours
+        case .everyWeek: return initialDate + 1.weeks
+        case .everyMonth: return initialDate + 1.months
+        case .everyYear: return initialDate + 1.years
         }
     }
 }

@@ -52,9 +52,8 @@ class TagDetailVcVm {
     
     func taskSelected(_ task: RlmTask, isDone: Bool) {
         RealmProvider.main.safeWrite {
-            task.isDone = isDone
+            task.setIsDone(isDone: isDone)
         }
-        RealmStore.main.updateDateDependencies(in: task)
     }
 }
 

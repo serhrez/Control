@@ -53,9 +53,8 @@ class SearchVcVm {
     
     func onTaskDone(_ task: RlmTask, isDone: Bool) {
         RealmProvider.main.safeWrite {
-            task.isDone = isDone
+            task.setIsDone(isDone: isDone)
         }
-        RealmStore.main.updateDateDependencies(in: task)
     }
     func clear() {
         searchResult.accept([.init(items: [])])

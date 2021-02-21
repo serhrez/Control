@@ -131,9 +131,8 @@ class TaskDetailsVcVm {
     }
     func toggleDone() {
         RealmProvider.main.safeWrite { [weak self] in
-            self?.task.isDone.toggle()
+            self?.task.setIsDone(isDone: !task.isDone)
         }
-        RealmStore.main.updateDateDependencies(in: task)
     }
     
     func deleteTag(with title: String) {

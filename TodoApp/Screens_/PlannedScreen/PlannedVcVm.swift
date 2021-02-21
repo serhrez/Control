@@ -73,9 +73,8 @@ class PlannedVcVm {
     
     func setIsDone(_ isDone: Bool, to task: RlmTask) {
         RealmProvider.main.safeWrite {
-            task.isDone = isDone
+            task.setIsDone(isDone: isDone)
         }
-        RealmStore.main.updateDateDependencies(in: task)
     }
     
     func selectDayFromJct(_ date: Date) {

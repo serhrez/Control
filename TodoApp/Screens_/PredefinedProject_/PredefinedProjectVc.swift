@@ -41,9 +41,8 @@ class PredefinedProjectVc: UIViewController {
         self.router.openTaskDetails(task)
     }, onChangeIsDone: { task in
         RealmProvider.main.safeWrite {
-            task.isDone.toggle()
+            task.setIsDone(isDone: !task.isDone)
         }
-        RealmStore.main.updateDateDependencies(in: task)
     }, shouldDelete: { [weak self] task in
         guard let self = self,
               let project = task.project.first else { return }
@@ -459,10 +458,7 @@ class PredefinedProjectVc: UIViewController {
         let completeAllColor = completeAllActive ? UIColor(named: "TAHeading")! : UIColor(named: "TASubElement")!
         actions += [.init(title: "Complete All".localizable(), image: completeAllImage, color: completeAllColor, isSelectable: completeAllActive, didSelect: { _ in
             RealmProvider.main.safeWrite {
-                tasks.forEach { $0.isDone = true }
-            }
-            tasks.forEach {
-                RealmStore.main.updateDateDependencies(in: $0)
+                tasks.forEach { $0.setIsDone(isDone: true) }
             }
         })]
         
