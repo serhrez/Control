@@ -43,7 +43,6 @@
 "Tags" = "Oznake";
 "Delete Tag" = "Izbriši oznaku";
 "Tag" = "Označiti";
-"will be removed from all your tasks" = "bit će uklonjen iz svih vaših zadataka";
 "Delete" = "Izbrisati";
 "New Tag" = "Nova oznaka";
 "Tomorrow" = "Sutra";
@@ -180,3 +179,4 @@
 "Sort by date" = "Poredaj po datumu";
 "Sort" = "Vrsta";
 "TagDeletionCommentOneArgument" = "Oznaka '%@' uklonit će se iz svih vaših zadataka";
+"ProjectWillBeRemovedOneArgument" = "Projekt '%@' bit će uklonjen";

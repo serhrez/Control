@@ -43,7 +43,6 @@
 "Tags" = "Tag";
 "Delete Tag" = "Elimina tag";
 "Tag" = "Etichetta";
-"will be removed from all your tasks" = "verrà rimosso da tutte le tue attività";
 "Delete" = "Elimina";
 "New Tag" = "Nuovo tag";
 "Tomorrow" = "Domani";
@@ -180,3 +179,4 @@
 "Sort by date" = "Ordinare per data";
 "Sort" = "Ordinare";
 "TagDeletionCommentOneArgument" = "Il tag '%@' verrà rimosso da tutte le tue attività";
+"ProjectWillBeRemovedOneArgument" = "Il progetto '%@' verrà rimosso";

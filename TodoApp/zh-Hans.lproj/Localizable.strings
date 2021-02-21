@@ -42,7 +42,6 @@
 "Tags" = "标签";
 "Delete Tag" = "删除标签";
 "Tag" = "标签";
-"will be removed from all your tasks" = "将从您的所有任务中删除";
 "Delete" = "删除";
 "New Tag" = "新标签";
 "Tomorrow" = "明天";
@@ -100,7 +99,6 @@
 "Delete Completed" = "删除完成";
 "Delete Project" = "删除项目";
 "Project" = "项目";
-"will be removed" = "将被删除";
 "Delete all" = "删除所有";
 "Delete and Archive" = "删除和存档";
 "Notifications are disabled" = "通知已禁用";
@@ -178,4 +176,5 @@
 "Language" = "语言";
 "Sort by date" = "按日期排序";
 "Sort" = "种类";
-"TagDeletionCommentOneArgument" = "标记“%@”将从您的所有任务中删除";
+"TagDeletionCommentOneArgument" = "标记'%@'将从您的所有任务中删除";
+"ProjectWillBeRemovedOneArgument" = "项目'％@'将被删除";

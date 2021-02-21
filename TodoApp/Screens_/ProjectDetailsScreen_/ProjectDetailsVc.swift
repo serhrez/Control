@@ -300,7 +300,8 @@ class ProjectDetailsVc: UIViewController {
             self.deleteProject()
             return
         }
-        let alertVc = UIAlertController(title: "Delete Project".localizable(), message: "\("Project".localizable()) '\(project.name)' \("will be removed".localizable(comment: "project 'projectname' will be removed"))", preferredStyle: .alert)
+        
+        let alertVc = UIAlertController(title: "Delete Project".localizable(), message: "ProjectWillBeRemovedOneArgument".localizable(argument: project.name), preferredStyle: .alert)
         alertVc.addAction(.init(title: "Delete all".localizable(), style: .destructive, handler: { [weak self] _ in
             guard let self = self else { return }
             self.deleteProject()

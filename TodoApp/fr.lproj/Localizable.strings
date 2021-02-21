@@ -35,7 +35,6 @@
 "Tags" = "Mots clés";
 "Delete Tag" = "Supprimer le tag";
 "Tag" = "Étiqueter";
-"will be removed from all your tasks" = "sera supprimé de toutes vos tâches";
 "Delete" = "Effacer";
 "New Tag" = "Nouveau tag";
 "Tomorrow" = "Demain";
@@ -171,4 +170,5 @@
 "Language" = "Langue";
 "Sort by date" = "Trier par date";
 "Sort" = "Trier";
-"TagDeletionCommentOneArgument" = "La balise «%@» sera supprimée de toutes vos tâches";
+"TagDeletionCommentOneArgument" = "La balise '%@' sera supprimée de toutes vos tâches";
+"ProjectWillBeRemovedOneArgument" = "Le projet '%@' sera supprimé";

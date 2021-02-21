@@ -92,7 +92,6 @@
 "Delete Completed" = "Delete Completed";
 "Delete Project" = "Delete Project";
 "Project" = "Project";
-"will be removed" = "will be removed";
 "Delete all" = "Delete all";
 "Delete and Archive" = "Delete and Archive";
 "Notifications are disabled" = "Notifications are disabled";
@@ -171,3 +170,4 @@
 "Sort by date" = "Sort by date";
 "Sort" = "Sort";
 "TagDeletionCommentOneArgument" = "Tag '%@' will be removed from all your tasks";
+"ProjectWillBeRemovedOneArgument" = "Project '%@' will be removed";

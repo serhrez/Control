@@ -42,7 +42,6 @@
 "Tags" = "...";
 "Delete Tag" = "टैग हटाएं";
 "Tag" = "टैग";
-"will be removed from all your tasks" = "आपके सभी कार्यों से हटा दिया जाएगा";
 "Delete" = "हटाएं";
 "New Tag" = "नया शब्द";
 "Tomorrow" = "आने वाला कल";
@@ -179,3 +178,4 @@
 "Sort by date" = "दिनांक के हिसाब से अलग करे";
 "Sort" = "तरह";
 "TagDeletionCommentOneArgument" = "टैग '%@' को आपके सभी कार्यों से हटा दिया जाएगा";
+"ProjectWillBeRemovedOneArgument" = "प्रोजेक्ट '%@' निकाला जाएगा";

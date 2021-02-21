@@ -43,7 +43,6 @@
 "Tags" = "Taggar";
 "Delete Tag" = "Radera tagg";
 "Tag" = "Märka";
-"will be removed from all your tasks" = "kommer att tas bort från alla dina uppgifter";
 "Delete" = "Radera";
 "New Tag" = "Ny tagg";
 "Tomorrow" = "I morgon";
@@ -180,3 +179,4 @@
 "Sort by date" = "Sortera efter datum";
 "Sort" = "Sortera";
 "TagDeletionCommentOneArgument" = "Taggen '%@' kommer att tas bort från alla dina uppgifter";
+"ProjectWillBeRemovedOneArgument" = "Projektet '%@' kommer att tas bort";

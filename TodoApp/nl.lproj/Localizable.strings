@@ -43,7 +43,6 @@
 "Tags" = "Tags";
 "Delete Tag" = "Tag verwijderen";
 "Tag" = "Label";
-"will be removed from all your tasks" = "wordt verwijderd uit al je taken";
 "Delete" = "Verwijderen";
 "New Tag" = "Nieuwe tag";
 "Tomorrow" = "Morgen";
@@ -180,3 +179,4 @@
 "Sort by date" = "Sorteren op datum";
 "Sort" = "Soort";
 "TagDeletionCommentOneArgument" = "Tag '%@' wordt verwijderd uit al uw taken";
+"ProjectWillBeRemovedOneArgument" = "Project '%@' wordt verwijderd";

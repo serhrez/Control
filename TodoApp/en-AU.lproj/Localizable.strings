@@ -171,3 +171,4 @@
 "Sort by date" = "Sort by date";
 "Sort" = "Sort";
 "TagDeletionCommentOneArgument" = "Tag '%@' will be removed from all your tasks";
+"ProjectWillBeRemovedOneArgument" = "Project '%@' will be removed";
