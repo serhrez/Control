@@ -62,7 +62,10 @@ class SearchVc: UIViewController {
         
         let leftNavBarButton = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
-        let cancelButton = UIBarButtonItem(title: "Cancel".localizable(), style: .plain, target: self, action: #selector(cancelClicked))
+        let cancelButton = UIBarButtonItem.customInit(title: "Cancel".localizable(), primaryAction: .init(handler: { [weak self] _ in
+            self?.router.navigationController?.popViewController(animated: true)
+        }))
+        
         cancelButton.tintColor = UIColor.hex("#447BFE")
         cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
         navigationItem.rightBarButtonItems = [cancelButton]
@@ -90,10 +93,6 @@ class SearchVc: UIViewController {
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         collectionView.delegate = self
-    }
-    
-    @objc func cancelClicked() {
-        router.navigationController?.popViewController(animated: true)
     }
 }
 

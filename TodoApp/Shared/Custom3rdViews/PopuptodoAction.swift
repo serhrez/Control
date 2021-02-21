@@ -104,6 +104,9 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         label.text = title
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.85
+        label.lineBreakMode = .byClipping
         
         return label
     }()
@@ -159,7 +162,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: hasImage ? iconLeftPadding + iconWidthHeight + iconToTextOffset : iconLeftPadding),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -12),
             titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
