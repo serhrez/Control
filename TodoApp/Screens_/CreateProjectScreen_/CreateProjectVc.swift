@@ -175,11 +175,11 @@ class CreateProjectVc: UIViewController {
 
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
-        textField.font = .systemFont(ofSize: 28, weight: .bold)
+        textField.font = Fonts.heading1
         textField.textColor = UIColor(named: "TAHeading")!
         textField.delegate = self
         textField.attributedPlaceholder = "New Project".localizable().at.attributed { attr in
-            attr.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 28, weight: .bold))
+            attr.foreground(color: UIColor(named: "TASubElement")!).font(Fonts.heading1)
         }
         return textField
     }()
