@@ -14,7 +14,7 @@ extension UIBarButtonItem {
         let button = NewCustomButton(type: .custom, primaryAction: primaryAction)
 //        button.setImage(image, for: .normal)
 //        button.setTitle(title, for: .normal)
-        button.opacityState = .init(highlighted: 0.5, normal: 1)
+        button.opacityState = .init(highlighted: 0.3, normal: 1)
         let imgView = UIImageView(image: image.withRenderingMode(.alwaysTemplate))
         imgView.tintColor = UIColor(named: "TAHeading")!
         imgView.contentMode = .center

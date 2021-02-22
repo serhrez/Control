@@ -62,6 +62,9 @@ class ProjectStartedView: UIView {
         layout(smallTitleWithPlus).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
         layout(detailTitle).centerX().top(largeTitle.anchor.bottom, 12).bottom() { _, _ in .lessThanOrEqual }
         configure(mode: mode)
+        if mode == .projectEmpty || mode == .inboxEmpty || mode == .started {
+            adjustSmallTitleWithPlusFontSize()
+        }
     }
     private let imageView = UIImageView(image: UIImage(named: "startedmessypath"))
 
@@ -96,15 +99,24 @@ class ProjectStartedView: UIView {
         plusImage.bottomAnchor.constraint(equalTo: smallTitleLeading.firstBaselineAnchor, constant: 1).isActive = true
         return view
     }()
+    func adjustSmallTitleWithPlusFontSize() {
+        let size = smallTitleWithPlus.systemLayoutSizeFitting(.init(width: 3000, height: 100))
+        if UIScreen.main.bounds.width - 50 < size.width {
+            let newFont = UIFont.systemFont(ofSize: smallTitleLeading.font.pointSize - 0.7, weight: smallTitleLeading.font.getFontWeight())
+            smallTitleLeading.font = newFont
+            smallTitleTrailing.font = newFont
+            adjustSmallTitleWithPlusFontSize()
+        }
+    }
     
-    let smallTitleLeading: UILabel = {
+    lazy var smallTitleLeading: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = Fonts.text
         label.textColor = UIColor(named: "TASubElement")!
         label.text = "Tap the".localizable()
         return label
     }()
-    let smallTitleTrailing: UILabel = {
+    lazy var smallTitleTrailing: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = Fonts.text
         label.textColor = UIColor(named: "TASubElement")!

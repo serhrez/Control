@@ -107,6 +107,7 @@
 		A573BA9E25B0E849006F6FB1 /* OnboardingPushTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A573BA9D25B0E849006F6FB1 /* OnboardingPushTransition.swift */; };
 		A57634FE257EE8D9009A5041 /* AlignmentRectViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */; };
 		A576CEE725E3C24400FDD583 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A576CEE625E3C24400FDD583 /* Fonts.swift */; };
+		A576CEEC25E3D1D100FDD583 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A576CEEB25E3D1D100FDD583 /* UIFont+Extensions.swift */; };
 		A5796AFC2561CB6300423112 /* AnimatableSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */; };
 		A5796B012561E7CE00423112 /* OvalText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5796B002561E7CE00423112 /* OvalText.swift */; };
 		A57B962C25AB58AB008E899C /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57B962B25AB58AB008E899C /* DebugView.swift */; };
@@ -302,6 +303,7 @@
 		A573BA9D25B0E849006F6FB1 /* OnboardingPushTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPushTransition.swift; sourceTree = "<group>"; };
 		A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignmentRectViews.swift; sourceTree = "<group>"; };
 		A576CEE625E3C24400FDD583 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		A576CEEB25E3D1D100FDD583 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		A5796AFB2561CB6300423112 /* AnimatableSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatableSectionModel.swift; sourceTree = "<group>"; };
 		A5796B002561E7CE00423112 /* OvalText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalText.swift; sourceTree = "<group>"; };
 		A57B962B25AB58AB008E899C /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 				A55889BA25D1A34A007449B9 /* Collection+Extensions.swift */,
 				A52EF31025DD50C8008658D8 /* Primitives+Data.swift */,
 				A58142D625E11D60001CE44E /* String+Extensions.swift */,
+				A576CEEB25E3D1D100FDD583 /* UIFont+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1445,6 +1448,7 @@
 				A54D646F2562A25500AC3F41 /* CheckboxView.swift in Sources */,
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
 				A50E0F4D25E1B77700BA9A14 /* UIBarButtonItem+Extensions.swift in Sources */,
+				A576CEEC25E3D1D100FDD583 /* UIFont+Extensions.swift in Sources */,
 				A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */,
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,

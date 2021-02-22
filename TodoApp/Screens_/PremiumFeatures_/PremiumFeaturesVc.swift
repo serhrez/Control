@@ -59,12 +59,13 @@ class PremiumFeaturesVc: UIViewController {
     }()
     let infoLabel: UILabel = {
         let view = UILabel()
-        view.numberOfLines = 2
+        view.numberOfLines = 0
         view.attributedText = "No additional purchases, just a".localizable().at.attributed { attr in
             attr.font(Fonts.heading5).foreground(color: UIColor(named: "TAHeading")!)
         } + " ".at.attributed { $0 } + "one-time purchase!".localizable().at.attributed { attr in
             attr.font(Fonts.heading5).foreground(color: UIColor(named: "TAHeading")!)
         }
+//        view.
         view.textAlignment = .center
         return view
     }()
@@ -249,7 +250,7 @@ extension PremiumFeaturesVc {
     class SmartScroll: UIScrollView, UIScrollViewDelegate {
         override func layoutSubviews() {
             super.layoutSubviews()
-            isScrollEnabled = contentSize.height - 10 > frame.height
+            isScrollEnabled = contentSize.height - 17 > frame.height
             self.delegate = self
         }
         
