@@ -99,14 +99,12 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     // MARK: - Subviews
     
     /// Title label view instance.
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         label.text = title
-        label.font = .systemFont(ofSize: 18, weight: .medium)
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 1
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         
         return label
     }()
