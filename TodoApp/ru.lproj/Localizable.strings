@@ -45,10 +45,10 @@
 "Delete" = "Удалить";
 "New Tag" = "Новый тег";
 "Tomorrow" = "Завтра";
-"Evening" = "Сегодня вечером";
+"Evening" = "Вечером";
 "Time" = "Время";
 "Calendar" = "Календарь";
-"Clear" = "Отчистить";
+"Clear" = "Очистить";
 "Add New Tag" = "Добавить новый тег";
 "Smileys & People" = "Смайлы и люди";
 "Animals & Nature" = "Животные и природа";
@@ -169,7 +169,7 @@
 "Start Going to The Gym" = "Начать ходить в зал";
 "Complete Cyberpunk 2077" = "Пройти киберпанк 2077";
 "All Projects" = "Все Проекты";
-"Next Monday" = "Следующий Понедельник";
+"Next Monday" = "След. Пон.";
 "Add Tag" = "Добавить тег";
 "Language" = "Язык";
 "Sort by date" = "Сортировать по дате";

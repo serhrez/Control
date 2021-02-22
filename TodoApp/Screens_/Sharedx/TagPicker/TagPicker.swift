@@ -152,10 +152,10 @@ final class TagPicker: UIViewController {
     }()
     lazy var textFieldExternalCell: UITextField = {
         let textField = UITextField()
-        let attributes = Attributes().font(.systemFont(ofSize: 18, weight: .semibold))
+        let attributes = Attributes().font(.systemFont(ofSize: 16, weight: .semibold))
         textField.attributedPlaceholder = "Add New Tag".localizable().at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         textField.delegate = self
-        textField.font = .systemFont(ofSize: 18, weight: .semibold)
+        textField.font = .systemFont(ofSize: 16, weight: .semibold)
         return textField
     }()
     let containerView: UIView = {
@@ -214,7 +214,7 @@ extension TagPicker {
     class TagPickerCell: UICollectionViewCell {
         let label: UILabel = {
             let label = UILabel()
-            label.font = .systemFont(ofSize: 18, weight: .semibold)
+            label.font = .systemFont(ofSize: 16, weight: .semibold)
             label.textColor = UIColor(named: "TAHeading")!
             return label
         }()

@@ -69,7 +69,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
             return titleLabel.font
         }
         set {
-            titleLabel.font = newValue
+//            titleLabel.font = newValue
         }
     }
     
@@ -99,14 +99,14 @@ public class PopuptodoAction: NSObject, PopMenuAction {
     // MARK: - Subviews
     
     /// Title label view instance.
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         label.text = title
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.85
-        label.lineBreakMode = .byClipping
+        label.minimumScaleFactor = 1
         
         return label
     }()

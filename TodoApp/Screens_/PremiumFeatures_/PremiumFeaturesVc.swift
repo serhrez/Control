@@ -246,10 +246,15 @@ extension PremiumFeaturesVc {
         }
     }
     
-    class SmartScroll: UIScrollView {
+    class SmartScroll: UIScrollView, UIScrollViewDelegate {
         override func layoutSubviews() {
             super.layoutSubviews()
-            isScrollEnabled = false//contentSize.height - 10 > frame.height
+            isScrollEnabled = contentSize.height - 10 > frame.height
+            self.delegate = self
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            scrollView.bounces = scrollView.contentOffset.y > 1
         }
     }
     

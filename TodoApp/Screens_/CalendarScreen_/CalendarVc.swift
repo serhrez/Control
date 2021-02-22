@@ -213,7 +213,7 @@ extension CalendarVc {
             layout(imageView2).top().centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
             label.text = text
             label.font = .systemFont(ofSize: 16, weight: .semibold)
-            label.minimumScaleFactor = 0.95
+            label.minimumScaleFactor = 0.84
             label.adjustsFontSizeToFitWidth = true
             label.numberOfLines = isOneLine ? 1 : 2
             label.textAlignment = .center

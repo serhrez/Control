@@ -38,15 +38,17 @@ final class AllTasksToolbar: UIView {
         containerView.layer.cornerCurve = .continuous
         containerView.layer.borderWidth = 1
         layout(containerView).edges().height(Self.estimatedHeight)
-        
+        let plusView = PlusView()
+
         let label = UILabel()
         label.text = "To-Do., Something new?".localizable()
+        label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor(named: "TASubElement")!
+        label.minimumScaleFactor = 0.87
         label.font = .systemFont(ofSize: 16)
-        containerView.layout(label).leading(30).trailing(30).top(20).bottom(20)
-        
-        let plusView = PlusView()
         containerView.layout(plusView).trailing(7).top(7).bottom(7)
+        containerView.layout(label).leading(30).trailing(plusView.anchor.leading, 10).top(20).bottom(20)
+
     }
     override func setNeedsDisplay() {
         super.setNeedsDisplay()
