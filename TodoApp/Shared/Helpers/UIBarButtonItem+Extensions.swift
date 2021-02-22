@@ -20,7 +20,7 @@ extension UIBarButtonItem {
         imgView.contentMode = .center
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor(named: "TAHeading")!
-        titleLabel.font = .systemFont(ofSize: 18, weight: .medium)
+        titleLabel.font = Fonts.heading3
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.02
         titleLabel.attributedText = title.at.attributed { attr in
@@ -31,13 +31,13 @@ extension UIBarButtonItem {
         return UIBarButtonItem(customView: button)
     }
     
-    static func customInit(title: String, primaryAction: UIAction) -> UIBarButtonItem {
+    static func customInit(title: String, font: UIFont, primaryAction: UIAction) -> UIBarButtonItem {
         let button = NewCustomButton(type: .custom, primaryAction: primaryAction)
         button.opacityState = .init(highlighted: 0.5, normal: 1)
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.textColor = UIColor(hex: "#447BFE")!
-        titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        titleLabel.font = font
         titleLabel.minimumScaleFactor = 0.7
         titleLabel.adjustsFontSizeToFitWidth = true
         button.layout(titleLabel).edges()

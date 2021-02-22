@@ -69,7 +69,7 @@ public class PopuptodoAction: NSObject, PopMenuAction {
             return titleLabel.font
         }
         set {
-//            titleLabel.font = newValue
+            titleLabel.font = newValue
         }
     }
     
@@ -104,7 +104,6 @@ public class PopuptodoAction: NSObject, PopMenuAction {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         label.text = title
-        label.font = .systemFont(ofSize: 16, weight: .medium)
         
         return label
     }()

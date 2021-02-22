@@ -32,7 +32,7 @@ class Selection1View: UIView {
         checkbox.configure(isChecked: isSelected)
         layout(textLabel).leading(33).top().bottom().trailing()
         textLabel.text = text
-        textLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        textLabel.font = Fonts.text
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(clicked))
         addGestureRecognizer(tapGesture)
     }

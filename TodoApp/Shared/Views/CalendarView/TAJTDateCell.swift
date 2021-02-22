@@ -64,7 +64,7 @@ class TAJTDateCell: JTACDayCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = Fonts.text
         selectedView.backgroundColor = UIColor.hex("#447bfe").withAlphaComponent(0.15)
         selectedView.layer.cornerRadius = 10
         selectedView.layer.cornerCurve = .continuous

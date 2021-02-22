@@ -42,10 +42,10 @@ class AllTagsEnterNameCell: UICollectionViewCell {
         clipsToBounds = true
         nameField.attributedPlaceholder = "New Tag".localizable().at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!)
-                .font(.systemFont(ofSize: 16, weight: .semibold))
+                .font(Fonts.heading4)
         }
         nameField.textColor = UIColor(named: "TAHeading")
-        nameField.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameField.font = Fonts.heading4
         contentView.layout(nameField).centerY().leading(20).trailing(20)
         nameField.delegate = self
     }

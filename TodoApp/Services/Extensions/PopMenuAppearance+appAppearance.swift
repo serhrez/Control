@@ -15,7 +15,7 @@ extension PopMenuAppearance {
         appearance.popMenuCornerRadius = 16
         appearance.popMenuColor.actionColor = .tint(.black)
         appearance.popMenuColor.backgroundColor = .solid(fill: UIColor(named: "TAAltBackground")!)
-        appearance.popMenuFont = .systemFont(ofSize: 17, weight: .semibold)
+        appearance.popMenuFont = Fonts.heading4
         appearance.popMenuItemSeparator = .fill(UIColor(named: "TABorder")!, height: 1)
         appearance.popMenuActionHeight = 47
         appearance.actionsSpacing = 10

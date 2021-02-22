@@ -53,7 +53,7 @@ class SingleTagView: UIView {
         super.init(frame: .zero)
         self.text = text
         layout(label).leading(8).trailing(8).centerY()
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.font = Fonts.heading6
         backgroundColor = UIColor.hex("#00CE15").withAlphaComponent(0.1)
         label.textColor = .hex("#00CE15")
         layer.cornerRadius = 8

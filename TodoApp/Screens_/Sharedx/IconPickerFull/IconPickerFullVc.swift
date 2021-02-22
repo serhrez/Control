@@ -37,7 +37,7 @@ class IconPickerEmojiHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout(label).centerY().leading(11).trailing(11)
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = Fonts.heading2
         label.textColor = UIColor(named: "TAHeading")!
     }
     
@@ -130,7 +130,7 @@ final class IconPickerFullVc: UIViewController {
         self.navigationItem.leftBarButtonItem = leftNavBarButton
         let cancelButton = UIBarButtonItem(title: "Cancel".localizable(), style: .plain, target: self, action: #selector(cancelClicked))
         cancelButton.tintColor = UIColor.hex("#447BFE")
-        cancelButton.setTitleTextAttributes(Attributes().font(.systemFont(ofSize: 16, weight: .bold)).dictionary, for: .normal)
+        cancelButton.setTitleTextAttributes(Attributes().font(Fonts.heading4).dictionary, for: .normal)
         navigationItem.rightBarButtonItems = [cancelButton]
     }
     

@@ -19,14 +19,10 @@ class DateDetailLabel: UIView {
         backgroundColor = UIColor(named: "TASubElement")!.withAlphaComponent(0.1)
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.font = Fonts.heading5
         clipsToBounds = true
         imageView.contentMode = .center
         label.adjustsFontSizeToFitWidth = true
-    }
-    
-    func setFontSize(size: CGFloat) {
-        label.font = .systemFont(ofSize: size, weight: .semibold)
     }
     
     required init?(coder: NSCoder) {

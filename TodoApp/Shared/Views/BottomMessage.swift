@@ -30,7 +30,7 @@ class BottomMessage: UIView {
         }
         let label = UILabel()
         label.text = text
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = Fonts.heading5
         label.textColor = textColor
         label.numberOfLines = 1
         label.minimumScaleFactor = 0.8

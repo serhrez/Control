@@ -21,7 +21,6 @@ class ProjectStartedView: UIView {
         if let mode = mode {
             var smallTitleWithPlusAlpha: CGFloat = 0
             var detailTitleAlpha: CGFloat = 0
-            var largeTitleNumberOfLines: Int = 2
             switch mode {
             case .noPriorities:
                 largeTitle.text = "There Are No Priorities Right Now.".localizable()
@@ -32,11 +31,9 @@ class ProjectStartedView: UIView {
                 largeTitle.text = "You Have a Free Day.".localizable()
                 detailTitle.text = "All of your assignments are displayed here.".localizable()
                 detailTitleAlpha = 1
-                largeTitleNumberOfLines = 1
                 imageView.image = UIImage(named: "placeholderyellow")
             case .projectEmpty:
                 largeTitle.text = "Your Project is Empty.".localizable()
-                largeTitleNumberOfLines = 1
                 smallTitleWithPlusAlpha = 1
                 imageView.image = UIImage(named: "placeholderyellow")
             case .inboxEmpty:
@@ -54,7 +51,7 @@ class ProjectStartedView: UIView {
             }
             smallTitleWithPlus.alpha = smallTitleWithPlusAlpha
             detailTitle.alpha = detailTitleAlpha
-            largeTitle.numberOfLines = largeTitleNumberOfLines
+            
         }
     }
     
@@ -70,7 +67,7 @@ class ProjectStartedView: UIView {
 
     let largeTitle: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 32, weight: .bold)
+        label.font = Fonts.heading2
         label.textColor = UIColor(named: "TAHeading")!
         label.text = "Well done, you started a new project!".localizable()
         label.numberOfLines = 2
@@ -82,7 +79,7 @@ class ProjectStartedView: UIView {
     
     lazy var detailTitle: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = Fonts.text
         label.textColor = UIColor(named: "TASubElement")!
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
@@ -102,14 +99,14 @@ class ProjectStartedView: UIView {
     
     let smallTitleLeading: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = Fonts.text
         label.textColor = UIColor(named: "TASubElement")!
         label.text = "Tap the".localizable()
         return label
     }()
     let smallTitleTrailing: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = Fonts.text
         label.textColor = UIColor(named: "TASubElement")!
         label.text = "button to add the task!".localizable()
         return label

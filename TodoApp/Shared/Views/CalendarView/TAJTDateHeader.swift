@@ -46,9 +46,9 @@ class CalendarViewHeader: UIView {
         self.onNext = onNext
         UIView.transition(with: titleLabel, duration: Constants.animationDefaultDuration, options: [.transitionCrossDissolve]) {
             self.titleLabel.attributedText = month.at.attributed { attr in
-                attr.foreground(color: UIColor(named: "TAHeading")!).font(.systemFont(ofSize: 18, weight: .semibold))
+                attr.foreground(color: UIColor(named: "TAHeading")!).font(Fonts.heading3)
             } + " \(year)".at.attributed { attr in
-                attr.foreground(color: .hex("#447BFE")).font(.systemFont(ofSize: 18, weight: .semibold))
+                attr.foreground(color: .hex("#447BFE")).font(Fonts.heading3)
             }
         }
     }
@@ -68,7 +68,7 @@ class TAJTDateHeader: JTACMonthReusableView {
             let view = UIView()
             let label = UILabel()
             label.text = text
-            label.font = .systemFont(ofSize: 16, weight: .semibold)
+            label.font = Fonts.heading5
             view.layout(label).center()
             return view
         }

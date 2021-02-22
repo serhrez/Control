@@ -120,8 +120,6 @@ final class CalendarVc: UIViewController {
 
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        navigationItem.titleLabel.text = "Calendar".localizable()
-        navigationItem.titleLabel.font = .systemFont(ofSize: 22, weight: .semibold)
         view.layout(containerView).leading(13).trailing(13).topSafe() { _, _ in .greaterThanOrEqual }.bottomSafe(Constants.vcMinBottomPadding) { _, _ in .lessThanOrEqual }
         let centerYAnchor = containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let centerXAnchor = containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -166,7 +164,7 @@ final class CalendarVc: UIViewController {
     private lazy var clearButton: NewCustomButton = {
         let button = NewCustomButton()
         button.stateBackgroundColor = .init(highlighted: UIColor(named: "TABorder")!, normal: UIColor(named: "TABorder")!.withAlphaComponent(0.4))
-        button.setAttributedTitle("Clear".localizable().at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .semibold)) }, for: .normal)
+        button.setAttributedTitle("Clear".localizable().at.attributed { $0.foreground(color: UIColor(named: "TASubElement")!).font(Fonts.heading3) }, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(clickedClear), for: .touchUpInside)
         
@@ -212,7 +210,7 @@ extension CalendarVc {
             imageView2.contentMode = .bottom
             layout(imageView2).top().centerX().leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }
             label.text = text
-            label.font = .systemFont(ofSize: 16, weight: .semibold)
+            label.font = Fonts.heading4
             label.minimumScaleFactor = 0.84
             label.adjustsFontSizeToFitWidth = true
             label.numberOfLines = isOneLine ? 1 : 2
@@ -236,7 +234,7 @@ extension CalendarVc {
         
         init(image imageName: String, text: String, onClick: @escaping () -> Void) {
             super.init(onClick: { if $0 { onClick() } })
-            label.font = .systemFont(ofSize: 18, weight: .semibold)
+            label.font = Fonts.heading3
             label.text = text
             imageView.image = UIImage(named: imageName)?.resize(toHeight: 25)
             

@@ -77,7 +77,7 @@ class SettingsCell: UICollectionViewListCell {
     private func setupViews() {
         imageView.contentMode = .center
         label.textColor = data.flatMap { $0.active ? UIColor(named: "TAHeading") : UIColor(named: "#A4A4A4") } ?? UIColor(named: "TAHeading")!
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = Fonts.heading4
         layout(imageView).leading(33).centerY().width(20).height(20)
         layout(label).leading(64).centerY()
         layout(overlayView).edges()

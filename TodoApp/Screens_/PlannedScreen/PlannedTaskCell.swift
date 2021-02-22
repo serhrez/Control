@@ -16,8 +16,7 @@ class PlannedTaskCell: UICollectionViewCell {
     private let checkboxView = AutoselectCheckboxView()
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        label.font = Fonts.heading4
         label.textColor = UIColor(named: "TAHeading")!
         return label
     }()
@@ -52,7 +51,7 @@ class PlannedTaskCell: UICollectionViewCell {
     }()
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 10, weight: .bold)
+        label.font = Fonts.heading6
         label.textColor = UIColor(named: "TASubElement")!
         label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         label.setContentHuggingPriority(.init(1), for: .horizontal)

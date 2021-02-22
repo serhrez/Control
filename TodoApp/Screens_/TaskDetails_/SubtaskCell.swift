@@ -40,7 +40,7 @@ final class SubtaskCell: SwipeTableViewCell {
         contentView.layout(nameLabel).centerY().leading(32).trailing(32)
         contentView.backgroundColor = .clear
         backgroundColor = UIColor(named: "TABackground")!
-        nameLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        nameLabel.font = Fonts.text
         nameLabel.textColor = UIColor(named: "TAHeading")!
         selectionStyle = .none
     }

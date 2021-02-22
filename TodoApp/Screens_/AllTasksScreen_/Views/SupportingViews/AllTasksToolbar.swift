@@ -45,7 +45,7 @@ final class AllTasksToolbar: UIView {
         label.adjustsFontSizeToFitWidth = true
         label.textColor = UIColor(named: "TASubElement")!
         label.minimumScaleFactor = 0.87
-        label.font = .systemFont(ofSize: 16)
+        label.font = Fonts.heading4
         containerView.layout(plusView).trailing(7).top(7).bottom(7)
         containerView.layout(label).leading(30).trailing(plusView.anchor.leading, 10).top(20).bottom(20)
 

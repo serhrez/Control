@@ -31,7 +31,7 @@ final class AddProjectCell: UITableViewCell {
         clipsToBounds = true
         
         label.text = "Add Project".localizable()
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = Fonts.heading3
 
         layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()

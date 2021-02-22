@@ -51,7 +51,7 @@ class PremiumFeaturesVc: UIViewController {
         let view = UILabel()
         view.minimumScaleFactor = 0.8
         view.numberOfLines = 1
-        view.font = .systemFont(ofSize: 36, weight: .bold)
+        view.font = Fonts.heading1
         view.text = "Premium Features".localizable()
         view.adjustsFontSizeToFitWidth = true
         view.textColor = UIColor(named: "TAHeading")
@@ -61,9 +61,9 @@ class PremiumFeaturesVc: UIViewController {
         let view = UILabel()
         view.numberOfLines = 2
         view.attributedText = "No additional purchases, just a".localizable().at.attributed { attr in
-            attr.font(.systemFont(ofSize: 16, weight: .regular)).foreground(color: UIColor(named: "TAHeading")!)
+            attr.font(Fonts.heading5).foreground(color: UIColor(named: "TAHeading")!)
         } + " ".at.attributed { $0 } + "one-time purchase!".localizable().at.attributed { attr in
-            attr.font(.systemFont(ofSize: 16, weight: .bold)).foreground(color: UIColor(named: "TAHeading")!)
+            attr.font(Fonts.heading5).foreground(color: UIColor(named: "TAHeading")!)
         }
         view.textAlignment = .center
         return view
@@ -113,7 +113,7 @@ class PremiumFeaturesVc: UIViewController {
         button.setTitle("\("Only".localizable(comment: "Only $2.99")) \(InAppManager.shared.productPrice)", for: .normal)
         button.setTitleColor(.hex("#242424"), for: .normal)
         button.setTitleColor(.hex("#FF9900"), for: .highlighted)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
+        button.titleLabel?.font = Fonts.heading2
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
         return button
@@ -124,7 +124,7 @@ class PremiumFeaturesVc: UIViewController {
         button.setTitle("Restore Purchase".localizable(), for: .normal)
         button.opacityState = .init(highlighted: 0.5, normal: 1)
         button.setTitleColor(.hex("#447bfe"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        button.titleLabel?.font = Fonts.heading4
         button.titleLabel?.textAlignment = .center
         return button
     }()
@@ -234,7 +234,7 @@ extension PremiumFeaturesVc {
             super.init(frame: .zero)
             check.tint = .hex("#447BFE")
             check.configure(isChecked: true)
-            textLabel.font = .systemFont(ofSize: 16, weight: .regular)
+            textLabel.font = Fonts.text
             textLabel.text = text
             textLabel.numberOfLines = 0
             layout(check).top().leading().width(22).height(22)

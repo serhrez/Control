@@ -115,7 +115,7 @@ class OnboardingVc: UIViewController {
     let imageViewContainer = UIView()
     let nameLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 32, weight: .bold)
+        view.font = Fonts.heading1
         view.numberOfLines = 2
         view.textAlignment = .center
         view.textColor = UIColor(named: "TAHeading")!
@@ -124,7 +124,7 @@ class OnboardingVc: UIViewController {
     }()
     let detailLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 16, weight: .regular)
+        view.font = Fonts.text
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = UIColor(named: "TASubElement")!
@@ -175,7 +175,7 @@ class OnboardingVc: UIViewController {
         let view = NewCustomButton()
         view.layer.cornerRadius = 16
         view.stateBackgroundColor = .init(highlighted: .blue, normal: .hex("#447BFE"))
-        view.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
+        view.titleLabel?.font = Fonts.heading2
         view.setTitleColor(UIColor(named: "TAAltBackground"), for: .normal)
         view.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
         return view
@@ -184,7 +184,7 @@ class OnboardingVc: UIViewController {
         let view = NewCustomButton()
         view.setTitleColor(.hex("#447BFE"), for: .normal)
         view.opacityState = .init(highlighted: 0.5, normal: 1)
-        view.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        view.titleLabel?.font = Fonts.heading4
         view.addTarget(self, action: #selector(skipClicked), for: .touchUpInside)
         return view
     }()

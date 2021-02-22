@@ -199,7 +199,7 @@ class ProjectNewTaskForm: UIView {
         tokenField.itemSpacing = 4
         tokenField.allowDeletionTags = false
         tokenField.hideLabel(animated: false)
-        tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
+        tokenField.font = Fonts.heading5
         tokenField.preferredTextFieldReturnKeyType = .done
         tokenField.contentInsets = .zero
         tokenField.heightConstraint?.isActive = false
@@ -228,9 +228,9 @@ class ProjectNewTaskForm: UIView {
         let textField = UITextField()
 
         textField.delegate = self
-        textField.font = .systemFont(ofSize: 20, weight: .medium)
+        textField.font = Fonts.heading2
         textField.textColor = UIColor(named: "TAHeading")!
-        let attributes = Attributes().font(UIFont.systemFont(ofSize: 20, weight: .medium))
+        let attributes = Attributes().font(Fonts.heading2)
         textField.attributedPlaceholder = FunnyTextProvider.shared.getFunText().at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         return textField
     }()
@@ -298,12 +298,12 @@ class ProjectNewTaskForm: UIView {
         return button
     }()
 
-    private let taskDescriptionFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+    private let taskDescriptionFont: UIFont = Fonts.text
     lazy var taskDescription: MyGrowingTextView = {
         let textView = MyGrowingTextView(placeholderText: "Notes...".localizable(), scrollBehavior: .noScroll)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
-        let attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 16, weight: .regular))
+        let attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(Fonts.text)
         textView.placeholderAttrs = attributes
         textView.textFieldAttrs = attributes
 

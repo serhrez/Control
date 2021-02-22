@@ -34,7 +34,7 @@ class AllTagsAddTagCell: UICollectionViewCell {
         clipsToBounds = true
         
         label.text = "Add Tag".localizable()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = Fonts.heading4
 
         contentView.layout(centerView).center()
         centerView.layout(addImage).top().leading().bottom()

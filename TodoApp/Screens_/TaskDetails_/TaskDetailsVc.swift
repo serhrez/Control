@@ -299,10 +299,10 @@ final class TaskDetailsVc: UIViewController {
     }()
     private lazy var taskNameh1: MyGrowingTextView = {
         let taskLabel = MyGrowingTextView(placeholderText: FunnyTextProvider.shared.getFunText(), scrollBehavior: .noScroll)
-        taskLabel.textField.font = .systemFont(ofSize: 20, weight: .medium)
+        taskLabel.textField.font = Fonts.heading2
         taskLabel.accessibilityIdentifier = "taskNameh1"
-        taskLabel.placeholderAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TASubElement")!)
-        taskLabel.textFieldAttrs = Attributes().font(.systemFont(ofSize: 20, weight: .medium)).foreground(color: UIColor(named: "TAHeading")!)
+        taskLabel.placeholderAttrs = Attributes().font(Fonts.heading2).foreground(color: UIColor(named: "TASubElement")!)
+        taskLabel.textFieldAttrs = Attributes().font(Fonts.heading2).foreground(color: UIColor(named: "TAHeading")!)
         taskLabel.growingTextFieldDelegate = self
         return taskLabel
     }()
@@ -310,7 +310,7 @@ final class TaskDetailsVc: UIViewController {
     private lazy var taskDescription: MyGrowingTextView = {
         let description = MyGrowingTextView(placeholderText: "Enter description".localizable(), scrollBehavior: .noScroll)
         description.accessibilityIdentifier = "taskDescription"
-        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(.systemFont(ofSize: 18, weight: .regular))
+        let attributes: Attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(Fonts.text)
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
@@ -386,7 +386,7 @@ final class TaskDetailsVc: UIViewController {
         tokenField.itemSpacing = 4
         tokenField.allowDeletionTags = false
         tokenField.hideLabel(animated: false)
-        tokenField.font = .systemFont(ofSize: 15, weight: .semibold)
+        tokenField.font = Fonts.heading5
         tokenField.preferredTextFieldReturnKeyType = .done
         tokenField.heightConstraint?.isActive = false
         tokenField.contentInsets = .zero

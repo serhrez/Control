@@ -36,7 +36,7 @@ class AllTagsTagCell: SwipeCollectionViewCell {
         layer.cornerRadius = 16
         clipsToBounds = true
         tasksCountView.bgColor = .hex("#00CE15")
-        nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.font = Fonts.heading4
         nameLabel.textColor = UIColor(named: "TAHeading")!
         contentView.layout(nameLabel).centerY().leading(20)
 

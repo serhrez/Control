@@ -50,7 +50,7 @@ class AllTagsSelectionTagCell: SwipeCollectionViewCell {
         backgroundColor = UIColor(named: "TAAltBackground")!
         layer.cornerRadius = 16
         clipsToBounds = true
-        nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        nameLabel.font = Fonts.heading4
         nameLabel.textColor = UIColor(named: "TAHeading")!
         contentView.layout(nameLabel).centerY().leading(20)
 

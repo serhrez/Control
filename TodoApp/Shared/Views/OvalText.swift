@@ -34,7 +34,7 @@ class OvalText: UIView {
         label = UILabel()
         label.textColor = UIColor(hex: "#FFFFFF")!
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = Fonts.heading4
         containerView.backgroundColor = bgColor
         layout(containerView).edges().height(height)
         containerView.layout(label).centerY().leading(7).priority(999).trailing(7).priority(999)

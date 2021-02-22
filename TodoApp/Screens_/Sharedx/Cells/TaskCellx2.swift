@@ -17,7 +17,7 @@ class TaskCellx2: UICollectionViewCell {
     private let checkboxView = AutoselectCheckboxView()
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        label.font = Fonts.heading4
         label.textColor = UIColor(named: "TAHeading")!
         return label
     }()
@@ -111,7 +111,7 @@ class TaskCellx2: UICollectionViewCell {
     
     private func getDateLabel(text: String) -> UILabel {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.font = Fonts.heading6
         label.textColor = UIColor(named: "TASubElement")!
         label.text = text
         
