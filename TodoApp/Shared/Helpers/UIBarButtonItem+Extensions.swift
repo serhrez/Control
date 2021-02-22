@@ -27,7 +27,7 @@ extension UIBarButtonItem {
             attr.paragraphStyle(paragraphStyle)
         }
         button.layout(imgView).leading().centerY().width(24).height(24)
-        button.layout(titleLabel).trailing().centerY().leading(imgView.anchor.trailing, 6)
+        button.layout(titleLabel).trailing().centerY().leading(imgView.anchor.trailing, -3)
         return UIBarButtonItem(customView: button)
     }
     
