@@ -28,7 +28,7 @@ extension UIViewController: UIGestureRecognizerDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor(named: "TAHeading")!,
-            .font: UIFont.systemFont(ofSize: Constants.navigationTitleFontSize, weight: .bold)
+            .font: Fonts.heading2
         ]
 
         if addBackButton {

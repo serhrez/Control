@@ -15,9 +15,6 @@ class DebugSettingsVc: FormViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "TAAltBackground")
         form +++ Section("Constants")
-            <<< debugTextRow(title: "navigationTitleFontSize", value: "\(Constants.navigationTitleFontSize)", valueConvert: { CGFloat($0) }, onChange: { value in
-                Constants.navigationTitleFontSize = value
-            })
             <<< debugTextRow(title: "vcMinBottomPadding", value: "\(Constants.vcMinBottomPadding)", valueConvert: { CGFloat($0) }, onChange: { value in
                 Constants.vcMinBottomPadding = value
             })
