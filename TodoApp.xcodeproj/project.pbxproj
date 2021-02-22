@@ -40,7 +40,7 @@
 		A5168360255B4AE30076D29E /* AddProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516835F255B4AE30076D29E /* AddProjectCell.swift */; };
 		A516C41625DA91D100CB9EAC /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A516C41425DA91D100CB9EAC /* Inter-SemiBold.ttf */; };
 		A516C41725DA91D100CB9EAC /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A516C41525DA91D100CB9EAC /* Inter-Bold.ttf */; };
-		A516C42425DAD32000CB9EAC /* bundled.realm in Resources */ = {isa = PBXBuildFile; fileRef = A516C42325DAD32000CB9EAC /* bundled.realm */; };
+		A516C42425DAD32000CB9EAC /* bundled-en.realm in Resources */ = {isa = PBXBuildFile; fileRef = A516C42325DAD32000CB9EAC /* bundled-en.realm */; };
 		A51967612584F71D0021621A /* IconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967602584F71D0021621A /* IconPicker.swift */; };
 		A51967692584FE5D0021621A /* IconColCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967682584FE5D0021621A /* IconColCell.swift */; };
 		A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B6855257188A50042AA85 /* TagDetailVc.swift */; };
@@ -126,6 +126,7 @@
 		A59231B92572C1B3008E955D /* TPVTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231B82572C1B3008E955D /* TPVTextCell.swift */; };
 		A59231BF2572D87E008E955D /* SearchVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231BE2572D87E008E955D /* SearchVc.swift */; };
 		A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231C62572E2FC008E955D /* SearchVcVm.swift */; };
+		A5AC520C25E40B6200372FAB /* bundled-any.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5AC520B25E40B6200372FAB /* bundled-any.realm */; };
 		A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */; };
 		A5B67F702590D8F900EAD13D /* ProjectDetailsTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */; };
 		A5B67F752590F4B400EAD13D /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F742590F4B400EAD13D /* UIViewController+Extensions.swift */; };
@@ -236,7 +237,7 @@
 		A516C41425DA91D100CB9EAC /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		A516C41525DA91D100CB9EAC /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		A516C41B25DABF3B00CB9EAC /* TodoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodoApp.entitlements; sourceTree = "<group>"; };
-		A516C42325DAD32000CB9EAC /* bundled.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = bundled.realm; sourceTree = "<group>"; };
+		A516C42325DAD32000CB9EAC /* bundled-en.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bundled-en.realm"; sourceTree = "<group>"; };
 		A51967602584F71D0021621A /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
 		A51967682584FE5D0021621A /* IconColCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColCell.swift; sourceTree = "<group>"; };
 		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
@@ -334,6 +335,7 @@
 		A59231B82572C1B3008E955D /* TPVTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPVTextCell.swift; sourceTree = "<group>"; };
 		A59231BE2572D87E008E955D /* SearchVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVc.swift; sourceTree = "<group>"; };
 		A59231C62572E2FC008E955D /* SearchVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVcVm.swift; sourceTree = "<group>"; };
+		A5AC520B25E40B6200372FAB /* bundled-any.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bundled-any.realm"; sourceTree = "<group>"; };
 		A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePrioritiesHolder.swift; sourceTree = "<group>"; };
 		A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsTop.swift; sourceTree = "<group>"; };
 		A5B67F742590F4B400EAD13D /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -479,9 +481,10 @@
 		A5085E722556F8E500A31BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A5AC520B25E40B6200372FAB /* bundled-any.realm */,
 				A533E089255C4B1D00B301C7 /* PredefinedRealm.swift */,
 				A5085E732556F8E500A31BBB /* RealmProvider.swift */,
-				A516C42325DAD32000CB9EAC /* bundled.realm */,
+				A516C42325DAD32000CB9EAC /* bundled-en.realm */,
 				A5085E7C2556F8E500A31BBB /* Entities */,
 				A5C3E55225ABB419007ECBCA /* CascadeDeleting.swift */,
 			);
@@ -1158,11 +1161,12 @@
 			files = (
 				A5FC5D0925C86D01001A0E3A /* AppIcon-DarkMode@2x.png in Resources */,
 				A5FC5D0A25C86D01001A0E3A /* AppIcon-DarkMode@3x.png in Resources */,
-				A516C42425DAD32000CB9EAC /* bundled.realm in Resources */,
+				A516C42425DAD32000CB9EAC /* bundled-en.realm in Resources */,
 				A516C41725DA91D100CB9EAC /* Inter-Bold.ttf in Resources */,
 				A58142E625E127EF001CE44E /* Localizable.strings in Resources */,
 				A5B8231C25A8B98000259849 /* LaunchScreen.xib in Resources */,
 				A5085E3C2556EF7B00A31BBB /* Assets.xcassets in Resources */,
+				A5AC520C25E40B6200372FAB /* bundled-any.realm in Resources */,
 				A52ED3A325951C9100474128 /* EmojiList.txt in Resources */,
 				A516C41625DA91D100CB9EAC /* Inter-SemiBold.ttf in Resources */,
 			);

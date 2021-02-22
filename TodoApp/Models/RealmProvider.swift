@@ -37,16 +37,7 @@ struct RealmProvider {
     public static var main: RealmProvider = {
         return RealmProvider(config: mainConfig)
     }()
-    
-    // MARK: - Bundled Projects
-    private static let bundledConfig = Realm.Configuration(
-        fileURL: try! DirPath.inBundle(bundledConfigPath),
-        readOnly: true)
-    
-    public static var bundled: RealmProvider = {
-        return RealmProvider(config: bundledConfig)
-    }()
-    
+        
     // MARK: - InMemory realm
     private static let inMemoryConfig = Realm.Configuration(inMemoryIdentifier: "inMemoryIdentifier")
     
@@ -54,9 +45,30 @@ struct RealmProvider {
         return RealmProvider(config: inMemoryConfig)
     }()
     
-    static let mainConfigPath = "main.realm"
-    static let archiveConfigPath = "archive.realm"
-    static let bundledConfigPath = "bundled.realm"
+    private static let mainConfigPath = "main.realm"
+    private static let archiveConfigPath = "archive.realm"
+    
+    // MARK: - Bundled Projects
+    private static let bundled_anyConfig = Realm.Configuration(
+        fileURL: try! DirPath.inBundle(bundled_anyConfigPath),
+        readOnly: true)
+    
+    public static var bundled_any: RealmProvider = {
+        return RealmProvider(config: bundled_anyConfig)
+    }()
+
+    
+    private static let bundled_enConfig = Realm.Configuration(
+        fileURL: try! DirPath.inBundle(bundled_enConfigPath),
+        readOnly: true)
+    
+    public static var bundled_en: RealmProvider = {
+        return RealmProvider(config: bundled_enConfig)
+    }()
+
+    private static let bundled_enConfigPath = "bundled-en.realm"
+    private static let bundled_anyConfigPath = "bundled-any.realm"
+
 }
 
 extension RealmProvider {

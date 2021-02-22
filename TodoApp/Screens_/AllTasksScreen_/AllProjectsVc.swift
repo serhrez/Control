@@ -62,7 +62,20 @@ class AllProjectsVc: UIViewController {
             
             present(onboardingVc, animated: false, completion: nil)
         }
-        // Do any additional setup after loading the view.
+        // In case something bad happened. Maybe manually violated etc.
+        if !(RealmProvider.main.realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }) {
+            let inboxProject = RlmProject(name: "Inbox".localizable(), icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            inboxProject.id = Constants.inboxId
+            RealmProvider.main.safeWrite {
+                RealmProvider.main.realm.add(inboxProject)
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            if let windowScene = self.view.window?.windowScene {
+                StoreKitHelper.maybeDisplayStoreKit(windowScene: windowScene)
+            }
+        }
+
     }
     
     
@@ -118,18 +131,6 @@ class AllProjectsVc: UIViewController {
         view.layout(tasksToolbar).bottom(Constants.vcMinBottomPadding)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
-        }
-        // In case something bad happened. Maybe manually violated etc.
-        if !(RealmProvider.main.realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }) {
-            let inboxProject = RlmProject(name: "Inbox".localizable(), icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
-            RealmProvider.main.safeWrite {
-                RealmProvider.main.realm.add(inboxProject)
-            }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            if let windowScene = self.view.window?.windowScene {
-                StoreKitHelper.maybeDisplayStoreKit(windowScene: windowScene)
-            }
         }
     }
     
