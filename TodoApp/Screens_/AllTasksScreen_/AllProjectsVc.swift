@@ -64,7 +64,7 @@ class AllProjectsVc: UIViewController {
         }
         // In case something bad happened. Maybe manually violated etc.
         if !(RealmProvider.main.realm.objects(RlmProject.self).contains { $0.id == Constants.inboxId }) {
-            let inboxProject = RlmProject(name: "Inbox".localizable(), icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
+            let inboxProject = RlmProject(name: "Inbox", icon: .assetImage(name: "inboximg", tintHex: "#571cff"), notes: "", color: .hex("#571cff"), date: Date())
             inboxProject.id = Constants.inboxId
             RealmProvider.main.safeWrite {
                 RealmProvider.main.realm.add(inboxProject)

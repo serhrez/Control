@@ -52,7 +52,7 @@ final class ProjectViewCell: UITableViewCell {
         iconViewContainer.layout(iconView).centerX().top().bottom()
         layout(iconViewContainer).leading(23).centerY().width(28)
         
-        nameLabel.font = Fonts.heading2
+        nameLabel.font = Constants.displayVersion2 ? Fonts.heading3 : Fonts.heading2
         nameLabel.textColor = UIColor(named: "TAHeading")!
         addSubview(outerCircle)
         layout(nameLabel).leading(63).centerY(iconView.anchor.centerY).trailing(outerCircle.anchor.leading, 7) { _, _ in .lessThanOrEqual }
