@@ -71,7 +71,7 @@ final class TagPicker: UIViewController {
         collectionView.register(TagPickerCell.self, forCellWithReuseIdentifier: "\(TagPickerCell.self)")
         collectionView.register(UICollectionSeparator.self, forSupplementaryViewOfKind: UICollectionSeparator.kind, withReuseIdentifier: UICollectionSeparator.reuseId)
         collectionView.showsVerticalScrollIndicator = false
-        view.layout(containerView).width(239).bottom(view.frame.height - viewSourceFrame.maxY)
+        view.layout(containerView).width(getContentWidth()).bottom(view.frame.height - viewSourceFrame.maxY)
         containerView.snp.makeConstraints { make in
             make.centerX.equalTo(-(view.frame.width / 2) + viewSourceFrame.center.x).priority(999)
             make.leading.greaterThanOrEqualTo(30)
@@ -80,9 +80,15 @@ final class TagPicker: UIViewController {
         if items.count <= maxTagsShown {
             collectionView.isScrollEnabled = false
         }
-        containerView.layout(collectionView).height(getCollectionViewHeight(count: items.count)).top(items.isEmpty ? 0 : 12).leading(10).trailing(10)
+        containerView.layout(collectionView).height(getCollectionViewHeight(count: items.count)).top(items.isEmpty ? 0 : 12).leading(TagPicker.collectionViewLeading).trailing(TagPicker.collectionViewTrailing)
         containerView.layout(externalCell).top(collectionView.anchor.bottom, 9).leading(collectionView).trailing(collectionView).bottom(12)
         applySnapshot(animatingDifferences: false)
+    }
+    
+    func getContentWidth() -> CGFloat {
+        let textFieldWidth = textFieldExternalCell.sizeThatFits(UIScreen.main.bounds.size).width
+        let totalWidth = textFieldWidth + TagPicker.collectionViewLeading + TagPicker.collectionViewTrailing + TagPicker.textFieldExternalCellLeading + TagPicker.textFieldExternalCellTrailing
+        return max(239, totalWidth)
     }
     
     @objc private func tappedBgView() {
@@ -141,7 +147,7 @@ final class TagPicker: UIViewController {
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: 44).isActive = true
         view.layout(plusExternalCell).leading(20).centerY()
-        view.layout(textFieldExternalCell).leading(54).centerY().trailing().trailing(22)
+        view.layout(textFieldExternalCell).leading(TagPicker.textFieldExternalCellLeading).centerY().trailing().trailing(TagPicker.textFieldExternalCellTrailing)
         return view
     }()
     let plusExternalCell: UIImageView = {
@@ -153,7 +159,7 @@ final class TagPicker: UIViewController {
     lazy var textFieldExternalCell: UITextField = {
         let textField = UITextField()
         let attributes = Attributes().font(.systemFont(ofSize: 16, weight: .semibold))
-        textField.attributedPlaceholder = "Add New Tag".localizable().at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
+        textField.attributedPlaceholder = addNewTagText.at.attributed(with: attributes.foreground(color: UIColor(named: "TASubElement")!))
         textField.delegate = self
         textField.font = .systemFont(ofSize: 16, weight: .semibold)
         return textField
@@ -252,4 +258,13 @@ extension TagPicker {
     enum Section {
         case main
     }
+}
+
+extension TagPicker {
+    private static let textFieldExternalCellLeading: CGFloat = 54
+    private static let textFieldExternalCellTrailing: CGFloat = 22
+    private static let collectionViewLeading: CGFloat = 10
+    private static let collectionViewTrailing: CGFloat = 10
+    private var addNewTagText: String { "Add New Tag".localizable() }
+
 }
