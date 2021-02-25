@@ -59,7 +59,7 @@ class OnboardingVcContainer: UIViewController {
         let gradientView = GradientView2(colors: isDarkTheme() ? blackThemeGradients[index] : gradients[index], direction: .horizontal)
         gradientView.alpha = isDarkTheme() ? blackThemeGradientAlphas[index] : gradientAlphas[index]
         backgroundView.addSubview(gradientView)
-        let yOffset: CGFloat = Constants.displayVersion2 ? 0.13 : 0.18
+        let yOffset: CGFloat = 0.18
         gradientView.frame = .init(x: CGFloat(offsetIndex ?? index) * UIScreen.main.bounds.width + 0.25 * UIScreen.main.bounds.width, y: yOffset * UIScreen.main.bounds.height, width: 0.50 * UIScreen.main.bounds.width, height: 0.50 * UIScreen.main.bounds.width)
         gradientView.animateLocations()
         gradientViews.append(gradientView)
