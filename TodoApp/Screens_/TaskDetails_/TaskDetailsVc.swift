@@ -564,9 +564,10 @@ final class TaskDetailsVc: UIViewController {
                 DispatchQueue.main.async {
                     switch authorization {
                     case .authorized:
-                        self?.router.openDateVc(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date) { [weak self] (newDate, newReminder, newRepeat) in
+                        let calendarVc = CalendarVc(viewModel: .init(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date)) { (newDate, newReminder, newRepeat) in
                             self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
                         }
+                        self?.present(calendarVc, animated: true)
                     case .denied:
                         print("Denied")
                     case .deniedPreviously:

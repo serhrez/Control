@@ -64,7 +64,7 @@ final class CalendarVc: UIViewController {
     private let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
         guard let self = self else { return }
-        self.router.navigationController.popViewController(animated: true)
+        self.closeView()
     }, done: { [weak self] in
         self?.done()
     })
@@ -82,6 +82,8 @@ final class CalendarVc: UIViewController {
         self.viewModel = viewModel
         self.onDone = onDone
         super.init(nibName: nil, bundle: nil)
+        modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -119,8 +121,13 @@ final class CalendarVc: UIViewController {
     }
 
     private func setupViews() {
-        view.backgroundColor = UIColor(named: "TABackground")
-        view.layout(containerView).leading(13).trailing(13).topSafe() { _, _ in .greaterThanOrEqual }.bottomSafe(Constants.vcMinBottomPadding) { _, _ in .lessThanOrEqual }
+        let closeBackgroundView = UIView()
+        view.layout(closeBackgroundView).edges()
+        let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
+        closeBackgroundView.addGestureRecognizer(backgroundGesture)
+
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.12)
+        view.layout(containerView).leading(13).trailing(13).topSafe(30) { _, _ in .greaterThanOrEqual }.bottomSafe(30) { _, _ in .lessThanOrEqual }
         let centerYAnchor = containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let centerXAnchor = containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         centerYAnchor.priority = .init(1)
@@ -155,10 +162,14 @@ final class CalendarVc: UIViewController {
         scrollHeight.priority = .init(1)
         scrollHeight.isActive = true
     }
+    @objc private func closeView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+
         
     private func done() {
         self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
-        self.router.navigationController.popViewController(animated: true)
+        closeView()
     }
     
     private lazy var clearButton: NewCustomButton = {
@@ -176,24 +187,27 @@ final class CalendarVc: UIViewController {
     }
     
     func clickedReminder() {
-        navigationController?.pushViewController(Selection1Vc.reminderVc(onDone: { [weak self] in
+        let selection1Vc = Selection1Vc.reminderVc(onDone: { [weak self] in
             guard let self = self else { return }
             self.viewModel.reminderSelected($0)
-        }, selected: viewModel.reminder.value), animated: true)
+        }, selected: viewModel.reminder.value)
+        self.present(selection1Vc, animated: true, completion: nil)
     }
     func clickedRepeat() {
-        navigationController?.pushViewController(Selection1Vc.repeatVc(onDone: { [weak self] in
+        let selection1Vc = Selection1Vc.repeatVc(onDone: { [weak self] in
             guard let self = self else { return }
             self.viewModel.repeatSelected($0)
-        }, selected: viewModel.repeat.value), animated: true)
+        }, selected: viewModel.repeat.value)
+        self.present(selection1Vc, animated: true, completion: nil)
     }
     func clickedTime() {
         let date = viewModel.date.value.0
         let selected = date.flatMap { (hours: $0.hour, minutes: $0.minute) }
-        navigationController?.pushViewController(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [weak self] in
+        let timePickerVc = TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [weak self] in
             guard let self = self else { return }
             self.viewModel.timeSelected(hours: $0, minutes: $1)
-        }), animated: true)
+        })
+        self.present(timePickerVc, animated: true, completion: nil)
     }
 }
 

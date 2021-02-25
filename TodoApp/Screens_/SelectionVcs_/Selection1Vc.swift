@@ -28,6 +28,8 @@ class Selection1Vc: UIViewController {
         self.onDone = onDone
         super.init(nibName: nil, bundle: nil)
         self.title = title
+        modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +42,12 @@ class Selection1Vc: UIViewController {
     }
     private func setupViews() {
         applySharedNavigationBarAppearance()
-        view.backgroundColor = UIColor(named: "TABackground")
+        let closeBackgroundView = UIView()
+        view.layout(closeBackgroundView).edges()
+        let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
+        closeBackgroundView.addGestureRecognizer(backgroundGesture)
+
+        view.backgroundColor = UIColor(named: "TABackground")?.withAlphaComponent(0.4)
         view.layout(containerView).centerY().leadingSafe(13).trailingSafe(13)
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
@@ -60,6 +67,10 @@ class Selection1Vc: UIViewController {
         containerView.layout(clearDoneButtons).bottom(20).leading().trailing().top(stack.anchor.bottom, 100)
     }
     
+    @objc private func closeView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     func selectItem(_ index: Int) {
         guard index != selectedIndex else { return }
         selectionViews[selectedIndex].setIsChecked(false)
@@ -69,11 +80,11 @@ class Selection1Vc: UIViewController {
     
     lazy var clearDoneButtons: ClearDoneButtons = ClearDoneButtons(clear: { [weak self] in
         guard let self = self else { return }
-        self.navigationController?.popViewController(animated: true)
+        self.closeView()
     }, done: { [weak self] in
         guard let self = self else { return }
         self.onDone(self.selectedIndex)
-        self.navigationController?.popViewController(animated: true)
+        self.closeView()
     })
     
 }

@@ -95,9 +95,8 @@ class ProjectNewTaskForm: UIView {
     }
     func setupViews() {
         addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
-        backgroundColor = UIColor(named: "TAAltBackground")!
-        layer.cornerRadius = 16
-        let scrollView = UIScrollView()
+        containerView.backgroundColor = UIColor(named: "TAAltBackground")!
+        containerView.layer.cornerRadius = 16
         layout(scrollView).edges()
         scrollView.layout(containerView).top().leading().trailing()
         scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true // 54 bottom
@@ -127,6 +126,9 @@ class ProjectNewTaskForm: UIView {
         bottomView.layout(priorityButton).leading(tagButton.anchor.trailing, 26).centerY().width(28).height(28)
         
         layout(plusButton).trailing(20).bottom(20)
+        let underbottomView = UIView()
+        underbottomView.backgroundColor = UIColor(named: "TAAltBackground")!
+        layout(underbottomView).top(scrollView.anchor.bottom).leading(scrollView.anchor.leading).trailing(scrollView.anchor.trailing).height(UIScreen.main.bounds.height)
     }
     
     func didAppear() {
@@ -183,7 +185,7 @@ class ProjectNewTaskForm: UIView {
         view.backgroundColor = UIColor(named: "TAAltBackground")!
         return view
     }()
-    
+    let scrollView = UIScrollView()
     let containerView = UIView()
     
     lazy var stackView: UIStackView = {

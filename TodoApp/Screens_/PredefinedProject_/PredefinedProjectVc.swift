@@ -66,12 +66,13 @@ class PredefinedProjectVc: UIViewController {
                     DispatchQueue.main.async {
                         switch authorization {
                         case .authorized:
-                            self?.router.openDateVc(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date) { [weak self] (date, reminder, repeatt) in
+                            let dateVc = CalendarVc(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date)) { [weak self] (date, reminder, repeatt) in
                                 addTask.date = date
                                 addTask.reminder = reminder
                                 addTask.repeatt = repeatt
                                 self?.addTaskModel = addTask
                             }
+                            self?.present(dateVc, animated: true, completion: nil)
                         case .denied:
                             print("Denied")
                         case .deniedPreviously:

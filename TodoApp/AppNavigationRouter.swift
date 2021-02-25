@@ -16,21 +16,9 @@ class AppNavigationRouter {
     private func pushVc(_ vc: UIViewController, animated: Bool = true) {
         navigationController.pushViewController(vc, animated: true)
     }
-        
-    func openDateVc(reminder: Reminder?, repeat: Repeat?, date: Date?, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
-        pushVc(CalendarVc(viewModel: .init(reminder: reminder, repeat: `repeat`, date: date), onDone: onDone))
-    }
-    
+            
     func openAllTags(mode: AllTagsVc.Mode) {
         pushVc(AllTagsVc(mode: mode))
-    }
-    
-    func openReminder(onDone: @escaping (Reminder?) -> Void, selected: Reminder?) {
-        pushVc(Selection1Vc.reminderVc(onDone: onDone, selected: selected))
-    }
-    
-    func openRepeat(onDone: @escaping (Repeat?) -> Void, selected: Repeat?) {
-        pushVc(Selection1Vc.repeatVc(onDone: onDone, selected: selected))
     }
     
     func openTime(onDone: @escaping (_ hours: Int, _ minutes: Int) -> Void, selected: (hours: Int, minutes: Int)?) {

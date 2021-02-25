@@ -73,7 +73,7 @@ class TimePickerVc: UIViewController {
             guard let self = self else { return }
             self.timeSelectionHoursView.beforeDisappear()
             self.timeSelectionMinutesView.beforeDisappear()
-            self.navigationController?.popViewController(animated: true)
+            self.closeView()
         }, done: { [weak self] in
             guard let self = self else { return }
             self.timeSelectionHoursView.beforeDisappear()
@@ -83,9 +83,11 @@ class TimePickerVc: UIViewController {
             } else {
                 onDone(self.manualSelectedTime)
             }
-            self.navigationController?.popViewController(animated: true)
+            self.closeView()
         })
         setupViews()
+        modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -94,7 +96,12 @@ class TimePickerVc: UIViewController {
     
     func setupViews() {
         applySharedNavigationBarAppearance()
-        view.backgroundColor = UIColor(named: "TABackground")
+        let closeBackgroundView = UIView()
+        view.layout(closeBackgroundView).edges()
+        let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
+        closeBackgroundView.addGestureRecognizer(backgroundGesture)
+
+        view.backgroundColor = UIColor(named: "TABackground")?.withAlphaComponent(0.4)
         view.addSubview(numberField)
         numberField.keyboardType = .numberPad
         numberField.becomeFirstResponder()
@@ -114,6 +121,10 @@ class TimePickerVc: UIViewController {
         self.containerView.snp.makeConstraints { make in
             make.bottom.equalTo(0)
         }
+    }
+    
+    @objc private func closeView() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func setupKeyboard() {
