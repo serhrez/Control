@@ -34,11 +34,11 @@ class SettingsVc: UIViewController {
                     return
                 }
                 self.router.openArchive()
-            }),
-            .init(text: "Debug Settings", imageName: "", imageWidth: 20, onClick: { [weak self] in
-                guard let self = self else { return }
-                self.navigationController?.pushViewController(DebugSettingsVc(), animated: true)
-            })
+            })//,
+//            .init(text: "Debug Settings", imageName: "", imageWidth: 20, onClick: { [weak self] in
+//                guard let self = self else { return }
+//                self.navigationController?.pushViewController(DebugSettingsVc(), animated: true)
+//            })
         ])
     lazy var secondaryCollectionView = SettingsVcCollectionView(
         items: [
