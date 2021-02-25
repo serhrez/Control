@@ -15,7 +15,10 @@ class SettingsVc: UIViewController {
         items: [
             .init(text: "Premium Features".localizable(), imageName: "premiumfire", imageWidth: 14, onClick: { [weak self] in
                 guard let self = self else { return }
-                self.router.openPremiumFeatures()
+                let premiumFeaturesVc = PremiumFeaturesVc()
+                self.dismiss(animated: true, completion: { [weak self] in
+                    self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                })
             }, active: !KeychainWrapper.shared.isPremium),
             .init(text: "Language".localizable(), imageName: "languagesel", imageWidth: 24, onClick: { [weak self] in
                 let settingsURL = URL(string: UIApplication.openSettingsURLString)!
@@ -24,10 +27,17 @@ class SettingsVc: UIViewController {
             .init(text: "Archive".localizable(), imageName: "archive", imageWidth: 20, onClick: { [weak self] in
                 guard let self = self else { return }
                 guard KeychainWrapper.shared.isPremium || Constants.archiveWithoutPremium else {
-                    self.router.openPremiumFeatures(notification: .archiveLimit)
+                    let premiumFeaturesVc = PremiumFeaturesVc(notification: .archiveLimit)
+                    self.dismiss(animated: true, completion: { [weak self] in
+                        self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                    })
                     return
                 }
                 self.router.openArchive()
+            }),
+            .init(text: "Debug Settings", imageName: "", imageWidth: 20, onClick: { [weak self] in
+                guard let self = self else { return }
+                self.navigationController?.pushViewController(DebugSettingsVc(), animated: true)
             })
         ])
     lazy var secondaryCollectionView = SettingsVcCollectionView(

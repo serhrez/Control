@@ -101,7 +101,7 @@ class TimePickerVc: UIViewController {
         let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
         closeBackgroundView.addGestureRecognizer(backgroundGesture)
 
-        view.backgroundColor = UIColor(named: "TABackground")?.withAlphaComponent(0.4)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.12)
         view.addSubview(numberField)
         numberField.keyboardType = .numberPad
         numberField.becomeFirstResponder()

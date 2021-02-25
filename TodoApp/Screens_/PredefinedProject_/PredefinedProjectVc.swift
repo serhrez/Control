@@ -58,7 +58,10 @@ class PredefinedProjectVc: UIViewController {
             guard let self = self else { return }
             guard var addTask = self.addTaskModel else { return }
             guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
-                self.router.openPremiumFeatures(notification: .dateToTaskLimit)
+                let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
+                self.dismiss(animated: true, completion: { [weak self] in
+                    self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                })
                 return
             }
             self.dismiss(animated: true, completion: { [weak self] in
@@ -118,7 +121,10 @@ class PredefinedProjectVc: UIViewController {
         },
         onPriorityClicked: { [weak self] sourceView in
             guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities else {
-                self?.router.openPremiumFeatures(notification: .prioritiesLimit)
+                let premiumFeaturesVc = PremiumFeaturesVc(notification: .prioritiesLimit)
+                self?.dismiss(animated: true, completion: { 
+                    self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                })
                 return
             }
             self?.showPriorityPicker(sourceView: sourceView)

@@ -196,7 +196,10 @@ extension AllTagsVc: UICollectionViewDelegate {
         switch model {
         case .addTag:
             guard KeychainWrapper.shared.isPremium ||  RealmProvider.main.realm.objects(RlmTag.self).count <= Constants.maximumTags else {
-                router.openPremiumFeatures(notification: .tagsLimit)
+                let premiumFeaturesVc = PremiumFeaturesVc(notification: .tagsLimit)
+                self.dismiss(animated: true, completion: { [weak self] in
+                    self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                })
                 return
             }
             viewModel.allowAdding()

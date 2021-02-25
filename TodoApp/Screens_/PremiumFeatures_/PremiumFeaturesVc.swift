@@ -131,15 +131,26 @@ class PremiumFeaturesVc: UIViewController {
     }()
     let bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "TAAltBackground")
         return view
     }()
+    let backButton: NewCustomButton = {
+        let button = NewCustomButton()
+        button.setImage(UIImage(named: "closex")?.withTintColor(UIColor(named: "TAHeading")!), for: .normal)
+        button.setImage(UIImage(named: "closex")?.withTintColor(UIColor(named: "TAHeading")!.withAlphaComponent(0.5)), for: .highlighted)
+        button.pointInsideInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+        return button
+    }()
+    @objc func backButtonClicked() {
+        dismiss(animated: true, completion: nil)
+    }
 
     private let notification: LimitNotification?
     
     init(notification: LimitNotification? = nil) {
         self.notification = notification
         super.init(nibName: nil, bundle: nil)
+        modalTransitionStyle = .crossDissolve
+        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -162,12 +173,12 @@ class PremiumFeaturesVc: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")!
         applySharedNavigationBarAppearance()
-        view.layout(containerView).leading(13).trailing(13).topSafe()
+        view.layout(containerView).leading(13).trailing(13).topSafe(30)
         containerView.layout(scrollView).top().leading().trailing()
         containerView.layout(bottomView).bottom().leading().trailing().top(scrollView.anchor.bottom)
         scrollView.layout(imageView).top(0.0390625 * UIScreen.main.bounds.height).leading((Constants.displayVersion2 ? 0.23 : 0.108695652173913) * UIScreen.main.bounds.width) { _, _ in .greaterThanOrEqual }
             .trailing((Constants.displayVersion2 ? 0.23 : 0.108695652173913) * UIScreen.main.bounds.width) { _, _ in .lessThanOrEqual }.centerX().height(imageView.anchor.width).multiply(0.922558922558923)
-        scrollView.layout(gradientView).center(imageView.anchor.center, offsetY: 20).width(0.45 * UIScreen.main.bounds.width).height(0.45 * UIScreen.main.bounds.width)
+        scrollView.layout(gradientView).center(imageView.anchor.center, offsetY: 10).width((Constants.displayVersion2 ? 0.3 : 0.45) * UIScreen.main.bounds.width).height((Constants.displayVersion2 ? 0.3 : 0.45) * UIScreen.main.bounds.width)
         scrollView.layout(visualEffectView).edges()
         scrollView.bringSubviewToFront(imageView)
         scrollView.layout(premiumLabel).top(imageView.anchor.bottom, 0.029017857142857 * UIScreen.main.bounds.height).leading(30).trailing(30)
@@ -182,6 +193,8 @@ class PremiumFeaturesVc: UIViewController {
         bottomView.layout(buyButton).top(notaSubscriptionLabel.anchor.bottom, 6).leading(30).trailing(30).height(60)
         bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.011160714285714 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.013392857142857 * UIScreen.main.bounds.height)
         view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
+        containerView.layout(backButton).top(20).trailing(20).width(24).height(24)
+        backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }
     
     @objc func clickedOnBuy() {

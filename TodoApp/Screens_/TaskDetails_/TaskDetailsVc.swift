@@ -499,7 +499,10 @@ final class TaskDetailsVc: UIViewController {
         actions.append(contentsOf: [
             PopuptodoAction(title: "Select Priority".localizable(), image: UIImage(named: "flag"), didSelect: { [weak self] action in
                 guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
-                    self?.router.openPremiumFeatures(notification: .prioritiesLimit)
+                    let premiumFeaturesVc = PremiumFeaturesVc(notification: .prioritiesLimit)
+                    self?.dismiss(animated: true, completion: {
+                        self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                    })
                     return
                 }
                 self?.selectPrioritySelected(action: action)
@@ -555,7 +558,10 @@ final class TaskDetailsVc: UIViewController {
         let taskDate = viewModel.task.date?.freeze()
         guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
             dismiss(animated: true) { [weak self] in
-                self?.router.openPremiumFeatures(notification: .dateToTaskLimit)
+                let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
+                self?.dismiss(animated: true, completion: {
+                    self?.present(premiumFeaturesVc, animated: true, completion: nil)
+                })
             }
             return
         }

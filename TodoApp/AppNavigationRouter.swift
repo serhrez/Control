@@ -36,9 +36,6 @@ class AppNavigationRouter {
     func openArchive() {
         pushVc(ArchiveVc(viewModel: .init()))
     }
-    func openPremiumFeatures(notification: PremiumFeaturesVc.LimitNotification? = nil) {
-        pushVc(PremiumFeaturesVc(notification: notification))
-    }
     func openProjectDetails(project: RlmProject, state: ProjectDetailsVc.PrScreenState, isInbox: Bool = false, shouldPopTwo: Bool = false) {
         let projectDetails = ProjectDetailsVc(project: project, state: state, isInbox: isInbox, shouldPopTwo: shouldPopTwo)
         pushVc(projectDetails)

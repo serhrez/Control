@@ -47,7 +47,7 @@ class Selection1Vc: UIViewController {
         let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
         closeBackgroundView.addGestureRecognizer(backgroundGesture)
 
-        view.backgroundColor = UIColor(named: "TABackground")?.withAlphaComponent(0.4)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.12)
         view.layout(containerView).centerY().leadingSafe(13).trailingSafe(13)
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
