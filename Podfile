@@ -46,3 +46,10 @@ target 'TodoApp' do
   end
 
 end
+
+target 'ControlWidgetExtension' do
+  use_frameworks!
+
+  pod 'RealmSwift'
+
+end
