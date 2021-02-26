@@ -33,6 +33,10 @@ enum Constants {
 }
 
 fileprivate var safeAreaInsets: UIEdgeInsets {
+    #if canImport(SnapKit)
     guard let window = UIApplication.shared.windows.first else { return .zero }
     return window.safeAreaInsets
+    #else
+    return .zero
+    #endif
 }

@@ -1,6 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
+
 target 'TodoApp' do
   use_frameworks!
 
@@ -50,6 +51,7 @@ end
 target 'ControlWidgetExtension' do
   use_frameworks!
 
+  pod 'SwiftDate'
   pod 'RealmSwift'
 
 end

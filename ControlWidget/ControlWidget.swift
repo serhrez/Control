@@ -8,60 +8,83 @@
 import WidgetKit
 import SwiftUI
 
-struct Provider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), taskName: "fww")
-    }
+struct Provider: TimelineProvider {
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+        let tasks = Array(RealmProvider.main.realm.objects(RlmTask.self)).map { ($0.isDone ? "V " : "X ") + $0.name + "\(Int.random(in: 1...9))" }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: .init(), taskName: "fewqfwqe")
+        let entry = SimpleEntry(date: .init(), taskNames: tasks)
         completion(entry)
     }
-
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-        let timeline = Timeline(entries: [SimpleEntry(date: .init(), taskName: "gerwgweqg")], policy: .atEnd)
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
+        let tasks = Array(RealmProvider.main.realm.objects(RlmTask.self)).map { ($0.isDone ? "V " : "X ") + $0.name + "\(Int.random(in: 1...9))" }
+        let timeline = Timeline(entries: [SimpleEntry(date: .init(), taskNames: tasks)], policy: .atEnd)
         completion(timeline)
+    }
+    
+    func placeholder(in context: Context) -> SimpleEntry {
+        SimpleEntry(date: Date(), taskNames: ["fww"])
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let taskName: String
+    let taskNames: [String]
 }
 
 struct ControlWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(entry.taskName)
+        ZStack {
+            Color.white
+        VStack(content: {
+            ForEach(0..<entry.taskNames.count) { int in
+                Text(entry.taskNames[int]).foregroundColor(Color.black)
+            }
+        })
+        }
+    }
+}
+
+struct ControlWidget: Widget {
+    let kind: String = "hey you"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            ControlWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Hey youuuu")
+        .description("This is an example widget.")
+        .supportedFamilies([.systemMedium, .systemSmall])
+    }
+}
+struct ControlWidget2: Widget {
+    let kind: String = "Hww"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            ControlWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Hww")
+        .description("I set it up")
+        .supportedFamilies([.systemSmall, .systemLarge])
     }
 }
 
 @main
-struct ControlWidget: Widget {
-    let kind: String = "ControlWidget"
-
-    var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
-            ControlWidgetEntryView(entry: entry)
-        }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+struct ControlBundle: WidgetBundle {
+    
+    @WidgetBundleBuilder
+    var body: some Widget {
+        ControlWidget()
+        ControlWidget2()
     }
 }
 
 struct ControlWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ControlWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        ControlWidgetEntryView(entry: SimpleEntry(date: Date(), taskNames: ["wefwqf"]))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

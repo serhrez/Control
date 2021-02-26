@@ -155,6 +155,23 @@
 		A5CADC4F25E9951E00AB27AD /* ControlWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5CADC3F25E9951A00AB27AD /* ControlWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A5CADC5825E9962400AB27AD /* RlmTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E822556F8E500A31BBB /* RlmTask.swift */; };
 		A5CADC5D25E9963300AB27AD /* RealmProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E732556F8E500A31BBB /* RealmProvider.swift */; };
+		A5CADD4E25E99CF500AB27AD /* RlmTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E832556F8E500A31BBB /* RlmTag.swift */; };
+		A5CADD5325E99CFB00AB27AD /* RlmTaskDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E812556F8E500A31BBB /* RlmTaskDate.swift */; };
+		A5CADD5825E99D0300AB27AD /* RlmSubtask.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E7F2556F8E500A31BBB /* RlmSubtask.swift */; };
+		A5CADD5D25E99D1000AB27AD /* RlmProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E802556F8E500A31BBB /* RlmProject.swift */; };
+		A5CADD6225E99D1B00AB27AD /* Priority_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E862556F8E500A31BBB /* Priority_.swift */; };
+		A5CADD6725E99D5800AB27AD /* UIColor+Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB22557047D00A31BBB /* UIColor+Persistable.swift */; };
+		A5CADD6C25E99D7D00AB27AD /* DirPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085EB8255704B800A31BBB /* DirPath.swift */; };
+		A5CADD7125E99D8900AB27AD /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58142D625E11D60001CE44E /* String+Extensions.swift */; };
+		A5CADD7625E99DBC00AB27AD /* CascadeDeleting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E55225ABB419007ECBCA /* CascadeDeleting.swift */; };
+		A5CADD8025E99DC900AB27AD /* RlmArchived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F6A903258A313F00FB50FC /* RlmArchived.swift */; };
+		A5CADD8525E99DD400AB27AD /* Reminder_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E7D2556F8E500A31BBB /* Reminder_.swift */; };
+		A5CADD8A25E99DD700AB27AD /* Repeat_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E842556F8E500A31BBB /* Repeat_.swift */; };
+		A5CADD8F25E99DDA00AB27AD /* Icon_.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E852556F8E500A31BBB /* Icon_.swift */; };
+		A5CADD9425E99DDE00AB27AD /* ProjectSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C6BEA9259E10E500BDAA43 /* ProjectSorting.swift */; };
+		A5CADDC225E99E8C00AB27AD /* RealmStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55BFA2F25D6BC6200B57CD3 /* RealmStore.swift */; };
+		A5CADDC725E99E9200AB27AD /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53225DD25AE12290098EB35 /* Notifications.swift */; };
+		A5CADDCC25E99E9A00AB27AD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54EFB49258FED36009CFE0F /* Constants.swift */; };
 		A5CEDAAE259FD05500C190CC /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */; };
 		A5CF45F72574F622003715C8 /* ClickableIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45F62574F622003715C8 /* ClickableIconView.swift */; };
 		A5CF45FC2574F676003715C8 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF45FB2574F676003715C8 /* CloseButton.swift */; };
@@ -393,6 +410,9 @@
 		A5CADC4725E9951B00AB27AD /* ControlWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = ControlWidget.intentdefinition; sourceTree = "<group>"; };
 		A5CADC4825E9951E00AB27AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5CADC4A25E9951E00AB27AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5CADD0E25E99B7300AB27AD /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CADD1525E99B8200AB27AD /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5CADDD125E9A70B00AB27AD /* ControlWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ControlWidgetExtension.entitlements; sourceTree = "<group>"; };
 		A5CEDAAD259FD05500C190CC /* CGRect+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extensions.swift"; sourceTree = "<group>"; };
 		A5CF45F62574F622003715C8 /* ClickableIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableIconView.swift; sourceTree = "<group>"; };
 		A5CF45FB2574F676003715C8 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -476,6 +496,7 @@
 		A5085E262556EF7800A31BBB = {
 			isa = PBXGroup;
 			children = (
+				A5CADDD125E9A70B00AB27AD /* ControlWidgetExtension.entitlements */,
 				A5085E312556EF7800A31BBB /* TodoApp */,
 				A5085E482556EF7B00A31BBB /* TodoAppTests */,
 				A5085E532556EF7B00A31BBB /* TodoAppUITests */,
@@ -1093,6 +1114,8 @@
 		D1DE4A1F22F4F5FAC9A17ED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A5CADD1525E99B8200AB27AD /* RealmSwift.framework */,
+				A5CADD0E25E99B7300AB27AD /* Realm.framework */,
 				A510A10425ACC2D100E74E1E /* StoreKit.framework */,
 				C8B2CD53D004526A36EB301F /* Pods_TodoApp.framework */,
 				C521F921ACA686489458B3E4 /* Pods_TodoApp_TodoAppUITests.framework */,
@@ -1611,9 +1634,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5CADDC725E99E9200AB27AD /* Notifications.swift in Sources */,
+				A5CADDC225E99E8C00AB27AD /* RealmStore.swift in Sources */,
 				A5CADC5825E9962400AB27AD /* RlmTask.swift in Sources */,
+				A5CADD8025E99DC900AB27AD /* RlmArchived.swift in Sources */,
 				A5CADC4B25E9951E00AB27AD /* ControlWidget.intentdefinition in Sources */,
+				A5CADD4E25E99CF500AB27AD /* RlmTag.swift in Sources */,
+				A5CADD9425E99DDE00AB27AD /* ProjectSorting.swift in Sources */,
+				A5CADD6225E99D1B00AB27AD /* Priority_.swift in Sources */,
+				A5CADD7125E99D8900AB27AD /* String+Extensions.swift in Sources */,
 				A5CADC5D25E9963300AB27AD /* RealmProvider.swift in Sources */,
+				A5CADD5825E99D0300AB27AD /* RlmSubtask.swift in Sources */,
+				A5CADDCC25E99E9A00AB27AD /* Constants.swift in Sources */,
+				A5CADD8A25E99DD700AB27AD /* Repeat_.swift in Sources */,
+				A5CADD5D25E99D1000AB27AD /* RlmProject.swift in Sources */,
+				A5CADD5325E99CFB00AB27AD /* RlmTaskDate.swift in Sources */,
+				A5CADD8525E99DD400AB27AD /* Reminder_.swift in Sources */,
+				A5CADD8F25E99DDA00AB27AD /* Icon_.swift in Sources */,
+				A5CADD7625E99DBC00AB27AD /* CascadeDeleting.swift in Sources */,
+				A5CADD6725E99D5800AB27AD /* UIColor+Persistable.swift in Sources */,
+				A5CADD6C25E99D7D00AB27AD /* DirPath.swift in Sources */,
 				A5CADC4625E9951B00AB27AD /* ControlWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1931,10 +1971,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ControlWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = ControlWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1954,10 +1996,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ControlWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = ControlWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

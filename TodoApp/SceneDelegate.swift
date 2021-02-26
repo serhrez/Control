@@ -7,11 +7,12 @@
 
 import UIKit
 import SwiftDate
+import WidgetKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var any: Any?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
@@ -30,6 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                try! FileManager.default.copyItem(at: RealmProvider.bundled.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
 //            }
 //        }
+        any = RealmProvider.main.realm.observe { (_, _) in
+            WidgetCenter.shared.reloadAllTimelines()
+
+        }
         if !(RealmProvider.main.configuration.fileURL.flatMap { DirPath.fileExists($0) } ?? false) {
             let languagePrefix = Locale.preferredLanguages.first
             if languagePrefix == "en" {
