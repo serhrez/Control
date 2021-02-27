@@ -193,7 +193,7 @@ class OnboardingVc: UIViewController {
     private let onClick: (OnboardingVc) -> Void
     private let shouldOnboard: Bool
     private let isPremiumScreen: Bool
-    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.ColorState, titleColor: UIColor? = nil, titleColorSelected: UIColor? = nil, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
+    init(imageName: String, imageWidth: CGFloat, nameText: String, detailText: String, nextStepText: String, nextStepColorState: NewCustomButton.State<UIColor>, titleColor: UIColor? = nil, titleColorSelected: UIColor? = nil, isPremiumScreen: Bool = false, shouldOnboard: Bool = false, onSkip: ((OnboardingVc) -> Void)?, skipText: String?, skipColor: UIColor?, onClick: @escaping (OnboardingVc) -> Void) {
         imageView = UIImageView(image: UIImage(named: imageName))
         imageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * imageWidth).isActive = true
         imageView.contentMode = .scaleAspectFit

@@ -10,15 +10,21 @@ import UIKit
 
 class NewCustomButton: UIButton {
     var animationDuration: TimeInterval = Constants.animationDefaultDuration
-
-    var stateBackgroundColor: ColorState? {
+    var transformState: State<CGAffineTransform>? {
+        didSet {
+            if let state = transformState {
+                self.transform = state.normal
+            }
+        }
+    }
+    var stateBackgroundColor: State<UIColor>? {
         didSet {
             if let state = stateBackgroundColor {
                 self.backgroundColor = state.normal
             }
         }
     }
-    var opacityState: OpacityState? {
+    var opacityState: State<Float>? {
         didSet {
             if let state = opacityState {
                 self.layer.opacity = state.normal
@@ -29,15 +35,19 @@ class NewCustomButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
             if let state = stateBackgroundColor {
-                UIView.animate(withDuration: animationDuration) {
-                    self.backgroundColor = self.isHighlighted ? state.highlighted : state.normal
-                }
+                apply({ self.backgroundColor = $0 }, state: state)
             }
             if let state = opacityState {
-                UIView.animate(withDuration: animationDuration) {
-                    self.layer.opacity = self.isHighlighted ? state.highlighted : state.normal
-                }
+                apply({ self.layer.opacity = $0 }, state: state)
             }
+            if let state = transformState {
+                apply({ self.transform = $0 }, state: state)
+            }
+        }
+    }
+    func apply<T>(_ applyFunction: @escaping (T) -> Void, state: State<T>) {
+        UIView.animate(withDuration: animationDuration) {
+            applyFunction(self.isHighlighted ? state.highlighted : state.normal)
         }
     }
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -52,13 +62,8 @@ class NewCustomButton: UIButton {
 }
 
 extension NewCustomButton {
-    struct ColorState {
-        var highlighted: UIColor
-        var normal: UIColor
-    }
-    
-    struct OpacityState {
-        var highlighted: Float
-        var normal: Float
+    struct State<T> {
+        var highlighted: T
+        var normal: T
     }
 }

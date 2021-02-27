@@ -9,19 +9,20 @@ import Foundation
 import UIKit
 import Material
 
-class DateDetailLabel: UIView {
-    private let imageView = UIImageView(frame: .zero)
+class DateDetailLabel: NewCustomButton {
+    private let custimageView = UIImageView(frame: .zero)
     private let label = UILabel()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
+        self.transformState = .init(highlighted: .init(scaleX: 0.95, y: 0.95), normal: .identity)
         setupView()
         backgroundColor = UIColor(named: "TASubElement")!.withAlphaComponent(0.1)
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
         label.font = Fonts.heading5
         clipsToBounds = true
-        imageView.contentMode = .center
+        custimageView.contentMode = .center
         label.adjustsFontSizeToFitWidth = true
     }
     
@@ -35,11 +36,12 @@ class DateDetailLabel: UIView {
     
     private func setupView() {
         layout(label).top(5).bottom(5).trailing(12)
-        layout(imageView).centerY().trailing(label.anchor.leading, 5).leading(12)
+        layout(custimageView).centerY().trailing(label.anchor.leading, 5).leading(12)
+        self.heightAnchor.constraint(equalToConstant: 28).isActive = true
     }
     
     func setImage(image: UIImage?) {
-        imageView.image = image
+        custimageView.image = image
     }
     
 }
