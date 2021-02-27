@@ -454,6 +454,7 @@ class PredefinedProjectVc: UIViewController {
             newFormView.resetView()
         } else {
             setUpInitialDataToAddTaskModel()
+            _ = newFormView.becomeFirstResponder()
         }
     }
     

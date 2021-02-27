@@ -605,6 +605,7 @@ class ProjectDetailsVc: UIViewController {
         RealmStore.main.updateDateDependencies(in: rlmTask)
         state = .addTask(.init(priority: .none, name: "", description: "", tags: [], date: nil))
         newFormView.resetView()
+        _ = newFormView.becomeFirstResponder()
     }
 
         
