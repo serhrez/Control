@@ -76,7 +76,7 @@ class AllProjectsVcVM {
     }
     
     func getPlannedModel() -> Model {
-        let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.date?.date != nil }
+        let tasks = RealmProvider.main.realm.objects(RlmTask.self).filter { $0.date?.date != nil }.filter({ Date().dateAt(.startOfDay) < $0.date!.date! })
         let count = tasks.count
         let progress: Double
         if count == 0 {
