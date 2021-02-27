@@ -328,7 +328,13 @@ class ProjectDetailsVc: UIViewController {
         RealmProvider.main.safeWrite {
             RealmProvider.main.realm.cascadeDelete(self.project)
         }
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true) { [weak self] in
+            if self?.shouldPopTwo ?? false {
+                self?.navigationController?.popViewControllers(2)
+            } else {
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     // MARK: - TOP VIEW
