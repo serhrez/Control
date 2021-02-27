@@ -39,7 +39,7 @@ class SearchVcVm {
     }
     func search(_ str: String) {
         lastSearchedText = str
-        DispatchQueue.global(qos: .utility).async { [weak self] in
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             let tasksIds = Array(RealmProvider.main.realm.objects(RlmTask.self).filter { $0.name.lowercased().contains(str.lowercased()) }.map { $0.id })
             DispatchQueue.main.async {
                 guard let self = self else { return }

@@ -18,6 +18,7 @@ class AllProjectsVc: UIViewController {
     let viewModel: AllProjectsVcVM = AllProjectsVcVM()
     let tableView = UITableView()
     var pushTransition = SlidePushTransition()
+    private var searchVcScreenOpened: Bool = false
 
     lazy var tasksToolbar: AllTasksToolbar = {
         let view = AllTasksToolbar(frame: .zero)
@@ -78,8 +79,6 @@ class AllProjectsVc: UIViewController {
 
     }
     
-    
-    
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
         setupNavigationBar()
@@ -132,6 +131,7 @@ class AllProjectsVc: UIViewController {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
         }
+        searchVcScreenOpened = false
     }
     
     private func setupNavigationBar() {
@@ -237,6 +237,15 @@ extension AllProjectsVc: UITableViewDelegate {
             router.openPredefinedProject(mode: .priority)
         case .today(_):
             router.openPredefinedProject(mode: .today)
+        }
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= -70 {
+            scrollView.contentOffset = .init(x: 0, y: -70)
+        }
+        if scrollView.contentOffset.y <= -70 && !searchVcScreenOpened {
+            searchVcScreenOpened = true
+            router.openSearch()
         }
     }
 }
