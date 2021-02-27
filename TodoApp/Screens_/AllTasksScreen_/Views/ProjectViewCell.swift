@@ -34,6 +34,11 @@ final class ProjectViewCell: UITableViewCell {
         tasksCountView.text = "\(tasksCount)"
         outerCircle.configure(color: color)
         progressCircle.configure(percent: progress, color: color)
+        if tasksCount == 0 {
+            tasksCountView.isHidden = true
+            outerCircle.isHidden = true
+            progressCircle.isHidden = true
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -50,14 +55,14 @@ final class ProjectViewCell: UITableViewCell {
         clipsToBounds = true
         let iconViewContainer = UIView()
         iconViewContainer.layout(iconView).centerX().top().bottom()
-        layout(iconViewContainer).leading(23).centerY().width(28)
+        layout(iconViewContainer).leading(0.055555555 * UIScreen.main.bounds.width).centerY().width(28)
         
         nameLabel.font = Constants.displayVersion2 ? Fonts.heading3 : Fonts.heading2
         nameLabel.textColor = UIColor(named: "TAHeading")!
         addSubview(outerCircle)
-        layout(nameLabel).leading(63).centerY(iconView.anchor.centerY).trailing(outerCircle.anchor.leading, 7) { _, _ in .lessThanOrEqual }
+        layout(nameLabel).leading(0.1521739 * UIScreen.main.bounds.width).centerY(iconView.anchor.centerY).trailing(outerCircle.anchor.leading, 7) { _, _ in .lessThanOrEqual }
         
-        layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(25).height(26)
+        layout(tasksCountView).centerY(iconView.anchor.centerY).trailing(0.060386 * UIScreen.main.bounds.width).height(26)
         
         layout(outerCircle).centerY(iconView.anchor.centerY).trailing(tasksCountView.anchor.leading, 3)
         
