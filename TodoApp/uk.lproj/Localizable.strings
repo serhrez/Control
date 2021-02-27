@@ -1,13 +1,13 @@
-/* 
+/*
   Localizable.strings
   TodoApp
 
   Created by sergey on 20.02.2021.
   
 */
-"To-Do is Moved to Archive, Restore?" = "Завдання додано до архіву, Відновити?";
-"To-Dos Moved to Archive, Restore?" = "Завдання додано до архіву, Відновити?";
-"New Task Has Been Created in Inbox" = "Нове завдання було створене в Вхідних";
+"To-Do is Moved to Archive, Restore?" = "Завдання додано до архіву, відновити?";
+"To-Dos Moved to Archive, Restore?" = "Завдання додано до архіву, відновити?";
+"New Task Has Been Created in Inbox" = "Нове завдання було створене в вхідних";
 "Back" = "Назад";
 "Done" = "Готово";
 "Monday-One-Letter" = "П";
@@ -25,15 +25,15 @@
 "1 Hour Before" = "на 1 Дунь раніше";
 "2 Hour Before" = "на 2 Дні раніше";
 "One Week Before" = "1 Тиждень до";
-"Every Day" = "щодня";
-"Every Week" = "щотижня";
-"Every Month" = "щомісяця";
-"Every Year" = "щороку";
+"Every Day" = "Щодня";
+"Every Week" = "Щотижня";
+"Every Month" = "Щомісяця";
+"Every Year" = "Щороку";
 "Reminder" = "Сповіщення";
 "Repeat" = "Повторення";
 "Never" = "Ніколи";
 "None" = "Ні";
-"Open Tags" = "Відкрити Теги";
+"Open Tags" = "Список тегів";
 "Priority" = "Пріоритет";
 "Today" = "Согодні";
 "Planned" = "Заплановане";
@@ -119,7 +119,7 @@
 "Set a prior task, so you don't forget what's important to you." = "Вистав пріоритет на завдання, і так ти не забудеш що для тебе важливо.";
 "See All Your Plans For Today." = "Переглядай завдання на сьогодні.";
 "In today's screen you can see all your tasks for today and fulfill them." = "На екрані сьогодні ви можете побачити всі ваші завдання на сьогодні і виконати їх.";
-"Write Something You Can Think Of." = "Напишіть що-небудь, що вам потрібно зробити.";
+"Write Something You Can Think Of." = "Вхідні.";
 "Collect all your thoughts in the inbox so you don’t forget. You can review it later." = "Зберіть усі свої завдання в вхідні, щоб не забути.";
 "Next Step" = "Наступний крок";
 "Skip" = "Пропустити";

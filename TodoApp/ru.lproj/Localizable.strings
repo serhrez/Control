@@ -1,13 +1,13 @@
-/* 
+/*
   Localizable.strings
   TodoApp
 
   Created by sergey on 20.02.2021.
   
 */
-"To-Do is Moved to Archive, Restore?" = "Задача перемещена в архив, Восстановить?";
-"To-Dos Moved to Archive, Restore?" = "Задачи перемещены в архив, Восстановить?";
-"New Task Has Been Created in Inbox" = "Новая задача была создана в Входящих";
+"To-Do is Moved to Archive, Restore?" = "Задача перемещена в архив, восстановить?";
+"To-Dos Moved to Archive, Restore?" = "Задачи перемещены в архив, восстановить?";
+"New Task Has Been Created in Inbox" = "Новая задача была создана в входящих";
 "Back" = "Назад";
 "Done" = "Готово";
 "Monday-One-Letter" = "П";
@@ -33,12 +33,12 @@
 "Repeat" = "Повторение";
 "Never" = "Никогда";
 "None" = "Нет";
-"Open Tags" = "Открыть Теги";
+"Open Tags" = "Список Тегов";
 "Priority" = "Приоритет";
 "Today" = "Сегодня";
-"Planned" = "Запланированное";
-"To-Do., Something new?" = "Давай сделаем что-нибудь новое?";
-"Add Project" = "Новый проект";
+"Planned" = "Планы";
+"To-Do., Something new?" = "Давай сделаем...";
+"Add Project" = "Создать список";
 "Tags" = "Теги";
 "Delete Tag" = "Удалить тег";
 "Tag" = "Тег";
@@ -71,14 +71,14 @@
 "Medium Priority" = "Средний Приоритет";
 "Low Priority" = "Низкий Приоритет";
 "No Priority" = "Без Приоритета";
-"New Project" = "Новый Проект";
+"New Project" = "Новый список";
 "Enter description" = "Добавить описание";
 "Add Checklist" = "Добавить чеклист";
-"Add Tags" = "Добавить Теги";
-"Add Description" = "Добавить Описание";
-"Select Priority" = "Выбор Приоритета";
-"Edit Date" = "Изменить Дату";
-"Add Date" = "Дата и Повтор";
+"Add Tags" = "Добавить теги";
+"Add Description" = "Добавить описание";
+"Select Priority" = "Выбор приоритета";
+"Edit Date" = "Изменить дату";
+"Add Date" = "Дата и повтор";
 "Delete To-Do" = "Удалить задачу";
 "Settings" = "Настройки";
 "New Checklist..." = "Новый чеклист...";
@@ -97,18 +97,18 @@
 "Sort by created" = "Сортировать по дате создания";
 "Sort by priority" = "Сортировать по приоритету";
 "Delete Completed" = "Удалить завершенные";
-"Delete Project" = "Удалить проект";
-"Project" = "Проект";
+"Delete Project" = "Удалить список";
+"Project" = "Список";
 "Delete all" = "Удалить все";
-"Delete and Archive" = "Удалить и Архивировать";
-"Cancel" = "Отменить";
+"Delete and Archive" = "Удалить и архивировать";
+"Cancel" = "Отмена";
 "Notes..." = "Заметки...";
 "SAVE 50%" = "-50%";
 "NOT A SUBSCRIPTION" = "БЕЗ ПОДПИСКИ";
 "Error" = "Ошибка";
 "OK" = "Да";
-"Add Your Projects And Work Directly With Them." = "Создавай свои проекты и реализуй их!";
-"Put icons on projects, change colors, and do whatever you want." = "Выбирай иконки на проекты, меняй цвета, и добавляй свои задачи";
+"Add Your Projects And Work Directly With Them." = "Создавай свои списки и реализуй их!";
+"Put icons on projects, change colors, and do whatever you want." = "Выбирай иконки на списки, меняй цвета, и добавляй свои задачи";
 "Only" = "Только";
 "Continue without purchasing" = "Продолжить без покупки";
 "Tags Help You To Label Different Thoughts." = "Теги помогут сортировать твои задачи.";
@@ -119,7 +119,7 @@
 "Set a prior task, so you don't forget what's important to you." = "Выставь приоритет на задачу, и так ты не забудешь что для тебя важно.";
 "See All Your Plans For Today." = "Просматривай задачи на сегодня.";
 "In today's screen you can see all your tasks for today and fulfill them." = "На экране сегодня вы можете увидеть все ваши задачи на сегодня и выполнить их.";
-"Write Something You Can Think Of." = "Напишите что-нибудь, что вам нужно сделать.";
+"Write Something You Can Think Of." = "Входящие";
 "Collect all your thoughts in the inbox so you don’t forget. You can review it later." = "Соберите все свои задачи в входящие, чтобы не забыть.";
 "Next Step" = "Следущий шаг";
 "Skip" = "Пропустить";
@@ -139,12 +139,12 @@
 "Could not connect to the network" = "Не можем подключиться к сети";
 "User has revoked permission to use this cloud service" = "Пользователь отозвал разрешение на использование этого облачного сервиса";
 "Restore failed" = "Восстановить не удалось";
-"You have nothing to restore" = "Тебе нечего восстанавливать";
-"You can't open archive in free version" = "Ты не можешь открыть архив в бесплатной версии";
-"You can't have more than" = "Ты не можешь иметь больше, чем";
+"You have nothing to restore" = "Вам нечего востанавливать";
+"You can't open archive in free version" = "Вы не можете открыть архив в бесплатной версии";
+"You can't have more than" = "Вы не можете иметь больше, чем";
 "reminders" = "напоминания";
 "tags" = "теги";
-"You can't set more than" = "Ты не можешь поставить больше чем";
+"You can't set more than" = "Вы не можете поставить больше чем";
 "priorities" = "приоритеты";
 "Call John Wick" = "Позвонить Джону Вику";
 "Complete Dark Souls" = "Пройти Дарксоулс";
