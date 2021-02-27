@@ -36,7 +36,7 @@ class IconPickerEmojiHeader: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layout(label).centerY().leading(11).trailing(11)
+        layout(label).top(25).leading(11).trailing(11)
         label.font = Fonts.heading2
         label.textColor = UIColor(named: "TAHeading")!
     }
@@ -59,7 +59,7 @@ final class IconPickerFullVc: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .absolute(55))
+                                                heightDimension: .absolute(50))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
@@ -103,7 +103,7 @@ final class IconPickerFullVc: UIViewController {
         view.backgroundColor = UIColor(named: "TABackground")
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
         containerView.layer.cornerRadius = 16
-        collectionView.contentInset = .init(top: 11, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.register(IconPickerEmojiCell.self, forCellWithReuseIdentifier: IconPickerEmojiCell.reuseIdentifier)
         collectionView.register(IconPickerEmojiHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: IconPickerEmojiHeader.reuseIdentifier)
         collectionView.backgroundColor = .clear
