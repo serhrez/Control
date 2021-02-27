@@ -274,8 +274,8 @@ class ProjectNewTaskForm: UIView {
     }
     
     func plusClicked() {
+        Haptic.impact(.light).generate()
         guard let name = nameField.text, !name.isEmpty else {
-            Haptic.impact(.light).generate()
             AnimationsFactory.jiggleWithMove(plusButton).startAnimation()
             return
         }
