@@ -115,7 +115,7 @@ class AllProjectsVc: UIViewController {
         viewModel.initialValues = { [weak self] in
             self?.tableView.reloadData()
         }
-        viewModel.tableUpdates = { [weak self] deletions, insertions, modifications in
+        viewModel.tableUpdates = { [weak self] in
             self?.tableView.reloadData()
         }
         tableView.delegate = self

@@ -34,11 +34,9 @@ final class ProjectViewCell: UITableViewCell {
         tasksCountView.text = "\(tasksCount)"
         outerCircle.configure(color: color)
         progressCircle.configure(percent: progress, color: color)
-        if tasksCount == 0 {
-            tasksCountView.isHidden = true
-            outerCircle.isHidden = true
-            progressCircle.isHidden = true
-        }
+        tasksCountView.isHidden = tasksCount == 0
+        outerCircle.isHidden = tasksCount == 0
+        progressCircle.isHidden = tasksCount == 0
     }
     
     required init?(coder: NSCoder) {

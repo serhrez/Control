@@ -10,7 +10,6 @@ import RealmSwift
 import SwiftDate
 
 class AllProjectsVcVM {
-    typealias TableUpdatesFunc = (_ deletions: [Int], _ insertions: [Int], _ modifications: [Int]) -> Void
     private var projects: [RlmProject] = []
     var models: [Model] {
         var models = [getTodayModel(), getPriorityModel(), getPlannedModel()]
@@ -22,7 +21,7 @@ class AllProjectsVcVM {
         return models + [.addProject]
     }
     private var tokens: [NotificationToken] = []
-    var tableUpdates: TableUpdatesFunc?
+    var tableUpdates: (() -> Void)?
     var initialValues: (() -> Void)?
     
     init() {
@@ -33,7 +32,7 @@ class AllProjectsVcVM {
                 self.projects = Array(projects
                                         .filter { $0.id != Constants.inboxId }
                                         .sorted(by: { prj1, prj2 in prj1.createdAt > prj2.createdAt }))
-                self.tableUpdates?(deletions, insertions, modifications)
+                self.tableUpdates?()
             case let .initial(projects):
                 self.projects = Array(projects
                                         .filter { $0.id != Constants.inboxId }
