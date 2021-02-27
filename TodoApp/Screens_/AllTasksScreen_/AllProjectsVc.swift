@@ -136,7 +136,7 @@ class AllProjectsVc: UIViewController {
     
     private func setupNavigationBar() {
         applySharedNavigationBarAppearance(addBackButton: false)
-        title = Date().toFormat("EEEE") + ", \(Date().toFormat("d MMMM"))"
+        title = Date().toFormat("E") + ", \(Date().toFormat("d MMMM"))"
         
         navigationItem.leftBarButtonItem = menuButton
         navigationItem.rightBarButtonItems = [actionsButton, searchButton]
