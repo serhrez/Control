@@ -283,11 +283,11 @@ extension PremiumFeaturesVc {
             case .archiveLimit:
                 return "You can't open archive in free version".localizable()
             case .dateToTaskLimit:
-                return "You can't have more than".localizable(comment: "more than reminders/tags/priorities") + "\(Constants.maximumDatesToTask) " + "reminders".localizable()
+                return "You can't have more than".localizable(comment: "more than reminders/tags/priorities") + "  \(Constants.maximumDatesToTask) " + "reminders".localizable()
             case .tagsLimit:
-                return "You can't have more than".localizable() + "\(Constants.maximumTags) " + "tags".localizable()
+                return "You can't have more than".localizable() + " \(Constants.maximumTags) " + "tags".localizable()
             case .prioritiesLimit:
-                return "You can't set more than".localizable() + "\(Constants.maximumPriorities) " + "priorities".localizable()
+                return "You can't set more than".localizable() + " \(Constants.maximumPriorities) " + "priorities".localizable()
             }
         }
     }
