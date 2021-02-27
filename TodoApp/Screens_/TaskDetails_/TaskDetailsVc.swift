@@ -556,7 +556,7 @@ final class TaskDetailsVc: UIViewController {
     }
     func addCalendarSelected(action: PopMenuAction) {
         let taskDate = viewModel.task.date?.freeze()
-        guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+        guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {
             dismiss(animated: true) { [weak self] in
                 let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
                 self?.dismiss(animated: true, completion: {

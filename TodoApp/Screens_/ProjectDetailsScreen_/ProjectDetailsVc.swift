@@ -435,7 +435,7 @@ class ProjectDetailsVc: UIViewController {
         onCalendarClicked: { [weak self] _ in
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
-            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).count <= Constants.maximumDatesToTask else {
+            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {
                 let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
                 self.dismiss(animated: true, completion: { [weak self] in
                     self?.present(premiumFeaturesVc, animated: true, completion: nil)
