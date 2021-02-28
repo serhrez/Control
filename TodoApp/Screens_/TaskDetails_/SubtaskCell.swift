@@ -16,7 +16,7 @@ final class SubtaskCell: SwipeTableViewCell {
     private let nameLabel = UILabel()
     static let nameLabelLeadingTrailingSpace: CGFloat = 32
     static let nameLabelFont = Fonts.text
-    static let nameLabelTopBottomSpace: CGFloat = 9.75
+    static let nameLabelTopBottomSpace: CGFloat = 11.75
     var onSelected: ((Bool) -> Void)? {
         get { checkboxView.onSelected }
         set { checkboxView.onSelected = newValue }
