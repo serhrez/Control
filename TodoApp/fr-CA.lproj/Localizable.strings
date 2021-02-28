@@ -172,3 +172,5 @@
 "Sort" = "Trier";
 "TagDeletionCommentOneArgument" = "La balise «%@» sera supprimée de toutes vos tâches";
 "ProjectWillBeRemovedOneArgument" = "Le projet '%@' sera supprimé";
+"Restore All" = "Tout restaurer";
+"Clear Archive" = "Effacer l'archive";

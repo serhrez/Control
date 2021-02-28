@@ -178,3 +178,5 @@
 "Sort" = "Sortowanie";
 "ProjectWillBeRemovedOneArgument" = "Projekt '%@' zostanie usunięty";
 "TagDeletionCommentOneArgument" = "Tag '%@' zostanie usunięty ze wszystkich Twoich zadań";
+"Restore All" = "Przywrócić wszystkie";
+"Clear Archive" = "Wyczyść archiwum";

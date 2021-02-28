@@ -176,3 +176,5 @@
 "Sort" = "Сортування";
 "TagDeletionCommentOneArgument" = "Тег '%@' буде видалений з усіх завдань";
 "ProjectWillBeRemovedOneArgument" = "Проект '%@' буде видалений";
+"Restore All" = "Відновити все";
+"Clear Archive" = "Очистити архів";

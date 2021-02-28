@@ -178,3 +178,5 @@
 "Sort" = "种类";
 "TagDeletionCommentOneArgument" = "标记'%@'将从您的所有任务中删除";
 "ProjectWillBeRemovedOneArgument" = "项目'％@'将被删除";
+"Restore All" = "恢复所有";
+"Clear Archive" = "清除档案";

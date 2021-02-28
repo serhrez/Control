@@ -171,3 +171,5 @@
 "Sort" = "Sort";
 "TagDeletionCommentOneArgument" = "Tag '%@' will be removed from all your tasks";
 "ProjectWillBeRemovedOneArgument" = "Project '%@' will be removed";
+"Restore All" = "Restore All";
+"Clear Archive" = "Clear Archive";

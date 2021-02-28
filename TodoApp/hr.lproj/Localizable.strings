@@ -180,3 +180,5 @@
 "Sort" = "Vrsta";
 "TagDeletionCommentOneArgument" = "Oznaka '%@' uklonit će se iz svih vaših zadataka";
 "ProjectWillBeRemovedOneArgument" = "Projekt '%@' bit će uklonjen";
+"Restore All" = "Vratiti sve";
+"Clear Archive" = "Izbriši arhivu";

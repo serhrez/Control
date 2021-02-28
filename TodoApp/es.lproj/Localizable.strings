@@ -179,3 +179,5 @@
 "Sort" = "Clasificar";
 "TagDeletionCommentOneArgument" = "La etiqueta '%@' se eliminará de todas sus tareas";
 "ProjectWillBeRemovedOneArgument" = "Se eliminará el proyecto '%@'";
+"Restore All" = "Restaura todo";
+"Clear Archive" = "Borrar archivo";

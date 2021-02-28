@@ -179,3 +179,5 @@
 "Sort" = "Sortera";
 "TagDeletionCommentOneArgument" = "Taggen '%@' kommer att tas bort från alla dina uppgifter";
 "ProjectWillBeRemovedOneArgument" = "Projektet '%@' kommer att tas bort";
+"Restore All" = "Återställ allt";
+"Clear Archive" = "Rensa arkiv";

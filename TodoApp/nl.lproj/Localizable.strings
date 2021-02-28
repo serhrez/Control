@@ -180,3 +180,5 @@
 "Sort" = "Soort";
 "TagDeletionCommentOneArgument" = "Tag '%@' wordt verwijderd uit al uw taken";
 "ProjectWillBeRemovedOneArgument" = "Project '%@' wordt verwijderd";
+"Restore All" = "Herstel alles";
+"Clear Archive" = "Archief wissen";

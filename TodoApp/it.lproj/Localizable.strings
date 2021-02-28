@@ -180,3 +180,5 @@
 "Sort" = "Ordinare";
 "TagDeletionCommentOneArgument" = "Il tag '%@' verrà rimosso da tutte le tue attività";
 "ProjectWillBeRemovedOneArgument" = "Il progetto '%@' verrà rimosso";
+"Restore All" = "Ripristinare tutto";
+"Clear Archive" = "Cancella archivio";
