@@ -17,7 +17,7 @@ class AutoselectCheckboxView: UIView {
         uncheckedView.layer.borderWidth = 2
         uncheckedView.layer.cornerRadius = 6
         uncheckedView.layer.cornerCurve = .continuous
-
+        uncheckedView.backgroundColor = UIColor(named: "TABorder")!.withAlphaComponent(0.3)
         return uncheckedView
     }()
     private let checkedViewImage = UIImageView(image: UIImage(named: "check"))
@@ -63,6 +63,7 @@ class AutoselectCheckboxView: UIView {
     
     func configure(priority: Priority) {
         uncheckedView.borderColor = priority.color
+        uncheckedView.backgroundColor = priority.color.withAlphaComponent(0.3)
     }
     
     private func setupViews() {

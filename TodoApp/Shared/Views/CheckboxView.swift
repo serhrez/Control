@@ -13,11 +13,11 @@ import Haptica
 class CheckboxView: UIView {
     private lazy var uncheckedView: UIView = {
         let uncheckedView = UIView()
-        uncheckedView.borderColor = UIColor(named: "TABorder")!
+        uncheckedView.layer.borderColor = UIColor(named: "TABorder")!.cgColor
         uncheckedView.layer.borderWidth = 2
         uncheckedView.layer.cornerRadius = 6
         uncheckedView.layer.cornerCurve = .continuous
-
+        uncheckedView.backgroundColor = UIColor(named: "TABorder")!.withAlphaComponent(0.3)
         return uncheckedView
     }()
     private let __uncheckedView = UIView()
@@ -81,6 +81,7 @@ class CheckboxView: UIView {
     
     func configure(priority: Priority) {
         uncheckedView.borderColor = priority.color
+        uncheckedView.backgroundColor = priority.color.withAlphaComponent(0.3)
     }
     
     func configure(isChecked: Bool) {

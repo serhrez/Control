@@ -17,7 +17,7 @@ class CheckboxViewArchive: AutoselectCheckboxViewBase {
         uncheckedView.layer.borderWidth = 2
         uncheckedView.layer.cornerRadius = 6
         uncheckedView.layer.cornerCurve = .continuous
-
+        uncheckedView.backgroundColor = UIColor(named: "TABorder")!.withAlphaComponent(0.3)
         return uncheckedView
     }()
     private lazy var checkedView: UIView = getView(imageName: "checkbox-ok", color: .hex("#00CE15"))
