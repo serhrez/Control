@@ -116,6 +116,7 @@ class ProjectDetailsVc: UIViewController {
         var newFormViewBgOpacity: Float = 0
         var newFormViewOpacity: Float = 0
         var tasksWithDoneListOpacity: Float = 0
+        var actionsButtonNil: Bool = false
         // Pre change state
         switch (oldState, newState) {
         case (.addTask(_), _) where !newState.isAddTask:
@@ -135,9 +136,11 @@ class ProjectDetailsVc: UIViewController {
             newFormViewOpacity = 1
             tasksWithDoneListOpacity = 1
             _ = self.newFormView.becomeFirstResponder()
+            actionsButtonNil = true
         case (_, .addTask(_)) where !oldState.isAddTask:
             newFormViewBgOpacity = 1
             newFormViewOpacity = 1
+            actionsButtonNil = true
             _ = self.newFormView.becomeFirstResponder()
         case let (.addTask(_), .addTask(newTask)):
             newFormView.priority = newTask.priority
@@ -163,6 +166,7 @@ class ProjectDetailsVc: UIViewController {
             self.newFormView.layer.opacity = newFormViewOpacity
             self.newFormViewBg.layer.opacity = newFormViewBgOpacity
             self.tasksWithDoneList.layer.opacity = tasksWithDoneListOpacity
+            self.navigationItem.setRightBarButton(actionsButtonNil ? nil : actionsButton, animated: true)
         }
         if !didAppear {
             apply()

@@ -334,8 +334,10 @@ class PredefinedProjectVc: UIViewController {
     func changeState(isAdding: Bool = false) {
         if isAdding {
             _ = newFormView.becomeFirstResponder()
+            navigationItem.setRightBarButton(nil, animated: true)
         } else {
             newFormView.getFirstResponder()?.resignFirstResponder()
+            navigationItem.setRightBarButton(actionsButton, animated: true)
         }
         func apply() {
             self.newFormView.alpha = isAdding ? 1 : 0
