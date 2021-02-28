@@ -20,7 +20,6 @@ enum Constants {
     
     // MARK: Model restrictions
     
-    static let subtaskLengthRestriction = 28
     static let inboxId = "Inbox-inbox" // Should never be changed if migration has not been done
     // MARK: Premium
     static let archiveWithoutPremium = false

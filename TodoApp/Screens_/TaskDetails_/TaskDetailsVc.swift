@@ -35,6 +35,7 @@ final class TaskDetailsVc: UIViewController {
     private var isCurrentlyShown = false
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
+    private var containerStackLeadingTrailing: CGFloat = 26
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -145,12 +146,25 @@ final class TaskDetailsVc: UIViewController {
         }
         var wasAlreadyLoaded = false
         viewModel.subtasksUpdate
-            .do(onNext: { [weak self] _ in
+            .do(onNext: { [weak self] itemsSections in
                 guard let self = self else { return }
-                let itemsCount = self.viewModel.subtasksModels[0].items.count
-                let height = CGFloat(itemsCount * SubtaskCell.height)// + (itemsCount > 0 ? 44 : 0))
+                let widthForLabel: CGFloat = UIScreen.main.bounds.width - (self.containerStackLeadingTrailing * 2 + SubtaskCell.nameLabelLeadingTrailingSpace * 2)
+//                var totalHeight: CGFloat = 0
+                let label = UILabel()
+                label.font = SubtaskCell.nameLabelFont
+                label.numberOfLines = 0
+                var totalHeight: CGFloat = 0
+                for item in itemsSections[0].items {
+                    switch item {
+                    case .addSubtask:
+                        totalHeight += SubtaskAddCell.height
+                    case let .subtask(subtask):
+                        label.text = subtask.name
+                        totalHeight += label.sizeThatFits(.init(width: widthForLabel, height: 1000)).height + SubtaskCell.nameLabelTopBottomSpace * 2 + 0.5
+                    }
+                }
                 self.subtasksTable.snp.remakeConstraints { make in
-                    make.height.equalTo(height)
+                    make.height.equalTo(totalHeight)
                 }
                 if wasAlreadyLoaded {
                     self.layoutAnimate()
@@ -400,7 +414,7 @@ final class TaskDetailsVc: UIViewController {
     private func setupContainerView() {
         view.layout(containerView).leading(0).trailing(0).topSafe().bottom() { _, _ in .lessThanOrEqual }
         containerView.layout(scrollView).edges()
-        scrollView.layout(containerStack).leading(26).trailing(26).top(23)
+        scrollView.layout(containerStack).leading(containerStackLeadingTrailing).trailing(containerStackLeadingTrailing).top(23)
         scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerStack.heightAnchor, constant: 23 + 23).isActive = true // 23 top + 23 bottom + ContentInset
         let containerHeight = containerView.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         containerHeight.priority = .init(749)
@@ -657,7 +671,6 @@ extension TaskDetailsVc: ResizingTokenFieldDelegate {
 }
 
 extension TaskDetailsVc: UITableViewDelegate {
-    
 }
 
 extension TaskDetailsVc: SwipeTableViewCellDelegate {
