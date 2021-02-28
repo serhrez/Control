@@ -18,6 +18,7 @@ class AllTagsVcVm {
     private var tokens: [NotificationToken] = []
     private var isInAdding: Bool = false
     private(set) var selectionSet: Set<RlmTag>
+    private let mode: AllTagsVc.Mode
     
     // MARK: Outputs
     lazy var modelsUpdate: Observable<[AnimSection<Model>]> = modelsUpdateSubject.compactMap { [weak self] in self?.models }.share(replay: 1, scope: .whileConnected)
@@ -33,6 +34,7 @@ class AllTagsVcVm {
 
 
     init(mode: AllTagsVc.Mode) {
+        self.mode = mode
         switch mode {
         case let .selection(selected: selected, _):
             selectionSet = .init(selected)
@@ -74,11 +76,15 @@ class AllTagsVcVm {
     func addTag(name: String) {
         guard !name.isEmpty else { return }
         guard !RealmProvider.main.realm.objects(RlmTag.self).contains(where: { $0.name == name }) else { return }
+        let tag = RlmTag(name: name)
         RealmProvider.main.safeWrite {
-            RealmProvider.main.realm.add(RlmTag(name: name))
+            RealmProvider.main.realm.add(tag)
         }
         isInAdding = false
         self.modelsUpdateSubject.onNext(())
+        if case .selection = mode {
+            selectionSet.insert(tag)
+        }
     }
     func addTagClosedWithoutAdding() {
         isInAdding = false
