@@ -66,7 +66,7 @@ class Notifications: NSObject {
         case .twoHoursBefore: newDate = date - 2.hours
         case .fiveMinutesBefore: newDate = date - 5.minutes
         }
-        scheduleNotification(identifier: task.id + "reminder", name: "Reminder for \(task.name)", body: task.taskDescription, date: newDate, repeatt: nil)
+        scheduleNotification(identifier: task.id + "reminder", name: "\(task.name)", body: task.taskDescription, date: newDate, repeatt: nil)
         // Postpone date according to reminder or cancel nexisting notifications
     }
     
