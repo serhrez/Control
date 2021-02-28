@@ -19,6 +19,7 @@ class AllProjectsVc: UIViewController {
     let tableView = UITableView()
     var pushTransition = SlidePushTransition()
     private var searchVcScreenOpened: Bool = false
+    private var didAppear = false
 
     lazy var tasksToolbar: AllTasksToolbar = {
         let view = AllTasksToolbar(frame: .zero)
@@ -132,6 +133,7 @@ class AllProjectsVc: UIViewController {
             self?.view.layoutSubviews()
         }
         searchVcScreenOpened = false
+        didAppear = true
     }
     
     private func setupNavigationBar() {
@@ -240,9 +242,10 @@ extension AllProjectsVc: UITableViewDelegate {
         }
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y <= -70 {
-            scrollView.contentOffset = .init(x: 0, y: -70)
-        }
+        guard didAppear else { return }
+//        if scrollView.contentOffset.y <= -70 {
+//            scrollView.contentOffset = .init(x: 0, y: -70)
+//        }
         if scrollView.contentOffset.y <= -70 && !searchVcScreenOpened {
             searchVcScreenOpened = true
             router.openSearch()

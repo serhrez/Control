@@ -53,6 +53,8 @@
 		A52251CA256EF9DF00747E16 /* TAJTDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */; };
 		A52251D2256EFAA800747E16 /* TAJTDateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */; };
 		A524752D256F0EFD0000B258 /* OnClickControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A524752C256F0EFD0000B258 /* OnClickControl.swift */; };
+		A529991125EBF69D00F525C0 /* ColorsAsset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A56A0D1525EBF65B0054A369 /* ColorsAsset.xcassets */; };
+		A529991D25EC02A700F525C0 /* SmallCountWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529991C25EC02A700F525C0 /* SmallCountWidget.swift */; };
 		A529BFE7259CE4F2004D6280 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */; };
 		A52ED3262594AE4B00474128 /* TrashTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED3252594AE4B00474128 /* TrashTextField.swift */; };
 		A52ED32C25950C8F00474128 /* IconPickerFullVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */; };
@@ -99,6 +101,11 @@
 		A5619AA925A51BE00037EAE7 /* TATransitionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AA825A51BE00037EAE7 /* TATransitionProvider.swift */; };
 		A5619AAE25A51D9D0037EAE7 /* FadePushTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AAD25A51D9D0037EAE7 /* FadePushTransition.swift */; };
 		A5619AB725A520B30037EAE7 /* SlideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5619AB625A520B30037EAE7 /* SlideTransition.swift */; };
+		A56A0CF725EBF0BD0054A369 /* UpcomingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A0CE125EBE8F00054A369 /* UpcomingWidget.swift */; };
+		A56A0CFC25EBF0C60054A369 /* TasksCountProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A0CE725EBE9CB0054A369 /* TasksCountProvider.swift */; };
+		A56A0D0125EBF4360054A369 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A576CEE625E3C24400FDD583 /* Fonts.swift */; };
+		A56A0D1025EBF59A0054A369 /* AllExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A0D0625EBF5170054A369 /* AllExtensions.swift */; };
+		A56A0D1625EBF65B0054A369 /* ColorsAsset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A56A0D1525EBF65B0054A369 /* ColorsAsset.xcassets */; };
 		A56BDC0D25A06B7F008CD2D9 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */; };
 		A56BDC1225A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */; };
 		A5722D1025742CC50098BECE /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5722D0F25742CC50098BECE /* ColorPicker.swift */; };
@@ -127,6 +134,8 @@
 		A59231B92572C1B3008E955D /* TPVTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231B82572C1B3008E955D /* TPVTextCell.swift */; };
 		A59231BF2572D87E008E955D /* SearchVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231BE2572D87E008E955D /* SearchVc.swift */; };
 		A59231C72572E2FC008E955D /* SearchVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59231C62572E2FC008E955D /* SearchVcVm.swift */; };
+		A59FA5A925EC153E00F7280A /* CheckmarksWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59FA59925EC11CA00F7280A /* CheckmarksWidget.swift */; };
+		A59FA5AE25EC156D00F7280A /* TasksProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A59FA59F25EC122300F7280A /* TasksProvider.swift */; };
 		A5AC520C25E40B6200372FAB /* bundled-any.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5AC520B25E40B6200372FAB /* bundled-any.realm */; };
 		A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */; };
 		A5B67F702590D8F900EAD13D /* ProjectDetailsTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */; };
@@ -298,6 +307,7 @@
 		A52251C9256EF9DF00747E16 /* TAJTDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateCell.swift; sourceTree = "<group>"; };
 		A52251D1256EFAA800747E16 /* TAJTDateHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TAJTDateHeader.swift; sourceTree = "<group>"; };
 		A524752C256F0EFD0000B258 /* OnClickControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnClickControl.swift; sourceTree = "<group>"; };
+		A529991C25EC02A700F525C0 /* SmallCountWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallCountWidget.swift; sourceTree = "<group>"; };
 		A529BFE6259CE4F2004D6280 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		A52ED3252594AE4B00474128 /* TrashTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashTextField.swift; sourceTree = "<group>"; };
 		A52ED32B25950C8E00474128 /* IconPickerFullVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerFullVc.swift; sourceTree = "<group>"; };
@@ -344,6 +354,10 @@
 		A5619AA825A51BE00037EAE7 /* TATransitionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TATransitionProvider.swift; sourceTree = "<group>"; };
 		A5619AAD25A51D9D0037EAE7 /* FadePushTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadePushTransition.swift; sourceTree = "<group>"; };
 		A5619AB625A520B30037EAE7 /* SlideTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideTransition.swift; sourceTree = "<group>"; };
+		A56A0CE125EBE8F00054A369 /* UpcomingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingWidget.swift; sourceTree = "<group>"; };
+		A56A0CE725EBE9CB0054A369 /* TasksCountProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCountProvider.swift; sourceTree = "<group>"; };
+		A56A0D0625EBF5170054A369 /* AllExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllExtensions.swift; sourceTree = "<group>"; };
+		A56A0D1525EBF65B0054A369 /* ColorsAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorsAsset.xcassets; sourceTree = "<group>"; };
 		A56BDC0C25A06B7F008CD2D9 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		A56BDC1125A0A5A1008CD2D9 /* SwipeExpansionStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwipeExpansionStyle+Extensions.swift"; sourceTree = "<group>"; };
 		A5722D0F25742CC50098BECE /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -384,6 +398,8 @@
 		A59231B82572C1B3008E955D /* TPVTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPVTextCell.swift; sourceTree = "<group>"; };
 		A59231BE2572D87E008E955D /* SearchVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVc.swift; sourceTree = "<group>"; };
 		A59231C62572E2FC008E955D /* SearchVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVcVm.swift; sourceTree = "<group>"; };
+		A59FA59925EC11CA00F7280A /* CheckmarksWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarksWidget.swift; sourceTree = "<group>"; };
+		A59FA59F25EC122300F7280A /* TasksProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksProvider.swift; sourceTree = "<group>"; };
 		A5AC520B25E40B6200372FAB /* bundled-any.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bundled-any.realm"; sourceTree = "<group>"; };
 		A5B224A22589716F007C0F6A /* DatePrioritiesHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePrioritiesHolder.swift; sourceTree = "<group>"; };
 		A5B67F6F2590D8F900EAD13D /* ProjectDetailsTop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsTop.swift; sourceTree = "<group>"; };
@@ -641,6 +657,7 @@
 				A516832C255B33420076D29E /* Views */,
 				A5085E402556EF7B00A31BBB /* Info.plist */,
 				A5085E3B2556EF7B00A31BBB /* Assets.xcassets */,
+				A56A0D1525EBF65B0054A369 /* ColorsAsset.xcassets */,
 				A54EFB49258FED36009CFE0F /* Constants.swift */,
 				A54CAE9825A6889E0013277C /* SpecialColors.swift */,
 			);
@@ -985,6 +1002,12 @@
 			isa = PBXGroup;
 			children = (
 				A5CADC4525E9951B00AB27AD /* ControlWidget.swift */,
+				A56A0CE125EBE8F00054A369 /* UpcomingWidget.swift */,
+				A529991C25EC02A700F525C0 /* SmallCountWidget.swift */,
+				A59FA59925EC11CA00F7280A /* CheckmarksWidget.swift */,
+				A59FA59F25EC122300F7280A /* TasksProvider.swift */,
+				A56A0D0625EBF5170054A369 /* AllExtensions.swift */,
+				A56A0CE725EBE9CB0054A369 /* TasksCountProvider.swift */,
 				A5CADC4725E9951B00AB27AD /* ControlWidget.intentdefinition */,
 				A5CADC4825E9951E00AB27AD /* Assets.xcassets */,
 				A5CADC4A25E9951E00AB27AD /* Info.plist */,
@@ -1276,6 +1299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5FC5D0925C86D01001A0E3A /* AppIcon-DarkMode@2x.png in Resources */,
+				A56A0D1625EBF65B0054A369 /* ColorsAsset.xcassets in Resources */,
 				A5FC5D0A25C86D01001A0E3A /* AppIcon-DarkMode@3x.png in Resources */,
 				A516C42425DAD32000CB9EAC /* bundled-en.realm in Resources */,
 				A516C41725DA91D100CB9EAC /* Inter-Bold.ttf in Resources */,
@@ -1306,6 +1330,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A529991125EBF69D00F525C0 /* ColorsAsset.xcassets in Resources */,
 				A5CADC4925E9951E00AB27AD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1637,23 +1662,30 @@
 				A5CADDC725E99E9200AB27AD /* Notifications.swift in Sources */,
 				A5CADDC225E99E8C00AB27AD /* RealmStore.swift in Sources */,
 				A5CADC5825E9962400AB27AD /* RlmTask.swift in Sources */,
+				A56A0D1025EBF59A0054A369 /* AllExtensions.swift in Sources */,
 				A5CADD8025E99DC900AB27AD /* RlmArchived.swift in Sources */,
 				A5CADC4B25E9951E00AB27AD /* ControlWidget.intentdefinition in Sources */,
 				A5CADD4E25E99CF500AB27AD /* RlmTag.swift in Sources */,
 				A5CADD9425E99DDE00AB27AD /* ProjectSorting.swift in Sources */,
 				A5CADD6225E99D1B00AB27AD /* Priority_.swift in Sources */,
 				A5CADD7125E99D8900AB27AD /* String+Extensions.swift in Sources */,
+				A56A0CF725EBF0BD0054A369 /* UpcomingWidget.swift in Sources */,
 				A5CADC5D25E9963300AB27AD /* RealmProvider.swift in Sources */,
 				A5CADD5825E99D0300AB27AD /* RlmSubtask.swift in Sources */,
 				A5CADDCC25E99E9A00AB27AD /* Constants.swift in Sources */,
 				A5CADD8A25E99DD700AB27AD /* Repeat_.swift in Sources */,
 				A5CADD5D25E99D1000AB27AD /* RlmProject.swift in Sources */,
 				A5CADD5325E99CFB00AB27AD /* RlmTaskDate.swift in Sources */,
+				A56A0D0125EBF4360054A369 /* Fonts.swift in Sources */,
 				A5CADD8525E99DD400AB27AD /* Reminder_.swift in Sources */,
 				A5CADD8F25E99DDA00AB27AD /* Icon_.swift in Sources */,
 				A5CADD7625E99DBC00AB27AD /* CascadeDeleting.swift in Sources */,
 				A5CADD6725E99D5800AB27AD /* UIColor+Persistable.swift in Sources */,
+				A56A0CFC25EBF0C60054A369 /* TasksCountProvider.swift in Sources */,
+				A59FA5AE25EC156D00F7280A /* TasksProvider.swift in Sources */,
+				A59FA5A925EC153E00F7280A /* CheckmarksWidget.swift in Sources */,
 				A5CADD6C25E99D7D00AB27AD /* DirPath.swift in Sources */,
+				A529991D25EC02A700F525C0 /* SmallCountWidget.swift in Sources */,
 				A5CADC4625E9951B00AB27AD /* ControlWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
