@@ -501,10 +501,11 @@ open class ResizingTokenField: UIView, UICollectionViewDataSource, UICollectionV
     // MARK: - UICollectionViewDelegate
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        onPlusButtonClicked?()
         if let cell = collectionView.cellForItem(at: indexPath) as? ResizingTokenFieldTokenCell, allowDeletionTags {
             _ = cell.becomeFirstResponder()
         } else if collectionView.cellForItem(at: indexPath) as? PlusCell != nil {
-            onPlusButtonClicked?()
+            
         }
     }
     
