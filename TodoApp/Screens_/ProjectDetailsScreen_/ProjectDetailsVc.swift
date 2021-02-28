@@ -432,7 +432,7 @@ class ProjectDetailsVc: UIViewController {
         return view
     }()
     private lazy var newFormView = ProjectNewTaskForm(
-        onCalendarClicked: { [weak self] _ in
+        onCalendarClicked: { [weak self] in
             guard let self = self else { return }
             guard var addTask = self.state.addTaskModel else { return }
             guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {

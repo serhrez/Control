@@ -454,6 +454,11 @@ final class TaskDetailsVc: UIViewController {
             containerStack.addArrangedSubview(repeatDetailLabelStack)
 
         }
+        [dateDetailLabel, repeatDetailLabel, reminderDetailLabel].forEach { $0.addTarget(self, action: #selector(dateDetailLabelsClicked), for: .touchUpInside) }
+    }
+    
+    @objc private func dateDetailLabelsClicked() {
+        openCalendarVc()
     }
     
     func setSpacings() {
@@ -555,6 +560,10 @@ final class TaskDetailsVc: UIViewController {
         popMenuVc?.present(popMenu, animated: true)
     }
     func addCalendarSelected(action: PopMenuAction) {
+        openCalendarVc()
+    }
+    
+    func openCalendarVc() {
         let taskDate = viewModel.task.date?.freeze()
         guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {
             dismiss(animated: true) { [weak self] in

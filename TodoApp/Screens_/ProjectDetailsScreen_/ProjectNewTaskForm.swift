@@ -15,7 +15,7 @@ import Haptica
 
 class ProjectNewTaskForm: UIView {
     let shouldAnimate: () -> Bool
-    let onCalendarClicked: (UIView) -> Void
+    let onCalendarClicked: () -> Void
     let onTagClicked: (UIView) -> Void
     let onPriorityClicked: (UIView) -> Void
     let onTagPlusClicked: () -> Void
@@ -68,7 +68,7 @@ class ProjectNewTaskForm: UIView {
             priorityButton.tintColor = priority != .none ? priority.color : UIColor(named: "TASubElement")!
         }
     }
-    init(onCalendarClicked: @escaping (UIView) -> Void,
+    init(onCalendarClicked: @escaping () -> Void,
          onTagClicked: @escaping (UIView) -> Void,
          onPriorityClicked: @escaping (UIView) -> Void,
          onTagPlusClicked: @escaping () -> Void,
@@ -129,6 +129,11 @@ class ProjectNewTaskForm: UIView {
         let underbottomView = UIView()
         underbottomView.backgroundColor = UIColor(named: "TAAltBackground")!
         layout(underbottomView).top(scrollView.anchor.bottom).leading(scrollView.anchor.leading).trailing(scrollView.anchor.trailing).height(UIScreen.main.bounds.height)
+        [dateDetailLabel, repeatDetailLabel, reminderDetailLabel].forEach { $0.addTarget(self, action: #selector(dateDetailLabelsClicked), for: .touchUpInside) }
+    }
+    
+    @objc func dateDetailLabelsClicked() {
+        onCalendarClicked()
     }
     
     func didAppear() {
@@ -246,7 +251,7 @@ class ProjectNewTaskForm: UIView {
         return simpleButton
     }()
     @objc func calendarClicked() {
-        onCalendarClicked(calendarButton)
+        onCalendarClicked()
     }
     lazy var tagButton: ImageButton = {
         let simpleButton = ImageButton(type: .custom)
