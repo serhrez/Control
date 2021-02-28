@@ -20,7 +20,7 @@ class CheckboxViewArchive: AutoselectCheckboxViewBase {
         uncheckedView.backgroundColor = UIColor(named: "TABorder")!.withAlphaComponent(0.3)
         return uncheckedView
     }()
-    private lazy var checkedView: UIView = getView(imageName: "checkbox-ok", color: .hex("#00CE15"))
+    private lazy var checkedView: UIView = getView(imageName: "checkbox-ok", color: .hex("#447BFE"))
     private lazy var deleteView: UIView = UIImageView(image: UIImage(named: "closebutton"))
     private lazy var restoreView: UIView = getView(imageName: "restore", color: .hex("#FF9900"))
     private(set) var state: State = .unchecked

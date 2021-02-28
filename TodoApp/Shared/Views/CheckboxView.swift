@@ -40,7 +40,7 @@ class CheckboxView: UIView {
         checkedView.layer.cornerCurve = .continuous
         
         checkedView.layout(checkedViewImage).center().width(11).height(8)
-        checkedView.backgroundColor = .hex("#00CE15")
+        checkedView.backgroundColor = .hex("#447BFE")
 
         return checkedView
     }()
@@ -67,11 +67,7 @@ class CheckboxView: UIView {
     init(isStyle2: Bool = false) {
         self.isStyle2 = isStyle2
         super.init(frame: .zero)
-        if isStyle2 {
-            checkedView.backgroundColor = .hex("#447BFE")
-        } else {
-            checkedView.backgroundColor = .hex("#00CE15")
-        }
+        checkedView.backgroundColor = .hex("#447BFE")
         setupViews()
     }
     

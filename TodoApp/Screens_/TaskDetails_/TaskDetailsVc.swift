@@ -298,7 +298,7 @@ final class TaskDetailsVc: UIViewController {
     }()
     private let checkboxh1: CheckboxView = {
         let view = CheckboxView()
-        view.tint = .hex("#00CE15")
+        view.tint = .hex("#447BFE")
         view.accessibilityIdentifier = "checkboxh1"
         return view
     }()
