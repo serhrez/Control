@@ -96,8 +96,8 @@ class ProjectNewTaskForm: UIView {
     func setupViews() {
         addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
         containerView.backgroundColor = UIColor(named: "TAAltBackground")!
-        containerView.layer.cornerRadius = 16
         layout(scrollView).edges()
+        scrollView.layer.cornerRadius = 16
         scrollView.layout(containerView).top().leading().trailing()
         scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true // 54 bottom
         let containerHeight = heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
@@ -190,7 +190,11 @@ class ProjectNewTaskForm: UIView {
         view.backgroundColor = UIColor(named: "TAAltBackground")!
         return view
     }()
-    let scrollView = UIScrollView()
+    let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.scrollIndicatorInsets = .init(top: 8, left: 0, bottom: 8, right: 0)
+        return view
+    }()
     let containerView = UIView()
     
     lazy var stackView: UIStackView = {
