@@ -53,12 +53,29 @@ struct SimpleCell: View {
                 Text(task.time)
                     .font(Fonts.heading4.suiFont)
                     .foregroundColor(Color(UIColor(named: "TASubElement")!))
-                    .strikethrough(color: .green)
             }
         }
     }
     var color: Color {
         Color(task.isDone ? UIColor(named: "TASubElement")! : UIColor(named: "TAHeading")!)
+    }
+}
+
+struct SimpleCell2: View {
+    var task: TasksEntry.Task
+    var nameColor: Color
+    var taskName: String {
+        var taskName = task.name
+        if task.isAllDone {
+            taskName = "All Done!"
+        }
+        return taskName
+    }
+    var body: some View {
+        Text(taskName)
+            .font(Fonts.heading5.suiFont)
+            .foregroundColor(nameColor)
+            .left()
     }
 }
 
@@ -107,7 +124,7 @@ struct CheckmarksWidgetView: View {
                     .font(Fonts.heading6.suiFont)
                     .foregroundColor(subColor)
                     .left()
-                Spacer().frame(width: 1, height: 17, alignment: .center)
+                Spacer().frame(width: 1, height: bottomMoreLabelSpacing, alignment: .center)
             }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 16))
         }
     }
@@ -126,14 +143,7 @@ struct CheckmarksWidgetView: View {
         if family == .systemLarge && !isOrangeMode {
             return AnyView(SimpleCell(task: task))
         }
-        var taskName = task.name
-        if task.isAllDone {
-            taskName = "All Done!"
-        }
-        return AnyView(Text(taskName)
-            .font(Fonts.heading5.suiFont)
-            .foregroundColor(nameColor)
-            .left())
+        return AnyView(SimpleCell2(task: task, nameColor: nameColor))
     }
     
     var tasksSpacing: CGFloat {
@@ -145,9 +155,12 @@ struct CheckmarksWidgetView: View {
     
     var maxTasks: Int {
         if family == .systemLarge {
-            return isOrangeMode ? (Constants.displayVersion2 ? 9 : 11) : 8
+            return isOrangeMode ? (Constants.displayVersion2 ? 9 : 11) : (Constants.displayVersion2 ? 7 : 8)
         }
         return 3
+    }
+    var bottomMoreLabelSpacing: CGFloat {
+        Constants.displayVersion2 ? 12 : 17
     }
     var shownTasks: Int {
         min(tasks.count, maxTasks)
@@ -204,28 +217,45 @@ struct CheckmarksWidgetView_Previews: PreviewProvider {
     
     static func allTasks() -> [TasksEntry.Task] {
         [
-            
-            
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+            TasksEntry.Task(priority: .high, name: "wefw", time: "32:30", isDone: false),
+
         ]
     }
     
     static func getWidgetView(isOrange: Bool = false) -> CheckmarksWidgetView {
         CheckmarksWidgetView(entry: TasksEntry(date: Date(), tasks: allTasks()), isOrangeMode: isOrange)
     }
+    static func getAllPreviews() -> some View {
+        Group {
+        getWidgetView()
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        getWidgetView()
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        getWidgetView()
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
+        getWidgetView(isOrange: true)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        getWidgetView(isOrange: true)
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+        getWidgetView(isOrange: true)
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
+        }
+    }
     static var previews: some View {
         Group {
-            CheckmarksWidgetView_Previews.getWidgetView()
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            CheckmarksWidgetView_Previews.getWidgetView()
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
-            CheckmarksWidgetView_Previews.getWidgetView()
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
-            CheckmarksWidgetView_Previews.getWidgetView(isOrange: true)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            CheckmarksWidgetView_Previews.getWidgetView(isOrange: true)
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
-            CheckmarksWidgetView_Previews.getWidgetView(isOrange: true)
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
+            getAllPreviews()
+            getAllPreviews().preferredColorScheme(.dark)
         }
     }
 }

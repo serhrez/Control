@@ -25,7 +25,7 @@ struct SmallCountWidgetView: View {
                 }
                 HStack {
                     Text("\(entry.tasksCount)").font(Fonts.heading1.suiFont)
-                        .foregroundColor(Color(UIColor(named: "TAHeading")!))
+                        .foregroundColor(Color(UIColor.hex("#242424")))
                     Spacer()
                 }.offset(x: 0, y: -4)
             }
@@ -112,14 +112,27 @@ struct SmallCountWidget: Widget {
 
 
 struct SmallCountWidgetView_Previews: PreviewProvider {
+    static func smallCount1() -> some View {
+        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .priority)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+    static func smallCount2() -> some View {
+        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .today)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+    static func smallCount3() -> some View {
+        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .inbox)
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
+    }
+
     static var previews: some View {
         Group {
-            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .inbox)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .priority)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .today)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            smallCount1()
+            smallCount2()
+            smallCount3()
+            smallCount1().preferredColorScheme(.dark)
+            smallCount2().preferredColorScheme(.dark)
+            smallCount3().preferredColorScheme(.dark)
 
         }
     }
