@@ -259,7 +259,7 @@ extension AllProjectsVc: TATransitionProvider {
             return pushTransition
         }
         if vc is SearchVc {
-            return FadePushTransition()
+            return FadePushTransition(duration: TimeInterval(UINavigationController.hideShowBarDuration))
         }
 
         return nil

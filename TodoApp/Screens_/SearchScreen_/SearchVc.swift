@@ -126,7 +126,7 @@ extension SearchVc: TATransitionProvider {
         return nil
     }
     func popTransitioning(from vc: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return FadePushTransition()
+        return FadePushTransition(duration: TimeInterval(UINavigationController.hideShowBarDuration))
     }
     func interactionController(for animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return nil
