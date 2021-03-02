@@ -688,7 +688,7 @@ extension TaskDetailsVc: SwipeTableViewCellDelegate {
         options.transitionStyle = .drag
         options.minimumButtonWidth = 87
         options.maximumButtonWidth = 200
-        options.expansionStyle = .selection
+        options.expansionStyle = .todoCustom
         return options
     }
 }
