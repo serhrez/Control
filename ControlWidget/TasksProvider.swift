@@ -45,9 +45,9 @@ struct TasksProvider: TimelineProvider {
     
     func placeholder(in context: Context) -> TasksEntry {
         .init(date: .init(), tasks: [
-                TasksEntry.Task(priority: .medium, name: "Extend Gym", time: "19:00", isDone: false),
-                TasksEntry.Task(priority: .low, name: "Buy Gift for Tomorrow", time: "17:30", isDone: false),
-                TasksEntry.Task(priority: .none, name: "Buy Christmas Gifts", time: "21:50", isDone: true)
+            TasksEntry.Task(priority: .medium, name: "Extend Gym".localizable(), time: "19:00", isDone: false),
+                TasksEntry.Task(priority: .low, name: "Buy Gift for Tomorrow".localizable(), time: "17:30", isDone: false),
+                TasksEntry.Task(priority: .none, name: "Buy Christmas Gifts".localizable(), time: "21:50", isDone: true)
                 ])
     }
     

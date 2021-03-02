@@ -178,3 +178,11 @@
 "ProjectWillBeRemovedOneArgument" = "Проект '%@' буде видалений";
 "Restore All" = "Відновити все";
 "Clear Archive" = "Очистити архів";
+"next 7 days" = "наступні 7 днів";
+"All Done!" = "Все виконано!";
+"TasksMoreWidgetOneArgument" = "%@ ще";
+"Upcoming" = "Майбутні";
+"Be notified about all the events in the next 7 days" = "Слідкуйте за своїми завданнями на майбутні 7 днів";
+"Get short summary of your current tasks" = "Отримайте короткий підсумок своїх поточних завдань";
+"Today Simplified" = "Сьогодні";
+"Get quick access to your tasks for today" = "Отримайте швидкий доступ до своїх завдань на сьогодні";

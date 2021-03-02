@@ -173,3 +173,11 @@
 "ProjectWillBeRemovedOneArgument" = "Project '%@' will be removed";
 "Restore All" = "Restore All";
 "Clear Archive" = "Clear Archive";
+"next 7 days" = "next 7 days";
+"All Done!" = "All Done!";
+"TasksMoreWidgetOneArgument" = "%@ more";
+"Upcoming" = "Upcoming";
+"Be notified about all the events in the next 7 days" = "Be notified about all the events in the next 7 days";
+"Get short summary of your current tasks" = "Get short summary of your current tasks";
+"Today Simplified" = "Today Simplified";
+"Get quick access to your tasks for today" = "Get quick access to your tasks for today";

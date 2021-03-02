@@ -172,3 +172,11 @@
 "TagDeletionCommentOneArgument" = "Das Tag '%@' wird aus all Ihren Aufgaben entfernt";
 "Restore All" = "Alles wiederherstellen";
 "Clear Archive" = "Archiv löschen";
+"next 7 days" = "nächste 7 Tage";
+"All Done!" = "Alles erledigt!";
+"TasksMoreWidgetOneArgument" = "%@ mehr";
+"Upcoming" = "Bevorstehende";
+"Be notified about all the events in the next 7 days" = "Seien Sie über alle Ereignisse in den nächsten 7 Tagen informiert";
+"Get short summary of your current tasks" = "Erhalten Sie eine kurze Zusammenfassung Ihrer aktuellen Aufgaben";
+"Today Simplified" = "Heute";
+"Get quick access to your tasks for today" = "Erhalten Sie für heute schnellen Zugriff auf Ihre Aufgaben";

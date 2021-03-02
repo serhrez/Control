@@ -37,7 +37,7 @@ struct SimpleCell: View {
     var body: some View {
         HStack(spacing: 0) {
             if task.isAllDone {
-                Text("All Done!")
+                Text("All Done!".localizable())
                     .font(Fonts.heading4.suiFont)
                     .foregroundColor(color)
                 Spacer()
@@ -67,7 +67,7 @@ struct SimpleCell2: View {
     var taskName: String {
         var taskName = task.name
         if task.isAllDone {
-            taskName = "All Done!"
+            taskName = "All Done!".localizable()
         }
         return taskName
     }
@@ -91,20 +91,20 @@ struct CheckmarksWidgetView: View {
                 Spacer().frame(width: 1, height: 13, alignment: .center)
                 if family == .systemLarge && !isOrangeMode {
                     HStack {
-                        Text("Today")
+                        Text("Today".localizable())
                             .font(Fonts.heading2.suiFont)
                             .foregroundColor(nameColor)
                         Spacer()
-                        Text("22 June")
+                        Text(Date().toFormat("dd MMMM"))
                             .font(Fonts.heading6.suiFont)
                             .foregroundColor(subColor)
                     }
                 } else {
-                    Text("Today")
+                    Text("Today".localizable())
                         .font(Fonts.heading2.suiFont)
                         .foregroundColor(nameColor)
                         .left()
-                    Text("22 June")
+                    Text(Date().toFormat("dd MMMM"))
                         .font(Fonts.heading6.suiFont)
                         .foregroundColor(subColor)
                         .padding(EdgeInsets(top: -1, leading: 0, bottom: 0, trailing: 0))
@@ -120,7 +120,7 @@ struct CheckmarksWidgetView: View {
                     }
                 }
                 .frame(maxHeight: .infinity)
-                Text(tasksMore == 0 ? "" : "\(tasksMore) more")
+                Text(tasksMore == 0 ? "" : "TasksMoreWidgetOneArgument".localizable(argument: "\(tasksMore)"))
                     .font(Fonts.heading6.suiFont)
                     .foregroundColor(subColor)
                     .left()
@@ -205,10 +205,10 @@ struct CheckmarksWidget: Widget {
     }
     
     var displayName: String {
-        isOrangeMode ? "Orange Something" : "Not orange something"
+        isOrangeMode ? "Today Simplified".localizable() : "Today".localizable()
     }
     var description: String {
-        return "Some description"
+        return "Get quick access to your tasks for today".localizable()
     }
 }
 

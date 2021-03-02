@@ -182,3 +182,11 @@
 "ProjectWillBeRemovedOneArgument" = "Projekt '%@' bit će uklonjen";
 "Restore All" = "Vratiti sve";
 "Clear Archive" = "Izbriši arhivu";
+"next 7 days" = "sljedećih 7 dana";
+"All Done!" = "Sve gotovo!";
+"TasksMoreWidgetOneArgument" = "%@ više";
+"Upcoming" = "Nadolazeći";
+"Be notified about all the events in the next 7 days" = "Budite obaviješteni o svim događajima u sljedećih 7 dana";
+"Get short summary of your current tasks" = "Dohvatite kratki sažetak svojih trenutnih zadataka";
+"Today Simplified" = "Danas";
+"Get quick access to your tasks for today" = "Brzo pristupite svojim zadacima za danas";

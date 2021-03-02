@@ -180,3 +180,11 @@
 "TagDeletionCommentOneArgument" = "Tag '%@' zostanie usunięty ze wszystkich Twoich zadań";
 "Restore All" = "Przywrócić wszystkie";
 "Clear Archive" = "Wyczyść archiwum";
+"next 7 days" = "następne 7 dni";
+"All Done!" = "Gotowe!";
+"TasksMoreWidgetOneArgument" = "%@ jeszcze";
+"Upcoming" = "Nadchodzące";
+"Be notified about all the events in the next 7 days" = "Otrzymuj powiadomienia o wszystkich wydarzeniach w ciągu najbliższych 7 dni";
+"Get short summary of your current tasks" = "Uzyskaj krótkie podsumowanie swoich aktualnych zadań";
+"Today Simplified" = "Dzisiaj";
+"Get quick access to your tasks for today" = "Uzyskaj szybki dostęp do swoich zadań na dziś";

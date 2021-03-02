@@ -27,7 +27,7 @@ struct UpcomingWidgetView: View {
                     Spacer()
                 }
                 HStack {
-                    Text("next 7 days")
+                    Text("next 7 days".localizable())
                         .foregroundColor(Color(UIColor(named: "TAHeading")!))
                         .font(Fonts.heading6.suiFont)
                     Spacer()
@@ -52,8 +52,8 @@ struct UpcomingWidget: Widget {
         StaticConfiguration(kind: kind, provider: TasksCountProvider(mode: .upcoming)) { entry in
             UpcomingWidgetView(entry: entry)
         }
-        .configurationDisplayName("Small / Upcoming")
-        .description("Small / Upcoming Widget description")
+        .configurationDisplayName("Upcoming".localizable())
+        .description("Be notified about all the events in the next 7 days".localizable())
         .supportedFamilies([.systemSmall])
     }
 }

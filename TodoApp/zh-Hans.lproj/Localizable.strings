@@ -180,3 +180,11 @@
 "ProjectWillBeRemovedOneArgument" = "项目'％@'将被删除";
 "Restore All" = "恢复所有";
 "Clear Archive" = "清除档案";
+"next 7 days" = "接下来的7天";
+"All Done!" = "全部完成！";
+"TasksMoreWidgetOneArgument" = "%@ 更";
+"Upcoming" = "即将来临";
+"Be notified about all the events in the next 7 days" = "收到有关未来7天内所有事件的通知";
+"Get short summary of your current tasks" = "获得您当前任务的简短摘要";
+"Today Simplified" = "今天";
+"Get quick access to your tasks for today" = "快速访问您今天的任务";

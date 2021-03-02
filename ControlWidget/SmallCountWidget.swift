@@ -54,9 +54,9 @@ struct SmallCountWidgetView: View {
     
     var title: String {
         switch mode {
-        case .inbox: return "Inbox"
-        case .priority: return "Priority"
-        case .today: return "Today"
+        case .inbox: return "Inbox".localizable()
+        case .priority: return "Priority".localizable()
+        case .today: return "Today".localizable()
         }
     }
     var titleColor: Color {
@@ -100,40 +100,33 @@ struct SmallCountWidget: Widget {
     
     var displayName: String {
         switch self.mode {
-        case .inbox: return "Small Inbox"
-        case .priority: return "Small Priority"
-        case .today: return "Small Today"
+        case .inbox: return "Inbox".localizable()
+        case .priority: return "Priority".localizable()
+        case .today: return "Today".localizable()
         }
     }
     var description: String {
-        return "Some description"
+        return "Get short summary of your current tasks".localizable()
     }
 }
 
 
 struct SmallCountWidgetView_Previews: PreviewProvider {
-    static func smallCount1() -> some View {
-        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .priority)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-    static func smallCount2() -> some View {
-        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .today)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-    static func smallCount3() -> some View {
-        return SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .inbox)
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+    static func group() -> some View {
+        Group {
+            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .priority)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .today)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            SmallCountWidgetView(entry: .init(date: .init(), tasksCount: 7), mode: .inbox)
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+        }
     }
 
     static var previews: some View {
         Group {
-            smallCount1()
-            smallCount2()
-            smallCount3()
-            smallCount1().preferredColorScheme(.dark)
-            smallCount2().preferredColorScheme(.dark)
-            smallCount3().preferredColorScheme(.dark)
-
+            group()
+            group().preferredColorScheme(.dark)
         }
     }
 }
