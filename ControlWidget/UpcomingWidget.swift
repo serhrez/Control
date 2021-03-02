@@ -28,12 +28,14 @@ struct UpcomingWidgetView: View {
                 }
                 HStack {
                     Text("next 7 days".localizable())
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
                         .foregroundColor(Color(UIColor(named: "TAHeading")!))
                         .font(Fonts.heading6.suiFont)
                     Spacer()
                 }.offset(x: 0, y: -5)
                 Spacer()
-            }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+            }.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
             VStack {
                 Spacer()
                 HStack {

@@ -73,6 +73,7 @@ class ProjectDetailsTop: UIView {
         textField.attributedPlaceholder = "New Project".localizable().at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!).font(Fonts.heading1)
         }
+        textField.adjustsFontSizeToFitWidth = true
         return textField
     }()
     

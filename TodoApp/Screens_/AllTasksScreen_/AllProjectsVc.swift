@@ -241,16 +241,16 @@ extension AllProjectsVc: UITableViewDelegate {
             router.openPredefinedProject(mode: .today)
         }
     }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard didAppear else { return }
-//        if scrollView.contentOffset.y <= -70 {
-//            scrollView.contentOffset = .init(x: 0, y: -70)
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard didAppear else { return }
+////        if scrollView.contentOffset.y <= -70 {
+////            scrollView.contentOffset = .init(x: 0, y: -70)
+////        }
+//        if scrollView.contentOffset.y <= -70 && !searchVcScreenOpened {
+//            searchVcScreenOpened = true
+//            router.openSearch()
 //        }
-        if scrollView.contentOffset.y <= -70 && !searchVcScreenOpened {
-            searchVcScreenOpened = true
-            router.openSearch()
-        }
-    }
+//    }
 }
 
 extension AllProjectsVc: TATransitionProvider {
