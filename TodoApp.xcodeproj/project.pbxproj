@@ -1874,7 +1874,7 @@
 				CODE_SIGN_ENTITLEMENTS = TodoApp/TodoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = TodoApp/Shared/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -1901,7 +1901,7 @@
 				CODE_SIGN_ENTITLEMENTS = TodoApp/TodoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = TodoApp/Shared/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -2015,7 +2015,7 @@
 				CODE_SIGN_ENTITLEMENTS = ControlWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = ControlWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -2042,7 +2042,7 @@
 				CODE_SIGN_ENTITLEMENTS = ControlWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = M3T43RWKUN;
 				INFOPLIST_FILE = ControlWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

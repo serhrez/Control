@@ -16,7 +16,10 @@ struct UpcomingWidgetView: View {
             Color(UIColor(named: "TAAltBackground")!)
             VStack(spacing: 0) {
                 HStack {
-                    Text("Upcoming").foregroundColor(Color(UIColor.hex("#447bfe")))
+                    Text("Upcoming")
+                        .minimumScaleFactor(0.7)
+                        .lineLimit(1)
+                        .foregroundColor(Color(UIColor.hex("#447bfe")))
                         .font(Fonts.heading3.suiFont)
                     Spacer()
                 }
