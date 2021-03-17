@@ -192,7 +192,7 @@ class PremiumFeaturesVc: UIViewController {
         
         bottomView.layout(buyButton).top(notaSubscriptionLabel.anchor.bottom, 6).leading(30).trailing(30).height(60)
         bottomView.layout(infoLabel).top(buyButton.anchor.bottom, 0.011160714285714 * UIScreen.main.bounds.height).centerX().width(250).priority(999).leading() { _, _ in .greaterThanOrEqual }.trailing() { _, _ in .lessThanOrEqual }.bottom(0.013392857142857 * UIScreen.main.bounds.height)
-        view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottom(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
+        view.layout(restoreButton).top(containerView.anchor.bottom, 17).width(250).centerX().bottomSafe(Constants.vcMinBottomPadding) { _, _ in .greaterThanOrEqual }
         containerView.layout(backButton).top(20).trailing(20).width(24).height(24)
         backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }

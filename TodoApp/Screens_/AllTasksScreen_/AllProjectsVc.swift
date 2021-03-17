@@ -128,7 +128,7 @@ class AllProjectsVc: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        view.layout(tasksToolbar).bottom(Constants.vcMinBottomPadding)
+        view.layout(tasksToolbar).bottomSafe(Constants.vcMinBottomPadding)
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3) { [weak self] in
             self?.view.layoutSubviews()
         }

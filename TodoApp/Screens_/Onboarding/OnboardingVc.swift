@@ -269,7 +269,7 @@ class OnboardingVc: UIViewController {
         centerView.layout(detailLabel).leading().trailing().top(nameLabel.anchor.bottom, Constants.displayVersion2 && isPremiumScreen ? 2 : ((Constants.displayVersion2 ? 0.018 : 0.02455) * UIScreen.main.bounds.height)).bottom()
         view.layout(centerView).centerY(-0.095982 * UIScreen.main.bounds.height).width(UIScreen.main.bounds.width * 0.8225).centerX()
         view.layout(skipButton).bottom(UIScreen.main.bounds.height * (Constants.displayVersion2 ? 0.035 : 0.05)).leading(74).trailing(74)
-        view.layout(button).height(60).bottom(Constants.vcMinBottomPadding + 10 + 20 + UIScreen.main.bounds.height * 0.03906) { _, _ in .greaterThanOrEqual }.centerX().width(UIScreen.main.bounds.width * 0.7922).top(centerView.anchor.bottom, (Constants.displayVersion2 ? 0.04 : 0.052455) * UIScreen.main.bounds.height) { _, _ in .greaterThanOrEqual }
+        view.layout(button).height(60).bottomSafe(Constants.vcMinBottomPadding + 10 + 20 + UIScreen.main.bounds.height * 0.03906) { _, _ in .greaterThanOrEqual }.centerX().width(UIScreen.main.bounds.width * 0.7922).top(centerView.anchor.bottom, (Constants.displayVersion2 ? 0.04 : 0.052455) * UIScreen.main.bounds.height) { _, _ in .greaterThanOrEqual }
         if onSkip == nil {
             skipButton.isHidden = true
         }
