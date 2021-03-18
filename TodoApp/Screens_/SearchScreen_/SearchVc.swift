@@ -59,6 +59,7 @@ class SearchVc: UIViewController {
         let searchBar = UISearchBar(frame: .init(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.72, height: 44))
         searchBar.delegate = self
         searchBar.searchTextField.backgroundColor = UIColor(named: "TAAltBackground")!
+        searchBar.placeholder = "Type to Search".localizable()
         
         let leftNavBarButton = UIBarButtonItem(customView: searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
