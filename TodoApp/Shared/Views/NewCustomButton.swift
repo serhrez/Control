@@ -65,5 +65,8 @@ extension NewCustomButton {
     struct State<T> {
         var highlighted: T
         var normal: T
+        
+        static func opacity() -> State<Float> { return State<Float>(highlighted: 0.5, normal: 1) }
+        static func transformScale() -> State<CGAffineTransform> { return State<CGAffineTransform>(highlighted: .init(scaleX: 0.95, y: 0.95), normal: .identity) }
     }
 }

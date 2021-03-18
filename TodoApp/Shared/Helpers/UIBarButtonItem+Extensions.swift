@@ -33,7 +33,7 @@ extension UIBarButtonItem {
     
     static func customInit(title: String, font: UIFont, primaryAction: UIAction) -> UIBarButtonItem {
         let button = NewCustomButton(type: .custom, primaryAction: primaryAction)
-        button.opacityState = .init(highlighted: 0.5, normal: 1)
+        button.opacityState = .opacity()
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.textColor = UIColor(hex: "#447BFE")!

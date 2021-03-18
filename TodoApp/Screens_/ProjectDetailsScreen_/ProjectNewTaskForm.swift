@@ -314,6 +314,7 @@ class ProjectNewTaskForm: UIView {
         let textView = MyGrowingTextView(placeholderText: "Notes...".localizable(), scrollBehavior: .noScroll)
         textView.growingTextFieldDelegate = self
         textView.onEnter = { }
+        textView.isNewSpaceAllowed = true
         let attributes = Attributes().lineSpacing(5).foreground(color: UIColor(named: "TASubElement")!).font(Fonts.text)
         textView.placeholderAttrs = attributes
         textView.textFieldAttrs = attributes

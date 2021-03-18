@@ -16,6 +16,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
     let placeholderLabel = UILabel()
     private let placeholderText: String
     var onEnter: (() -> Void)?
+    var isNewSpaceAllowed = false
     var placeholderVisible: Bool = true {
         didSet {
             placeholderLabel.isHidden = !placeholderVisible
@@ -103,7 +104,7 @@ class MyGrowingTextView: UIView, UITextViewDelegate {
             } else {
                 textView.resignFirstResponder()
             }
-            return false
+            return isNewSpaceAllowed
         }
         return true
     }

@@ -183,7 +183,7 @@ class OnboardingVc: UIViewController {
     let skipButton: NewCustomButton = {
         let view = NewCustomButton()
         view.setTitleColor(.hex("#447BFE"), for: .normal)
-        view.opacityState = .init(highlighted: 0.5, normal: 1)
+        view.opacityState = .opacity()
         view.titleLabel?.font = Fonts.heading4
         view.addTarget(self, action: #selector(skipClicked), for: .touchUpInside)
         return view

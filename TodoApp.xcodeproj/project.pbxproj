@@ -126,6 +126,7 @@
 		A58281FE2597DCB80097178A /* NewCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58281FD2597DCB80097178A /* NewCustomButton.swift */; };
 		A58282032597EDE10097178A /* UIEdgeInsets+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */; };
 		A583626B25A37E95009FF3E0 /* SafeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583626A25A37E95009FF3E0 /* SafeObject.swift */; };
+		A58562C12602C37500DBA131 /* AccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58562C02602C37500DBA131 /* AccessoryView.swift */; };
 		A5917D4D25D2D64900780AEA /* RandomEmoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5917D4C25D2D64900780AEA /* RandomEmoji.swift */; };
 		A5923180257188EE008E955D /* TagDetailVcVm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592317F257188EE008E955D /* TagDetailVcVm.swift */; };
 		A592318A25725B90008E955D /* TaskCellx2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A592318925725B90008E955D /* TaskCellx2.swift */; };
@@ -391,6 +392,7 @@
 		A58281FD2597DCB80097178A /* NewCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCustomButton.swift; sourceTree = "<group>"; };
 		A58282022597EDE10097178A /* UIEdgeInsets+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+extensions.swift"; sourceTree = "<group>"; };
 		A583626A25A37E95009FF3E0 /* SafeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeObject.swift; sourceTree = "<group>"; };
+		A58562C02602C37500DBA131 /* AccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryView.swift; sourceTree = "<group>"; };
 		A5917D4C25D2D64900780AEA /* RandomEmoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomEmoji.swift; sourceTree = "<group>"; };
 		A592317F257188EE008E955D /* TagDetailVcVm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVcVm.swift; sourceTree = "<group>"; };
 		A592318925725B90008E955D /* TaskCellx2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellx2.swift; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 				A58281FD2597DCB80097178A /* NewCustomButton.swift */,
 				A5C8E8AD2599462500D77514 /* UICollectionSeparator.swift */,
 				A5C6BEAE259E2A0600BDAA43 /* BottomMessage.swift */,
+				A58562C02602C37500DBA131 /* AccessoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1608,6 +1611,7 @@
 				A533E0AA255C8D4300B301C7 /* PopuptodoAction.swift in Sources */,
 				A52ED3352595169700474128 /* EmojiiList.swift in Sources */,
 				A5C8E8AE2599462500D77514 /* UICollectionSeparator.swift in Sources */,
+				A58562C12602C37500DBA131 /* AccessoryView.swift in Sources */,
 				A533E094255C598100B301C7 /* ProjectDetailsVc.swift in Sources */,
 				A54EFB4A258FED36009CFE0F /* Constants.swift in Sources */,
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,

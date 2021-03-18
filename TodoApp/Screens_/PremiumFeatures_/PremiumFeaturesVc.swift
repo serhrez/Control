@@ -123,7 +123,7 @@ class PremiumFeaturesVc: UIViewController {
         let button = NewCustomButton()
         button.addTarget(self, action: #selector(clickedOnRestore), for: .touchUpInside)
         button.setTitle("Restore Purchase".localizable(), for: .normal)
-        button.opacityState = .init(highlighted: 0.5, normal: 1)
+        button.opacityState = .opacity()
         button.setTitleColor(.hex("#447bfe"), for: .normal)
         button.titleLabel?.font = Fonts.heading4
         button.titleLabel?.textAlignment = .center

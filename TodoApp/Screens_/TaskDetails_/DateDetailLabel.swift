@@ -15,7 +15,7 @@ class DateDetailLabel: NewCustomButton {
     
     init() {
         super.init(frame: .zero)
-        self.transformState = .init(highlighted: .init(scaleX: 0.95, y: 0.95), normal: .identity)
+        self.transformState = .transformScale()
         setupView()
         backgroundColor = UIColor(named: "TASubElement")!.withAlphaComponent(0.1)
         layer.cornerRadius = 16

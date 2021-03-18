@@ -12,11 +12,11 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
     var transitionDuration: TimeInterval
     var isInteractive: Bool = false {
         didSet {
-            self.completionSpeed = CGFloat(isInteractive ? transitionDuration * 0.7 : transitionDuration)
+            self.completionSpeed = CGFloat(transitionDuration)
         }
     }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.5)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.3)) {
         self.transitionDuration = duration
         super.init()
     }
@@ -30,7 +30,7 @@ class SlidePushTransition: UIPercentDrivenInteractiveTransition, UIViewControlle
         case .changed:
             update(percent)
         case .ended, .cancelled:
-            if percent > 0.5 && gesture.state != .cancelled {
+            if percent > 0.25 && gesture.state != .cancelled {
                 finish()
             } else {
                 cancel()
@@ -63,11 +63,11 @@ class SlidePopTransition: UIPercentDrivenInteractiveTransition, UIViewController
     var transitionDuration: TimeInterval
     var isInteractive: Bool = false {
         didSet {
-            self.completionSpeed = CGFloat(isInteractive ? transitionDuration * 0.7 : transitionDuration)
+            self.completionSpeed = CGFloat(transitionDuration)
         }
     }
     
-    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.5)) {
+    init(duration: TimeInterval = TimeInterval(UINavigationController.hideShowBarDuration * 1.3)) {
         self.transitionDuration = duration
         super.init()
         self.completionSpeed = CGFloat(duration * 0.7)
@@ -98,7 +98,7 @@ class SlidePopTransition: UIPercentDrivenInteractiveTransition, UIViewController
         case .changed:
             update(percent)
         case .ended, .cancelled:
-            if percent > 0.5 && gesture.state != .cancelled {
+            if percent > 0.25 && gesture.state != .cancelled {
                 finish()
             } else {
                 cancel()

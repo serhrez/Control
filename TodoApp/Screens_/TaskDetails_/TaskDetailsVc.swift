@@ -318,6 +318,11 @@ final class TaskDetailsVc: UIViewController {
         taskLabel.placeholderAttrs = Attributes().font(Fonts.heading2).foreground(color: UIColor(named: "TASubElement")!)
         taskLabel.textFieldAttrs = Attributes().font(Fonts.heading2).foreground(color: UIColor(named: "TAHeading")!)
         taskLabel.growingTextFieldDelegate = self
+        taskLabel.textField.inputAccessoryView = AccessoryView(onDone: { [weak taskLabel] in
+            taskLabel?.endEditing(true)
+        }, onHide: { [weak taskLabel] in
+            taskLabel?.endEditing(true)
+        })
         return taskLabel
     }()
     
@@ -328,6 +333,11 @@ final class TaskDetailsVc: UIViewController {
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
+        description.textField.inputAccessoryView = AccessoryView(onDone: { [weak description] in
+            description?.endEditing(true)
+        }, onHide: { [weak description] in
+            description?.endEditing(true)
+        })
         return description
     }()
     
@@ -709,7 +719,6 @@ extension TaskDetailsVc: UITextViewDelegate {
         let newSpace = text.contains { $0.isNewline }
         switch textView {
         case taskDescription.textField:
-            if newSpace { textView.resignFirstResponder() }
             break
         case taskNameh1.textField:
             guard newSpace else { break }

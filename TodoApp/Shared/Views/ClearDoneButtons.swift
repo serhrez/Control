@@ -23,7 +23,7 @@ class ClearDoneButtons: UIView {
         }
         clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)
         clearButton.setAttributedTitle(attrClear, for: .normal)
-        clearButton.opacityState = .init(highlighted: 0.5, normal: 1)
+        clearButton.opacityState = .opacity()
         
         let separator = UIView()
         separator.backgroundColor = UIColor(named: "TABorder")!
@@ -36,7 +36,7 @@ class ClearDoneButtons: UIView {
         }
         doneButton.addTarget(self, action: #selector(doneClicked), for: .touchUpInside)
         doneButton.setAttributedTitle(attrDone, for: .normal)
-        doneButton.opacityState = .init(highlighted: 0.5, normal: 1)
+        doneButton.opacityState = .opacity()
         
         layout(clearButton).leading().bottom().top()
         layout(separator).top().bottom().leading(clearButton.anchor.trailing)

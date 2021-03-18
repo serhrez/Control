@@ -14,7 +14,6 @@ final class SubtaskAddCell: UITableViewCell {
     static let reuseIdentifier = "subtaskaddcell"
     static let height: CGFloat = 44
 
-    
     private let textField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = "New Checklist...".localizable().at.attributed { attr in
@@ -46,6 +45,22 @@ final class SubtaskAddCell: UITableViewCell {
         textField.delegate = self
         selectionStyle = .none
         backgroundColor = UIColor(named: "TABackground")!
+        textField.inputAccessoryView = AccessoryView(onDone: { [weak self] in
+            guard let self = self else { return }
+            self.addSubtask()
+        }, onHide: { [weak textField] in
+            textField?.endEditing(true)
+        })
+    }
+    
+    private func addSubtask() {
+        if textField.text?.isEmpty ?? true {
+            textField.resignFirstResponder()
+            return
+        }
+        subtaskCreated?(textField.text ?? "")
+        textField.text = ""
+
     }
     
     @discardableResult override func becomeFirstResponder() -> Bool {
@@ -55,9 +70,11 @@ final class SubtaskAddCell: UITableViewCell {
 
 extension SubtaskAddCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.text?.isEmpty ?? true { textField.resignFirstResponder(); return true }
-        subtaskCreated?(textField.text ?? "")
-        textField.text = ""
+        if textField.text?.isEmpty ?? true {
+            textField.resignFirstResponder()
+            return true
+        }
+        addSubtask()
         return false
     }
     
