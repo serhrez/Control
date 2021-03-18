@@ -239,6 +239,8 @@ class PredefinedProjectVc: UIViewController {
         view.layout(newFormViewBg).edges()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(newFormViewBgTapped))
         newFormViewBg.addGestureRecognizer(tapGesture)
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(newFormViewScrolled))
+        newFormViewBg.addGestureRecognizer(panGesture)
         view.layout(newFormView).leading().trailing().topSafe(30) { _, _ in .greaterThanOrEqual }
         newFormView.shouldLayoutSubviews = { [weak self] in
             self?.view.layoutSubviews()
@@ -250,6 +252,30 @@ class PredefinedProjectVc: UIViewController {
     @objc func newFormViewBgTapped() {
         addTaskModel = nil
     }
+    
+    var __nfvsStartCenter: CGPoint = .zero
+    @objc func newFormViewScrolled(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+        if gesture.state == .began {
+            __nfvsStartCenter = self.newFormView.center
+        }
+        if gesture.state == .cancelled || gesture.state == .ended {
+            if translation.y > 125 {
+                addTaskModel = nil
+            } else {
+                UIView.animate(withDuration: Constants.animationDefaultDuration, delay: 0, options: .curveEaseIn) {
+                    self.newFormView.center = self.__nfvsStartCenter
+                } completion: { _ in
+                    
+                }
+            }
+
+            return
+        }
+        let minMax = min(max(translation.y, -140), 220)
+        self.newFormView.center = __nfvsStartCenter.translate(0, dy: minMax)
+    }
+
     
     func setupKeyboard() {
         var previousHeight: CGFloat?
