@@ -70,5 +70,12 @@ final class ProjectViewCell: UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         overlayView.setHighlighted(highlighted, animated: true)
+        UIView.animate(withDuration: Constants.animationDefaultDuration) {
+            if highlighted {
+                self.transform = .init(scaleX: 0.97, y: 0.97)
+            } else {
+                self.transform = .identity
+            }
+        }
     }
 }
