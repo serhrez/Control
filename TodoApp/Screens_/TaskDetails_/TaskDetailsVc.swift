@@ -149,7 +149,6 @@ final class TaskDetailsVc: UIViewController {
             .do(onNext: { [weak self] itemsSections in
                 guard let self = self else { return }
                 let widthForLabel: CGFloat = UIScreen.main.bounds.width - (self.containerStackLeadingTrailing * 2 + SubtaskCell.nameLabelLeadingTrailingSpace * 2)
-//                var totalHeight: CGFloat = 0
                 let label = UILabel()
                 label.font = SubtaskCell.nameLabelFont
                 label.numberOfLines = 0
@@ -333,6 +332,8 @@ final class TaskDetailsVc: UIViewController {
         description.placeholderAttrs = attributes
         description.textFieldAttrs = attributes
         description.growingTextFieldDelegate = self
+        description.isNewSpaceAllowed = true
+        description.onEnter = { }
         description.textField.inputAccessoryView = AccessoryView(onDone: { [weak description] in
             description?.endEditing(true)
         }, onHide: { [weak description] in
