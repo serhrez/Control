@@ -43,10 +43,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 try! FileManager.default.copyItem(at: RealmProvider.bundled_any.configuration.fileURL!, to: RealmProvider.main.configuration.fileURL!)
             }
         }
-//        let viewController = AllProjectsVc()
+        let viewController = AllProjectsVc()
         let vc = CalendarVc2(viewModel: CalendarVcVm(reminder: nil, repeat: nil, date: nil), onDone: { x, y, z in print(x, y, z) })
 
-        let navigationVc = TANavigationController(rootViewController: vc)
+        let navigationVc = TANavigationController(rootViewController: viewController)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            viewController.present(vc, animated: true, completion: nil)
+        }
         AppNavigationRouter.shared.navigationController = navigationVc
 
         window.rootViewController = navigationVc

@@ -14,7 +14,7 @@ import SwiftDate
 final class CalendarView: UIView {
     private let taLayout: CalendarViewLayout
     private let jct = JTACMonthView()
-    private lazy var dateHeader = CalendarViewHeader(taLayout: taLayout)
+    lazy var dateHeader = CalendarViewHeader(taLayout: taLayout)
     private let formatter = DateFormatter()
     private let selectDate: (Date) -> Void
     private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)

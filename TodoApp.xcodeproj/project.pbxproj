@@ -45,6 +45,7 @@
 		A51967612584F71D0021621A /* IconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967602584F71D0021621A /* IconPicker.swift */; };
 		A51967692584FE5D0021621A /* IconColCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51967682584FE5D0021621A /* IconColCell.swift */; };
 		A51B6856257188A50042AA85 /* TagDetailVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B6855257188A50042AA85 /* TagDetailVc.swift */; };
+		A51B8FEE2620A1F5001A7A93 /* ClearDoneButtons2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51B8FED2620A1F5001A7A93 /* ClearDoneButtons2.swift */; };
 		A520C80025ADC11300CE9AA0 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */; };
 		A520C80525ADC55D00CE9AA0 /* InAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A520C80425ADC55D00CE9AA0 /* InAppError.swift */; };
 		A52251AE256EED7D00747E16 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52251AD256EED7D00747E16 /* CalendarView.swift */; };
@@ -302,6 +303,7 @@
 		A51967602584F71D0021621A /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
 		A51967682584FE5D0021621A /* IconColCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColCell.swift; sourceTree = "<group>"; };
 		A51B6855257188A50042AA85 /* TagDetailVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVc.swift; sourceTree = "<group>"; };
+		A51B8FED2620A1F5001A7A93 /* ClearDoneButtons2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDoneButtons2.swift; sourceTree = "<group>"; };
 		A520C7FF25ADC11300CE9AA0 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		A520C80425ADC55D00CE9AA0 /* InAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppError.swift; sourceTree = "<group>"; };
 		A52251AD256EED7D00747E16 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -709,6 +711,7 @@
 				A524752C256F0EFD0000B258 /* OnClickControl.swift */,
 				A52251C8256EF9CF00747E16 /* CalendarView */,
 				A53E13CB256FC9E400ABF4F0 /* ClearDoneButtons.swift */,
+				A51B8FED2620A1F5001A7A93 /* ClearDoneButtons2.swift */,
 				A57634FD257EE8D9009A5041 /* AlignmentRectViews.swift */,
 				A5F6A8EB258A247900FB50FC /* SingleTagView.swift */,
 				A5D2801A258D65C400D23760 /* MyGrowingTextView.swift */,
@@ -1645,6 +1648,7 @@
 				A5085E962556F8E500A31BBB /* Icon_.swift in Sources */,
 				A50E0F4D25E1B77700BA9A14 /* UIBarButtonItem+Extensions.swift in Sources */,
 				A576CEEC25E3D1D100FDD583 /* UIFont+Extensions.swift in Sources */,
+				A51B8FEE2620A1F5001A7A93 /* ClearDoneButtons2.swift in Sources */,
 				A55F65F025A7ADC100BB46DD /* GradientView.swift in Sources */,
 				A5F6A90C258A398A00FB50FC /* AutoselectCheckboxViews.swift in Sources */,
 				A5315CFE256678A8000D8FCD /* InsetLabel.swift in Sources */,

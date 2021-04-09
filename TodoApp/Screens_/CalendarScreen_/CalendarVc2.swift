@@ -56,19 +56,19 @@ final class CalendarVc2: UIViewController {
         return stack
     }()
     private let scrollView = UIScrollView()
-    private lazy var clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
+    private lazy var clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
         guard let self = self else { return }
         self.closeView()
     }, done: { [weak self] in
         self?.done()
     })
-    lazy var timeButton = CalendarButton2(image: "alarm", text: "Time".localizable(), onClick: { [weak self] in
+    lazy var timeButton = CalendarVc.CalendarButton2(image: "alarm", text: "Time".localizable(), onClick: { [weak self] in
         self?.clickedTime()
     })
-    lazy var reminderButton = CalendarButton2(image: "bell", text: "Reminder".localizable(), onClick: { [weak self] in
+    lazy var reminderButton = CalendarVc.CalendarButton2(image: "bell", text: "Reminder".localizable(), onClick: { [weak self] in
         self?.clickedReminder()
     })
-    lazy var repeatButton = CalendarButton2(image: "repeat", text: "Repeat".localizable(), onClick: { [weak self] in
+    lazy var repeatButton = CalendarVc.CalendarButton2(image: "repeat", text: "Repeat".localizable(), onClick: { [weak self] in
         self?.clickedRepeat()
     })
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
@@ -76,8 +76,6 @@ final class CalendarVc2: UIViewController {
         self.viewModel = viewModel
         self.onDone = onDone
         super.init(nibName: nil, bundle: nil)
-        modalTransitionStyle = .crossDissolve
-        modalPresentationStyle = .overCurrentContext
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +84,6 @@ final class CalendarVc2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        applySharedNavigationBarAppearance()
         setupViews()
         setupBinding()
     }
@@ -129,30 +126,38 @@ final class CalendarVc2: UIViewController {
         centerXAnchor.priority = .init(1)
         centerYAnchor.isActive = true
         centerXAnchor.isActive = true
-        view.layout(scrollView).trailing().leading().topSafe(13)
-        view.layout(clearDoneButtons).bottom(0.01674 * UIScreen.main.bounds.height).leading().trailing().top(scrollView.anchor.bottom, 0.01674 * UIScreen.main.bounds.height)
+        view.layout(scrollView).trailing().leading().top().bottom()
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
         scrollView.frameLayoutGuide.heightAnchor.constraint(lessThanOrEqualTo: scrollView.contentLayoutGuide.heightAnchor).isActive = true
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.layout(calendarView).top().centerX()
-        scrollView.layout(separatorView).leading(25).trailing(25).top(calendarView.anchor.bottom, 0.02455 * UIScreen.main.bounds.height)
-        let buttonsStackCenterLayout = UIView()
-        scrollView.layout(buttonsStackCenterLayout).leading(25).trailing(25).top(separatorView.anchor.bottom).height(0.154017 * UIScreen.main.bounds.height)
-        buttonsStackCenterLayout.layout(buttonsStack).leading().trailing().centerY()
-        scrollView.layout(separatorView2).leading(25).trailing(25).top(buttonsStackCenterLayout.anchor.bottom)
-        todayButton.label.snp.makeConstraints { make in
-            make.firstBaseline.equalTo(tomorrowButton.label.snp.firstBaseline)
-            make.firstBaseline.equalTo(nextMondayButton.label.snp.firstBaseline)
-            make.firstBaseline.equalTo(eveningButton.label.snp.firstBaseline)
-        }
-        
-        let buttonsStackCenterLayout2 = UIStackView(arrangedSubviews: [
-            timeButton, reminderButton, repeatButton
+        scrollView.layout(calendarView).centerX().top(14)
+        scrollView.layout(clearDoneButtons).top().leading().trailing()
+        let calendarButtons = UIStackView(arrangedSubviews: [
+            CalendarButton(image: "today", imageWidth: 20, title: "Today", detailText: "Wed", isDetailBlue: false, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "calendar-plus", imageWidth: 24, title: "Tomorrow", detailText: "Thu", isDetailBlue: false, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "brightness-up", imageWidth: 24, title: "Next Monday", detailText: "17 Mon", isDetailBlue: false, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening", detailText: "18:00 Wed", isDetailBlue: false, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: {
+                print("clicked")
+            }),
+            CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: {
+                print("clicked")
+            })
         ])
-        buttonsStackCenterLayout2.axis = .vertical
-        buttonsStackCenterLayout2.spacing = 27
-        scrollView.layout(buttonsStackCenterLayout2).leading(27).trailing(27).top(separatorView2.anchor.bottom, 0.037946 * UIScreen.main.bounds.height)
-        scrollView.layout(clearButton).top(buttonsStackCenterLayout2.anchor.bottom, 0.03348 * UIScreen.main.bounds.height).leading(25).trailing(25).bottom(10).height(55)
+        calendarButtons.axis = .vertical
+        calendarButtons.spacing = 5
+        scrollView.layout(calendarButtons).leading(17).trailing(17).top(calendarView.anchor.bottom, 14).bottomSafe() { _, _ in .lessThanOrEqual }
         let scrollHeight = scrollView.frameLayoutGuide.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
         scrollHeight.priority = .init(1)
         scrollHeight.isActive = true
@@ -161,7 +166,6 @@ final class CalendarVc2: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
-        
     private func done() {
         self.onDone(self.viewModel.date.value.0, self.viewModel.reminder.value, self.viewModel.repeat.value)
         closeView()
@@ -236,36 +240,40 @@ extension CalendarVc2 {
         }
     }
     
-    class CalendarButton2: OnClickControl {
-        let imageView = UIImageView(frame: .zero)
-        let label = UILabel()
-        let statusLabel = UILabel()
-        
-        init(image imageName: String, text: String, onClick: @escaping () -> Void) {
-            super.init(onClick: { if $0 { onClick() } })
-            label.font = Fonts.heading3
-            label.text = text
-            imageView.image = UIImage(named: imageName)?.resize(toHeight: 25)
+    class CalendarButton: NewCustomButton {
+        let imageView2 = UIImageView()
+        let titleLabel2 = UILabel()
+        let detailLabel = UILabel()
+        private let onClick: () -> Void
+        init(image imageName: String, imageWidth: CGFloat, title: String, detailText: String, isDetailBlue: Bool, onClick: @escaping () -> Void) {
+            self.onClick = onClick
+            super.init(frame: .zero)
+            opacityState = .opacity()
+            vibrateOnClick = true
+            heightAnchor.constraint(equalToConstant: 52).isActive = true
+            layout(titleLabel2).leading(47).centerY()
+            layout(imageView2).leading(15).width(24).height(24).centerY()
+            layout(detailLabel).trailing(15).centerY()
             
-            layout(imageView).leading().top().bottom()
-            layout(label).leading(37).centerY()
-            layout(statusLabel).trailing().centerY()
-            configure(selectedText: nil)
-            self.pointInsideInsets = .init(top: 10, left: 0, bottom: 10, right: 0)
+            titleLabel2.text = title
+            titleLabel2.font = Fonts.heading3
+            titleLabel2.textColor = UIColor(named: "TAHeading")!
+            
+            detailLabel.text = detailText
+            detailLabel.font = Fonts.heading3
+            detailLabel.textColor = isDetailBlue ? UIColor.hex("#447bfe") : UIColor(named: "TASubElement")!
+            
+            imageView2.image = UIImage(named: imageName)?.resize(toWidth: imageWidth)
+            imageView2.contentMode = .center
+            
+            layer.cornerRadius = 16
+            layer.borderWidth = 1
+            layer.borderColor = UIColor(named: "TABorder")!.cgColor
+            layer.cornerCurve = .continuous
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-        
-        func configure(selectedText: String?) {
-            if let selectedText = selectedText {
-                statusLabel.text = selectedText
-                statusLabel.textColor = UIColor.hex("#447bfe")
-            } else {
-                statusLabel.text = "None".localizable()
-                statusLabel.textColor = UIColor(named: "TASubElement")
-            }
         }
     }
 }

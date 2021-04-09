@@ -48,7 +48,7 @@ class CalendarViewHeader: UIView {
 
     init(taLayout: CalendarViewLayout) {
         super.init(frame: .zero)
-        heightAnchor.constraint(equalToConstant: taLayout.cellWidthHeight).isActive = true
+        heightAnchor.constraint(equalToConstant: 48).isActive = true
         layout(titleView).center()
         titleView.layout(titleLabel).leading().top().bottom()
         titleView.layout(chevronButton).trailing().centerY().leading(titleLabel.anchor.trailing, 4)

@@ -36,7 +36,8 @@ class NewCustomButton: UIButton {
     var pointInsideInsets: UIEdgeInsets?
     override var isHighlighted: Bool {
         didSet {
-            if isHighlighted && vibrateOnClick {
+            print("isHighlighted: \(isHighlighted)")
+            if isHighlighted && !oldValue && vibrateOnClick  {
                 Haptic.impact(.light).generate()
             }
             if let state = stateBackgroundColor {

@@ -1,8 +1,8 @@
 //
-//  ClearDoneButtons.swift
+//  ClearDoneButtons2.swift
 //  TodoApp
 //
-//  Created by sergey on 26.11.2020.
+//  Created by sergey on 09.04.2021.
 //
 
 import Foundation
@@ -10,38 +10,35 @@ import UIKit
 import Material
 import AttributedLib
 
-class ClearDoneButtons: UIView {
+class ClearDoneButtons2: UIView {
     private let clear: () -> Void
     private let done: () -> Void
+    let clearButton = NewCustomButton(type: .custom)
+    let doneButton = NewCustomButton(type: .custom)
+
     init(clear: @escaping () -> Void, done: @escaping () -> Void) {
         self.clear = clear
         self.done = done
         super.init(frame: .zero)
-        let clearButton = NewCustomButton(type: .custom)
-        let attrClear = "Back".localizable().at.attributed { attr in
-            attr.font(Fonts.heading3)
+        let attrClear = "Clear".localizable().at.attributed { attr in
+            attr.font(Fonts.heading3).foreground(color: UIColor(named: "TAHeading")!)
         }
         clearButton.addTarget(self, action: #selector(clearClicked), for: .touchUpInside)
         clearButton.setAttributedTitle(attrClear, for: .normal)
         clearButton.opacityState = .opacity()
+        clearButton.pointInsideInsets = .init(top: 10, left: 10, bottom: 10, right: 10)
         
-        let separator = UIView()
-        separator.backgroundColor = UIColor(named: "TABorder")!
-        separator.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        separator.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        let doneButton = NewCustomButton(type: .custom)
         let attrDone = "Done".localizable().at.attributed { attr in
             attr.font(Fonts.heading3).foreground(color: .hex("#447BFE"))
         }
         doneButton.addTarget(self, action: #selector(doneClicked), for: .touchUpInside)
         doneButton.setAttributedTitle(attrDone, for: .normal)
         doneButton.opacityState = .opacity()
+        doneButton.pointInsideInsets = .init(top: 10, left: 10, bottom: 10, right: 10)
         
-        layout(clearButton).leading().bottom().top()
-        layout(separator).top().bottom().leading(clearButton.anchor.trailing)
-        layout(doneButton).top().bottom().leading(separator.anchor.trailing).trailing()
-        clearButton.widthAnchor.constraint(equalTo: doneButton.widthAnchor).isActive = true
+        layout(clearButton).leading(21).bottom(21).top(21)
+        layout(doneButton).trailing(21).bottom(21).top(21)
     }
     
     required init?(coder: NSCoder) {
@@ -54,5 +51,9 @@ class ClearDoneButtons: UIView {
     
     @objc func clearClicked() {
         clear()
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        return clearButton.hitTest(convert(point, to: clearButton), with: event) ?? doneButton.hitTest(convert(point, to: doneButton), with: event)
     }
 }
