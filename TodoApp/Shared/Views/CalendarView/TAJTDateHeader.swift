@@ -17,7 +17,7 @@ class CalendarViewHeader: UIView {
     lazy var titleLabel: UILabel = UILabel()
     let titleView: UIButton = {
         let button = NewCustomButton()
-        button.opacityState = .opacity()
+//        button.opacityState = .opacity()
         button.vibrateOnClick = true
         button.addTarget(self, action: #selector(chevronClicked), for: .touchUpInside)
         button.pointInsideInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
@@ -56,12 +56,10 @@ class CalendarViewHeader: UIView {
         
     func configure(month: String, year: String, chevronClick: @escaping () -> Void) {
         self.chevronClick = chevronClick
-        UIView.transition(with: titleLabel, duration: Constants.animationDefaultDuration, options: [.transitionCrossDissolve]) {
-            self.titleLabel.attributedText = month.at.attributed { attr in
-                attr.foreground(color: UIColor(named: "TAHeading")!).font(Fonts.heading3)
-            } + " \(year)".at.attributed { attr in
-                attr.foreground(color: .hex("#447BFE")).font(Fonts.heading3)
-            }
+        self.titleLabel.attributedText = month.at.attributed { attr in
+            attr.foreground(color: UIColor(named: "TAHeading")!).font(Fonts.heading3)
+        } + " \(year)".at.attributed { attr in
+            attr.foreground(color: .hex("#447BFE")).font(Fonts.heading3)
         }
     }
     
@@ -91,7 +89,15 @@ class TAJTDateHeader: JTACMonthReusableView {
             view.layout(label).center()
             return view
         }
-        let stack = UIStackView(arrangedSubviews: ["Monday-One-Letter".localizable(comment: "Monday"), "Tuesday-One-Letter".localizable(comment: "Tuesday"), "Wednesday-One-Letter".localizable(comment: "Wendnesday"), "Thursday-One-Letter".localizable(comment: "Thursday"), "Friday-One-Letter".localizable(), "Saturday-One-Letter".localizable(), "Sunday-One-Letter".localizable()].map { getView(text: $0) })
+        let stack = UIStackView(arrangedSubviews: [
+            "Monday-One-Letter".localizable(comment: "Monday"),
+            "Tuesday-One-Letter".localizable(comment: "Tuesday"),
+            "Wednesday-One-Letter".localizable(comment: "Wendnesday"),
+            "Thursday-One-Letter".localizable(comment: "Thursday"),
+            "Friday-One-Letter".localizable(),
+            "Saturday-One-Letter".localizable(),
+            "Sunday-One-Letter".localizable()
+        ].map { getView(text: $0) })
         stack.distribution = .fillEqually
         return stack
     }()

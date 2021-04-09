@@ -19,6 +19,7 @@ final class CalendarView: UIView {
     private let selectDate: (Date) -> Void
     private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)
     private let alreadySelectedDate: Date
+    private var shouldChangeTitle: Bool = true
     
     init(layout: CalendarViewLayout = .default1, alreadySelectedDate: Date, selectDate: @escaping (Date) -> Void, datePriorities: @escaping (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)) {
         self.taLayout = layout
@@ -32,7 +33,6 @@ final class CalendarView: UIView {
     }
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        backgroundColor = UIColor(named: "TAAltBackground")!
         layout(dateHeader).leading().trailing().top()
         layout(jct).leading().trailing().bottom().top(dateHeader.anchor.bottom).width(taLayout.overallWidth).height(taLayout.overallHeight)
         // + 1 header with weekdays([S,M,T,W,T,F,S]) and +1 header with "< December 2020 >"
@@ -75,12 +75,16 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         let month = dateFormatter.string(from: range.start)
         dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: range.start)
-        dateHeader.configure(month: month, year: year, chevronClick: { [weak calendar] in
-            calendar?.isUserInteractionEnabled = false
-            calendar?.scrollToDate(Date()) {
-                calendar?.isUserInteractionEnabled = true
-            }
-        })
+        if shouldChangeTitle || range.start.isInside(date: Date(), granularity: .month) {
+            dateHeader.configure(month: month, year: year, chevronClick: { [weak calendar, weak self] in
+                calendar?.isUserInteractionEnabled = false
+                self?.shouldChangeTitle = false
+                calendar?.scrollToDate(Date()) {
+                    calendar?.isUserInteractionEnabled = true
+                    self?.shouldChangeTitle = true
+                }
+            })
+        }
         return calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "TAJTDateHeader", for: indexPath)
     }
     func calendar(_ calendar: JTACMonthView, willDisplay cell: JTACDayCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
