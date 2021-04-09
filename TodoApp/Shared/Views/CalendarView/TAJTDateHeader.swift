@@ -87,6 +87,7 @@ class TAJTDateHeader: JTACMonthReusableView {
             let label = UILabel()
             label.text = text
             label.font = Fonts.heading5
+            label.textColor = UIColor(named: "TASubElement")!
             view.layout(label).center()
             return view
         }

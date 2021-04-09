@@ -80,7 +80,6 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
             calendar?.scrollToDate(Date()) {
                 calendar?.isUserInteractionEnabled = true
             }
-            
         })
         return calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "TAJTDateHeader", for: indexPath)
     }
@@ -133,7 +132,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         }
     }
     func calendarSizeForMonths(_ calendar: JTACMonthView?) -> MonthSize? {
-        return MonthSize(defaultSize: taLayout.cellWidthHeight)
+        return MonthSize(defaultSize: taLayout.cellWidthHeight * 0.45)
     }
 
 }
@@ -157,7 +156,7 @@ struct CalendarViewLayout {
         cellColumns * cellWidthHeight + (cellColumns - 1) * columnsSpace + columnsSpace
     }
     var overallHeight: CGFloat {
-        cellWidthHeight * (cellRows + 1) // + 1 header with weekdays([S,M,T,W,T,F,S])
+        cellWidthHeight * (cellRows + 0.45) // + 0.45 header with weekdays([S,M,T,W,T,F,S])
     }
     
     static let default1: CalendarViewLayout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - 13 * 2 - 10 * 2, cellColumns: 7, cellRows: 6)
