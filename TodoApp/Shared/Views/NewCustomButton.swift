@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Haptica
 
 class NewCustomButton: UIButton {
     var animationDuration: TimeInterval = Constants.animationDefaultDuration
@@ -31,9 +32,13 @@ class NewCustomButton: UIButton {
             }
         }
     }
+    var vibrateOnClick: Bool = false
     var pointInsideInsets: UIEdgeInsets?
     override var isHighlighted: Bool {
         didSet {
+            if isHighlighted && vibrateOnClick {
+                Haptic.impact(.light).generate()
+            }
             if let state = stateBackgroundColor {
                 apply({ self.backgroundColor = $0 }, state: state)
             }

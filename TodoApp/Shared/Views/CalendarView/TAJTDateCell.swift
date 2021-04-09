@@ -37,12 +37,14 @@ class TAJTDateCell: JTACDayCell {
         label.text = cellState.text
         if cellState.date.isToday {
             label.textColor = UIColor(hex: "#447bfe")
-        } else if cellState.dateBelongsTo == DateOwner.thisMonth {
+        } else if cellState.dateBelongsTo == DateOwner.thisMonth && Date().dateAt(.startOfDay) <= cellState.date {
             label.textColor = UIColor(named: "TAHeading")
         } else {
             label.textColor = UIColor(named: "TASubElement")
         }
         
+        selectedView.backgroundColor = Date().dateAt(.startOfDay) <= cellState.date ? UIColor.hex("#447bfe").withAlphaComponent(0.15) : UIColor.hex("#EF4439").withAlphaComponent(0.3)
+        selectedView.layer.borderColor = Date().dateAt(.startOfDay) <= cellState.date ? UIColor.hex("#447bfe").cgColor : UIColor.hex("#EF4439").cgColor
         selectedView.isHidden = !cellState.isSelected
         previousIndicatorsStack?.removeFromSuperview()
         var indicatorColors: [UIColor] = []
@@ -65,11 +67,9 @@ class TAJTDateCell: JTACDayCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         label.font = Fonts.text
-        selectedView.backgroundColor = UIColor.hex("#447bfe").withAlphaComponent(0.15)
         selectedView.layer.cornerRadius = 10
         selectedView.layer.cornerCurve = .continuous
         selectedView.layer.borderWidth = 2.5
-        selectedView.layer.borderColor = UIColor.hex("#447bfe").cgColor
         selectedView.isHidden = true
         layout(selectedView).edges()
         layout(label).center()

@@ -12,22 +12,35 @@ import JTAppleCalendar
 import AttributedLib
 
 class CalendarViewHeader: UIView {
-    var onPrev: (() -> Void)?
-    var onNext: (() -> Void)?
+    var chevronClick: (() -> Void)?
 
-    lazy var leftChevronButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(leftClicked), for: .touchUpInside)
-        button.setImage(UIImage(named: "chevron-left"), for: .normal)
-        return button
-    }()
-    lazy var rightChevronButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.addTarget(self, action: #selector(rightClicked), for: .touchUpInside)
-        button.setImage(UIImage(named: "chevron-right"), for: .normal)
-        return button
-    }()
     lazy var titleLabel: UILabel = UILabel()
+    let titleView: UIButton = {
+        let button = NewCustomButton()
+        button.opacityState = .opacity()
+        button.vibrateOnClick = true
+        button.addTarget(self, action: #selector(chevronClicked), for: .touchUpInside)
+        button.pointInsideInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
+        
+        return button
+    }()
+    let chevronButton: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "chevronx"))
+        return view
+    }()
+    
+    var chevronState: ChevronState = .normal {
+        didSet {
+            UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                switch self.chevronState {
+                case .normal:
+                    self.chevronButton.transform = .identity
+                case .rotated:
+                    self.chevronButton.transform = .init(rotationAngle: -.pi / 2)
+                }
+            }
+        }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -36,14 +49,13 @@ class CalendarViewHeader: UIView {
     init(taLayout: CalendarViewLayout) {
         super.init(frame: .zero)
         heightAnchor.constraint(equalToConstant: taLayout.cellWidthHeight).isActive = true
-        layout(leftChevronButton).top().bottom().leading().width(taLayout.cellWidthHeight)
-        layout(rightChevronButton).top().bottom().trailing().width(taLayout.cellWidthHeight)
-        layout(titleLabel).center()
+        layout(titleView).center()
+        titleView.layout(titleLabel).leading().top().bottom()
+        titleView.layout(chevronButton).trailing().centerY().leading(titleLabel.anchor.trailing, 4)
     }
         
-    func configure(month: String, year: String, onPrev: @escaping () -> Void, onNext: @escaping () -> Void) {
-        self.onPrev = onPrev
-        self.onNext = onNext
+    func configure(month: String, year: String, chevronClick: @escaping () -> Void) {
+        self.chevronClick = chevronClick
         UIView.transition(with: titleLabel, duration: Constants.animationDefaultDuration, options: [.transitionCrossDissolve]) {
             self.titleLabel.attributedText = month.at.attributed { attr in
                 attr.foreground(color: UIColor(named: "TAHeading")!).font(Fonts.heading3)
@@ -52,13 +64,19 @@ class CalendarViewHeader: UIView {
             }
         }
     }
-    @objc func leftClicked() {
-        onPrev?()
-    }
-    @objc func rightClicked() {
-        onNext?()
+    
+    @objc func chevronClicked() {
+        chevronState = .normal
+        chevronClick?()
     }
 
+}
+
+extension CalendarViewHeader {
+    enum ChevronState {
+        case rotated
+        case normal
+    }
 }
 
 class TAJTDateHeader: JTACMonthReusableView {

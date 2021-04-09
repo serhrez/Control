@@ -61,22 +61,26 @@ final class CalendarView: UIView {
 
 extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     
+    func calendar(_ calendar: JTACMonthView, willScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        if visibleDates.monthDates[0].date.isInside(date: Date(), granularity: .month) {
+            dateHeader.chevronState = .normal
+        } else {
+            dateHeader.chevronState = .rotated
+        }
+    }
+    
     func calendar(_ calendar: JTACMonthView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTACMonthReusableView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
         let month = dateFormatter.string(from: range.start)
         dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: range.start)
-        dateHeader.configure(month: month, year: year, onPrev: {
-            calendar.isUserInteractionEnabled = false
-            calendar.scrollToSegment(.previous) {
-                calendar.isUserInteractionEnabled = true
+        dateHeader.configure(month: month, year: year, chevronClick: { [weak calendar] in
+            calendar?.isUserInteractionEnabled = false
+            calendar?.scrollToDate(Date()) {
+                calendar?.isUserInteractionEnabled = true
             }
-        }, onNext: {
-            calendar.isUserInteractionEnabled = false
-            calendar.scrollToSegment(.next) {
-                calendar.isUserInteractionEnabled = true
-            }
+            
         })
         return calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "TAJTDateHeader", for: indexPath)
     }
@@ -107,7 +111,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         return cell
     }
     func calendar(_ calendar: JTACMonthView, shouldSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) -> Bool {
-        return true
+        return Date().dateAt(.startOfDay) <= cellState.date
     }
     
     func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
