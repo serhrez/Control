@@ -55,7 +55,7 @@ final class CalendarVc2: UIViewController {
         stack.alignment = .top
         return stack
     }()
-    private let scrollView = UIScrollView()
+    let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
         guard let self = self else { return }
         self.closeView()
@@ -113,13 +113,7 @@ final class CalendarVc2: UIViewController {
 
     private func setupViews() {
         view.backgroundColor = UIColor(named: "TABackground")
-        let closeBackgroundView = UIView()
-        closeBackgroundView.backgroundColor = UIColor(named: "TABackground")
-        view.layout(closeBackgroundView).edges()
-        let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        closeBackgroundView.addGestureRecognizer(backgroundGesture)
 
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.12)
         let centerYAnchor = view.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let centerXAnchor = view.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         centerYAnchor.priority = .init(1)
@@ -128,7 +122,6 @@ final class CalendarVc2: UIViewController {
         centerXAnchor.isActive = true
         view.layout(scrollView).trailing().leading().top().bottom()
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
-        scrollView.frameLayoutGuide.heightAnchor.constraint(lessThanOrEqualTo: scrollView.contentLayoutGuide.heightAnchor).isActive = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.layout(calendarView).centerX().top(14)
         scrollView.layout(clearDoneButtons).top().leading().trailing()
@@ -157,12 +150,9 @@ final class CalendarVc2: UIViewController {
         ])
         calendarButtons.axis = .vertical
         calendarButtons.spacing = 5
-        scrollView.layout(calendarButtons).leading(17).trailing(17).top(calendarView.anchor.bottom, 14).bottomSafe() { _, _ in .lessThanOrEqual }
-        let scrollHeight = scrollView.frameLayoutGuide.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor)
-        scrollHeight.priority = .init(1)
-        scrollHeight.isActive = true
+        scrollView.layout(calendarButtons).leading(17).trailing(17).top(calendarView.anchor.bottom, 14).bottom()
     }
-    @objc private func closeView() {
+    private func closeView() {
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -249,7 +239,6 @@ extension CalendarVc2 {
             self.onClick = onClick
             super.init(frame: .zero)
             opacityState = .opacity()
-            vibrateOnClick = true
             heightAnchor.constraint(equalToConstant: 52).isActive = true
             layout(titleLabel2).leading(47).centerY()
             layout(imageView2).leading(15).width(24).height(24).centerY()
@@ -275,5 +264,13 @@ extension CalendarVc2 {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+    }
+}
+
+extension CalendarVc2: ContentHeightProtocol {
+    func height() -> CGFloat {
+        view.layoutSubviews()
+        scrollView.layoutSubviews()
+        return scrollView.contentSize.height
     }
 }

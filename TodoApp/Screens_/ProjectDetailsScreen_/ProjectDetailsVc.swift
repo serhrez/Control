@@ -30,6 +30,7 @@ class ProjectDetailsVc: UIViewController {
     private let bag = DisposeBag()
     private let shouldPopTwo: Bool
     private var doOnAppear: (() -> Void)?
+    private let fpc = CustomFloatingPanel()
     let trashTextField = TrashTextField()
     init(project: RlmProject, state: PrScreenState, isInbox: Bool = false, shouldPopTwo: Bool = false) {
         self.project = project
@@ -477,13 +478,16 @@ class ProjectDetailsVc: UIViewController {
                     DispatchQueue.main.async {
                         switch authorization {
                         case .authorized:
-                            let dateVc = CalendarVc(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date)) { [weak self] (date, reminder, repeatt) in
+                            let dateVc = CalendarVc2(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date)) { [weak self] (date, reminder, repeatt) in
                                 addTask.date = date
                                 addTask.reminder = reminder
                                 addTask.repeatt = repeatt
                                 self?.state = .addTask(addTask)
                             }
-                            self?.present(dateVc, animated: true)
+                            self?.fpc.configure(vc: dateVc, scrollViews: [dateVc.scrollView])
+                            if let fpc = self?.fpc.fpc {
+                                self?.present(fpc, animated: true)
+                            }
                         case .denied:
                             print("Denied")
                         case .deniedPreviously:

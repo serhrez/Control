@@ -36,6 +36,7 @@ final class TaskDetailsVc: UIViewController {
     private var shouldUpdateTagsOnShown = false
     private var wasAlreadyShown: Bool = false
     private var containerStackLeadingTrailing: CGFloat = 26
+    private var fpc = CustomFloatingPanel()
 
     init(viewModel: TaskDetailsVcVm) {
         self.viewModel = viewModel
@@ -604,10 +605,13 @@ final class TaskDetailsVc: UIViewController {
                 DispatchQueue.main.async {
                     switch authorization {
                     case .authorized:
-                        let calendarVc = CalendarVc(viewModel: .init(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date)) { (newDate, newReminder, newRepeat) in
+                        let calendarVc = CalendarVc2(viewModel: .init(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date)) { (newDate, newReminder, newRepeat) in
                             self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
                         }
-                        self?.present(calendarVc, animated: true)
+                        self?.fpc.configure(vc: calendarVc, scrollViews: [calendarVc.scrollView])
+                        if let fpc = self?.fpc.fpc {
+                            self?.present(fpc, animated: true)
+                        }
                     case .denied:
                         print("Denied")
                     case .deniedPreviously:

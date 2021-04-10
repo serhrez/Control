@@ -11,6 +11,7 @@
 		1BD9D8045F138F8DC33362E8 /* Pods_TodoApp_TodoAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C521F921ACA686489458B3E4 /* Pods_TodoApp_TodoAppUITests.framework */; };
 		6D35145C6659E754A91795C7 /* Pods_ControlWidgetExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2138275BB79D1721431297E /* Pods_ControlWidgetExtension.framework */; };
 		A5033DB625939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */; };
+		A506F8112621D65B0042DAB2 /* CustomFloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A506F8102621D65B0042DAB2 /* CustomFloatingPanel.swift */; };
 		A50834F225C9D03B009D2067 /* DebugSettingsVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50834F125C9D03B009D2067 /* DebugSettingsVc.swift */; };
 		A5085E332556EF7800A31BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E322556EF7800A31BBB /* AppDelegate.swift */; };
 		A5085E352556EF7800A31BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5085E342556EF7800A31BBB /* SceneDelegate.swift */; };
@@ -262,6 +263,7 @@
 		2AE8CF77A311AA77FB69A012 /* Pods-TodoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.release.xcconfig"; path = "Target Support Files/Pods-TodoApp/Pods-TodoApp.release.xcconfig"; sourceTree = "<group>"; };
 		8C3BD01F99B5EDB936F3A63F /* Pods-ControlWidgetExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ControlWidgetExtension.debug.xcconfig"; path = "Target Support Files/Pods-ControlWidgetExtension/Pods-ControlWidgetExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		A5033DB525939B8C00D5AEEC /* ProjectDetailsTaskCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsTaskCreateModel.swift; sourceTree = "<group>"; };
+		A506F8102621D65B0042DAB2 /* CustomFloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFloatingPanel.swift; sourceTree = "<group>"; };
 		A50834F125C9D03B009D2067 /* DebugSettingsVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsVc.swift; sourceTree = "<group>"; };
 		A5085E2F2556EF7800A31BBB /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5085E322556EF7800A31BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -513,6 +515,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A506F80B2621D62F0042DAB2 /* CustomFloatingPanels */ = {
+			isa = PBXGroup;
+			children = (
+				A506F8102621D65B0042DAB2 /* CustomFloatingPanel.swift */,
+			);
+			path = CustomFloatingPanels;
+			sourceTree = "<group>";
+		};
 		A5085E262556EF7800A31BBB = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +827,7 @@
 		A533E0A8255C8D2700B301C7 /* Custom3rdViews */ = {
 			isa = PBXGroup;
 			children = (
+				A506F80B2621D62F0042DAB2 /* CustomFloatingPanels */,
 				A533E0A9255C8D4300B301C7 /* PopuptodoAction.swift */,
 				A5B67F8325910C6600EAD13D /* SimpleButton.swift */,
 			);
@@ -1624,6 +1635,7 @@
 				A5722D15257430CF0098BECE /* GappedCircle.swift in Sources */,
 				A5C3E55325ABB419007ECBCA /* CascadeDeleting.swift in Sources */,
 				A5FD7D3A2588D393002D7145 /* PlannedVcHeader.swift in Sources */,
+				A506F8112621D65B0042DAB2 /* CustomFloatingPanel.swift in Sources */,
 				A5917D4D25D2D64900780AEA /* RandomEmoji.swift in Sources */,
 				A5B224A32589716F007C0F6A /* DatePrioritiesHolder.swift in Sources */,
 				A5DD59CE256573CF002AEF42 /* ResizingToken.swift in Sources */,
