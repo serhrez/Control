@@ -21,6 +21,7 @@ target 'TodoApp' do
   pod 'Haptica'
   pod 'Eureka'
   pod 'VisualEffectView'
+  pod 'FloatingPanel'
 
   # Not UI
   pod 'KeychainAccess'

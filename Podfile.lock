@@ -3,6 +3,7 @@ PODS:
   - DeepDiff (2.3.1)
   - Differentiator (4.0.1)
   - Eureka (5.3.2)
+  - FloatingPanel (2.3.0)
   - GrowingTextView (0.7.2)
   - Haptica (3.0.2)
   - InfiniteLayout (0.4.2):
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - AttributedLib (from `https://github.com/cointowitcher/Attributed`)
   - DeepDiff
   - Eureka
+  - FloatingPanel
   - GrowingTextView
   - Haptica
   - InfiniteLayout
@@ -85,6 +87,7 @@ SPEC REPOS:
     - DeepDiff
     - Differentiator
     - Eureka
+    - FloatingPanel
     - GrowingTextView
     - Haptica
     - InfiniteLayout
@@ -133,6 +136,7 @@ SPEC CHECKSUMS:
   DeepDiff: e5ae6c50d0321568e4508cec5930b9f10bb293fc
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   Eureka: 1c2b8b5892bfb0e972d0fe05f8c09fd89f8625ec
+  FloatingPanel: 373478513a197cf140abd219ca9a9c049967332b
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   Haptica: dc206651beeca25ab4744c633fbf0ae4d1e86baf
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
@@ -161,6 +165,6 @@ SPEC CHECKSUMS:
   VisualEffectView: 172fce132b8208da6c0b7c572e7f3987ad54546d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 8ab16f139091754204f7d8370c0fbdf4841000ec
+PODFILE CHECKSUM: 2af1cb874fa7736442cc34d39e686fda7c5b00de
 
 COCOAPODS: 1.10.0
