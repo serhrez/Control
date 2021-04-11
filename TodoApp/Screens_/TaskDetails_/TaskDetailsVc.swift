@@ -605,7 +605,7 @@ final class TaskDetailsVc: UIViewController {
                 DispatchQueue.main.async {
                     switch authorization {
                     case .authorized:
-                        let calendarVc = CalendarVc2(viewModel: .init(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date)) { (newDate, newReminder, newRepeat) in
+                        let calendarVc = CalendarVc(viewModel: .init(reminder: taskDate?.reminder, repeat: taskDate?.repeat, date: taskDate?.date)) { (newDate, newReminder, newRepeat) in
                             self?.viewModel.newDate(date: newDate, reminder: newReminder, repeatt: newRepeat)
                         }
                         self?.fpc.configure(vc: calendarVc, scrollViews: [calendarVc.scrollView])

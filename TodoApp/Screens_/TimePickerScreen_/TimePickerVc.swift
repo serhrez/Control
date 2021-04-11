@@ -21,12 +21,6 @@ class TimePickerVc: UIViewController {
         let minutes = rightNumber.text.flatMap { Int($0) } ?? 0
         return (hours: hours, minutes: min(minutes, 59))
     }
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "TAAltBackground")!
-        view.layer.cornerRadius = 16
-        return view
-    }()
     private let twoDots: UILabel = {
         let label = UILabel()
         label.text = ":"
@@ -57,11 +51,22 @@ class TimePickerVc: UIViewController {
         view.layer.cornerRadius = 10
         return view
     }()
+    let scrollView = UIScrollView()
+    private let titleLabel = UILabel()
     let keyboard = Typist()
-    let numberField: UITextField = UITextField()
-    private var clearDoneButtons: ClearDoneButtons!
+    let numberField: UITextField = {
+        let textField = UITextField()
+        textField.inputAccessoryView = AccessoryView(onDone: {
+            <#code#>
+        }, onHide: <#T##() -> Void#>)
+        
+        return textField
+    }()
+    private var clearDoneButtons: ClearDoneButtons2!
+    private let onDone: ((hours: Int, minutes: Int)) -> Void = { _ in }
     
     init(hours: Int, minutes: Int, onDone: @escaping ((hours: Int, minutes: Int)) -> Void) {
+        self.onDone = onDone
         self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 24, selected: hours)
         self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 60, selected: minutes)
         
@@ -69,21 +74,13 @@ class TimePickerVc: UIViewController {
         self.rightNumber.isHidden = true
         
         super.init(nibName: nil, bundle: nil)
-        clearDoneButtons = ClearDoneButtons(clear: { [weak self] in
+        clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
             guard let self = self else { return }
             self.timeSelectionHoursView.beforeDisappear()
             self.timeSelectionMinutesView.beforeDisappear()
             self.closeView()
         }, done: { [weak self] in
-            guard let self = self else { return }
-            self.timeSelectionHoursView.beforeDisappear()
-            self.timeSelectionMinutesView.beforeDisappear()
-            if self.leftNumber.isHidden {
-                onDone(self.selectedTime)
-            } else {
-                onDone(self.manualSelectedTime)
-            }
-            self.closeView()
+            self?.done()
         })
         setupViews()
         modalTransitionStyle = .crossDissolve
@@ -96,18 +93,28 @@ class TimePickerVc: UIViewController {
     
     func setupViews() {
         applySharedNavigationBarAppearance()
-        let closeBackgroundView = UIView()
-        view.layout(closeBackgroundView).edges()
-        let backgroundGesture = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        closeBackgroundView.addGestureRecognizer(backgroundGesture)
 
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.12)
+        view.backgroundColor = UIColor(named: "TAAltBackground")!
+        
         view.addSubview(numberField)
         numberField.keyboardType = .numberPad
         numberField.becomeFirstResponder()
         numberField.delegate = self
-        view.layout(containerView).leadingSafe(13).trailingSafe(13).height(253)
-        containerView.layout(blueView).centerX().top(62).height(71).width(216)
+                
+        titleLabel.text = "Time"
+        titleLabel.textColor = UIColor(named: "TAHeading")!
+        titleLabel.font = Fonts.heading3
+        
+        view.layout(scrollView).edges()
+        scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
+        scrollView.layout(clearDoneButtons).top().leading().trailing()
+        scrollView.layout(titleLabel).top(21).centerX()
+        
+        let stack = UIStackView(arrangedSubviews: [
+            
+        ])
+        
+        scrollView.layout(blueView).centerX().top(82).height(71).width(216).bottom()
         blueView.clipsToBounds = true
         blueView.layout(timeSelectionHoursView).leading(20).centerY()
         blueView.layout(timeSelectionMinutesView).trailing(20).centerY()
@@ -116,11 +123,23 @@ class TimePickerVc: UIViewController {
         blueView.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
         blueView.hitTestView2 = timeSelectionHoursView
         blueView.hitTestView1 = timeSelectionMinutesView
-        containerView.layout(clearDoneButtons).bottom(20).leading(20).trailing(20)
+                
         setupKeyboard()
-        self.containerView.snp.makeConstraints { make in
-            make.bottom.equalTo(0)
+    }
+    
+    private func clear() {
+        
+    }
+    
+    private func done() {
+        self.timeSelectionHoursView.beforeDisappear()
+        self.timeSelectionMinutesView.beforeDisappear()
+        if self.leftNumber.isHidden {
+            onDone(self.selectedTime)
+        } else {
+            onDone(self.manualSelectedTime)
         }
+        self.closeView()
     }
     
     @objc private func closeView() {
@@ -136,9 +155,7 @@ class TimePickerVc: UIViewController {
                 guard previousHeight != height && height > 40 else { return }
                 previousHeight = height
                 print("new height: \(height)")
-                self.containerView.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-height)
-                }
+                self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             }
             .on(event: .willHide) { [weak self] options in
                 guard let self = self else { return }
@@ -146,9 +163,7 @@ class TimePickerVc: UIViewController {
                 guard previousHeight != height && height > 40 else { return }
                 previousHeight = height
                 print("new height from willHide: \(height)")
-                self.containerView.snp.remakeConstraints { make in
-                    make.bottom.equalTo(-height)
-                }
+                self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
             }
             .start()
     }
@@ -220,5 +235,11 @@ extension TimePickerVc: UITextFieldDelegate {
             }
         }
         return String(text)
+    }
+}
+
+extension TimePickerVc: ContentHeightProtocol {
+    func height() -> CGFloat {
+        return 700
     }
 }

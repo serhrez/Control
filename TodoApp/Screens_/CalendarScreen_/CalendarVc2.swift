@@ -12,7 +12,7 @@ import RxSwift
 import SwiftDate
 import AttributedLib
 
-final class CalendarVc2: UIViewController {
+final class CalendarVc: UIViewController {
     private let bag = DisposeBag()
     private let viewModel: CalendarVcVm
     private lazy var calendarView = CalendarView(alreadySelectedDate: viewModel.date.value.0 ?? .init(), selectDate: { [weak self] date in
@@ -58,19 +58,11 @@ final class CalendarVc2: UIViewController {
     let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
         guard let self = self else { return }
-        self.closeView()
+        self.clickedClear()
     }, done: { [weak self] in
         self?.done()
     })
-    lazy var timeButton = CalendarVc.CalendarButton2(image: "alarm", text: "Time".localizable(), onClick: { [weak self] in
-        self?.clickedTime()
-    })
-    lazy var reminderButton = CalendarVc.CalendarButton2(image: "bell", text: "Reminder".localizable(), onClick: { [weak self] in
-        self?.clickedReminder()
-    })
-    lazy var repeatButton = CalendarVc.CalendarButton2(image: "repeat", text: "Repeat".localizable(), onClick: { [weak self] in
-        self?.clickedRepeat()
-    })
+    private let fcp = CustomFloatingPanel()
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
     init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
         self.viewModel = viewModel
@@ -91,7 +83,7 @@ final class CalendarVc2: UIViewController {
     private func setupBinding() {
         viewModel.date.subscribe(onNext: { [weak self] date in
             guard let self = self else { return }
-            self.timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
+//            self.timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
             if !(date.1 ?? false) {
                 if let date = date.0 {
                     self.calendarView.jctselectDate(date)
@@ -100,11 +92,11 @@ final class CalendarVc2: UIViewController {
         }).disposed(by: bag)
         viewModel.reminder.subscribe(onNext: { [weak self] reminder in
             guard let self = self else { return }
-            self.reminderButton.configure(selectedText: reminder?.description)
+//            self.reminderButton.configure(selectedText: reminder?.description)
         }).disposed(by: bag)
         viewModel.repeat.subscribe(onNext: { [weak self] `repeat` in
             guard let self = self else { return }
-            self.repeatButton.configure(selectedText: `repeat`?.description)
+//            self.repeatButton.configure(selectedText: `repeat`?.description)
         }).disposed(by: bag)
         viewModel.shouldGoBackAndSave = { [weak self] in
             self?.done()
@@ -112,7 +104,7 @@ final class CalendarVc2: UIViewController {
     }
 
     private func setupViews() {
-        view.backgroundColor = UIColor(named: "TABackground")
+        view.backgroundColor = UIColor(named: "TAAltBackground")
 
         let centerYAnchor = view.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         let centerXAnchor = view.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -138,14 +130,14 @@ final class CalendarVc2: UIViewController {
             CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening", detailText: "18:00 Wed", isDetailBlue: false, onClick: {
                 print("clicked")
             }),
-            CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: {
-                print("clicked")
+            CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: { [weak self] in
+                self?.clickedTime()
             }),
-            CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: {
-                print("clicked")
+            CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: { [weak self] in
+                self?.clickedReminder()
             }),
-            CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: {
-                print("clicked")
+            CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: { [weak self] in
+                self?.clickedRepeat()
             })
         ])
         calendarButtons.axis = .vertical
@@ -176,18 +168,20 @@ final class CalendarVc2: UIViewController {
     }
     
     func clickedReminder() {
-        let selection1Vc = Selection1Vc.reminderVc(onDone: { [weak self] in
+        let selection1Vc = Selection2Vc.reminderVc(onDone: { [weak self] in
             guard let self = self else { return }
             self.viewModel.reminderSelected($0)
         }, selected: viewModel.reminder.value)
-        self.present(selection1Vc, animated: true, completion: nil)
+        fcp.configure(vc: selection1Vc, scrollViews: [selection1Vc.scrollView])
+        self.present(fcp.fpc, animated: true)
     }
     func clickedRepeat() {
-        let selection1Vc = Selection1Vc.repeatVc(onDone: { [weak self] in
+        let selection1Vc = Selection2Vc.repeatVc(onDone: { [weak self] in
             guard let self = self else { return }
             self.viewModel.repeatSelected($0)
         }, selected: viewModel.repeat.value)
-        self.present(selection1Vc, animated: true, completion: nil)
+        fcp.configure(vc: selection1Vc, scrollViews: [selection1Vc.scrollView])
+        self.present(fcp.fpc, animated: true)
     }
     func clickedTime() {
         let date = viewModel.date.value.0
@@ -196,11 +190,12 @@ final class CalendarVc2: UIViewController {
             guard let self = self else { return }
             self.viewModel.timeSelected(hours: $0, minutes: $1)
         })
-        self.present(timePickerVc, animated: true, completion: nil)
+        fcp.configure(vc: timePickerVc, scrollViews: [timePickerVc.scrollView])
+        self.present(fcp.fpc, animated: true)
     }
 }
 
-extension CalendarVc2 {
+extension CalendarVc {
     
     class CalendarButton1: UIButton {
         let imageView2 = UIImageView(frame: .zero)
@@ -259,6 +254,11 @@ extension CalendarVc2 {
             layer.borderWidth = 1
             layer.borderColor = UIColor(named: "TABorder")!.cgColor
             layer.cornerCurve = .continuous
+            addTarget(self, action: #selector(clicked), for: .touchUpInside)
+        }
+        
+        @objc private func clicked() {
+            onClick()
         }
         
         required init?(coder: NSCoder) {
@@ -267,7 +267,7 @@ extension CalendarVc2 {
     }
 }
 
-extension CalendarVc2: ContentHeightProtocol {
+extension CalendarVc: ContentHeightProtocol {
     func height() -> CGFloat {
         view.layoutSubviews()
         scrollView.layoutSubviews()

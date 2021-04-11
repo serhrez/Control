@@ -478,7 +478,7 @@ class ProjectDetailsVc: UIViewController {
                     DispatchQueue.main.async {
                         switch authorization {
                         case .authorized:
-                            let dateVc = CalendarVc2(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date)) { [weak self] (date, reminder, repeatt) in
+                            let dateVc = CalendarVc(viewModel: .init(reminder: addTask.reminder, repeat: addTask.repeatt, date: addTask.date)) { [weak self] (date, reminder, repeatt) in
                                 addTask.date = date
                                 addTask.reminder = reminder
                                 addTask.repeatt = repeatt
