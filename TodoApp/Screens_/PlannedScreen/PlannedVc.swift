@@ -17,10 +17,10 @@ final class PlannedVc: UIViewController {
     private lazy var calendarViewCollectionView = UICollectionView(frame: .zero, collectionViewLayout: calendarViewFlowLayout)
     private let projectStartedView = ProjectStartedView(mode: .noCalendarPlanned)
     private var calendarPadding: CGFloat { 13 }
-    private var calendarInset: CGFloat { 9 }
+    static let calendarInset: CGFloat = 9
     
     private lazy var calendarView: CalendarView = {
-        let layout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - calendarPadding * 2 - calendarInset * 2, cellColumns: 7, cellRows: 6)
+        let layout = CalendarViewLayout(availableWidth: UIScreen.main.bounds.width - calendarPadding * 2 - PlannedVc.calendarInset * 2, cellColumns: 7, cellRows: 6)
         let view = CalendarView(layout: layout, alreadySelectedDate: .init(), selectDate: { [weak self] date in
             if let cvc = self?.calendarViewCollectionView,
                cvc.numberOfSections > 0 && cvc.numberOfItems(inSection: 0) > 0 {
@@ -29,7 +29,7 @@ final class PlannedVc: UIViewController {
             self?.viewModel.selectDayFromJct(date)
         }, datePriorities: { [weak self] date in
             return self?.viewModel.datePriorities(date) ?? (false, false, false, false)
-        })
+        }, isSecondLook: true)
         return view
     }()
     private lazy var calendarViewContainer: UIView = {
@@ -39,7 +39,7 @@ final class PlannedVc: UIViewController {
         view.layer.cornerCurve = .continuous
         view.addShadow(offset: .init(width: 0, height: 2), opacity: 1, radius: 16, color: UIColor(red: 0.141, green: 0.141, blue: 0.141, alpha: 0.1))
 
-        view.layout(calendarView).top(6).bottom(10).leading(calendarInset).trailing(calendarInset)
+        view.layout(calendarView).top(6).bottom(10).leading(PlannedVc.calendarInset).trailing(PlannedVc.calendarInset)
         return view
     }()
     private var didAppear = false

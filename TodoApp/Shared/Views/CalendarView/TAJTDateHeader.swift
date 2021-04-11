@@ -41,15 +41,21 @@ class CalendarViewHeader: UIView {
             }
         }
     }
+    private let isSecondLook: Bool
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(taLayout: CalendarViewLayout) {
+    init(taLayout: CalendarViewLayout, isSecondLook: Bool) {
+        self.isSecondLook = isSecondLook
         super.init(frame: .zero)
         heightAnchor.constraint(equalToConstant: 48).isActive = true
-        layout(titleView).center()
+        if isSecondLook {
+            layout(titleView).centerY().leading(24 - PlannedVc.calendarInset)
+        } else {
+            layout(titleView).center()
+        }
         titleView.layout(titleLabel).leading().top().bottom()
         titleView.layout(chevronButton).trailing().centerY().leading(titleLabel.anchor.trailing, 4)
     }
@@ -57,7 +63,7 @@ class CalendarViewHeader: UIView {
     func configure(month: String, year: String, chevronClick: @escaping () -> Void) {
         self.chevronClick = chevronClick
         self.titleLabel.attributedText = month.at.attributed { attr in
-            attr.foreground(color: UIColor(named: "TAHeading")!).font(Fonts.heading3)
+            attr.foreground(color: UIColor(named: "TAHeading")!).font(isSecondLook ? Fonts.heading7 : Fonts.heading3)
         } + " \(year)".at.attributed { attr in
             attr.foreground(color: .hex("#447BFE")).font(Fonts.heading3)
         }

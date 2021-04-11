@@ -14,18 +14,20 @@ import SwiftDate
 final class CalendarView: UIView {
     private let taLayout: CalendarViewLayout
     private let jct = JTACMonthView()
-    lazy var dateHeader = CalendarViewHeader(taLayout: taLayout)
+    lazy var dateHeader = CalendarViewHeader(taLayout: taLayout, isSecondLook: isSecondLook)
     private let formatter = DateFormatter()
     private let selectDate: (Date) -> Void
     private let datePriorities: (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)
     private let alreadySelectedDate: Date
     private var shouldChangeTitle: Bool = true
+    private let isSecondLook: Bool
     
-    init(layout: CalendarViewLayout = .default1, alreadySelectedDate: Date, selectDate: @escaping (Date) -> Void, datePriorities: @escaping (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool)) {
+    init(layout: CalendarViewLayout = .default1, alreadySelectedDate: Date, selectDate: @escaping (Date) -> Void, datePriorities: @escaping (Date) -> (blue: Bool, orange: Bool, red: Bool, gray: Bool), isSecondLook: Bool = false) {
         self.taLayout = layout
         self.selectDate = selectDate
         self.datePriorities = datePriorities
         self.alreadySelectedDate = alreadySelectedDate
+        self.isSecondLook = isSecondLook
         super.init(frame: .zero)
     }
     required init?(coder: NSCoder) {
