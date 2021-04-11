@@ -58,7 +58,7 @@ class TimePickerVc: UIViewController {
         let textField = UITextField()
         textField.inputAccessoryView = AccessoryView(onDone: { [weak self] in
             self?.done()
-        }, onHide: { [weak textField] in
+        }, onHide: { [weak self, weak textField] in
             textField?.endEditing(true)
         })
         
@@ -75,7 +75,6 @@ class TimePickerVc: UIViewController {
         self.onDone = onDone
         self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 24, selected: hours)
         self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 60, selected: minutes)
-        
         self.leftNumber.isHidden = true
         self.rightNumber.isHidden = true
         
@@ -157,6 +156,14 @@ class TimePickerVc: UIViewController {
         }
         selectedIndex = index
         selectionViews[selectedIndex].setIsChecked(true)
+        
+        timeSelectionHoursView.isHidden = true
+        timeSelectionMinutesView.isHidden = true
+        leftNumber.isHidden = false
+        rightNumber.isHidden = false
+        let hours = "\(TimePickerVc.availableHours[index])"
+        leftNumber.text = hours.count == 1 ? "0\(hours)" : hours
+        rightNumber.text = "00"
     }
     
     private func clear() {
@@ -186,25 +193,25 @@ class TimePickerVc: UIViewController {
         keyboard
             .on(event: .willChangeFrame) { [weak self] options in
                 guard let self = self else { return }
-                let height = UIScreen.main.bounds.height - options.endFrame.origin.y + 15
+                let height = UIScreen.main.bounds.height - options.endFrame.origin.y
                 guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height: \(height)")
                 if self.didAppear {
                     UIView.animate(withDuration: Constants.animationDefaultDuration) {
                         self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                        self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
+                        self.scrollView.scrollIndicatorInsets = .init(top: 16/2, left: 0, bottom: height - 34, right: 0)
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
-                        self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
+                        self.scrollView.scrollIndicatorInsets = .init(top: 16/2, left: 0, bottom: height - 34, right: 0)
                     }
                 }
             }
             .on(event: .willHide) { [weak self] options in
                 guard let self = self else { return }
-                let height = UIScreen.main.bounds.height - options.endFrame.origin.y + 15
+                let height = UIScreen.main.bounds.height - options.endFrame.origin.y
                 guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height from willHide: \(height)")
