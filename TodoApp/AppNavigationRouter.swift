@@ -21,7 +21,7 @@ class AppNavigationRouter {
         pushVc(AllTagsVc(mode: mode))
     }
     
-    func openTime(onDone: @escaping (_ hours: Int, _ minutes: Int) -> Void, selected: (hours: Int, minutes: Int)?) {
+    func openTime(onDone: @escaping ((hours: Int, minutes: Int)?) -> Void, selected: (hours: Int, minutes: Int)?) {
         pushVc(TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: onDone))
     }
 

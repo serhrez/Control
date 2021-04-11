@@ -65,13 +65,13 @@ class TimePickerVc: UIViewController {
         return textField
     }()
     private var clearDoneButtons: ClearDoneButtons2!
-    private let onDone: ((hours: Int, minutes: Int)) -> Void
+    private let onDone: ((hours: Int, minutes: Int)?) -> Void
     private static let availableHours: [Int] = [9,10,11,12,13,14,15,16,17,18,19,20,21,22]
     private var selectionViews: [Selection2View]!
-    private var selectedIndex = 0
+    private var selectedIndex = -1
     private var didAppear: Bool = false
     
-    init(hours: Int, minutes: Int, onDone: @escaping ((hours: Int, minutes: Int)) -> Void) {
+    init(hours: Int, minutes: Int, onDone: @escaping ((hours: Int, minutes: Int)?) -> Void) {
         self.onDone = onDone
         self.timeSelectionHoursView = TimeSelectionxView(maxNumber: 24, selected: hours)
         self.timeSelectionMinutesView = TimeSelectionxView(maxNumber: 60, selected: minutes)
@@ -82,8 +82,7 @@ class TimePickerVc: UIViewController {
         super.init(nibName: nil, bundle: nil)
         clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
             guard let self = self else { return }
-            self.timeSelectionHoursView.beforeDisappear()
-            self.timeSelectionMinutesView.beforeDisappear()
+            self.clear()
             self.closeView()
         }, done: { [weak self] in
             self?.done()
@@ -153,13 +152,15 @@ class TimePickerVc: UIViewController {
     
     private func selectItem(_ index: Int) {
         guard index != selectedIndex else { return }
-        selectionViews[selectedIndex].setIsChecked(false)
+        if selectedIndex != -1 {
+            selectionViews[selectedIndex].setIsChecked(false)
+        }
         selectedIndex = index
         selectionViews[selectedIndex].setIsChecked(true)
     }
     
     private func clear() {
-        
+        onDone(nil)
     }
     
     private func done() {
@@ -174,6 +175,8 @@ class TimePickerVc: UIViewController {
     }
     
     @objc private func closeView() {
+        self.timeSelectionHoursView.beforeDisappear()
+        self.timeSelectionMinutesView.beforeDisappear()
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -166,9 +166,15 @@ final class CalendarVc: UIViewController {
     func clickedTime() {
         let date = viewModel.date.value.0
         let selected = date.flatMap { (hours: $0.hour, minutes: $0.minute) }
-        let timePickerVc = TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [weak self] in
+        let timePickerVc = TimePickerVc(hours: selected?.hours ?? 0, minutes: selected?.minutes ?? 0, onDone: { [weak self] date in
             guard let self = self else { return }
-            self.viewModel.timeSelected(hours: $0, minutes: $1)
+            if let date = date {
+                self.viewModel.timeSelected(hours: date.hours, minutes: date.minutes)
+            } else {
+                self.viewModel.date.accept((nil, false))
+                self.viewModel.reminder.accept(nil)
+                self.viewModel.repeat.accept(nil)
+            }
         })
         fcp.configure(vc: timePickerVc, scrollViews: [timePickerVc.scrollView])
         self.present(fcp.fpc, animated: true)

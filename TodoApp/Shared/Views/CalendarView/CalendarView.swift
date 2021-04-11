@@ -99,7 +99,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
         formatter.locale = Calendar.current.locale
         
         
-        let startDate = formatter.date(from: "2017 01 01")!
+        let startDate = alreadySelectedDate
         let endDate = formatter.date(from: "2025 02 01")!
         
         let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate, firstDayOfWeek: .monday)
