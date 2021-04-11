@@ -591,7 +591,7 @@ final class TaskDetailsVc: UIViewController {
     
     func openCalendarVc() {
         let taskDate = viewModel.task.date?.freeze()
-        guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {
+        guard KeychainWrapper.shared.isPremium || viewModel.task.date != nil || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.date?.date != nil }).count <= Constants.maximumDatesToTask else {
             dismiss(animated: true) { [weak self] in
                 let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
                 self?.dismiss(animated: true, completion: {

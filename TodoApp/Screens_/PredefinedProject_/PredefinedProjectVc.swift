@@ -58,7 +58,7 @@ class PredefinedProjectVc: UIViewController {
         onCalendarClicked: { [weak self] in
             guard let self = self else { return }
             guard var addTask = self.addTaskModel else { return }
-            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask else {
+            guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.date?.date != nil }).count <= Constants.maximumDatesToTask else {
                 let premiumFeaturesVc = PremiumFeaturesVc(notification: .dateToTaskLimit)
                 self.dismiss(animated: true, completion: { [weak self] in
                     self?.present(premiumFeaturesVc, animated: true, completion: nil)
@@ -341,7 +341,7 @@ class PredefinedProjectVc: UIViewController {
         case .today:
             let threeHoursLaterDate = Date().dateAtEndOf(.hour) + 1.seconds + 2.hours
             let date = threeHoursLaterDate.isToday ? threeHoursLaterDate : Date()
-            let shouldAddDate = KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTaskDate.self).filter({ $0.date != nil }).count <= Constants.maximumDatesToTask
+            let shouldAddDate = KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.date?.date != nil }).count <= Constants.maximumDatesToTask
             self.newFormView.taskDescription.text = ""
             self.newFormView.nameField.text = ""
             self.addTaskModel = .init(priority: .none, name: "", description: "", tags: [], date: shouldAddDate ? date : nil , reminder: nil, repeatt: nil)
