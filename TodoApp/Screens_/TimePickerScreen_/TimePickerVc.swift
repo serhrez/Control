@@ -54,16 +54,22 @@ class TimePickerVc: UIViewController {
     let scrollView = UIScrollView()
     private let titleLabel = UILabel()
     let keyboard = Typist()
-    let numberField: UITextField = {
+    lazy var numberField: UITextField = {
         let textField = UITextField()
-        textField.inputAccessoryView = AccessoryView(onDone: {
-            <#code#>
-        }, onHide: <#T##() -> Void#>)
+        textField.inputAccessoryView = AccessoryView(onDone: { [weak self] in
+            self?.done()
+        }, onHide: { [weak textField] in
+            textField?.endEditing(true)
+        })
         
         return textField
     }()
     private var clearDoneButtons: ClearDoneButtons2!
-    private let onDone: ((hours: Int, minutes: Int)) -> Void = { _ in }
+    private let onDone: ((hours: Int, minutes: Int)) -> Void
+    private static let availableHours: [Int] = [9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+    private var selectionViews: [Selection2View]!
+    private var selectedIndex = 0
+    private var didAppear: Bool = false
     
     init(hours: Int, minutes: Int, onDone: @escaping ((hours: Int, minutes: Int)) -> Void) {
         self.onDone = onDone
@@ -105,16 +111,12 @@ class TimePickerVc: UIViewController {
         titleLabel.textColor = UIColor(named: "TAHeading")!
         titleLabel.font = Fonts.heading3
         
-        view.layout(scrollView).edges()
+        view.layout(scrollView).top().leading().trailing().bottom()
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
         scrollView.layout(clearDoneButtons).top().leading().trailing()
         scrollView.layout(titleLabel).top(21).centerX()
-        
-        let stack = UIStackView(arrangedSubviews: [
             
-        ])
-        
-        scrollView.layout(blueView).centerX().top(82).height(71).width(216).bottom()
+        scrollView.layout(blueView).centerX().top(82).height(71).width(216)
         blueView.clipsToBounds = true
         blueView.layout(timeSelectionHoursView).leading(20).centerY()
         blueView.layout(timeSelectionMinutesView).trailing(20).centerY()
@@ -123,8 +125,37 @@ class TimePickerVc: UIViewController {
         blueView.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
         blueView.hitTestView2 = timeSelectionHoursView
         blueView.hitTestView1 = timeSelectionMinutesView
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(blueViewClicked))
+        blueView.addGestureRecognizer(tapGesture)
+        
+        var arrangedSubviews: [Selection2View] = []
+        for enumerated in TimePickerVc.availableHours.enumerated() {
+            let hourStr = "\(enumerated.element)"
+            let text = (hourStr.count == 1 ? "0\(hourStr)" : hourStr) + ":00"
+            let selectionVc = Selection2View(text: text, isSelected: false, isStyle2: false)
+            selectionVc.onSelected = { [weak self] in
+                self?.selectItem(enumerated.offset)
+            }
+            arrangedSubviews.append(selectionVc)
+        }
+        selectionViews = arrangedSubviews
+        let stack = UIStackView(arrangedSubviews: arrangedSubviews)
+        stack.axis = .vertical
+        stack.spacing = 5
+        scrollView.layout(stack).top(blueView.anchor.bottom, 32).leading(17).trailing(17).bottom()
                 
         setupKeyboard()
+    }
+    
+    @objc func blueViewClicked() {
+        numberField.becomeFirstResponder()
+    }
+    
+    private func selectItem(_ index: Int) {
+        guard index != selectedIndex else { return }
+        selectionViews[selectedIndex].setIsChecked(false)
+        selectedIndex = index
+        selectionViews[selectedIndex].setIsChecked(true)
     }
     
     private func clear() {
@@ -148,28 +179,40 @@ class TimePickerVc: UIViewController {
     
     private func setupKeyboard() {
         var previousHeight: CGFloat?
+        self.scrollView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         keyboard
             .on(event: .willChangeFrame) { [weak self] options in
                 guard let self = self else { return }
-                let height = options.endFrame.intersection(self.view.bounds).height + 15
-                guard previousHeight != height && height > 40 else { return }
+                let height = UIScreen.main.bounds.height - options.endFrame.origin.y + 15
+                guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height: \(height)")
-                self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                if self.didAppear {
+                    UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                        self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                    }
+                }
             }
             .on(event: .willHide) { [weak self] options in
                 guard let self = self else { return }
-                let height = options.endFrame.intersection(self.view.bounds).height + 15
-                guard previousHeight != height && height > 40 else { return }
+                let height = UIScreen.main.bounds.height - options.endFrame.origin.y + 15
+                guard previousHeight != height else { return }
                 previousHeight = height
                 print("new height from willHide: \(height)")
-                self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                UIView.animate(withDuration: Constants.animationDefaultDuration) {
+                    self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                }
             }
             .start()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        didAppear = true
         [timeSelectionHoursView, timeSelectionMinutesView].forEach { $0.viewDidAppear() }
     }
 }
