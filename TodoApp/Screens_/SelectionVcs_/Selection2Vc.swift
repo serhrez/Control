@@ -79,6 +79,8 @@ class Selection2Vc: UIViewController {
     
     lazy var clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
         guard let self = self else { return }
+        // Expected value like None or Never to be at the first index
+        self.onDone(0)
         self.closeView()
     }, done: { [weak self] in
         guard let self = self else { return }

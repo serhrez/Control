@@ -21,40 +21,6 @@ final class CalendarVc: UIViewController {
         guard let self = self else { return (false, false, false, false) }
         return self.viewModel.datePriorities(date)
     })
-    private let separatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "TABorder")!
-        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return view
-    }()
-    private let separatorView2: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "TABorder")!
-        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return view
-    }()
-    lazy var todayButton: CalendarButton1 = CalendarButton1(image: "today", text: "Today".localizable(), imageWidth: 30, onClick: { [weak self] in
-        self?.viewModel.clickedToday()
-    })
-    lazy var tomorrowButton: CalendarButton1 = {
-        let button = CalendarButton1(image: "calendar-plus2", text: "Tomorrow".localizable(), imageWidth: 28, onClick: { [weak self] in
-            self?.viewModel.clickedTomorrow()
-        })
-        button.imageView2.tintColor = .hex("#447BFE")
-        return button
-    }()
-    lazy var nextMondayButton: CalendarButton1 = CalendarButton1(image: "brightness-up", text: "Next Monday".localizable(), isOneLine: false, imageWidth: 26, onClick: { [weak self] in
-        self?.viewModel.clickedNextMonday()
-    })
-    lazy var eveningButton = CalendarButton1(image: "moon", text: "Evening".localizable(), imageWidth: 25, onClick: { [weak self] in
-        self?.viewModel.clickedEvening()
-    })
-    private lazy var buttonsStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [todayButton, tomorrowButton, nextMondayButton, eveningButton])
-        stack.distribution = .fillEqually
-        stack.alignment = .top
-        return stack
-    }()
     let scrollView = UIScrollView()
     private lazy var clearDoneButtons = ClearDoneButtons2(clear: { [weak self] in
         guard let self = self else { return }
@@ -64,6 +30,28 @@ final class CalendarVc: UIViewController {
     })
     private let fcp = CustomFloatingPanel()
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
+    private lazy var todayButton = CalendarButton(image: "today", imageWidth: 20, title: "Today", detailText: "Wed", isDetailBlue: false, onClick: { [weak self] in
+        self?.viewModel.clickedToday()
+    })
+    private lazy var tomorrowButton = CalendarButton(image: "calendar-plus2", imageWidth: 18, title: "Tomorrow", detailText: "Thu", isDetailBlue: false, onClick: { [weak self] in
+        self?.viewModel.clickedTomorrow()
+    })
+    private lazy var nextMondayButton = CalendarButton(image: "brightness-up", imageWidth: 24, title: "Next Monday", detailText: "17 Mon", isDetailBlue: false, onClick: { [weak self] in
+        self?.viewModel.clickedNextMonday()
+    })
+    private lazy var eveningButton = CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening", detailText: "18:00 Wed", isDetailBlue: false, onClick: { [weak self] in
+        self?.viewModel.clickedEvening()
+    })
+    private lazy var timeButton = CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: { [weak self] in
+        self?.clickedTime()
+    })
+    private lazy var reminderButton = CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: { [weak self] in
+        self?.clickedReminder()
+    })
+    private lazy var repeatButton = CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: { [weak self] in
+        self?.clickedRepeat()
+    })
+    
     init(viewModel: CalendarVcVm, onDone: @escaping (Date?, Reminder?, Repeat?) -> Void) {
         self.viewModel = viewModel
         self.onDone = onDone
@@ -83,20 +71,26 @@ final class CalendarVc: UIViewController {
     private func setupBinding() {
         viewModel.date.subscribe(onNext: { [weak self] date in
             guard let self = self else { return }
-//            self.timeButton.configure(selectedText: date.0?.toFormat("HH:mm"))
+            self.timeButton.configure(detailText: date.0?.toFormat("HH:mm") ?? "None", isDetailBlue: date.0 != nil)
             if !(date.1 ?? false) {
                 if let date = date.0 {
                     self.calendarView.jctselectDate(date)
                 }
             }
+            let eveningDate = self.viewModel.getEveningDate()
+            self.eveningButton.configure(detailText: eveningDate.toFormat("HH:mm E"), isDetailBlue: eveningDate == date.0)
+            let nextMondayDate = self.viewModel.getNextMondayDate()
+            self.nextMondayButton.configure(detailText: nextMondayDate.toFormat("d E"), isDetailBlue: nextMondayDate == date.0)
+            let tomorrowDate = self.viewModel.getTomorrowDate()
+            self.tomorrowButton.configure(detailText: tomorrowDate.toFormat("E"), isDetailBlue: tomorrowDate == date.0)
+            let todayDate = self.viewModel.getTodayDate()
+            self.todayButton.configure(detailText: todayDate.toFormat("E"), isDetailBlue: todayDate == date.0)
         }).disposed(by: bag)
         viewModel.reminder.subscribe(onNext: { [weak self] reminder in
-            guard let self = self else { return }
-//            self.reminderButton.configure(selectedText: reminder?.description)
+            self?.reminderButton.configure(detailText: reminder?.description ?? "None", isDetailBlue: reminder?.description != nil)
         }).disposed(by: bag)
         viewModel.repeat.subscribe(onNext: { [weak self] `repeat` in
-            guard let self = self else { return }
-//            self.repeatButton.configure(selectedText: `repeat`?.description)
+            self?.repeatButton.configure(detailText: `repeat`?.description ?? "None", isDetailBlue: `repeat` != nil)
         }).disposed(by: bag)
         viewModel.shouldGoBackAndSave = { [weak self] in
             self?.done()
@@ -118,27 +112,13 @@ final class CalendarVc: UIViewController {
         scrollView.layout(calendarView).centerX().top(14)
         scrollView.layout(clearDoneButtons).top().leading().trailing()
         let calendarButtons = UIStackView(arrangedSubviews: [
-            CalendarButton(image: "today", imageWidth: 20, title: "Today", detailText: "Wed", isDetailBlue: false, onClick: {
-                print("clicked")
-            }),
-            CalendarButton(image: "calendar-plus", imageWidth: 24, title: "Tomorrow", detailText: "Thu", isDetailBlue: false, onClick: {
-                print("clicked")
-            }),
-            CalendarButton(image: "brightness-up", imageWidth: 24, title: "Next Monday", detailText: "17 Mon", isDetailBlue: false, onClick: {
-                print("clicked")
-            }),
-            CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening", detailText: "18:00 Wed", isDetailBlue: false, onClick: {
-                print("clicked")
-            }),
-            CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: { [weak self] in
-                self?.clickedTime()
-            }),
-            CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: { [weak self] in
-                self?.clickedReminder()
-            }),
-            CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: { [weak self] in
-                self?.clickedRepeat()
-            })
+            todayButton,
+            tomorrowButton,
+            nextMondayButton,
+            eveningButton,
+            timeButton,
+            reminderButton,
+            repeatButton
         ])
         calendarButtons.axis = .vertical
         calendarButtons.spacing = 5
@@ -255,6 +235,11 @@ extension CalendarVc {
             layer.borderColor = UIColor(named: "TABorder")!.cgColor
             layer.cornerCurve = .continuous
             addTarget(self, action: #selector(clicked), for: .touchUpInside)
+        }
+        
+        func configure(detailText: String, isDetailBlue: Bool) {
+            detailLabel.text = detailText
+            detailLabel.textColor = isDetailBlue ? UIColor.hex("#447bfe") : UIColor(named: "TASubElement")!
         }
         
         @objc private func clicked() {

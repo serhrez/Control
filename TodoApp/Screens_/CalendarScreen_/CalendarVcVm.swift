@@ -18,6 +18,7 @@ class CalendarVcVm {
     let date: BehaviorRelay<(Date?, Bool?)>
     var shouldGoBackAndSave: () -> Void = { }
     private let datePrioritiesHolder = DatePrioritiesHolder()
+    private let nowDate = Date()
 
     init(reminder: Reminder?, repeat: Repeat?, date: Date?) {
         self.reminder = .init(value: reminder)
@@ -35,26 +36,16 @@ class CalendarVcVm {
     }
     
     func clickedToday() {
-        date.accept((Date().dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second), false))
+        date.accept((getTodayDate(), false))
     }
     func clickedTomorrow() {
-        let datePoint = date.value.0 ?? Date()
-        date.accept((Date().dateAt(.tomorrowAtStart).dateBySet(hour: datePoint.hour, min: datePoint.minute, secs: datePoint.second), false))
-        shouldGoBackAndSave()
+        date.accept((getTomorrowDate(), false))
     }
     func clickedNextMonday() {
-        var nextWeekday = Date().nextWeekday(.monday)
-        if Date().isInside(date: nextWeekday, granularity: .weekOfMonth) {
-            nextWeekday = nextWeekday.nextWeekday(.tuesday).nextWeekday(.monday)
-        }
-        let datePoint = date.value.0 ?? Date()
-        date.accept((nextWeekday.dateBySet(hour: datePoint.hour, min: datePoint.minute, secs: datePoint.second), false))
-        shouldGoBackAndSave()
+        date.accept((getNextMondayDate(), false))
     }
     func clickedEvening() {
-        if date.value.0.flatMap({ $0.hour < 18 }) ?? true {
-            date.accept(((date.value.0 ?? Date()).dateBySet(hour: 19, min: date.value.0?.minute, secs: 0), false))
-        }
+        date.accept((getEveningDate(), false))
     }
     
     func reminderSelected(_ reminder: Reminder?) {
@@ -74,6 +65,47 @@ class CalendarVcVm {
         date.accept((nil, false))
         self.repeat.accept(nil)
         self.reminder.accept(nil)
+    }
+    
+    func getEveningDate() -> Date {
+        let todayDate = Date()
+        let dateAt18 = todayDate.dateBySet(hour: 18, min: 0, secs: 0) ?? Date()
+        guard let userDate = date.value.0 else {
+            if dateAt18 >= todayDate {
+                return dateAt18
+            }
+            return Date().dateAt(.tomorrow).dateBySet(hour: 18, min: 0, secs: 0) ?? Date()
+        }
+        let userDateAt18 = userDate.dateBySet(hour: 18, min: 0, secs: 0) ?? Date()
+        let max: Date = dateAt18 > userDateAt18 ? dateAt18 : userDateAt18
+        if max >= todayDate {
+            return max
+        }
+        return Date().dateAt(.tomorrow).dateBySet(hour: 18, min: 0, secs: 0) ?? Date()
+    }
+
+    func getNextMondayDate() -> Date {
+        let today = Date()
+        let datePoint = date.value.0 ?? Date().dateBySet(hour: 12, min: 0, secs: 0)
+        let nextMonday = today.nextWeekday(.monday)
+        return nextMonday.dateBySet(hour: datePoint?.hour, min: datePoint?.minute, secs: 0) ?? nextMonday
+    }
+    
+    func getTomorrowDate() -> Date {
+        let datePoint = date.value.0 ?? Date().dateBySet(hour: 12, min: 0, secs: 0) ?? Date()
+        let date = Date().dateAt(.tomorrowAtStart).dateBySet(hour: datePoint.hour, min: datePoint.minute, secs: datePoint.second)
+
+        return date ?? Date().dateAt(.tomorrowAtStart)
+    }
+    
+    func getTodayDate() -> Date {
+        guard let todayDate = nowDate.dateBySet(hour: date.value.0?.hour, min: date.value.0?.minute, secs: date.value.0?.second) else {
+            return nowDate
+        }
+        if todayDate < nowDate {
+            return nowDate.dateAt(.nearestMinute(minute: 1))
+        }
+        return todayDate
     }
 }
 
