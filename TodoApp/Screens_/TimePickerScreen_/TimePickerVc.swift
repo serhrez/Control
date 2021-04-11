@@ -193,10 +193,12 @@ class TimePickerVc: UIViewController {
                 if self.didAppear {
                     UIView.animate(withDuration: Constants.animationDefaultDuration) {
                         self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                        self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.scrollView.contentInset = .init(top: 0, left: 0, bottom: height, right: 0)
+                        self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
                     }
                 }
             }

@@ -63,7 +63,7 @@ class CalendarViewHeader: UIView {
     func configure(month: String, year: String, chevronClick: @escaping () -> Void) {
         self.chevronClick = chevronClick
         self.titleLabel.attributedText = month.at.attributed { attr in
-            attr.foreground(color: UIColor(named: "TAHeading")!).font(isSecondLook ? Fonts.heading7 : Fonts.heading3)
+            attr.foreground(color: UIColor(named: "TAHeading")!).font(isSecondLook ? Fonts.custHeading1 : Fonts.heading3)
         } + " \(year)".at.attributed { attr in
             attr.foreground(color: .hex("#447BFE")).font(Fonts.heading3)
         }
