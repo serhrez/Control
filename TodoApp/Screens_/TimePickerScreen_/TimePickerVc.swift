@@ -286,6 +286,6 @@ extension TimePickerVc: UITextFieldDelegate {
 
 extension TimePickerVc: ContentHeightProtocol {
     func height() -> CGFloat {
-        return 700
+        return UIScreen.main.bounds.height * 0.86
     }
 }

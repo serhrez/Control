@@ -724,7 +724,7 @@ extension TaskDetailsVc: UITextViewDelegate {
         let newSpace = text.contains { $0.isNewline }
         switch textView {
         case taskDescription.textField:
-            break
+            return true
         case taskNameh1.textField:
             guard newSpace else { break }
             if self.taskDescription.isHidden {
