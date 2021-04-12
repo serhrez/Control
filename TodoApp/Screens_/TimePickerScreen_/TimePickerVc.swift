@@ -56,11 +56,6 @@ class TimePickerVc: UIViewController {
     let keyboard = Typist()
     lazy var numberField: UITextField = {
         let textField = UITextField()
-        textField.inputAccessoryView = AccessoryView(onDone: { [weak self] in
-            self?.done()
-        }, onHide: { [weak self, weak textField] in
-            textField?.endEditing(true)
-        })
         
         return textField
     }()
@@ -87,8 +82,10 @@ class TimePickerVc: UIViewController {
             self?.done()
         })
         setupViews()
-        modalTransitionStyle = .crossDissolve
-        modalPresentationStyle = .overCurrentContext
+        
+        if minutes == 0, let firstIndex = TimePickerVc.availableHours.firstIndex(of: hours) {
+            selectItem(firstIndex, withDone: false)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -132,7 +129,7 @@ class TimePickerVc: UIViewController {
             let text = (hourStr.count == 1 ? "0\(hourStr)" : hourStr) + ":00"
             let selectionVc = Selection2View(text: text, isSelected: false, isStyle2: false)
             selectionVc.onSelected = { [weak self] in
-                self?.selectItem(enumerated.offset)
+                self?.selectItem(enumerated.offset, withDone: true)
             }
             arrangedSubviews.append(selectionVc)
         }
@@ -149,21 +146,15 @@ class TimePickerVc: UIViewController {
         numberField.becomeFirstResponder()
     }
     
-    private func selectItem(_ index: Int) {
+    private func selectItem(_ index: Int, withDone: Bool = true) {
         guard index != selectedIndex else { return }
         if selectedIndex != -1 {
             selectionViews[selectedIndex].setIsChecked(false)
         }
         selectedIndex = index
         selectionViews[selectedIndex].setIsChecked(true)
-        
-        timeSelectionHoursView.isHidden = true
-        timeSelectionMinutesView.isHidden = true
-        leftNumber.isHidden = false
-        rightNumber.isHidden = false
-        let hours = "\(TimePickerVc.availableHours[index])"
-        leftNumber.text = hours.count == 1 ? "0\(hours)" : hours
-        rightNumber.text = "00"
+        onDone((TimePickerVc.availableHours[index], 0))
+        closeView()
     }
     
     private func clear() {
