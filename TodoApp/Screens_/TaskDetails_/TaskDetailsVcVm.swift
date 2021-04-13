@@ -30,7 +30,7 @@ class TaskDetailsVcVm {
         }
         return [AnimSection(items: models)]
     }
-    private var explicitAddSubtaskEnabled = false
+    private(set) var explicitAddSubtaskEnabled = false
     var shouldEnableTaskDescription: () -> Void = { }
 
     

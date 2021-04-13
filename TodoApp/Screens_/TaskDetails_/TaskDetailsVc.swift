@@ -489,7 +489,7 @@ final class TaskDetailsVc: UIViewController {
     
     func setSpacings() {
         let task = viewModel.task
-        let spacingAfterHorizontal1 = !taskDescription.isHidden || !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
+        let spacingAfterHorizontal1 = !taskDescription.isHidden || !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil || viewModel.explicitAddSubtaskEnabled
         containerStack.setCustomSpacing(spacingAfterHorizontal1 ? 32 : 0, after: horizontal1)
         let spacingAfterTaskDescription = !task.tags.isEmpty || !task.subtask.isEmpty || task.date?.date != nil || task.date?.reminder != nil || task.date?.repeat != nil
         containerStack.setCustomSpacing(spacingAfterTaskDescription ? 32 : 0, after: taskDescription)
