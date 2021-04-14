@@ -109,7 +109,7 @@ class TimePickerVc: UIViewController {
         view.layout(scrollView).top().leading().trailing().bottom()
         scrollView.frameLayoutGuide.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor).isActive = true
         scrollView.layout(clearDoneButtons).top().leading().trailing()
-        scrollView.layout(titleLabel).top(21).centerX()
+        scrollView.layout(titleLabel).top(25.5).centerX()
             
         scrollView.layout(blueView).centerX().top(82).height(71).width(216)
         blueView.clipsToBounds = true
@@ -284,8 +284,12 @@ extension TimePickerVc: UITextFieldDelegate {
     }
 }
 
-extension TimePickerVc: ContentHeightProtocol {
+extension TimePickerVc: CustomFloatingPanelProtocol {
     func height() -> CGFloat {
         return UIScreen.main.bounds.height * 0.86
+    }
+    
+    func surfaceBackgroundColor() -> UIColor {
+        return UIColor(named: "TAAltBackground")!
     }
 }

@@ -60,7 +60,7 @@ class Selection2Vc: UIViewController {
         
         scrollView.layout(clearDoneButtons).top().leading().trailing()
         
-        scrollView.layout(titleLabel).top(21).centerX()
+        scrollView.layout(titleLabel).top(25.5).centerX()
         titleLabel.textColor = UIColor(named: "TAHeading")!
         titleLabel.font = Fonts.heading3
         titleLabel.text = title
@@ -108,11 +108,15 @@ extension Selection2Vc {
     }
 }
 
-extension Selection2Vc: ContentHeightProtocol {
+extension Selection2Vc: CustomFloatingPanelProtocol {
     func height() -> CGFloat {
         view.layoutSubviews()
         scrollView.layoutSubviews()
         return scrollView.contentSize.height + 68 + 15
+    }
+    
+    func surfaceBackgroundColor() -> UIColor {
+        return UIColor(named: "TAAltBackground")!
     }
 }
 

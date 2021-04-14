@@ -122,7 +122,7 @@ final class CalendarVc: UIViewController {
         ])
         calendarButtons.axis = .vertical
         calendarButtons.spacing = 5
-        scrollView.layout(calendarButtons).leading(17).trailing(17).top(calendarView.anchor.bottom, 14).bottom()
+        scrollView.layout(calendarButtons).leading(17).trailing(17).top(calendarView.anchor.bottom, 14).bottom(20)
     }
     private func closeView() {
         self.dismiss(animated: true, completion: nil)
@@ -258,10 +258,14 @@ extension CalendarVc {
     }
 }
 
-extension CalendarVc: ContentHeightProtocol {
+extension CalendarVc: CustomFloatingPanelProtocol {
     func height() -> CGFloat {
         view.layoutSubviews()
         scrollView.layoutSubviews()
         return scrollView.contentSize.height
+    }
+    
+    func surfaceBackgroundColor() -> UIColor {
+        return UIColor(named: "TAAltBackground")!
     }
 }

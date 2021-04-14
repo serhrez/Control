@@ -14,10 +14,11 @@ class CustomFloatingPanel {
     init() {
     }
     
-    func configure(vc: UIViewController & ContentHeightProtocol, scrollViews: [UIScrollView]) {
+    func configure(vc: UIViewController & CustomFloatingPanelProtocol, scrollViews: [UIScrollView]) {
         fpc = FloatingPanelController()
         fpc.layout = CustomFloatingPanelLayout(contentHeight: vc.height())
         fpc.surfaceView.appearance.cornerRadius = 16
+        fpc.surfaceView.appearance.backgroundColor = vc.surfaceBackgroundColor()
         fpc.set(contentViewController: vc)
         for scrollView in scrollViews {
             fpc.track(scrollView: scrollView)
@@ -47,6 +48,7 @@ fileprivate class CustomFloatingPanelLayout: FloatingPanelLayout {
     }
 }
 
-protocol ContentHeightProtocol {
+protocol CustomFloatingPanelProtocol {
     func height() -> CGFloat
+    func surfaceBackgroundColor() -> UIColor
 }
