@@ -118,8 +118,7 @@ class TimePickerVc: UIViewController {
         blueView.layout(twoDots).center()
         blueView.layout(rightNumber).trailing(19).centerY().width(timeSelectionMinutesView.anchor.width)
         blueView.layout(leftNumber).leading(21).centerY().width(timeSelectionHoursView.anchor.width)
-        blueView.hitTestView2 = timeSelectionHoursView
-        blueView.hitTestView1 = timeSelectionMinutesView
+        timeSelectionChangeVisibility(timeSelectionHoursVisible: true)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(blueViewClicked))
         blueView.addGestureRecognizer(tapGesture)
         
@@ -140,6 +139,24 @@ class TimePickerVc: UIViewController {
         scrollView.layout(stack).top(blueView.anchor.bottom, 32).leading(17).trailing(17).bottom()
                 
         setupKeyboard()
+    }
+    
+    func timeSelectionChangeVisibility(timeSelectionHoursVisible: Bool) {
+        if timeSelectionHoursVisible {
+            blueView.hitTestView2 = timeSelectionHoursView
+            blueView.hitTestView1 = timeSelectionMinutesView
+            timeSelectionHoursView.isHidden = false
+            timeSelectionMinutesView.isHidden = false
+            leftNumber.isHidden = true
+            rightNumber.isHidden = true
+        } else {
+            blueView.hitTestView2 = nil
+            blueView.hitTestView1 = nil
+            timeSelectionHoursView.isHidden = true
+            timeSelectionMinutesView.isHidden = true
+            leftNumber.isHidden = false
+            rightNumber.isHidden = false
+        }
     }
     
     @objc func blueViewClicked() {
@@ -225,7 +242,7 @@ fileprivate class BlueView: UIView {
     var hitTestView2: TimeSelectionxView?
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard let hitTestView1 = hitTestView1,
-              let hitTestView2 = hitTestView2 else { return nil }
+              let hitTestView2 = hitTestView2 else { return super.hitTest(point, with: event) }
         if hitTestView1.bounds.contains(hitTestView1.convert(self.convert(point, to: nil), from: nil)) {
             return hitTestView1.collectionView
         }
@@ -243,10 +260,7 @@ extension TimePickerVc: UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         print(updatedText)
         guard updatedText.allSatisfy({ $0.isNumber }) || updatedText.isEmpty else { return false }
-        timeSelectionHoursView.isHidden = updatedText.count != 0
-        timeSelectionMinutesView.isHidden = updatedText.count != 0
-        leftNumber.isHidden = updatedText.count == 0
-        rightNumber.isHidden = updatedText.count == 0
+        timeSelectionChangeVisibility(timeSelectionHoursVisible: updatedText.count == 0)
         if !updatedText.isEmpty {
             let validated = validate(text: updatedText)
             textField.text = validated

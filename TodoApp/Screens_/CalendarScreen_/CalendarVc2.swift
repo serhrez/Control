@@ -71,7 +71,7 @@ final class CalendarVc: UIViewController {
     private func setupBinding() {
         viewModel.date.subscribe(onNext: { [weak self] date in
             guard let self = self else { return }
-            self.timeButton.configure(detailText: date.0?.toFormat("HH:mm") ?? "None", isDetailBlue: date.0 != nil)
+            self.timeButton.configure(detailText: date.0?.toFormat("HH:mm") ?? "None".localizable(), isDetailBlue: date.0 != nil)
             if !(date.1 ?? false) {
                 if let date = date.0 {
                     self.calendarView.jctselectDate(date)
@@ -87,10 +87,10 @@ final class CalendarVc: UIViewController {
             self.todayButton.configure(detailText: todayDate.toFormat("E"), isDetailBlue: todayDate == date.0)
         }).disposed(by: bag)
         viewModel.reminder.subscribe(onNext: { [weak self] reminder in
-            self?.reminderButton.configure(detailText: reminder?.description ?? "None", isDetailBlue: reminder?.description != nil)
+            self?.reminderButton.configure(detailText: reminder?.description ?? "None".localizable(), isDetailBlue: reminder?.description != nil)
         }).disposed(by: bag)
         viewModel.repeat.subscribe(onNext: { [weak self] `repeat` in
-            self?.repeatButton.configure(detailText: `repeat`?.description ?? "None", isDetailBlue: `repeat` != nil)
+            self?.repeatButton.configure(detailText: `repeat`?.description ?? "None".localizable(), isDetailBlue: `repeat` != nil)
         }).disposed(by: bag)
         viewModel.shouldGoBackAndSave = { [weak self] in
             self?.done()

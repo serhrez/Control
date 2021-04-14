@@ -74,7 +74,7 @@ extension CalendarView: JTACMonthViewDataSource, JTACMonthViewDelegate {
     func calendar(_ calendar: JTACMonthView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTACMonthReusableView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "LLLL"
-        let month = dateFormatter.string(from: range.start)
+        let month = dateFormatter.string(from: range.start).capitalized
         dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: range.start)
         if shouldChangeTitle || range.start.isInside(date: Date(), granularity: .month) {
