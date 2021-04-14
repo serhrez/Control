@@ -30,25 +30,25 @@ final class CalendarVc: UIViewController {
     })
     private let fcp = CustomFloatingPanel()
     private let onDone: (Date?, Reminder?, Repeat?) -> Void
-    private lazy var todayButton = CalendarButton(image: "today", imageWidth: 20, title: "Today", detailText: "Wed", isDetailBlue: false, onClick: { [weak self] in
+    private lazy var todayButton = CalendarButton(image: "today", imageWidth: 20, title: "Today".localizable(), detailText: "Wed", isDetailBlue: false, onClick: { [weak self] in
         self?.viewModel.clickedToday()
     })
-    private lazy var tomorrowButton = CalendarButton(image: "calendar-plus2", imageWidth: 18, title: "Tomorrow", detailText: "Thu", isDetailBlue: false, onClick: { [weak self] in
+    private lazy var tomorrowButton = CalendarButton(image: "calendar-plus2", imageWidth: 18, title: "Tomorrow".localizable(), detailText: "Thu", isDetailBlue: false, onClick: { [weak self] in
         self?.viewModel.clickedTomorrow()
     })
-    private lazy var nextMondayButton = CalendarButton(image: "brightness-up", imageWidth: 24, title: "Next Monday", detailText: "17 Mon", isDetailBlue: false, onClick: { [weak self] in
+    private lazy var nextMondayButton = CalendarButton(image: "brightness-up", imageWidth: 24, title: "Next Monday".localizable(), detailText: "17 Mon", isDetailBlue: false, onClick: { [weak self] in
         self?.viewModel.clickedNextMonday()
     })
-    private lazy var eveningButton = CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening", detailText: "18:00 Wed", isDetailBlue: false, onClick: { [weak self] in
+    private lazy var eveningButton = CalendarButton(image: "moon", imageWidth: 18.75, title: "Evening".localizable(), detailText: "18:00 Wed", isDetailBlue: false, onClick: { [weak self] in
         self?.viewModel.clickedEvening()
     })
-    private lazy var timeButton = CalendarButton(image: "alarm", imageWidth: 18, title: "Time", detailText: "19:30", isDetailBlue: true, onClick: { [weak self] in
+    private lazy var timeButton = CalendarButton(image: "alarm", imageWidth: 18, title: "Time".localizable(), detailText: "19:30", isDetailBlue: true, onClick: { [weak self] in
         self?.clickedTime()
     })
-    private lazy var reminderButton = CalendarButton(image: "bell", imageWidth: 18, title: "Reminder", detailText: "3 days yearly", isDetailBlue: true, onClick: { [weak self] in
+    private lazy var reminderButton = CalendarButton(image: "bell", imageWidth: 18, title: "Reminder".localizable(), detailText: "3 days yearly", isDetailBlue: true, onClick: { [weak self] in
         self?.clickedReminder()
     })
-    private lazy var repeatButton = CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat", detailText: "None", isDetailBlue: false, onClick: { [weak self] in
+    private lazy var repeatButton = CalendarButton(image: "repeat", imageWidth: 16.5, title: "Repeat".localizable(), detailText: "None".localizable(), isDetailBlue: false, onClick: { [weak self] in
         self?.clickedRepeat()
     })
     

@@ -102,7 +102,7 @@ class TimePickerVc: UIViewController {
         numberField.becomeFirstResponder()
         numberField.delegate = self
                 
-        titleLabel.text = "Time"
+        titleLabel.text = "Time".localizable()
         titleLabel.textColor = UIColor(named: "TAHeading")!
         titleLabel.font = Fonts.heading3
         

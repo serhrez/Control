@@ -15,11 +15,9 @@ class CalendarViewHeader: UIView {
     var chevronClick: (() -> Void)?
 
     lazy var titleLabel: UILabel = UILabel()
-    let titleView: UIButton = {
+    let titleView: NewCustomButton = {
         let button = NewCustomButton()
-//        button.opacityState = .opacity()
         button.vibrateOnClick = true
-        button.addTarget(self, action: #selector(chevronClicked), for: .touchUpInside)
         button.pointInsideInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
         
         return button
@@ -58,6 +56,8 @@ class CalendarViewHeader: UIView {
         }
         titleView.layout(titleLabel).leading().top().bottom()
         titleView.layout(chevronButton).trailing().centerY().leading(titleLabel.anchor.trailing, 4)
+        titleView.addTarget(self, action: #selector(chevronClicked), for: .touchUpInside)
+        titleView.opacityState = .opacity()
     }
         
     func configure(month: String, year: String, chevronClick: @escaping () -> Void) {
