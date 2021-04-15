@@ -272,7 +272,7 @@ class ProjectNewTaskForm: UIView {
     lazy var priorityButton: ImageButton = {
         let simpleButton = ImageButton(type: .custom)
         simpleButton.imageName = "flag"
-        simpleButton.imageWidth = 17.67
+        simpleButton.imageWidth = 28
         simpleButton.configureImage()
         simpleButton.tintColor = UIColor(named: "TASubElement")!
         simpleButton.addTarget(self, action: #selector(priorityClicked), for: .touchUpInside)

@@ -439,7 +439,7 @@ class PredefinedProjectVc: UIViewController {
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
         actions[3].imageTintColor = UIColor(named: "TASubElement")!
-        PopMenuAppearance.appCustomizeActions(actions: actions)
+        PopMenuAppearance.appCustomizeActions(actions: actions, iconWidth: 24)
         let popMenu = PopMenuViewController(sourceView: sourceView, actions: actions)
         popMenu.appearance = .appAppearance
         popMenu.isCrutchySolution1 = true

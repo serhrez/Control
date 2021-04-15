@@ -28,9 +28,9 @@ extension PopMenuAppearance {
         return appearance
     }()
     
-    static func appCustomizeActions(actions: [PopuptodoAction]) {
+    static func appCustomizeActions(actions: [PopuptodoAction], iconWidth: CGFloat = 20) {
         actions.forEach {
-            $0.iconWidthHeight = 20
+            $0.iconWidthHeight = iconWidth
         }
     }
 }

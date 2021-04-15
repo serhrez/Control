@@ -528,7 +528,7 @@ final class TaskDetailsVc: UIViewController {
             }))
         }
         actions.append(contentsOf: [
-            PopuptodoAction(title: "Select Priority".localizable(), image: UIImage(named: "flag"), didSelect: { [weak self] action in
+            PopuptodoAction(title: "Select Priority".localizable(), image: UIImage(named: "flag")?.withRenderingMode(.alwaysTemplate), didSelect: { [weak self] action in
                 guard KeychainWrapper.shared.isPremium || RealmProvider.main.realm.objects(RlmTask.self).filter({ $0.priority != .none }).count <= Constants.maximumPriorities || self?.viewModel.task.priority != Priority.none else {
                     let premiumFeaturesVc = PremiumFeaturesVc(notification: .prioritiesLimit)
                     self?.dismiss(animated: true, completion: {
@@ -546,6 +546,8 @@ final class TaskDetailsVc: UIViewController {
             }),
         ])
         PopMenuAppearance.appCustomizeActions(actions: actions)
+        actions.first(where: { $0.title == "Select Priority".localizable() })?.iconWidthHeight = 24
+        actions.first(where: { $0.title == "Select Priority".localizable() })?.imageTintColor = UIColor.hex("#00CE15")
         let popMenu = PopMenuViewController(sourceView: actionsButton, actions: actions)
         popMenu.shouldDismissOnSelection = false
         popMenu.appearance = .appAppearance
@@ -579,7 +581,7 @@ final class TaskDetailsVc: UIViewController {
         actions[1].imageTintColor = .hex("#FF9900")
         actions[2].imageTintColor = .hex("#447BFE")
         actions[3].imageTintColor = UIColor(named: "TASubElement")!
-        PopMenuAppearance.appCustomizeActions(actions: actions)
+        PopMenuAppearance.appCustomizeActions(actions: actions, iconWidth: 24)
         let popMenu = PopMenuViewController(sourceView: action.view, actions: actions)
         popMenu.appearance = .appAppearance
         

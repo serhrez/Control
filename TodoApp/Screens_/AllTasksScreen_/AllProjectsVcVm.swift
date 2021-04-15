@@ -59,7 +59,7 @@ class AllProjectsVcVM {
         } else {
             progress = Double(tasks.filter { $0.isDone }.count) / Double(count)
         }
-        return .priority(.init(icon: .assetImage(name: "flag", tintHex: "#EF4439"), iconFontSize: 18, name: "Priority".localizable(), progress: progress, tasksCount: count, color: .hex("#EF4439")))
+        return .priority(.init(icon: .assetImage(name: "flag", tintHex: "#EF4439"), iconFontSize: 24, name: "Priority".localizable(), progress: progress, tasksCount: count, color: .hex("#EF4439")))
     }
     
     func getTodayModel() -> Model {
