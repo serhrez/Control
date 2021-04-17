@@ -79,6 +79,7 @@ class ProjectDetailsVc: UIViewController {
     
     func setupKeyboard() {
         var previousHeight: CGFloat?
+        _ = Constants.dump
         keyboard
             .on(event: .willChangeFrame) { [weak self] options in
                 guard let self = self else { return }

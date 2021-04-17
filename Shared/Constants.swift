@@ -18,6 +18,8 @@ enum Constants {
     static let displayVersion2: Bool = UIScreen.main.bounds.height < 750
     static let animationOnboardingDuration = 0.5
     
+    static let dump = 23
+    
     // MARK: Model restrictions
     
     static let inboxId = "Inbox-inbox" // Should never be changed if migration has not been done
