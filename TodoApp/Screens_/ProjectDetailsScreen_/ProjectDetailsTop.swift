@@ -67,8 +67,7 @@ class ProjectDetailsTop: UIView {
     private let scrollView = UIScrollView()
     private lazy var projectNameField: UITextField = {
         let textField = UITextField()
-        textField.font = Fonts.heading1
-        textField.textColor = UIColor(named: "TAHeading")!
+        Style.coloredTextField(Fonts.heading1, UIColor(named: "TAHeading")!)(textField)
         textField.delegate = self
         textField.attributedPlaceholder = "New Project".localizable().at.attributed { attr in
             attr.foreground(color: UIColor(named: "TASubElement")!).font(Fonts.heading1)
@@ -88,10 +87,7 @@ class ProjectDetailsTop: UIView {
     
     private lazy var clickableIcon: ClickableIconView = {
         let iconView = ClickableIconView(onClick: iconSelected)
-        iconView.iconView.iconFontSize = 58
-        iconView.iconView.configure(icon)
-        iconView.widthAnchor.constraint(equalToConstant: 58).isActive = true
-        iconView.heightAnchor.constraint(equalToConstant: 58).isActive = true
+        Style.clickableIconSizeSpecified(width: 58, height: 58, icon: icon)(iconView)
         return iconView
     }()
     func navBarClicked(point: CGPoint) {
