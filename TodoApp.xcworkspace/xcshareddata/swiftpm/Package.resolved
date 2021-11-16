@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Typist",
+        "repositoryURL": "https://github.com/totocaster/Typist",
+        "state": {
+          "branch": null,
+          "revision": "c3de439044e5eec80fc88512c89436030f42a556",
+          "version": "1.4.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
